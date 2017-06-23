@@ -73,6 +73,8 @@ public class ViewDrawer extends AppCompatActivity
         setSupportActionBar(toolbar);
         Log.i(TAG, "onCreate: naina");
         Log.i(TAG, "onCreate: ravi");
+        Log.i(TAG, "onCreate: naina");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
