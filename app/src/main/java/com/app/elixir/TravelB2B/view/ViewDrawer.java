@@ -71,6 +71,7 @@ public class ViewDrawer extends AppCompatActivity
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setSubtitle(getString(R.string.tb));
         setSupportActionBar(toolbar);
+        Log.i(TAG, "onCreate: naina");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
