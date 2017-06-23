@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_homw"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_fin_req"
+            android:icon="@drawable/finreq"
+            android:title="Finalized Requests" />
+        <item
+            android:id="@+id/nav_fin_res"
+            android:icon="@drawable/finres"
+            android:title="Finalized Response" />
+        <item
+            android:id="@+id/nav_follower"
+            android:icon="@drawable/follower"
+            android:title="Followers" />
+
+        <item
+            android:id="@+id/nav_block_user"
+            android:icon="@drawable/blockuser"
+            android:title="Blocked Users" />
+
+        <item
+            android:id="@+id/nav_remove_req"
+            android:icon="@drawable/removereq"
+            android:title="Removed Requests" />
+
+
+        <item
+            android:id="@+id/nav_pro_hotel"
+            android:icon="@drawable/promote"
+            android:title="Promote your hotel" />
+
+
+    </group>
+
+    <group
+        android:id="@+id/menu2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/contactus"
+            android:title="Contact Us" />
+
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/faq"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/share"
+            android:title="Share" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
+    </group>
+
+    <!--<item android:title="Communicate">
+        <menu>
+
+        </menu>
+    </item>-->
+
+</menu>

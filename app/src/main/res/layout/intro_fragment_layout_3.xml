@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/intro_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp"
+            android:gravity="center"
+            android:text="@string/title3"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+        <ImageView
+            android:id="@+id/tv"
+            android:layout_width="@dimen/margin_110dp"
+            android:layout_height="@dimen/margin_110dp"
+            android:layout_gravity="center"
+            android:src="@drawable/sc3" />
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp"
+            android:gravity="center"
+            android:text="@string/description2"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+    </LinearLayout>
+
+</FrameLayout>

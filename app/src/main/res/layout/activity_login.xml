@@ -1,0 +1,180 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".view.ViewLoginActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/baseact_login"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:visibility="gone"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_8dp"
+                android:background="@drawable/border"
+                android:padding="@dimen/margin_5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content">
+                    <!-- UserName -->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/login_edtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:layout_marginRight="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_10dp">
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/login_Email"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prompt_email"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:text="kravi@elixirinfo.com"
+                            android:textColorHint="@android:color/black"
+
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!-- Password -->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/login_lnrPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login_edtEmail"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:layout_marginRight="@dimen/margin_10dp">
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/login_edtPassword"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/login_edtpassword"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:text="1234"
+                            android:textColorHint="@android:color/black"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!-- Login button -->
+
+                    <LinearLayout
+                        android:id="@+id/midLayout"
+                        style="?buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login_lnrPassword"
+                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                            android:id="@+id/login_btnSignup"
+                            style="?buttonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/blue_rect"
+                            android:foreground="?selectableItemBackground"
+                            android:maxLines="1"
+                            android:text="@string/baseact_signup"
+                            android:textColor="@android:color/white"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                            android:id="@+id/login_btnLogin"
+                            style="?buttonBarButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/blue_rect"
+                            android:maxLines="1"
+                            android:text="@string/baseact_login"
+                            android:textColor="@android:color/white"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/txtForgotPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/midLayout"
+                        android:layout_marginBottom="@dimen/margin_5dp"
+                        android:layout_marginRight="@dimen/margin_5dp"
+                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:background="@drawable/border"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="right|center"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/margin_5dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/margin_24dp"
+                            android:layout_height="@dimen/margin_24dp"
+                            android:src="@drawable/forgot" />
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="right"
+                            android:text="Forgot Password"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <!--</ScrollView>-->
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

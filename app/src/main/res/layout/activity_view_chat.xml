@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.app.elixir.TravelB2B.view.ViewChat">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/form"
+
+        android:layout_below="@+id/toolbar"></ListView>
+
+
+    <RelativeLayout
+        android:id="@+id/form"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/chat_edit_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/enter_chat1"
+            android:layout_toStartOf="@+id/enter_chat1"
+            android:hint="Type Your Message"
+            android:inputType="textCapSentences"
+            android:maxLines="4"
+            android:paddingLeft="4dp"
+            android:scrollHorizontally="false"
+
+            android:singleLine="false"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/enter_chat1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/chat_edit_text1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:paddingEnd="17dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="17dp"
+            android:paddingStart="13dp"
+            android:src="@drawable/ic_chat_send" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

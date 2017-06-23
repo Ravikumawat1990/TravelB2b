@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_check_response"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.app.elixir.TravelB2B.view.ViewCheckResponse">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <RelativeLayout
+        android:layout_width="@dimen/margin_160dp"
+        android:layout_height="@dimen/margin_40dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/margin_5dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:background="@drawable/spinner_border"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:entries="@array/defaultArray"
+            android:gravity="center"
+            android:spinnerMode="dropdown" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+    </RelativeLayout>
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:gravity="center"
+        android:text="RESPONSES FOR: VEHICLE (LUXURY CAR) START DATE (27/04/2017) END DATE (28/04/2017) CITY"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="@dimen/font_12sp"
+        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+    <com.app.elixir.TravelB2B.mtplview.MtplButton
+        android:id="@+id/btnDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:background="@drawable/blue_rect"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:text="Detail"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_12sp"
+        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

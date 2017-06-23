@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/side_nav_bar"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/hugh"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
+
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:id="@+id/txtUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:id="@+id/textUserEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@android:color/white" />
+
+        <ImageView
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@android:color/white" />
+
+        <ImageView
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@android:color/white" />
+
+        <ImageView
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@android:color/white" />
+
+        <ImageView
+            android:layout_width="@dimen/margin_24dp"
+            android:layout_height="@dimen/margin_24dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@android:color/white" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,1344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_edit_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.app.elixir.TravelB2B.view.ViewEditProfile">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_8dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    android:layout_marginRight="@dimen/margin_10dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_10dp">
+
+
+                    <LinearLayout
+                        android:id="@+id/LayoutFirst"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:paddingBottom="?android:attr/actionBarSize">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtCatName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="true"
+                                android:enabled="false"
+                                android:hint="User Category*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:text="@string/tb"
+                                android:textSize="12sp"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtFirstName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="First Name*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtlastName"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Last Name*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtCompName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Company Name*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:enabled="false"
+                                android:hint="Email*"
+                                android:text="kravi@elixirinfo.com"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtMobileNo"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile Number*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtSecNo"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Secondary Contact*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtAddress1"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Address Line 1*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+
+                                android:id="@+id/edtAddress2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Address Line 2"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtLocality"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Locality*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/txtCity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:completionThreshold="1"
+                                android:hint="City*"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:textSize="@dimen/font_12sp"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtState"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:enabled="false"
+                                android:hint="State*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+
+                                android:id="@+id/edtCountry"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:enabled="false"
+                                android:hint="Country*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtPinCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Pincode*"
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+
+                                android:id="@+id/edtweburl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Website URL  "
+                                android:inputType="text"
+                                android:singleLine="true"
+                                android:textSize="12sp"
+
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:gravity="center_vertical"
+                            android:text="Select up to 5 states where you operate"
+                            android:textColor="@color/colorLightGray"
+                            android:textSize="12sp"
+
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                        <com.app.elixir.TravelB2B.adapter.AutoCompletionView
+                            android:id="@+id/searchView"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_40dp"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:background="@drawable/gray_rect"
+                            android:hint="Select 5 State*"
+                            android:paddingLeft="@dimen/margin_5dp"
+                            android:textSize="12sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        <com.silencedut.expandablelayout.ExpandableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            app:expDuration="300"
+                            app:expExpandScrollTogether="false"
+                            app:expWithParentScroll="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/blue_rect"
+                                android:orientation="horizontal">
+
+                                <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/margin_40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center|left"
+                                    android:paddingLeft="@dimen/margin_15dp"
+                                    android:text="Certificates Upload"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="14sp"
+                                    mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingRight="@dimen/margin_10dp"
+                                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+
+                                    android:tint="@color/appBackColor" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="Sr. No."
+                                        android:textSize="12sp"
+
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="Certificate Name"
+
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="Certificate Image"
+                                        android:textSize="12sp"
+
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="Previous Uploaded Image"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="1"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="IATA"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="Upload"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="2"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="T A F I Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="Upload"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="3"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="T A A I Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="Upload"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="4"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:id="@+id/mtplTextView4"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="I A T O Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:id="@+id/mtplTextView3"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="UPLOAD"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="5"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="A D Y O I Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="UPLOAD"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="6"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="I S O 9001 Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="UPLOAD"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:id="@+id/imageView2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="7"
+                                        android:textSize="@dimen/font_12sp"
+
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="U F T A A Pic"
+
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="UPLOAD"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="bottom"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_5dp"
+                                    android:layout_weight="4"
+                                    android:orientation="horizontal">
+
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight=".3"
+                                        android:gravity="center"
+                                        android:text="8"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1.7"
+                                        android:gravity="center"
+                                        android:text="A D T O I Pic"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/margin_30dp"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="@dimen/margin_5dp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/blue_rect"
+                                        android:gravity="center"
+                                        android:text="UPLOAD"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                                    <ImageView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </com.silencedut.expandablelayout.ExpandableLayout>
+
+
+                        <com.silencedut.expandablelayout.ExpandableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            app:expDuration="300"
+                            app:expExpandScrollTogether="false"
+                            app:expWithParentScroll="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/blue_rect"
+                                android:orientation="horizontal">
+
+                                <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/margin_40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center|left"
+                                    android:paddingLeft="@dimen/margin_15dp"
+                                    android:text="Uploads"
+                                    android:textColor="@android:color/white" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingRight="@dimen/margin_10dp"
+                                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                                    android:tint="@color/appBackColor" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/edtProfilePic"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/gray_rect"
+                                        android:drawableRight="@drawable/uploadimage"
+                                        android:hint="Tab to upload picture"
+                                        android:paddingLeft="@dimen/margin_5dp"
+                                        android:textSize="8sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Profile Picture"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold"
+
+                                        />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="@dimen/margin_40dp"
+                                            android:background="@drawable/blue_rect"
+                                            android:gravity="center"
+                                            android:text="Browse."
+                                            android:textColor="@android:color/white"
+                                            android:visibility="gone" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/proPic"
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Photograph Of Your Office 1"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                            android:id="@+id/edtOfficePic"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/gray_rect"
+                                            android:drawableRight="@drawable/uploadimage"
+                                            android:hint="Tab to upload picture"
+                                            android:paddingLeft="@dimen/margin_5dp"
+                                            android:textSize="8sp"
+                                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/offilePic"
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Photograph Of Your Office 2"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                            android:id="@+id/edtOfficePic1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/gray_rect"
+                                            android:drawableRight="@drawable/uploadimage"
+                                            android:hint="Tab to upload picture"
+                                            android:paddingLeft="@dimen/margin_5dp"
+                                            android:textSize="8sp"
+                                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="@dimen/margin_40dp"
+                                            android:background="@drawable/blue_rect"
+                                            android:gravity="center"
+                                            android:text="Browse."
+                                            android:textColor="@android:color/white"
+                                            android:visibility="gone" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/offilePic1"
+
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Pan Card"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                            android:id="@+id/edtPanCard"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/gray_rect"
+                                            android:drawableRight="@drawable/uploadimage"
+                                            android:hint="Tab to upload picture"
+                                            android:paddingLeft="@dimen/margin_5dp"
+                                            android:textSize="8sp"
+                                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="@dimen/margin_40dp"
+                                            android:background="@drawable/blue_rect"
+                                            android:gravity="center"
+                                            android:text="Browse."
+                                            android:textColor="@android:color/white"
+                                            android:visibility="gone" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/panCard"
+
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Business Card"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                            android:id="@+id/edtBusinessCard"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/gray_rect"
+                                            android:drawableRight="@drawable/uploadimage"
+                                            android:hint="Tab to upload picture"
+                                            android:paddingLeft="@dimen/margin_5dp"
+                                            android:textSize="8sp"
+                                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="@dimen/margin_40dp"
+                                            android:background="@drawable/blue_rect"
+                                            android:gravity="center"
+                                            android:text="Browse."
+                                            android:textColor="@android:color/white"
+                                            android:visibility="gone" />
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/businessCard"
+
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/border"
+                                    android:elevation="4dp"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Company Shop Act Registration"
+                                        android:textColor="@color/appTextColor"
+                                        android:textSize="@dimen/font_12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:orientation="horizontal">
+
+                                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                            android:id="@+id/edtCompReg"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:background="@drawable/gray_rect"
+                                            android:drawableRight="@drawable/uploadimage"
+                                            android:hint="Tab to upload picture"
+                                            android:paddingLeft="@dimen/margin_5dp"
+                                            android:textSize="8sp"
+                                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/compRegister"
+                                        android:layout_width="@dimen/margin_120dp"
+                                        android:layout_height="@dimen/margin_120dp"
+                                        android:src="@drawable/ic_photo_black_48dp" />
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </com.silencedut.expandablelayout.ExpandableLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:background="@drawable/border"
+                            android:elevation="4dp"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin_10dp">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_10dp"
+                                android:gravity="center_vertical"
+                                android:text="Description"
+                                android:textColor="@color/appTextColor"
+                                android:textSize="14sp"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                android:id="@+id/edtDis"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/margin_100dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin_10dp"
+                                android:background="@drawable/gray_rect"
+                                android:gravity="top|left"
+                                android:hint="Enter Description"
+                                android:inputType="textMultiLine"
+                                android:lines="4"
+                                android:maxLength="150"
+                                android:maxLines="4"
+                                android:minLines="4"
+                                android:padding="5dp"
+                                android:scrollbars="vertical"
+                                android:textSize="@dimen/font_12sp"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        </LinearLayout>
+
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplButton
+                            android:id="@+id/profileupdatedetails"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="@dimen/font_20dp"
+                            android:background="@drawable/blue_rect"
+                            android:gravity="center|center_vertical"
+                            android:text="UPDATE DETAILS"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

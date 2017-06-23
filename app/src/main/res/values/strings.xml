@@ -1,0 +1,298 @@
+<resources>
+    <string name="app_name">TravelB2BHub</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- font name -->
+    <string name="fontface_roboto_bold">Roboto-Bold_0.ttf</string>
+    <string name="fontface_roboto_regular">Roboto-Regular_0.ttf</string>
+    <string name="fontface_roboto_light">Roboto-Light_0.ttf</string>
+    <string name="fontface_roboto_medium">Roboto-Medium_0.ttf</string>
+    <string name="fontface_roboto_thin">Roboto-Thin_0.ttf</string>
+    <string name="fontface_roboto_black">Roboto-Black_0.ttf</string>
+    <string name="fontface_roboto_condensed">Roboto-BoldCondensed_0.ttf</string>
+
+    <string name="fontface_roboto_condensed_bold">RobotoCondensed-Bold.ttf</string>
+    <string name="fontface_roboto_ralway_light">Raleway-Light.otf</string>
+    <string name="fontface_roboto_lightitalic">Roboto-LightItalic.ttf</string>
+
+
+    <string name="fontface_DroidSerif_Bold">DroidSerif-Bold.ttf</string>
+    <string name="fontface_DroidSerif_BoldItalic">DroidSerif-BoldItalic.ttf</string>
+    <string name="fontface_DroidSerif_Italic">DroidSerif-Italic.ttf</string>
+    <string name="fontface_DroidSerif_Regular">DroidSerif-Regular.ttf</string>
+
+    <string name="notification_error_ssl_cert_invalid">NOTIFICATION_ERROR_SSL_CERT_INVALID</string>
+    <!-- Common String  -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">CANCEL</string>
+
+    <!--Common Msg-->
+    <string name="msg_internet_unavailable_msg">Internet appears to be offline. Please check your internet connection.</string>
+    <string name="msg_networkerror">Network error.\n Please try again later</string>
+
+    <!-- Base Activity -->
+    <string name="baseact_login">Log In</string>
+    <string name="baseact_signup">Sign Up</string>
+    <string name="register">Register</string>
+    <string name="forgetpass">Forgot Password</string>
+    <string name="edtProfile">Edit Profile</string>
+    <string name="checkResp">Check Response</string>
+    <string name="restoReqDetail">Respond To Request</string>
+    <string name="myRespons">My Responses</string>
+    <string name="cngPassword">Change password</string>
+
+
+    <string name="wpDisc">A Wedding Planner Event Organizer,or their representative.</string>
+    <string name="hotDisc">A Hotel owner or their manager.</string>
+    <string name="teDisc">Travel Agent,DMC or Tour Operator etc.</string>
+
+
+    <!-- Events Activity-->
+    <string name="events_title">Events</string>
+
+    <!-- Login Activity -->
+    <string name="login_edtusername">MobileNo</string>
+    <string name="login_edtpassword">Password</string>
+    <string name="login_btnlogin">Log In</string>
+    <string name="memberShip">Membership</string>
+
+    <string name="entcat">Please enter category name</string>
+
+    <string name="entComName">Please enter company name</string>
+    <string name="entfname">Please enter first name</string>
+    <string name="entlname">Please enter last name</string>
+    <string name="entvemail">Please enter valid email</string>
+    <string name="entvpass">Please enter valid password</string>
+    <string name="entcpass">Please enter confirm password</string>
+    <string name="pwdnotmatch">Password and confirm password does"'"t match </string>
+    <string name="entpno">Please enter phone number</string>
+    <string name="entvpno">Please enter valid phone number</string>
+    <string name="entlocality">Please enter locality</string>
+    <string name="tandc">Please Agree  Terms and Conditions</string>
+    <string name="entAddres1">Please enter Address1</string>
+    <string name="entcity">Please select city</string>
+    <string name="entcityfirst">Please select city first</string>
+    <string name="entpin">Please enter pincode</string>
+    <string name="entlist">Please select at least 5 items</string>
+
+
+    <!-- Sign Up -->
+    <string name="signup_title">Sign Up</string>
+
+
+    <string name="btnReg">REGISTER</string>
+    <string name="btnlogin">LOGIN</string>
+
+
+    <string name="tb">Travel Agent</string>
+    <string name="ht">Hotelier</string>
+    <string name="ep">Event Planner</string>
+
+
+    <string name="hitwork">How it works?</string>
+
+    <string name="placeReq">Place Requests</string>
+    <string name="MyReq">My Requests</string>
+    <string name="respondToReq">Respond To Requests</string>
+    <string name="MyResponse">My Responses</string>
+
+    <string name="response_comment">Response Comment</string>
+    <string name="quoted_price">Quoted Price</string>
+
+
+    <string name="title1">No need to use Whatsapp groups to fulfill your clients requests</string>
+    <string name="title2">Buy/Sell Travel Packages, Hotel Rooms or Transportation</string>
+    <string name="title3">No need to use Whatsapp groups to fulfill your clients requests</string>
+    <string name="title4">Pay Us Commission</string>
+    <string name="title5">Have unrestricted, real time communication with Buyers/sellers</string>
+
+    <string name="description0">India"'"s only COMMISSION FREE, B2B, Tourism Trading Marketplace CONNECTING : </string>
+    <string name="description01">India"'"s only COMMISSION FREE, B2B, Tourism Trading Market Place</string>
+
+    <string name="description1">Negotiate with the other party via phone or live chat, right from the beginning of the trade</string>
+    <string name="description2">You will simply place a request with your requirements, and multiple interested sellers will contact you, through the App with options/quotations. </string>
+    <string name="description3">Directly connect with a large network of Buyers (Travel Agent, and Event Planners) or Sellers (Hoteliers, DMCs, Tour Operstors, Travel Agents etc.) </string>
+    <string name="description4">You will have to pay us no commission despite the value of your deal. Our nominal membership fee will leave you surprised.</string>
+    <string name="description5">You will simply place a request with your requirements, and multiple interested sellers will contact you, through the App with options/quotations. </string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_view_home">ViewHome</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="perYear1">"Rs. 365 per year"</string>
+    <string name="perYear2">"Rs. 365 per year"</string>
+    <string name="perYear3">"Rs. 365 per year"</string>
+    <string name="rsSymbol">"Rs. "</string>
+    <string name="entcomt">"Please enter comment"</string>
+
+    <string name="emailId">"kravi@elixirinfo.com"</string>
+    <string name="password">"elixir@123"</string>
+
+    <string name="reqType">"Request Type"</string>
+    <string name="refId">"Reference ID"</string>
+
+    <string name="stDate">"Start Date"</string>
+    <string name="edDate">"End Date"</string>
+    <string name="totBudge">"Total Budget"</string>
+    <string name="adult">"Members"</string>
+    <string name="cmt">"Comment"</string>
+    <string name="member">"Members"</string>
+    <string name="children">"Children"</string>
+    <string name="single">"Single"</string>
+
+    <string name="Double">"Double"</string>
+    <string name="Child_With_Bed">"Child With Bed"</string>
+    <string name="Child_Without_Bed">"Child Without Bed"</string>
+    <string name="Check_In">"Check In"</string>
+    <string name="Check_Out">" Check Out"</string>
+    <string name="Destination_State">"Destination State"</string>
+    <string name="Destination_City">"Destination City"</string>
+    <string name="Locality">"Locality"</string>
+    <string name="Hotel_Category">" Hotel Category"</string>
+    <string name="Meal">"Meal"</string>
+    <string name="Triple">"Triple"</string>
+
+
+    <string name="Vehicle">"Vehicle"</string>
+    <string name="Pickup_State">"Pickup State"</string>
+    <string name="Pickup_City">"Pickup City"</string>
+    <string name="Pickup_Locality">"Pickup Locality"</string>
+
+
+    <string name="Name">"Name"</string>
+    <string name="Email">"Email"</string>
+    <string name="Mobile_No">"Mobile No"</string>
+    <string name="Company_Name">"Company Name"</string>
+    <string name="Final_State">"Final State"</string>
+    <string name="Final_City">"Final City"</string>
+    <string name="Agent_Name">"Agent Name"</string>
+    <string name="Quotation_Price">"Quotation Price"</string>
+
+
+    <!--Travel Agent-->
+    <string name="txt1">"* Can Place Requests for Travel Packages, Hotel Rooms, or Transportation"</string>
+    <string name="txt2">"* Will be able to communicate directly with Travel Agents, and Hoteliers during negotiations"</string>
+    <string name="txt3">"* Can have a maximum of 50 Request open at any given time;after which, the user must Finalize a Request or Remove an unresolved request before they can place more requests"</string>
+    <string name="txt4">"* May remove any Request placed by them at any time during negotiations"</string>
+    <string name="txt5">"* May renew their membership if they use up their quota of Requests"</string>
+
+    <!--Event Planner-->
+    <string name="txt6">"* Can Place Requests for Travel Packages, Hotel Rooms, or Transportation"</string>
+    <string name="txt7">"* Will be able to communicate directly with Travel Agents, and Hoteliers during negotiations"</string>
+    <string name="txt8">"* May remove any Request placed by them at any time during negotiations"</string>
+    <string name="txt9">"* May renew their membership if they use up their quota of Requests"</string>
+
+    <!--Hotelier-->
+    <string name="txt10">"* Can Respond to Requests for Hotel Rooms"</string>
+    <string name="txt11">"* Will be able to communicate directly with Travel Agents, and Event Planners during negotiations"</string>
+    <string name="txt12">"* There is NO LIMIT on the number of times a Hotelier can Respond to Requests from other users"</string>
+    <string-array name="catArray">
+        <item>Travel Agent</item>
+        <item>Event Planner</item>
+        <item>Hotelier</item>
+    </string-array>
+
+    <string-array name="transportArray">
+        <item>Non Ac Bus</item>
+        <item>Ac Bus</item>
+        <item>Tempo</item>
+    </string-array>
+
+    <string-array name="hotRating">
+        <item>1 star</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+
+    <string-array name="subArray">
+        <item>Feedback</item>
+        <item>Need Assistance</item>
+        <item>Report a bug</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="rating">
+        <item>1 star</item>
+        <item>2 star</item>
+        <item>3 star</item>
+        <item>4 star</item>
+        <item>5 star</item>
+    </string-array>
+
+
+    <string-array name="defaultArray">
+        <item>Default 1</item>
+        <item>Default 2</item>
+        <item>Default 3</item>
+        <item>Default 4</item>
+        <item>Default 5</item>
+    </string-array>
+
+    <string-array name="cityArray">
+        <item>Andhra Pradesh</item>
+        <item>Assam</item>
+        <item>Chandigarh</item>
+        <item>Chhattisgarh</item>
+        <item>Andaman and Nicobar Islands</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chandigarh</item>
+        <item>Chhattisgarh</item>
+        <item>Dadra and Nagar Haveli</item>
+        <item>Daman and Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Lakshadweep</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+
+    </string-array>
+    <string name="title_activity_view_home2">ViewHome2</string>
+
+    <string name="finalized_requests">Finalized Requests</string>
+    <string name="finalized_response">Finalized Response</string>
+    <string name="blocked_users">Blocked Users</string>
+    <string name="removed_requests">Removed Requests</string>
+    <string name="followers">Followers</string>
+    <string name="contact_us">Contact Us</string>
+
+    <string name="res200">200</string>
+    <string name="res203">203</string>
+    <string name="res402">402</string>
+
+
+    <string name="emailIdused">Email id already used</string>
+    <string name="loginmsg">Please enter valid email and password</string>
+
+    <string name="registerd">Registered Successfully </string>
+
+
+</resources>

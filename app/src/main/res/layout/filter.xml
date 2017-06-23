@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:iconifiedByDefault="false"
+        app:queryHint="Search by name, email, mobile"></SearchView>
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Quotation"
+        android:textColor="@color/colorPrimary" />
+
+    <com.xw.repo.BubbleSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        custom:bsb_auto_adjust_section_mark="true"
+        custom:bsb_max="1000"
+        custom:bsb_min="10000"
+        custom:bsb_progress="0"
+        custom:bsb_section_count="22"
+        custom:bsb_section_text_position="bottom_sides"
+        custom:bsb_seek_by_section="true"
+        custom:bsb_show_thumb_text="true" />
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="5 Stars"
+        android:textColor="@color/colorPrimary" />
+
+    <com.xw.repo.BubbleSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        custom:bsb_anim_duration="5"
+        custom:bsb_auto_adjust_section_mark="true"
+        custom:bsb_max="1"
+        custom:bsb_min="5"
+        custom:bsb_progress="0"
+        custom:bsb_section_count="4"
+        custom:bsb_section_text_position="bottom_sides"
+        custom:bsb_seek_by_section="true"
+        custom:bsb_show_thumb_text="true" />
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Rating"
+        android:textColor="@color/colorPrimary" />
+
+    <com.xw.repo.BubbleSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        custom:bsb_max="1"
+        custom:bsb_min="5"
+        custom:bsb_progress="0"
+        custom:bsb_section_count="4"
+        custom:bsb_section_text_position="bottom_sides"
+        custom:bsb_seek_by_section="true"
+        custom:bsb_show_thumb_text="true" />
+</LinearLayout>

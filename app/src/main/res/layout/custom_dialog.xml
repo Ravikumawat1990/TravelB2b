@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:text="@string/forgetpass"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+
+    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10dp"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:layout_marginRight="@dimen/margin_10dp"
+        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:hint="Email" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:layout_margin="@dimen/margin_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/blue_rect"
+            android:text="SUBMIT"
+
+            android:textColor="@android:color/white" />
+
+        <com.app.elixir.TravelB2B.mtplview.MtplButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:layout_margin="@dimen/margin_5dp"
+            android:layout_weight="1"
+            android:background="@drawable/blue_rect"
+            android:text="CANCEL"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>
