@@ -33,5 +33,12 @@ public class pojoState {
     public void setCountry_id(String country_id) {
         this.country_id = country_id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof pojoState)
+            return ((pojoState) obj).getId().equals(this.getId());
+        return false;
+    }
 }
 

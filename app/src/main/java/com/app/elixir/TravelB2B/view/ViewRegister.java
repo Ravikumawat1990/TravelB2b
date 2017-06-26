@@ -508,9 +508,12 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
 
                                                         }
 
+                                                        String stateList = strings.toString().replace("[", "").replace("]", "")
+                                                                .replace(", ", ",");
+
                                                         webSubmit(catId, compName.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), confPassword.getText().toString()
                                                                 , contact.getText().toString(), address.getText().toString(), locality.getText().toString(), cityId, stateId
-                                                                , pinCode.getText().toString(), countryId, strings.toString(), "1");
+                                                                , pinCode.getText().toString(), countryId, stateList, "1");
 
                                                     } else {
                                                         CM.showToast(getString(R.string.tandc), ViewRegister.this);

@@ -15,6 +15,8 @@ public class URLS {
     public static final String FORGOTPASSWORD = "http://192.168.3.82/b2b/pages/forgotPasswordapi";
     public static final String CHANGEPASSSORD = "http://192.168.3.82/b2b/pages/changepasswordapi";
     public static final String BLOCKUSER = "http://192.168.3.82/b2b/pages/blockeduserlistapi";
+    public static final String EDITPROFILE = "http://192.168.3.82/b2b/pages/profileeditapi";
+
 
 
 

@@ -86,7 +86,7 @@ public class WebService {
         params.put(CV.pincode, pincode);
         params.put(CV.country_name, "");
         params.put(CV.country_id, country);
-        params.put(CV.preference, "1,2");
+        params.put(CV.preference, selectedCity);
         params.put(CV.term_n_cond, checkStatus);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
 
@@ -126,18 +126,34 @@ public class WebService {
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
-    public static void getEditProfile(VolleyIntialization vollyInit, OnVolleyHandler vollyHanlder) throws JSONException {
+   /* public static void getEditProfile(VolleyIntialization vollyInit, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.FORGOTPASSWORD;
         Map<String, String> params = new HashMap<>();
         vollyInit.vollyStringRequestCall(url, Request.Method.GET, params, vollyHanlder);
 
-    }
+    }*/
 
     public static void getBloackUser(VolleyIntialization vollyInit, String blockuser, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.BLOCKUSER;
         Map<String, String> params = new HashMap<>();
         params.put(CV.USER_ID, blockuser);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+
+    }
+
+    public static void getEditProfile(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.EDITPROFILE;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+
+    }
+
+    public static void getSubmitEditProfile(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.EDITPROFILE;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.GET, params, vollyHanlder);
 
     }
 

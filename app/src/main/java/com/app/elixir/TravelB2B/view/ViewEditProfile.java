@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -32,21 +35,24 @@ import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
 import com.app.elixir.TravelB2B.pojos.pojoState;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.app.elixir.TravelB2B.R.id.edtCatName;
 
 public class ViewEditProfile extends AppCompatActivity implements View.OnFocusChangeListener, View.OnClickListener {
 
@@ -66,6 +72,11 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
     Person person;
     ArrayList<Person> pojoStates;
     private MtplButton btnUpdateDetails;
+    Spinner spinner;
+    String countryId, cityId, stateId;
+    List<String> prefArray;
+    ImageView imageIata, imagetafipic, imageTaaipic, imageiatopic, imageadyo, imageiso, imageufta, imageadto;
+    ImageView offilePic, offilePic1, compRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,169 +113,196 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
         } catch (IllegalAccessException e) {
         }
 
-
-        pojoStates = new ArrayList<>();
-        adapter = new ArrayAdapter<Person>(this, android.R.layout.simple_list_item_1, pojoStates) {
-
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-
-                Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
-                ((TextView) v).setTypeface(externalFont);
-
-                return v;
-            }
-
-
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-
-                Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
-                ((TextView) v).setTypeface(externalFont);
-                ((TextView) v).setTextColor(Color.WHITE);
-                v.setBackgroundColor(Color.parseColor("#1295a2"));
-
-                return v;
-            }
-        };
-
-
-        completionView = (AutoCompletionView) findViewById(R.id.searchView);
-        Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_regular));
-        completionView.setTypeface(face);
-        completionView.setAdapter(adapter);
-        completionView.setTokenLimit(5);
-        completionView.setDuplicateParentStateEnabled(false);
-
-        completionView.setOnClickListener(new View.OnClickListener() {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                List<Person> strings = completionView.getObjects();
-                Log.i(TAG, "onClick: " + strings.size());
-                for (int i = 0; i < strings.size(); i++) {
-
-                    strings.get(i);
-
-                }
+            public void run() {
 
 
-            }
-        });
+                spinner = (Spinner) findViewById(R.id.spinner);
+                final String[] cat = getResources().getStringArray(R.array.catArray);
+                ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(ViewEditProfile.this, R.layout.support_simple_spinner_dropdown_item, cat) {
 
-        initView();
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getView(position, convertView, parent);
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_roboto_regular));
+                        ((TextView) v).setTypeface(externalFont);
+                        return v;
+                    }
+
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getDropDownView(position, convertView, parent);
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_roboto_regular));
+                        ((TextView) v).setTypeface(externalFont);
+                        ((TextView) v).setTextColor(Color.WHITE);
+                        v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                        return v;
+                    }
+                };
+                spinner.setAdapter(langAdapter);
+
+                pojoStates = new ArrayList<>();
+                adapter = new ArrayAdapter<Person>(ViewEditProfile.this, android.R.layout.simple_list_item_1, pojoStates) {
+
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getView(position, convertView, parent);
+
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                        ((TextView) v).setTypeface(externalFont);
+
+                        return v;
+                    }
 
 
-        city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d("your selected item", "" + pojoCities.get(position).getId());
-                String statename = "";
-                if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
-                    for (int i = 0; i < pojoStateArrayList.size(); i++) {
-                        if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View v = super.getDropDownView(position, convertView, parent);
 
-                            statename = pojoStateArrayList.get(i).getState_name();
-                            state.setText(statename);
-                            for (int j = 0; j < countryArrayList.size(); j++) {
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                        ((TextView) v).setTypeface(externalFont);
+                        ((TextView) v).setTextColor(Color.WHITE);
+                        v.setBackgroundColor(Color.parseColor("#1295a2"));
 
-                                if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
-
-                                    country.setText(countryArrayList.get(j).getCountry_name());
-                                    break;
-
-                                }
+                        return v;
+                    }
+                };
 
 
-                            }
+                completionView = (AutoCompletionView) findViewById(R.id.searchView);
+                Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_regular));
+                completionView.setTypeface(face);
+                completionView.setAdapter(adapter);
+                completionView.setTokenLimit(5);
+                completionView.setDuplicateParentStateEnabled(true);
 
+                completionView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<Person> strings = completionView.getObjects();
+                        Log.i(TAG, "onClick: " + strings.size());
+                        for (int i = 0; i < strings.size(); i++) {
 
-                            break;
-                        } else {
+                            strings.get(i);
 
                         }
+
+
                     }
-                } else {
-                    state.setText("");
-                }
+                });
+
+                initView();
 
 
-            }
-        });
+                city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        Log.d("your selected item", "" + pojoCities.get(position).getId());
+                        String statename = "";
+                        if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                            for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
 
+                                    statename = pojoStateArrayList.get(i).getState_name();
+                                    state.setText(statename);
+                                    for (int j = 0; j < countryArrayList.size(); j++) {
 
-        city.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                                        if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
 
-                    for (int i = 0; i < pojoCities.size(); i++) {
-                        if (city.getText().toString().equals(pojoCities.get(i).getName())) {
-                            for (int j = 0; j < pojoCities.size(); j++) {
-                                if (city.getText().toString().equals(pojoCities.get(i).getName())) {
-                                    String id = pojoCities.get(i).getState_id();
-                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
-                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
-                                            String statename = pojoStateArrayList.get(k).getState_name();
-                                            state.setText(statename);
-
-
-                                            for (int l = 0; l < countryArrayList.size(); l++) {
-
-                                                if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
-
-                                                    country.setText(countryArrayList.get(l).getCountry_name());
-                                                    break;
-
-                                                }
-
-
-                                            }
-
-
+                                            country.setText(countryArrayList.get(j).getCountry_name());
                                             break;
-                                        } else {
-
 
                                         }
+
 
                                     }
 
 
+                                    break;
                                 } else {
+
+                                }
+                            }
+                        } else {
+                            state.setText("");
+                        }
+
+
+                    }
+                });
+
+
+                city.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (!hasFocus) {
+
+                            for (int i = 0; i < pojoCities.size(); i++) {
+                                if (city.getText().toString().equals(pojoCities.get(i).getName())) {
+                                    for (int j = 0; j < pojoCities.size(); j++) {
+                                        if (city.getText().toString().equals(pojoCities.get(i).getName())) {
+                                            String id = pojoCities.get(i).getState_id();
+                                            for (int k = 0; k < pojoStateArrayList.size(); k++) {
+                                                if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
+                                                    String statename = pojoStateArrayList.get(k).getState_name();
+                                                    state.setText(statename);
+
+
+                                                    for (int l = 0; l < countryArrayList.size(); l++) {
+
+                                                        if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
+
+                                                            country.setText(countryArrayList.get(l).getCountry_name());
+                                                            break;
+
+                                                        }
+
+
+                                                    }
+
+
+                                                    break;
+                                                } else {
+
+
+                                                }
+
+                                            }
+
+
+                                        } else {
+                                            state.setText("");
+                                            country.setText("");
+
+                                        }
+
+
+                                    }
+
+
+                                    break;
+                                } else {
+                                    city.setText("");
                                     state.setText("");
                                     country.setText("");
 
                                 }
-
-
                             }
 
+                            if (pojoCities != null && pojoCities.size() == 0) {
+                                city.setText("");
+                                state.setText("");
+                                country.setText("");
+                            }
 
-                            break;
                         } else {
-                            city.setText("");
-                            state.setText("");
-                            country.setText("");
+
 
                         }
                     }
-
-                    if (pojoCities != null && pojoCities.size() == 0) {
-                        city.setText("");
-                        state.setText("");
-                        country.setText("");
-                    }
-
-                } else {
-
-
-                }
+                });
             }
         });
 
-        webCallCity();
-        webCallState();
-        webCallCountry();
+        webUserProfile(CM.getSp(ViewEditProfile.this, CV.PrefID, "").toString());
 
 
     }
@@ -273,8 +311,6 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
         countryArrayList = new ArrayList<>();
         pojoCities = new ArrayList<>();
         pojoStateArrayList = new ArrayList<>();
-
-        catName = (MtplEditText) findViewById(edtCatName);
         edtCompName = (MtplEditText) findViewById(R.id.edtCompName);
         first_name = (MtplEditText) findViewById(R.id.edtFirstName);
         last_name = (MtplEditText) findViewById(R.id.edtlastName);
@@ -306,6 +342,26 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
         edtBusinessCard = (MtplEditText) findViewById(R.id.edtBusinessCard);
         edtCompReg = (MtplEditText) findViewById(R.id.edtCompReg);
         edtDis = (MtplEditText) findViewById(R.id.edtDis);
+
+        //Certificates
+        imageIata = (ImageView) findViewById(R.id.imageIata);
+        imagetafipic = (ImageView) findViewById(R.id.imagetafipic);
+        imageTaaipic = (ImageView) findViewById(R.id.imageTaaipic);
+        imageiatopic = (ImageView) findViewById(R.id.imageiatopic);
+        imageadyo = (ImageView) findViewById(R.id.imageadyo);
+        imageiso = (ImageView) findViewById(R.id.imageiso);
+        imageufta = (ImageView) findViewById(R.id.imageufta);
+        imageadto = (ImageView) findViewById(R.id.imageadto);
+
+        //Uploades
+        proPic = (ImageView) findViewById(R.id.proPic);
+        offilePic = (ImageView) findViewById(R.id.offilePic);
+        offilePic1 = (ImageView) findViewById(R.id.offilePic1);
+        panCard = (ImageView) findViewById(R.id.panCard);
+        businessCard = (ImageView) findViewById(R.id.businessCard);
+        compRegister = (ImageView) findViewById(R.id.compRegister);
+
+
         edtProfilepic.setOnFocusChangeListener(this);
         edtOfficePic.setOnFocusChangeListener(this);
         edtOfficePic1.setOnFocusChangeListener(this);
@@ -383,7 +439,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    proPic.setImageBitmap(currentImage);
+                                    proPic.setImageBitmap(CM.getResizedBitmap(currentImage,75));
                                     edtProfilepic.setText(photoUri.getPath());
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -403,7 +459,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    officePic.setImageBitmap(currentImage);
+                                    officePic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtOfficePic.setText(photoUri.getPath());
                                 } catch (Exception e) {
 
@@ -421,7 +477,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    officePic1.setImageBitmap(currentImage);
+                                    officePic1.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtOfficePic1.setText(photoUri.getPath());
                                 } catch (Exception e) {
 
@@ -438,7 +494,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    panCard.setImageBitmap(currentImage);
+                                    panCard.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtPanCard.setText(photoUri.getPath());
 
 
@@ -457,7 +513,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    businessCard.setImageBitmap(currentImage);
+                                    businessCard.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtBusinessCard.setText(photoUri.getPath());
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -474,7 +530,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    comRegister.setImageBitmap(currentImage);
+                                    comRegister.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtCompReg.setText(photoUri.getPath());
 
                                 } catch (Exception e) {
@@ -545,6 +601,15 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(ViewEditProfile.this, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     city.setThreshold(1);
                     city.setAdapter(adptCountry1);
+
+
+                    pojoCity cityPojo = new pojoCity();
+                    cityPojo.setId(cityId);
+                    int indexCity = pojoCities.indexOf(cityPojo);
+                    Log.i(TAG, "getResponseForCity: " + indexCity);
+                    city.setText(pojoCities.get(indexCity).getName());
+
+
                     break;
                 case "202":
                     break;
@@ -613,10 +678,34 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     for (int i = 0; i < pojoStateArrayList.size(); i++) {
 
 
-                        person = new Person(pojoStateArrayList.get(i).getState_name(), pojoStateArrayList.get(i).getState_name());
+                        person = new Person(pojoStateArrayList.get(i).getState_name(), pojoStateArrayList.get(i).getId());
                         pojoStates.add(person);
 
                     }
+
+
+                    pojoState statePojo = new pojoState();
+                    statePojo.setId(stateId);
+                    int indexState = pojoStateArrayList.indexOf(statePojo);
+                    state.setText(pojoStateArrayList.get(indexState).getState_name());
+
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < prefArray.size(); i++) {
+
+                        pojoState statePojo1 = new pojoState();
+                        statePojo1.setId(prefArray.get(i));
+                        int indexState1 = pojoStateArrayList.indexOf(statePojo1);
+                        stringBuilder.append(pojoStateArrayList.get(indexState1).getState_name());
+                        stringBuilder.append(" ");
+
+                        Person person = new Person(pojoStateArrayList.get(indexState1).getState_name(), pojoStateArrayList.get(indexState1).getId());
+                        completionView.addObject(person);
+
+
+                    }
+
+
+                    completionView.getObjects();
 
                     break;
                 case "202":
@@ -684,6 +773,10 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
                         countryArrayList.size();
                     }
+                    pojoCountry countryPojo = new pojoCountry();
+                    countryPojo.setId(countryId);
+                    int indexCountry = countryArrayList.indexOf(countryPojo);
+                    country.setText(countryArrayList.get(indexCountry).getCountry_name());
 
                     break;
                 case "202":
@@ -704,7 +797,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
     public void webSubmit() {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewEditProfile.this, true, true);
-            WebService.getEditProfile(v, new OnVolleyHandler() {
+            WebService.getSubmitEditProfile(v, "", new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -764,127 +857,329 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             case R.id.profileupdatedetails:
 
 
-                if (!catName.getText().toString().equals("")) {
+               /* if (!catName.getText().toString().equals("")) {*/
 
-                    if (!first_name.getText().toString().equals("")) {
+                if (!first_name.getText().toString().equals("")) {
 
-                        if (!last_name.getText().toString().equals("")) {
+                    if (!last_name.getText().toString().equals("")) {
 
-                            if (!compName.getText().toString().equals("")) {
-
-
-                                if (!email.getText().toString().equals("") && CM.isEmailValid(email.getText().toString())) {
-
-                                    if (!primMobileNo.getText().toString().equals("")) {
-
-                                        if (primMobileNo.getText().length() == 10) {
-
-                                            //Sec No.
-                                            if (secMobileNo.getText().toString().length() > 0) {
-
-                                                if (secMobileNo.getText().toString().length() == 10) {
+                        if (!compName.getText().toString().equals("")) {
 
 
-                                                } else {
-                                                    CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
-                                                }
+                            if (!email.getText().toString().equals("") && CM.isEmailValid(email.getText().toString())) {
+
+                                if (!primMobileNo.getText().toString().equals("")) {
+
+                                    if (primMobileNo.getText().length() == 10) {
+
+                                        //Sec No.
+                                        if (secMobileNo.getText().toString().length() > 0) {
+
+                                            if (secMobileNo.getText().toString().length() == 10) {
 
 
                                             } else {
-
-                                                if (!address1.getText().toString().equals("")) {
-
-
-                                                    if (!locality.getText().toString().equals("")) {
+                                                CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
+                                            }
 
 
-                                                        if (!city.getText().toString().equals("")) {
+                                        } else {
+
+                                            if (!address1.getText().toString().equals("")) {
 
 
-                                                            if (!state.getText().toString().equals("")) {
-
-                                                                if (!country.getText().toString().equals("")) {
-
-                                                                    if (!pinCode.getText().toString().equals("")) {
+                                                if (!locality.getText().toString().equals("")) {
 
 
-                                                                        List<Person> selectedItemList = completionView.getObjects();
+                                                    if (!city.getText().toString().equals("")) {
 
-                                                                        if (selectedItemList.size() == 5) {
 
-                                                                        } else {
-                                                                            CM.showToast(getString(R.string.entlist), ViewEditProfile.this);
-                                                                        }
+                                                        if (!state.getText().toString().equals("")) {
+
+                                                            if (!country.getText().toString().equals("")) {
+
+                                                                if (!pinCode.getText().toString().equals("")) {
+
+
+                                                                    List<Person> selectedItemList = completionView.getObjects();
+
+                                                                    if (selectedItemList.size() == 5) {
+
+                                                                        Bitmap bitmap = ((BitmapDrawable) proPic.getDrawable()).getBitmap();
+                                                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                                                        byte[] imageBytes = baos.toByteArray();
+                                                                        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                                                                        Log.i(TAG, "initView: " + encodedImage);
 
 
                                                                     } else {
-                                                                        CM.showToast(getString(R.string.entpin), ViewEditProfile.this);
+                                                                        CM.showToast(getString(R.string.entlist), ViewEditProfile.this);
                                                                     }
 
 
                                                                 } else {
-                                                                    CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
+                                                                    CM.showToast(getString(R.string.entpin), ViewEditProfile.this);
                                                                 }
+
 
                                                             } else {
                                                                 CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
                                                             }
 
-
                                                         } else {
-                                                            CM.showToast(getString(R.string.entcity), ViewEditProfile.this);
+                                                            CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
                                                         }
 
 
                                                     } else {
-                                                        CM.showToast(getString(R.string.entlocality), ViewEditProfile.this);
+                                                        CM.showToast(getString(R.string.entcity), ViewEditProfile.this);
                                                     }
 
 
                                                 } else {
-
-                                                    CM.showToast(getString(R.string.entAddres1), ViewEditProfile.this);
-
+                                                    CM.showToast(getString(R.string.entlocality), ViewEditProfile.this);
                                                 }
+
+
+                                            } else {
+
+                                                CM.showToast(getString(R.string.entAddres1), ViewEditProfile.this);
 
                                             }
 
-
-                                        } else {
-                                            CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
                                         }
 
 
                                     } else {
-                                        CM.showToast(getString(R.string.entpno), ViewEditProfile.this);
+                                        CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
                                     }
 
+
                                 } else {
-                                    CM.showToast(getString(R.string.entvemail), ViewEditProfile.this);
+                                    CM.showToast(getString(R.string.entpno), ViewEditProfile.this);
                                 }
 
                             } else {
-
-                                CM.showToast(getString(R.string.entComName), ViewEditProfile.this);
-
+                                CM.showToast(getString(R.string.entvemail), ViewEditProfile.this);
                             }
 
                         } else {
-                            CM.showToast(getString(R.string.entlname), ViewEditProfile.this);
+
+                            CM.showToast(getString(R.string.entComName), ViewEditProfile.this);
+
                         }
 
                     } else {
-                        CM.showToast(getString(R.string.entfname), ViewEditProfile.this);
+                        CM.showToast(getString(R.string.entlname), ViewEditProfile.this);
                     }
 
+                } else {
+                    CM.showToast(getString(R.string.entfname), ViewEditProfile.this);
+                }
 
+/*
                 } else {
                     CM.showToast(getString(R.string.entcat), ViewEditProfile.this);
-                }
+                }*/
 
 
                 break;
         }
     }
+
+    public void webUserProfile(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewEditProfile.this, true, true);
+            WebService.getEditProfile(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseForUserProfile(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewEditProfile.this)) {
+                        CM.showPopupCommonValidation(ViewEditProfile.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getResponseForUserProfile(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewEditProfile.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("user"));
+                    if (jsonObject1.optString("role_id").toString().equals("1")) {
+                        spinner.setSelection(0);
+                    } else if (jsonObject1.optString("role_id").toString().equals("2")) {
+                        spinner.setSelection(1);
+                    } else {
+                        spinner.setSelection(2);
+                    }
+                    first_name.setText(jsonObject1.optString("first_name"));
+                    last_name.setText(jsonObject1.optString("last_name"));
+                    primMobileNo.setText(jsonObject1.optString("mobile_number"));
+                    secMobileNo.setText(jsonObject1.optString("p_contact"));
+                    email.setText(jsonObject1.optString("email"));
+                    address1.setText(jsonObject1.optString("address"));
+                    locality.setText(jsonObject1.optString("locality"));
+                    pinCode.setText(jsonObject1.optString("pincode"));
+                    compName.setText(jsonObject1.optString("company_name"));
+                    webUrl.setText(jsonObject1.optString("web_url"));
+                    address2.setText("");
+                    countryId = jsonObject1.optString("country_id");
+                    cityId = jsonObject1.optString("city_id");
+                    stateId = jsonObject1.optString("state_id");
+
+
+                    // ImageView imageIata, imagetafipic, imageTaaipic, imageiatopic, imageadyo, imageiso, imageufta, imageadto;
+                    // ImageView offilePic, offilePic1, compRegister;
+
+                    Picasso.with(ViewEditProfile.this)
+                            .load(jsonObject1.optString("iata_pic"))
+                            .placeholder(R.drawable.ic_photo_black_48dp).into(imageIata);
+
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("tafi_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imagetafipic);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("taai_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageTaaipic);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("iato_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageiatopic);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("adyoi_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageadyo);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("iso9001_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageiso);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("uftaa_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageufta);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("adtoi_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageadto);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("profile_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(proPic);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("company_img_1_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(offilePic);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("company_img_2_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(offilePic1);
+                    } catch (Exception e) {
+
+                    }
+                    try {
+
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("id_card_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(panCard);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("company_shop_registration_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(compRegister);
+                    } catch (Exception e) {
+
+                    }
+
+                    try {
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("travel_certificates"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(businessCard);
+                    } catch (Exception e) {
+
+                    }
+
+
+                    prefArray = Arrays.asList(jsonObject1.optString("preference").split("\\s*,\\s*"));
+
+
+                    webCallCity();
+                    webCallState();
+                    webCallCountry();
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewEditProfile.this, e.getMessage(), false);
+        }
+    }
+
 }
 

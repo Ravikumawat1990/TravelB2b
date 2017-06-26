@@ -60,4 +60,11 @@ public class pojoCity {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof pojoCity)
+            return ((pojoCity) obj).getId().equals(this.getId());
+        return false;
+    }
 }

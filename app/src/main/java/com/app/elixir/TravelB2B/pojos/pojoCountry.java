@@ -34,4 +34,11 @@ public class pojoCountry {
     public void setCountry_name(String country_name) {
         this.country_name = country_name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof pojoCountry)
+            return ((pojoCountry) obj).getId().equals(this.getId());
+        return false;
+    }
 }
