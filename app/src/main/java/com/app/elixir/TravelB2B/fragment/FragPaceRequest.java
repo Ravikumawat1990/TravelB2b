@@ -32,7 +32,7 @@ public class FragPaceRequest extends Fragment {
     TabLayout tabLayout;
     private ViewPager viewPager;
     Activity thisActivity;
-
+    PagerAdapter adapter;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -61,7 +61,7 @@ public class FragPaceRequest extends Fragment {
 
         changeTabsFont();
         viewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        PagerAdapter adapter = new PagerAdapter(getFragmentManager(), tabLayout.getTabCount());
+        adapter = new PagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -81,7 +81,7 @@ public class FragPaceRequest extends Fragment {
             }
         });
 
-
+        viewPager.setCurrentItem(0);
         return rootView;
     }
 

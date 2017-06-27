@@ -2,7 +2,7 @@ package com.app.elixir.TravelB2B.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.app.elixir.TravelB2B.fragment.TabHotel;
 import com.app.elixir.TravelB2B.fragment.TabPackage;
@@ -13,7 +13,7 @@ import com.app.elixir.TravelB2B.fragment.TabTransport;
  * Created by NetSupport on 02-06-2017.
  */
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentPagerAdapter {
     int mNumOfTabs;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -23,20 +23,23 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+        Fragment fragment = null;
         switch (position) {
             case 0:
-                TabPackage tab1 = new TabPackage();
-                return tab1;
+                fragment = new TabPackage();
+                break;
             case 1:
-                TabHotel tab2 = new TabHotel();
-                return tab2;
+                fragment = new TabHotel();
+                break;
             case 2:
-                TabTransport tab3 = new TabTransport();
-                return tab3;
+                fragment = new TabTransport();
+                break;
             default:
-                return null;
+                fragment = new TabPackage();
+                break;
+
         }
+        return fragment;
     }
 
     @Override

@@ -63,12 +63,12 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
         View rootView = inflater.inflate(R.layout.tabpackage, container, false);
         thisActivity = getActivity();
-        initView(rootView);
+       // initView(rootView);
         return rootView;
 
     }
 
-    private void initView(final View view) {
+    private void initView(View view) {
         btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
         String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
         MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);

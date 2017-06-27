@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,11 @@ import java.util.ArrayList;
 public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoTestimonial> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptreview(Context context, ArrayList<PojoMyResponse> data) {
+    public adptreview(Context context, ArrayList<pojoTestimonial> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -33,9 +34,14 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
+        MtplTextView comment, name, description;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            comment = (MtplTextView) itemView.findViewById(R.id.txtViewComment);
+            name = (MtplTextView) itemView.findViewById(R.id.txtName);
+            description = (MtplTextView) itemView.findViewById(R.id.txtDescription);
+
         }
 
         @Override
@@ -63,8 +69,14 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // TextView textViewReqType = holder.reqType;
-        //textViewReqType.setText(dataSet.get(position).getAdult());
+        MtplTextView comment = holder.comment;
+        MtplTextView name = holder.name;
+        MtplTextView description = holder.description;
+
+        comment.setText(dataSet.get(position).getComment());
+        name.setText(dataSet.get(position).getName());
+        description.setText(dataSet.get(position).getDescription());
+
     }
 
     @Override

@@ -7,20 +7,35 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvt;
 import com.app.elixir.TravelB2B.adapter.adptreview;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.CustomTypefaceSpan;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class ViewAgentProfile extends AppCompatActivity {
+    private static final String TAG = "ViewAgentProfile";
     adptreview mAdapter;
     ArrayList<PojoMyResponse> dataSet;
+    RecyclerView recycleViewTestimonial, recyclerViewAdv;
+    ArrayList<pojoTestimonial> pojoTestimonialArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +45,16 @@ public class ViewAgentProfile extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         Typeface font = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
-        SpannableStringBuilder SS = new SpannableStringBuilder("Agent Profile");
+        SpannableStringBuilder SS = new SpannableStringBuilder(getString(R.string.agntProfile));
         SS.setSpan(new CustomTypefaceSpan("", font), 0, SS.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         setTitle(SS);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        RecyclerView recyclerView1 = (RecyclerView) findViewById(R.id.recycleView);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView1);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView1.setLayoutManager(layoutManager1);
+        recyclerViewAdv = (RecyclerView) findViewById(R.id.recycleView);
+        recycleViewTestimonial = (RecyclerView) findViewById(R.id.recycleView1);
+        recyclerViewAdv.setLayoutManager(layoutManager);
+        recycleViewTestimonial.setLayoutManager(layoutManager1);
 
         dataSet = new ArrayList<>();
 
@@ -51,9 +66,12 @@ public class ViewAgentProfile extends AppCompatActivity {
         }
 
         adptAdvt mAdapter1 = new adptAdvt(ViewAgentProfile.this, dataSet);
-        recyclerView1.setAdapter(mAdapter1);
-        mAdapter = new adptreview(ViewAgentProfile.this, dataSet);
-        recyclerView.setAdapter(mAdapter);
+        recyclerViewAdv.setAdapter(mAdapter1);
+        pojoTestimonialArrayList = new ArrayList<>();
+        mAdapter = new adptreview(ViewAgentProfile.this, pojoTestimonialArrayList);
+
+
+        webTestimonial(CM.getSp(ViewAgentProfile.this, CV.PrefID, "").toString());
     }
 
     @Override
@@ -71,5 +89,82 @@ public class ViewAgentProfile extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         CM.finishActivity(ViewAgentProfile.this);
+    }
+
+    public void webTestimonial(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewAgentProfile.this, true, true);
+            WebService.getTestimonial(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseForTestimonial(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewAgentProfile.this)) {
+                        CM.showPopupCommonValidation(ViewAgentProfile.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getResponseForTestimonial(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewAgentProfile.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    // CM.showToast(jsonObject.optString("response_object"), ViewAgentProfile.this);
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        pojoTestimonial pojoTestimonial = new pojoTestimonial();
+                        pojoTestimonial.setComment(jsonArray.getJSONObject(i).optString("comment"));
+                        pojoTestimonial.setAuthor_id(jsonArray.getJSONObject(i).optString("author_id"));
+                        pojoTestimonial.setDescription(jsonArray.getJSONObject(i).optString("description"));
+                        pojoTestimonial.setName(jsonArray.getJSONObject(i).optString("name"));
+                        pojoTestimonial.setProfile_pic(jsonArray.getJSONObject(i).optString("profile_pic"));
+                        pojoTestimonial.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
+                        pojoTestimonial.setAuthor_id(jsonArray.getJSONObject(i).optString("author_id"));
+                        pojoTestimonialArrayList.add(pojoTestimonial);
+
+                    }
+                    pojoTestimonialArrayList.size();
+                    recycleViewTestimonial.setAdapter(mAdapter);
+                    recycleViewTestimonial.invalidate();
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewAgentProfile.this);
+
+                    finish();
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewAgentProfile.this, e.getMessage(), false);
+        }
     }
 }

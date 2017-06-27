@@ -40,6 +40,8 @@
     <string name="restoReqDetail">Respond To Request</string>
     <string name="myRespons">My Responses</string>
     <string name="cngPassword">Change password</string>
+    <string name="agntProfile">Agent Profile</string>
+    <string name="myProfile">My Profile</string>
 
 
     <string name="wpDisc">A Wedding Planner Event Organizer,or their representative.</string>

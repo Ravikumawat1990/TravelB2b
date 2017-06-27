@@ -253,7 +253,8 @@ public class ViewDrawer extends AppCompatActivity
                 switch (position) {
                     case 0:
                         fragment = new FragPaceRequest();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null);
+                        fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
                     case 1:
@@ -277,6 +278,7 @@ public class ViewDrawer extends AppCompatActivity
                     default:
                         fragment = new FragPaceRequest();
                         fragmentTransaction.replace(R.id.container, fragment).addToBackStack("FragHome");
+                        fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
 
@@ -314,6 +316,12 @@ public class ViewDrawer extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 super.onBackPressed();
+                final Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+                if (f instanceof FragHome) {
+                    bottomNavigation.setVisibility(View.VISIBLE);
+                    setTitle(getString(R.string.app_name));
+                }
+
             } else {
                 showPopup(ViewDrawer.this);
             }
@@ -381,6 +389,8 @@ public class ViewDrawer extends AppCompatActivity
             setFragment(11);
         } else if (id == R.id.nav_changePassword) {
             setFragment(12);
+        } else if (id == R.id.nav_myprofile) {
+            setFragment(13);
         }
 
 
@@ -405,24 +415,28 @@ public class ViewDrawer extends AppCompatActivity
             case 1:
                 fragment = new FragFinalizedRequest();
                 ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 2:
                 fragment = new FragFinalizedResponses();
                 ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 3:
                 fragment = new FragFollowers();
                 ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 4:
                 fragment = new FragBlockUser();
                 ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
@@ -468,6 +482,12 @@ public class ViewDrawer extends AppCompatActivity
             case 12:
                 CM.startActivity(ViewDrawer.this, ViewChangePassword.class);
                 break;
+            case 13:
+                CM.startActivity(ViewDrawer.this, ViewMyProfile.class);
+
+                break;
+
+
             default:
                 break;
         }
@@ -567,5 +587,10 @@ public class ViewDrawer extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
             }
         }).setIcon(R.drawable.logo1).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

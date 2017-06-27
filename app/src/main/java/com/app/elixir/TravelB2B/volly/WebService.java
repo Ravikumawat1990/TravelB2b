@@ -154,7 +154,13 @@ public class WebService {
         Map<String, String> params = new HashMap<>();
         params.put(CV.USER_ID, userid);
         vollyInit.vollyStringRequestCall(url, Request.Method.GET, params, vollyHanlder);
+    }
 
+    public static void getTestimonial(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.TESTIMONIALAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, "28");
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
 
