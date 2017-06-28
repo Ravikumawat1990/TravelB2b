@@ -69,7 +69,7 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MtplTextView comment = holder.comment;
+            MtplTextView comment = holder.comment;
         MtplTextView name = holder.name;
         MtplTextView description = holder.description;
 

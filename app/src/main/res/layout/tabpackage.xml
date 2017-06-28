@@ -5,7 +5,8 @@
     xmlns:numberpicker="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootScroolView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
 
     <LinearLayout
@@ -1037,7 +1038,7 @@
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
             android:layout_width="match_parent"
-            android:layout_height="800dp" />
+            android:layout_height="400dp" />
 
 
     </LinearLayout>

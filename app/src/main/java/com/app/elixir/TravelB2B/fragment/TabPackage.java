@@ -63,7 +63,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
         View rootView = inflater.inflate(R.layout.tabpackage, container, false);
         thisActivity = getActivity();
-       // initView(rootView);
+        initView(rootView);
         return rootView;
 
     }

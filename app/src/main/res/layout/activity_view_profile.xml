@@ -1,103 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:mtplview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_view_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:orientation="vertical"
     tools:context="com.app.elixir.TravelB2B.view.ViewAgentProfile">
 
-    <LinearLayout
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
-
-            <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Description"
-                android:textColor="@color/colorPrimary"
-                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
-
-            <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:text="Testing profile Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
-                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin" />
+        android:id="@+id/scrollView"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Certificates"
-                android:textColor="@color/colorPrimary"
-                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleView"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10dp"></android.support.v7.widget.RecyclerView>
+                android:layout_margin="@dimen/margin_5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/font_10dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            android:src="@drawable/hugh"
+                            app:civ_border_color="#FF000000" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/margin_5dp"
+                                android:text="Ravi kumawat"
+                                android:textColor="@color/colorPrimary"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/margin_5dp"
+                                android:text="7728877982"
+                                android:textColor="@android:color/darker_gray"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/margin_5dp"
+                                android:text="kravi@elixirinfo.com"
+                                android:textColor="@android:color/darker_gray"
+                                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_5dp">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Description"
+                        android:textColor="@color/colorPrimary"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:text="Testing profile Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. "
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_5dp">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Certificates"
+                        android:textColor="@color/colorPrimary"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10dp"></android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_5dp"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/font_10dp">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Reviews"
+                        android:textColor="@color/colorPrimary"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycleView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10dp"></android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin">
-
-            <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reviews"
-                android:textColor="@color/colorPrimary"
-                mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10dp"></android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

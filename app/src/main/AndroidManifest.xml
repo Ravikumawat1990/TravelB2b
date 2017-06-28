@@ -74,8 +74,12 @@
             android:name=".view.ViewChangePassword"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".view.ViewAgentProfile" />
-        <activity android:name=".view.ViewMyProfile"></activity>
+        <activity
+            android:name=".view.ViewAgentProfile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.ViewMyProfile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

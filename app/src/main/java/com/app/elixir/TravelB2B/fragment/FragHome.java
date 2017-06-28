@@ -21,15 +21,16 @@ import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvt;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +49,7 @@ public class FragHome extends Fragment {
     private RecyclerView mRecyclerView;
     adptAdvt mAdapter;
     private StaggeredGridLayoutManager mStaggeredLayoutManager;
+    ArrayList<pojoAdvert> pojoAdvertArrayList;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,7 +67,7 @@ public class FragHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home, container, false);
         thisActivity = getActivity();
-        // setHasOptionsMenu(true);
+
         initView(rootView);
         return rootView;
     }
@@ -75,30 +77,10 @@ public class FragHome extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mStaggeredLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
-
-        }
-        mAdapter = new adptAdvt(thisActivity, pojoMyResponses);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(String value) {
-
-                showPopup(thisActivity);
-
-            }
-        });
+        mRecyclerView.setHasFixedSize(true);
+        pojoAdvertArrayList = new ArrayList<>();
+        mAdapter = new adptAdvt(thisActivity, pojoAdvertArrayList);
+        webTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString());
 
     }
 
@@ -147,10 +129,10 @@ public class FragHome extends Fragment {
     }
 
 
-    public void webAdv() {
+    public void webTestimonial(String userId) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getAdv(v, new OnVolleyHandler() {
+            WebService.getTestimonial(v, userId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -158,7 +140,7 @@ public class FragHome extends Fragment {
                     }
                     MtplLog.i("WebCalls", response);
                     Log.e(TAG, response);
-                    getResponseForAdv(response);
+                    getResponseForTestimonial(response);
 
                 }
 
@@ -175,7 +157,7 @@ public class FragHome extends Fragment {
         }
     }
 
-    private void getResponseForAdv(String response) {
+    private void getResponseForTestimonial(String response) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
             CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
@@ -185,13 +167,39 @@ public class FragHome extends Fragment {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if (jsonObject.optString("ResponseObject") != null) {
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    JSONArray jsonArray1 = new JSONArray(jsonObject.optString("advertisement").toString());
+                    for (int i = 0; i < jsonArray1.length(); i++) {
 
+                        pojoAdvert pojoAdverts = new pojoAdvert();
+                        pojoAdverts.setId(jsonArray1.getJSONObject(i).getString("id"));
+                        pojoAdverts.setUser_id(jsonArray1.getJSONObject(i).getString("user_id"));
+                        pojoAdverts.setHotel_name(jsonArray1.getJSONObject(i).getString("hotel_name"));
+                        pojoAdverts.setHotel_type(jsonArray1.getJSONObject(i).getString("hotel_type"));
+                        pojoAdverts.setCheap_tariff(jsonArray1.getJSONObject(i).getString("cheap_tariff"));
+                        pojoAdverts.setExpensive_tariff(jsonArray1.getJSONObject(i).getString("expensive_tariff"));
+                        pojoAdverts.setWebsite(jsonArray1.getJSONObject(i).getString("website"));
+                        pojoAdverts.setCities(jsonArray1.getJSONObject(i).getString("cities"));
+                        pojoAdverts.setCharges(jsonArray1.getJSONObject(i).getString("charges"));
+                        pojoAdverts.setDuration(jsonArray1.getJSONObject(i).getString("duration"));
+                        pojoAdverts.setStatus(jsonArray1.getJSONObject(i).getString("status"));
+                        pojoAdverts.setHotel_pic(jsonArray1.getJSONObject(i).getString("hotel_pic"));
+                        pojoAdverts.setPayment_status(jsonArray1.getJSONObject(i).getString("payment_status"));
+                        pojoAdverts.setCitycharge(jsonArray1.getJSONObject(i).getString("citycharge"));
+                        pojoAdverts.setExpiry_date(jsonArray1.getJSONObject(i).optString("expiry_date"));
+                        pojoAdverts.setCount(jsonArray1.getJSONObject(i).getString("count"));
+                        pojoAdvertArrayList.add(pojoAdverts);
                     }
+                    pojoAdvertArrayList.size();
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
                     break;
                 case "202":
                     break;
-                case "402":
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), thisActivity);
+
+
                     break;
                 default:
                     break;

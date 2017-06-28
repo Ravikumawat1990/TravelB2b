@@ -2,16 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:mtplview="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/margin_5dp"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_5dp">
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/rootView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_10dp">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_2dp"
+        android:orientation="vertical"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,11 +25,12 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_160dp"
+                android:layout_height="@dimen/margin_120dp"
                 android:orientation="vertical">
 
 
                 <ImageView
+                    android:id="@+id/imghotel_pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -32,15 +38,16 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_40dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="#B3000000">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:id="@+id/txtCharges"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/margin_10dp"
-                        android:gravity="center|left"
+
+                        android:padding="@dimen/margin_2dp"
                         android:text="Rs. 200-500"
                         android:textColor="@color/appBackColor"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
@@ -49,32 +56,29 @@
             </RelativeLayout>
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txthotel_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_5dp"
-                android:paddingLeft="@dimen/margin_20dp"
+                android:padding="@dimen/margin_2dp"
                 android:text="Test Hotel"
-                android:textColor="@color/appTextColor"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txthotel_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:paddingLeft="@dimen/margin_20dp"
+                android:padding="@dimen/margin_2dp"
                 android:text="Boutique Hotel"
-                android:textColor="@color/colorPrimary"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txtWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:autoLink="web"
                 android:gravity="center_vertical"
-                android:padding="5dp"
+                android:padding="@dimen/margin_2dp"
                 android:text="View More"
-                android:textColor="@color/colorPrimary"
-                android:textSize="8sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
 

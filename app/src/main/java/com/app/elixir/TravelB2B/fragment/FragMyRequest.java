@@ -45,7 +45,6 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 public class FragMyRequest extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
     Activity thisActivity;
     private RecyclerView mRecyclerView;
     adptMyRequest mAdapter;
