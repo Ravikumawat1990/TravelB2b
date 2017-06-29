@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.app.elixir.TravelB2B.utils.CV.email;
+import static com.app.elixir.TravelB2B.utils.CV.role_id;
 
 
 /**
@@ -69,7 +70,7 @@ public class WebService {
         String url = URLS.REGISTER;
         Map<String, String> params = new HashMap<>();
         params.put(CV.company_name, comName);
-        params.put(CV.role_id, catName);
+        params.put(role_id, catName);
         params.put(CV.first_name, fname);
         params.put(CV.last_name, lname);
         params.put(CV.email, email);
@@ -160,6 +161,22 @@ public class WebService {
         String url = URLS.TESTIMONIALAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.USER_ID, "28");
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getMyResponse(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.MYRESPONSE;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, "28");
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getMyResponseToReq(VolleyIntialization vollyInit, String userid, String roleId, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.RESPONSETOREQEUST;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, "28");
+        params.put(CV.PrefRole_Id, roleId);
+
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 

@@ -253,31 +253,31 @@ public class ViewDrawer extends AppCompatActivity
                 switch (position) {
                     case 0:
                         fragment = new FragPaceRequest();
-                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null);
+                        fragmentTransaction.add(R.id.container, fragment).addToBackStack(null);
                         fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
                     case 1:
                         fragment = new FragMyRequest();
-                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack("FragHome");
+                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
                         fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
                     case 2:
                         fragment = new FragRespondToRequest();
-                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack("FragHome");
+                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
                         fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
                     case 3:
                         fragment = new FragMyResponse();
-                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack("FragHome");
+                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
                         fm.popBackStack();
                         fragmentTransaction.commit();
                         break;
                     default:
                         fragment = new FragPaceRequest();
-                        fragmentTransaction.replace(R.id.container, fragment).addToBackStack("FragHome");
+                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
                         fm.popBackStack();
                         fragmentTransaction.commit();
                         break;

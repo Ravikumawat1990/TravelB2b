@@ -147,6 +147,11 @@
 
     <string name="reqType">"Request Type"</string>
     <string name="refId">"Reference ID"</string>
+    <string name="reqAgent">"Requesting Agent"</string>
+    <string name="destination">"Destination"</string>
+
+
+
 
     <string name="stDate">"Start Date"</string>
     <string name="edDate">"End Date"</string>
@@ -295,6 +300,15 @@
     <string name="loginmsg">Please enter valid email and password</string>
 
     <string name="registerd">Registered Successfully </string>
+
+
+   <!--  1 = Package
+     2 = Transport
+     3 = Hotel-->
+
+    <string name="package1">Package</string>
+    <string name="transport">Transport</string>
+    <string name="hotel">Hotel</string>
 
 
 </resources>
