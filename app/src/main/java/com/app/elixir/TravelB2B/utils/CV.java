@@ -62,6 +62,8 @@ public class CV {
     public static final String term_n_cond = "term_n_cond";
     public static final String USER_ID = "user_id";
     public static final String OLD_PASSWORD = "old_password";
+    public static final String REQ_ID = "request_id";
+
 
 
     public static final String PrefID = "id";

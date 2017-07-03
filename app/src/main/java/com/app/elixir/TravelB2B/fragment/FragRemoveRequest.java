@@ -3,12 +3,14 @@ package com.app.elixir.TravelB2B.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +23,19 @@ import com.app.elixir.TravelB2B.adapter.adptRemoveRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.pojos.pojoRemoveReq;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewRemoveReqDetailView;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,10 +45,12 @@ import java.util.ArrayList;
 
 public class FragRemoveRequest extends Fragment {
 
+    private static final String TAG = "FragRemoveRequest";
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
     private RecyclerView mRecyclerView;
     adptRemoveRequest mAdapter;
+    ArrayList<pojoRemoveReq> pojoRemoveReqs;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -64,29 +78,28 @@ public class FragRemoveRequest extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
-        }
-        mAdapter = new adptRemoveRequest(thisActivity, pojoMyResponses);
-        mRecyclerView.setAdapter(mAdapter);
+        pojoRemoveReqs = new ArrayList<>();
+
+        mAdapter = new adptRemoveRequest(thisActivity, pojoRemoveReqs);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
 
-                CM.startActivity(thisActivity, ViewRemoveReqDetailView.class);
+                Intent intent = new Intent(thisActivity, ViewRemoveReqDetailView.class);
+                intent.putExtra("refId", value1);
+                CM.startActivity(intent, thisActivity);
+
 
             }
         });
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webremoveReqest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
 
     }
 
@@ -133,4 +146,74 @@ public class FragRemoveRequest extends Fragment {
             }
         }).setIcon(R.drawable.logo3).show();
     }
+
+
+    public void webremoveReqest(String userId, String userRole) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getRemoveReq(v, userId, userRole, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getremoveReqest(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getremoveReqest(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        pojoRemoveReq pojoRemoveReq = new pojoRemoveReq();
+                        pojoRemoveReq.setAdult(jsonArray.getJSONObject(i).optString("adult"));
+                        pojoRemoveReq.setChildren(jsonArray.getJSONObject(i).optString("children"));
+                        pojoRemoveReq.setReference_id(jsonArray.getJSONObject(i).optString("reference_id"));
+                        pojoRemoveReq.setTotal_budget(jsonArray.getJSONObject(i).optString("total_budget"));
+                        pojoRemoveReq.setRequest_id(jsonArray.getJSONObject(i).optString("id"));
+                        pojoRemoveReqs.add(pojoRemoveReq);
+
+                    }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
+    }
+
+
 }

@@ -2,15 +2,25 @@ package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptMyResponse;
@@ -21,7 +31,8 @@ import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
-import com.app.elixir.TravelB2B.view.ViewResponseDetailView;
+import com.app.elixir.TravelB2B.view.ViewAgentProfile;
+import com.app.elixir.TravelB2B.view.ViewMyResdetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -47,6 +58,7 @@ public class FragMyResponse extends Fragment {
     private Activity thisActivity;
     private adptMyResponse mAdapter;
     ArrayList<pojoMyResposne> pojoMyResposneArrayList;
+    FloatingActionButton myFab;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -60,7 +72,7 @@ public class FragMyResponse extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_myresponse, container, false);
         Log.i(TAG, "onTabSelected: ");
         thisActivity = getActivity();
@@ -73,12 +85,22 @@ public class FragMyResponse extends Fragment {
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String key, String value1) {
 
-                CM.startActivity(thisActivity, ViewResponseDetailView.class);
+                if (key.equals("detail")) {
+
+                    Intent intent = new Intent(thisActivity, ViewMyResdetailView.class);
+                    intent.putExtra("refId", value1);
+                    CM.startActivity(intent, thisActivity);
+
+                } else {
+                    CM.startActivity(thisActivity, ViewAgentProfile.class);
+                }
+
 
             }
         });
+
 
         initView(rootView);
 
@@ -86,6 +108,27 @@ public class FragMyResponse extends Fragment {
     }
 
     private void initView(View rootView) {
+
+        myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showPopup();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    myFab.hide();
+                } else {
+                    myFab.show();
+                }
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
 
         webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString());
 
@@ -143,6 +186,7 @@ public class FragMyResponse extends Fragment {
 
                         pojoMyResposne myResposne = new pojoMyResposne();
                         myResposne.setComment(jsonArray.getJSONObject(i).get("comment").toString());
+                        myResposne.setRequest_id(jsonArray.getJSONObject(i).get("request_id").toString());
                         JSONObject jsonObjectReq = new JSONObject(jsonArray.getJSONObject(i).get("request").toString());
                         myResposne.setCategory_id(jsonObjectReq.optString("category_id").toString());
                         myResposne.setReference_id(jsonObjectReq.optString("reference_id").toString());
@@ -203,5 +247,106 @@ public class FragMyResponse extends Fragment {
         }
     }
 
+
+    public void showPopup() {
+        LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity)
+                .setView(layout);
+        builder.setTitle("Filter By:");
+        SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by name, email, mobile");
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logo3);
+
+        Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+        final String[] cat = getResources().getStringArray(R.array.catArray);
+        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner.setAdapter(langAdapter);
+
+        Spinner spinner1 = (Spinner) layout.findViewById(R.id.spinner2);
+
+        ArrayAdapter<CharSequence> langAdapter1 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner1.setAdapter(langAdapter1);
+
+
+        Spinner spinner2 = (Spinner) layout.findViewById(R.id.spinner3);
+
+        ArrayAdapter<CharSequence> langAdapter2 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner2.setAdapter(langAdapter2);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 }

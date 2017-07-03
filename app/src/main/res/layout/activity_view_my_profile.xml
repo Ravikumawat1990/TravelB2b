@@ -23,8 +23,7 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,6 +66,7 @@
                                 android:orientation="vertical">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:id="@+id/txtUserName"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="@dimen/margin_5dp"
@@ -75,16 +75,20 @@
                                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:id="@+id/userPNo"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:autoLink="phone"
                                     android:padding="@dimen/margin_5dp"
                                     android:text="7728877982"
                                     android:textColor="@android:color/darker_gray"
                                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:id="@+id/txtUserEmail"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:autoLink="email"
                                     android:padding="@dimen/margin_5dp"
                                     android:text="kravi@elixirinfo.com"
                                     android:textColor="@android:color/darker_gray"
@@ -133,7 +137,7 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_5dp"
                     android:orientation="vertical"
                     card_view:cardCornerRadius="4dp"
@@ -159,7 +163,6 @@
                             android:id="@+id/recycleView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:padding="@dimen/margin_5dp"></android.support.v7.widget.RecyclerView>
 
                     </LinearLayout>
@@ -168,7 +171,7 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="750dp"
                     android:layout_margin="@dimen/margin_5dp"
                     android:orientation="vertical"
                     card_view:cardCornerRadius="4dp"
@@ -189,15 +192,16 @@
                             android:textColor="@color/colorPrimary"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
-
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycleView1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/margin_5dp"></android.support.v7.widget.RecyclerView>
+                            android:layout_height="match_parent"
+
+                            ></android.support.v7.widget.RecyclerView>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

@@ -3,19 +3,21 @@ package com.app.elixir.TravelB2B.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.app.elixir.TravelB2B.R;
@@ -23,12 +25,24 @@ import com.app.elixir.TravelB2B.adapter.adptfinalizedRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewChat;
 import com.app.elixir.TravelB2B.view.ViewFinalizedRequestDetailView;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 /**
  * Created by NetSupport on 05-06-2017.
@@ -41,7 +55,8 @@ public class FragFinalizedRequest extends Fragment {
     private RecyclerView mRecyclerView;
     adptfinalizedRequest mAdapter;
     private PopupWindow mPopupWindow;
-    LinearLayout layoutrootView;
+    CoordinatorLayout layoutrootView;
+    ArrayList<pojoFinalizeReq> pojoFinalizeReqArrayList;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -66,30 +81,26 @@ public class FragFinalizedRequest extends Fragment {
     }
 
     private void initView(View rootView) {
-        layoutrootView = (LinearLayout) rootView.findViewById(R.id.root);
+        layoutrootView = (CoordinatorLayout) rootView.findViewById(R.id.root);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
-        }
-        mAdapter = new adptfinalizedRequest(thisActivity, pojoMyResponses);
-        mRecyclerView.setAdapter(mAdapter);
+        pojoFinalizeReqArrayList = new ArrayList<>();
+
+        mAdapter = new adptfinalizedRequest(thisActivity, pojoFinalizeReqArrayList);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
 
                 if (value.equals("detail")) {
-                    CM.startActivity(thisActivity, ViewFinalizedRequestDetailView.class);
+
+
+                    Intent intent = new Intent(thisActivity, ViewFinalizedRequestDetailView.class);
+                    intent.putExtra("refId", value1);
+                    CM.startActivity(intent, thisActivity);
+
+
                 } else if (value.equals("chat")) {
 
                     CM.startActivity(thisActivity, ViewChat.class);
@@ -103,6 +114,13 @@ public class FragFinalizedRequest extends Fragment {
 
             }
         });
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
 
     }
 
@@ -172,6 +190,73 @@ public class FragFinalizedRequest extends Fragment {
             }
         });
         dialog.show();
+    }
+
+    public void webFinalizeRequest(String userId, String userRole) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getFinalizeReq(v, userId, userRole, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getFinalizeRequest(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFinalizeRequest(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        pojoFinalizeReq pojoMyResponse = new pojoFinalizeReq();
+                        pojoMyResponse.setAdult(jsonArray.getJSONObject(i).optString("adult"));
+                        pojoMyResponse.setChildren(jsonArray.getJSONObject(i).optString("children"));
+                        pojoMyResponse.setReference_id(jsonArray.getJSONObject(i).optString("reference_id"));
+                        pojoMyResponse.setTotal_budget(jsonArray.getJSONObject(i).optString("total_budget"));
+                        pojoMyResponse.setRequest_id(jsonArray.getJSONObject(i).optString("id"));
+                        pojoFinalizeReqArrayList.add(pojoMyResponse);
+
+                    }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 
 

@@ -20,6 +20,7 @@
             android:layout_marginLeft="15sp"
             android:layout_marginRight="15sp"
             android:gravity="center"
+            android:textSize="16sp"
             android:text="@string/title3"
             mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 

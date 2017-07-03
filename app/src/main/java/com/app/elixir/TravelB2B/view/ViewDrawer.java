@@ -37,9 +37,11 @@ import com.app.elixir.TravelB2B.fragment.FragHome;
 import com.app.elixir.TravelB2B.fragment.FragMyRequest;
 import com.app.elixir.TravelB2B.fragment.FragMyResponse;
 import com.app.elixir.TravelB2B.fragment.FragPaceRequest;
+import com.app.elixir.TravelB2B.fragment.FragPrivacyPolicys;
 import com.app.elixir.TravelB2B.fragment.FragPromoteHotel;
 import com.app.elixir.TravelB2B.fragment.FragRemoveRequest;
 import com.app.elixir.TravelB2B.fragment.FragRespondToRequest;
+import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -69,7 +71,13 @@ public class ViewDrawer extends AppCompatActivity
         setContentView(R.layout.activity_view_drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setSubtitle(getString(R.string.tb));
+        if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
+            toolbar.setSubtitle(getString(R.string.tb));
+        } else if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("2")) {
+            toolbar.setSubtitle(getString(R.string.ep));
+        } else {
+            toolbar.setSubtitle(getString(R.string.ht));
+        }
         setSupportActionBar(toolbar);
 
 
@@ -102,7 +110,7 @@ public class ViewDrawer extends AppCompatActivity
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
             subtitleTextView = (TextView) f1.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             subtitleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
@@ -191,20 +199,22 @@ public class ViewDrawer extends AppCompatActivity
 
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.placeReq, R.drawable.ic_send_black_24dp, R.color.colorLightGray);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.MyReq, R.drawable.ic_drafts_black_24dp, R.color.colorLightGray);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.respondToReq, R.drawable.ic_reply_black_24dp, R.color.colorLightGray);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.MyResponse, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
 
 
         Menu nav_Menu = navigationView.getMenu();
         if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {   // Travel Agent
 
+            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.placeReq, R.drawable.ic_send_black_24dp, R.color.colorLightGray);
+            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.MyReq, R.drawable.ic_drafts_black_24dp, R.color.colorLightGray);
+            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.respondToReq, R.drawable.ic_reply_black_24dp, R.color.colorLightGray);
+            AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.MyResponse, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
+            //   AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.app_name, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(false);
             bottomNavigation.addItem(item1);
             bottomNavigation.addItem(item2);
             bottomNavigation.addItem(item3);
             bottomNavigation.addItem(item4);
+            // bottomNavigation.addItem(item5);
             bottomNavigation.setNotification("365", 0);
             bottomNavigation.setNotification("8", 1);
             bottomNavigation.setNotification("2", 2);
@@ -213,22 +223,32 @@ public class ViewDrawer extends AppCompatActivity
         } else if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("2")) {   //Event Planner
 
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(false);
+            nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
+            nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
+            nav_Menu.findItem(R.id.nav_follower).setVisible(false);
+            AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.placeReq, R.drawable.ic_send_black_24dp, R.color.colorLightGray);
+            AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.MyReq, R.drawable.ic_drafts_black_24dp, R.color.colorLightGray);
 
-            bottomNavigation.addItem(item3);
-            bottomNavigation.addItem(item4);
+            bottomNavigation.addItem(item1);
+            bottomNavigation.addItem(item2);
 
-            bottomNavigation.setNotification("2", 2);
-            bottomNavigation.setNotification("1", 3);
+            bottomNavigation.setNotification("2", 0);
+            bottomNavigation.setNotification("1", 1);
 
         } else {                 //Hotelier
+
+
+            AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.respondToReq, R.drawable.ic_reply_black_24dp, R.color.colorLightGray);
+            AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.MyResponse, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
+
             nav_Menu.findItem(R.id.nav_fin_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
             nav_Menu.findItem(R.id.nav_follower).setVisible(false);
             nav_Menu.findItem(R.id.nav_block_user).setVisible(false);
             nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(true);
-            bottomNavigation.addItem(item1);
-            bottomNavigation.addItem(item2);
+            bottomNavigation.addItem(item3);
+            bottomNavigation.addItem(item4);
             bottomNavigation.setNotification("365", 0);
             bottomNavigation.setNotification("8", 1);
 
@@ -244,61 +264,103 @@ public class ViewDrawer extends AppCompatActivity
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         //bottomNavigation.setColored(true);
         bottomNavigation.setForceTint(true);
+        bottomNavigation.setTitleTextSizeInSp(10, 8);
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 Fragment fragment;
-                switch (position) {
-                    case 0:
-                        fragment = new FragPaceRequest();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack(null);
-                        fm.popBackStack();
-                        fragmentTransaction.commit();
-                        break;
-                    case 1:
-                        fragment = new FragMyRequest();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
-                        fm.popBackStack();
-                        fragmentTransaction.commit();
-                        break;
-                    case 2:
-                        fragment = new FragRespondToRequest();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
-                        fm.popBackStack();
-                        fragmentTransaction.commit();
-                        break;
-                    case 3:
-                        fragment = new FragMyResponse();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
-                        fm.popBackStack();
-                        fragmentTransaction.commit();
-                        break;
-                    default:
-                        fragment = new FragPaceRequest();
-                        fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
-                        fm.popBackStack();
-                        fragmentTransaction.commit();
-                        break;
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
+                    switch (position) {
+                        case 0:
+                            fragment = new FragPaceRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack(null);
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        case 1:
+                            fragment = new FragMyRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        case 2:
+                            fragment = new FragRespondToRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        case 3:
+                            fragment = new FragMyResponse();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        default:
+                            fragment = new FragPaceRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                    }
 
+
+                } else if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("2")) {
+                    switch (position) {
+                        case 0:
+                            fragment = new FragPaceRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack(null);
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        case 1:
+                            fragment = new FragMyRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+
+                    }
+
+                } else {
+                    switch (position) {
+                        case 0:
+                            fragment = new FragRespondToRequest();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                        case 1:
+                            fragment = new FragMyResponse();
+                            fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            fm.popBackStack();
+                            fragmentTransaction.commit();
+                            break;
+                    }
 
                 }
-
-
                 return true;
             }
+
         });
 
         View headerLayout = navigationViewSec.getHeaderView(0);
         MtplTextView navHeaderTitle = (MtplTextView) headerLayout.findViewById(R.id.txtUserName);
         MtplTextView navHeaderEamil = (MtplTextView) headerLayout.findViewById(R.id.textUserEmail);
-        try {
+        try
+
+        {
             navHeaderTitle.setText(CM.getSp(ViewDrawer.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewDrawer.this, CV.Preflast_name, "").toString());
-        } catch (Exception e) {
+        } catch (
+                Exception e)
+
+        {
 
         }
-        navHeaderEamil.setText(CM.getSp(ViewDrawer.this, CV.PrefEmail, "").toString());
+        navHeaderEamil.setText(CM.getSp(ViewDrawer.this, CV.PrefEmail, "").
+
+                toString());
 
 
         setFragment(0);
@@ -391,6 +453,10 @@ public class ViewDrawer extends AppCompatActivity
             setFragment(12);
         } else if (id == R.id.nav_myprofile) {
             setFragment(13);
+        } else if (id == R.id.nav_tandc) {
+            setFragment(14);
+        } else if (id == R.id.nav_privpolicy) {
+            setFragment(15);
         }
 
 
@@ -407,14 +473,14 @@ public class ViewDrawer extends AppCompatActivity
         switch (i) {
             case 0:
                 fragment = new FragHome();
-                ft.replace(R.id.container, fragment);
+                ft.add(R.id.container, fragment);
                 //fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 fragment = new FragFinalizedRequest();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.replace(R.id.container, fragment).addToBackStack(FragHome.class.getName());
                 fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -484,7 +550,18 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 13:
                 CM.startActivity(ViewDrawer.this, ViewMyProfile.class);
-
+                break;
+            case 14:
+                fragment = new FragTermsandCondions();
+                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.commit();
+                bottomNavigation.setVisibility(View.GONE);
+                break;
+            case 15:
+                fragment = new FragPrivacyPolicys();
+                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.commit();
+                bottomNavigation.setVisibility(View.GONE);
                 break;
 
 
@@ -578,6 +655,8 @@ public class ViewDrawer extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
 
                         CM.setSp(ViewDrawer.this, CV.PrefIsLogin, "0");
+                        CM.setSp(ViewDrawer.this, CV.PrefRole_Id, "0");
+
                         CM.startActivity(ViewDrawer.this, ViewLoginActivity.class);
                         finish();
 

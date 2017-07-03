@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoFinalizeResposne;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeResponse.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoFinalizeResposne> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptFinalizeResponse(Context context, ArrayList<PojoMyResponse> data) {
+    public adptFinalizeResponse(Context context, ArrayList<pojoFinalizeResposne> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +36,17 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult, txtAgentName;
+        public MtplTextView txtRefId, txtTot, txtQuotPrice, txtCmt, txtAgentName;
         MtplButton btnDetail;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             txtAgentName = (MtplTextView) itemView.findViewById(R.id.txtAgentName);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
-            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
-            adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
+            txtRefId = (MtplTextView) itemView.findViewById(R.id.txtRefId);
+            txtTot = (MtplTextView) itemView.findViewById(R.id.txtTot);
+            txtQuotPrice = (MtplTextView) itemView.findViewById(R.id.txtQuotPrice);
+            txtCmt = (MtplTextView) itemView.findViewById(R.id.txtCmt);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
             btnDetail.setOnClickListener(this);
             txtAgentName.setOnClickListener(this);
@@ -58,10 +57,10 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick("detail");
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
                 case R.id.txtAgentName:
-                    listener.onItemClick("agent");
+                    listener.onItemClick("agent", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
 
             }
@@ -85,8 +84,23 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqType = holder.reqType;
-        textViewReqType.setText(dataSet.get(position).getAdult());
+
+
+        TextView agentName = holder.txtAgentName;
+
+        TextView comment = holder.txtCmt;
+        TextView quotPrice = holder.txtQuotPrice;
+        TextView total = holder.txtTot;
+        TextView refId = holder.txtRefId;
+
+
+        agentName.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+        comment.setText(dataSet.get(position).getComment());
+        quotPrice.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getQuotation_price());
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
+        refId.setText(dataSet.get(position).getReference_id());
+
+
     }
 
     @Override

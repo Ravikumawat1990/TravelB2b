@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +20,26 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
 public class ViewFinalizedResponseDetailView extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "ViewFinalizedResponse";
     private MtplButton btnBlockUser;
     private MtplButton btnRateUser;
     Toolbar toolbar;
+    String requestId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +68,15 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
         }
+        Intent intent = getIntent();
+        requestId = intent.getStringExtra("refId");
+
         initView();
 
     }
@@ -71,6 +87,16 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
         btnRateUser = (MtplButton) findViewById(R.id.btnRateUser);
         btnBlockUser.setOnClickListener(this);
         btnRateUser.setOnClickListener(this);
+
+        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+
+            webFinalizeResponseDeatil(CM.getSp(ViewFinalizedResponseDetailView.this, CV.PrefID, "").toString(), requestId);
+
+        } else {
+
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+        }
+
 
     }
 
@@ -179,5 +205,83 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             public void onClick(DialogInterface dialog, int which) {
             }
         }).setIcon(R.drawable.logo3).show();
+    }
+
+
+    public void webFinalizeResponseDeatil(String userId, String reqId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewFinalizedResponseDetailView.this, true, true);
+            WebService.getDetail(v, userId, reqId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getFinalizeResponse(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFinalizeResponse(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+/*
+                    refId.setText(jsonObject1.optString("reference_id"));
+                    budget.setText(jsonObject1.optString("total_budget"));
+                    members.setText(jsonObject1.optString("adult"));
+                    childres.setText(jsonObject1.optString("children"));
+                    singlePer.setText(jsonObject1.optString("room1"));
+                    doublePer.setText(jsonObject1.optString("room2"));
+                    triplePer.setText(jsonObject1.optString("room3"));
+                    child_with_bed.setText(jsonObject1.optString("child_with_bed"));
+                    child_without_bed.setText(jsonObject1.optString("child_without_bed"));
+                    checkIn.setText(jsonObject1.optString("check_in"));
+                    checkout.setText(jsonObject1.optString("check_out"));
+                    destiState.setText(jsonObject1.optString("pickup_state"));
+                    destiCity.setText(jsonObject1.optString("destination_city"));
+                    locality.setText(jsonObject1.optString("locality"));
+                    hotelCat.setText(jsonObject1.optString("hotel_category"));
+                    meal.setText(jsonObject1.optString("meal_plan"));
+                    comment.setText(jsonObject1.optString("comment"));*/
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedResponseDetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, e.getMessage(), false);
+        }
     }
 }

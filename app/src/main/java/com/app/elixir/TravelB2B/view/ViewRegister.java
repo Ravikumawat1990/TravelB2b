@@ -103,7 +103,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_regular));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {

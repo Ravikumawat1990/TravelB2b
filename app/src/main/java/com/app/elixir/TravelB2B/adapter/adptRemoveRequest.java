@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoRemoveReq;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoRemoveReq> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptRemoveRequest(Context context, ArrayList<PojoMyResponse> data) {
+    public adptRemoveRequest(Context context, ArrayList<pojoRemoveReq> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +36,16 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult;
+        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers;
         MtplButton btnDetail;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtReqType);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
-            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
-            adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
+            txtRefid = (MtplTextView) itemView.findViewById(R.id.txtRefid);
+            txttotBudget = (MtplTextView) itemView.findViewById(R.id.txttotBudget);
+            txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType);
+            txtMebers = (MtplTextView) itemView.findViewById(R.id.txtMebers);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
             btnDetail.setOnClickListener(this);
 
@@ -57,7 +55,7 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getRefId());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
             }
 
@@ -79,8 +77,25 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqType = holder.reqType;
-        textViewReqType.setText(dataSet.get(position).getAdult());
+        TextView textViewReqId = holder.txtRefid;
+        TextView mebers = holder.txtMebers;
+        TextView total = holder.txttotBudget;
+
+
+        textViewReqId.setText(dataSet.get(position).getReference_id());
+
+        int mebersInt = 0;
+        try {
+            mebersInt = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
+        } catch (Exception e) {
+            mebersInt = 0;
+
+        }
+
+        mebers.setText(String.valueOf(mebersInt));
+
+
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
     }
 
     @Override

@@ -37,9 +37,9 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-
-            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/mdtp_light_gray"
+            mtplview:TypeFace="@string/fontface_roboto_light" />
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
             android:layout_width="wrap_content"
@@ -49,8 +49,9 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:gravity="center"
             android:text="@string/description01"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/mdtp_light_gray"
+            mtplview:TypeFace="@string/fontface_roboto_light" />
 
 
     </LinearLayout>

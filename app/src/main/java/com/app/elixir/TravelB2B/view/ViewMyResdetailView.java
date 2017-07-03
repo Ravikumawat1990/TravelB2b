@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.CM;
@@ -32,31 +34,29 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
+public class ViewMyResdetailView extends AppCompatActivity implements View.OnClickListener {
 
-public class ViewFinalizedRequestDetailView extends AppCompatActivity implements View.OnClickListener {
-
-
-    private static final String TAG = "ViewFinalizedRequest";
+    private static final String TAG = "ViewMyResdetailView";
+    private MtplButton btnBlockUser;
+    private MtplButton btnRateUser;
     Toolbar toolbar;
-    String requestId = "";
+    String referenceId = "";
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
-            destiCity, locality, hotelCat, meal, comment;
-
+            destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_finalizedrequest_detail_view);
+        setContentView(R.layout.activity_view_response_detail_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.finalized_requests));
+        toolbar.setTitle(getString(R.string.myRespons));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.backicnwht);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                CM.finishActivity(ViewFinalizedRequestDetailView.this);
+                CM.finishActivity(ViewMyResdetailView.this);
 
             }
         });
@@ -64,6 +64,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+
 
         TextView titleTextView = null;
         try {
@@ -77,9 +78,9 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         } catch (IllegalAccessException e) {
         }
 
-        Intent intent = getIntent();
-        requestId = intent.getStringExtra("refId");
 
+        Intent intent = getIntent();
+        referenceId = intent.getStringExtra("refId");
 
         initView();
 
@@ -87,7 +88,12 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
 
     private void initView() {
 
-        refId = (MtplTextView) findViewById(R.id.txtRefId);
+        btnBlockUser = (MtplButton) findViewById(R.id.btnBlockUser);
+        btnRateUser = (MtplButton) findViewById(R.id.btnRateUser);
+        btnBlockUser.setOnClickListener(this);
+        btnRateUser.setOnClickListener(this);
+
+        refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
         childres = (MtplTextView) findViewById(R.id.txtChildren);
@@ -104,17 +110,14 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         hotelCat = (MtplTextView) findViewById(R.id.txtHotelCat);
         meal = (MtplTextView) findViewById(R.id.txtMeal);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
+        vehicle = (MtplTextView) findViewById(R.id.txtVehicle);
+        startdate = (MtplTextView) findViewById(R.id.txtStartDate);
+        enddate = (MtplTextView) findViewById(R.id.txtendDate);
+        pickupCity = (MtplTextView) findViewById(R.id.txtpickupCity);
+        pickupLocation = (MtplTextView) findViewById(R.id.txtpickupLocation);
 
 
-        if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
-
-            webMyResponseDeatil(CM.getSp(ViewFinalizedRequestDetailView.this, CV.PrefID, "").toString(), requestId);
-
-        } else {
-
-            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedRequestDetailView.this);
-        }
-
+        webMyResponseDeatil(CM.getSp(ViewMyResdetailView.this, CV.PrefID, "").toString(), referenceId);
 
     }
 
@@ -122,14 +125,14 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        CM.finishActivity(ViewFinalizedRequestDetailView.this);
+        CM.finishActivity(ViewMyResdetailView.this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                CM.finishActivity(ViewFinalizedRequestDetailView.this);
+                CM.finishActivity(ViewMyResdetailView.this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -139,34 +142,26 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
     public void ShowRatingDialog() {
 
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
-        RatingBar rating = new RatingBar(this);
-        rating.setMax(2);
-        rating.setNumStars(2);
-        rating.setRating(2);
+        final RatingBar rating = new RatingBar(this);
+        rating.setNumStars(5);
         popDialog.setIcon(R.drawable.logo3);
         popDialog.setTitle("Rate This!! ");
         popDialog.setView(rating);
         popDialog.setPositiveButton(android.R.string.ok,
-
                 new DialogInterface.OnClickListener() {
-
                     public void onClick(DialogInterface dialog, int which) {
-
-                        // txtView.setText(String.valueOf(rating.getProgress()));
                         dialog.dismiss();
                     }
-                })
-                .setNegativeButton("Cancel",
+                }).setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
 
-                        new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
-                            public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
 
-                                dialog.cancel();
+                    }
 
-                            }
-
-                        });
+                });
 
         popDialog.create();
         popDialog.show();
@@ -174,15 +169,40 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
 
     }
 
+    public void showDetail() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.rating, null);
+        dialogBuilder.setView(dialogView);
+        //   dialogBuilder.setTitle("Rate This!");
+        //  dialogBuilder.setIcon(R.drawable.logo3);
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBlockUser:
-                showPopup(ViewFinalizedRequestDetailView.this);
+                showPopup(ViewMyResdetailView.this);
                 break;
             case R.id.btnRateUser:
-                ShowRatingDialog();
+                showDetail();
                 break;
 
         }
@@ -203,9 +223,34 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
     }
 
 
+    private void actionBarIdForAll() {
+        int titleId = 0;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        } else {
+            titleId = R.id.action_bar_title;
+        }
+
+        if (titleId > 0) {
+            try {
+                Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                TextView titleView = (TextView) findViewById(titleId);
+                titleView.setText("gfdg");
+                titleView.setTypeface(font);
+
+            } catch (Exception e) {
+
+                e.getMessage();
+
+            }
+        }
+    }
+
+
     public void webMyResponseDeatil(String userId, String reqId) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewFinalizedRequestDetailView.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewMyResdetailView.this, true, true);
             WebService.getDetail(v, userId, reqId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
@@ -221,8 +266,8 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                 @Override
                 public void onVollyError(String error) {
                     MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
-                        CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, error, false);
+                    if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                        CM.showPopupCommonValidation(ViewMyResdetailView.this, error, false);
                     }
                 }
             });
@@ -234,7 +279,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
     private void getMyResponseDeatil(String response) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
             return;
         }
         try {
@@ -242,6 +287,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
 
                     refId.setText(jsonObject1.optString("reference_id"));
                     budget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
@@ -252,21 +298,27 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     triplePer.setText(jsonObject1.optString("room3"));
                     child_with_bed.setText(jsonObject1.optString("child_with_bed"));
                     child_without_bed.setText(jsonObject1.optString("child_without_bed"));
-                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy",jsonObject1.optString("check_in")));
-                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy",jsonObject1.optString("check_out")));
+                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
+                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
                     destiState.setText(jsonObject1.optString("pickup_state"));
                     destiCity.setText(jsonObject1.optString("destination_city"));
                     locality.setText(jsonObject1.optString("locality"));
                     hotelCat.setText(jsonObject1.optString("hotel_category"));
                     meal.setText(jsonObject1.optString("meal_plan"));
                     comment.setText(jsonObject1.optString("comment"));
+                    vehicle.setText("");
+                    startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    pickupCity.setText(jsonObject1.optString("pickup_city"));
+                    pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+                    // jsonObject1.optString("pickup_country")
 
 
                     break;
                 case "202":
                     break;
                 case "501":
-                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedRequestDetailView.this);
+                    CM.showToast(jsonObject.optString("msg"), ViewMyResdetailView.this);
 
 
                     break;
@@ -276,7 +328,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
 
             }
         } catch (Exception e) {
-            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, e.getMessage(), false);
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, e.getMessage(), false);
         }
     }
 

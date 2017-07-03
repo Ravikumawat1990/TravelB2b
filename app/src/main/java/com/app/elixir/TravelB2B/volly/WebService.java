@@ -127,13 +127,6 @@ public class WebService {
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
-   /* public static void getEditProfile(VolleyIntialization vollyInit, OnVolleyHandler vollyHanlder) throws JSONException {
-        String url = URLS.FORGOTPASSWORD;
-        Map<String, String> params = new HashMap<>();
-        vollyInit.vollyStringRequestCall(url, Request.Method.GET, params, vollyHanlder);
-
-    }*/
-
     public static void getBloackUser(VolleyIntialization vollyInit, String blockuser, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.BLOCKUSER;
         Map<String, String> params = new HashMap<>();
@@ -160,23 +153,61 @@ public class WebService {
     public static void getTestimonial(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.TESTIMONIALAPI;
         Map<String, String> params = new HashMap<>();
-        params.put(CV.USER_ID, "28");
+        params.put(CV.USER_ID, userid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
     public static void getMyResponse(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.MYRESPONSE;
         Map<String, String> params = new HashMap<>();
-        params.put(CV.USER_ID, "28");
+        params.put(CV.USER_ID, userid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
     public static void getMyResponseToReq(VolleyIntialization vollyInit, String userid, String roleId, OnVolleyHandler vollyHanlder) throws JSONException {
-        String url = URLS.RESPONSETOREQEUST;
+        String url = URLS.MYREQUEST;
         Map<String, String> params = new HashMap<>();
-        params.put(CV.USER_ID, "28");
+        params.put(CV.USER_ID, userid);
         params.put(CV.PrefRole_Id, roleId);
 
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getDetail(VolleyIntialization vollyInit, String userid, String reqid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.RESPOSNEDETAIL;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        params.put(CV.REQ_ID, reqid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getFinalizeReq(VolleyIntialization vollyInit, String userid, String reqid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.FINALIZEDREQUEST;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.PrefRole_Id, reqid);
+        params.put(CV.USER_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getFinalizeResponse(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.FINALRESPONSES;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getRemoveReq(VolleyIntialization vollyInit, String userid, String roleId, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.REMOVEDREQUEST;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        params.put(CV.PrefRole_Id, roleId);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getFollowers(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.FOLLOWERS;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 

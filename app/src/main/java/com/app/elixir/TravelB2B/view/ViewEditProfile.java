@@ -106,7 +106,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {
@@ -119,6 +119,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
 
                 spinner = (Spinner) findViewById(R.id.spinner);
+                spinner.setEnabled(false);
                 final String[] cat = getResources().getStringArray(R.array.catArray);
                 ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(ViewEditProfile.this, R.layout.support_simple_spinner_dropdown_item, cat) {
 
@@ -439,7 +440,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             public void run() {
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
-                                    proPic.setImageBitmap(CM.getResizedBitmap(currentImage,75));
+                                    proPic.setImageBitmap(CM.getResizedBitmap(currentImage, 75));
                                     edtProfilepic.setText(photoUri.getPath());
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -690,18 +691,21 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     state.setText(pojoStateArrayList.get(indexState).getState_name());
 
                     StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < prefArray.size(); i++) {
 
-                        pojoState statePojo1 = new pojoState();
-                        statePojo1.setId(prefArray.get(i));
-                        int indexState1 = pojoStateArrayList.indexOf(statePojo1);
-                        stringBuilder.append(pojoStateArrayList.get(indexState1).getState_name());
-                        stringBuilder.append(" ");
+                    if (prefArray != null) {
+                        for (int i = 0; i < prefArray.size(); i++) {
 
-                        Person person = new Person(pojoStateArrayList.get(indexState1).getState_name(), pojoStateArrayList.get(indexState1).getId());
-                        completionView.addObject(person);
+                            pojoState statePojo1 = new pojoState();
+                            statePojo1.setId(prefArray.get(i));
+                            int indexState1 = pojoStateArrayList.indexOf(statePojo1);
+                            stringBuilder.append(pojoStateArrayList.get(indexState1).getState_name());
+                            stringBuilder.append(" ");
+
+                            Person person = new Person(pojoStateArrayList.get(indexState1).getState_name(), pojoStateArrayList.get(indexState1).getId());
+                            completionView.addObject(person);
 
 
+                        }
                     }
 
 
@@ -1053,9 +1057,15 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     // ImageView imageIata, imagetafipic, imageTaaipic, imageiatopic, imageadyo, imageiso, imageufta, imageadto;
                     // ImageView offilePic, offilePic1, compRegister;
 
-                    Picasso.with(ViewEditProfile.this)
-                            .load(jsonObject1.optString("iata_pic"))
-                            .placeholder(R.drawable.ic_photo_black_48dp).into(imageIata);
+                    try {
+
+                        Picasso.with(ViewEditProfile.this)
+                                .load(jsonObject1.optString("iata_pic"))
+                                .placeholder(R.drawable.ic_photo_black_48dp).into(imageIata);
+
+                    } catch (Exception e) {
+
+                    }
 
                     try {
                         Picasso.with(ViewEditProfile.this)
@@ -1157,9 +1167,12 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     } catch (Exception e) {
 
                     }
+                    if (jsonObject1.optString("preference").equals("null") || jsonObject1.optString("preference").equals("")) {
 
+                    } else {
+                        prefArray = Arrays.asList(jsonObject1.optString("preference").split("\\s*,\\s*"));
 
-                    prefArray = Arrays.asList(jsonObject1.optString("preference").split("\\s*,\\s*"));
+                    }
 
 
                     webCallCity();
@@ -1180,6 +1193,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             CM.showPopupCommonValidation(ViewEditProfile.this, e.getMessage(), false);
         }
     }
+
 
 }
 

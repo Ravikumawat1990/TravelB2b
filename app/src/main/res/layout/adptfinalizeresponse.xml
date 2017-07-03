@@ -47,7 +47,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="Ravi"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -78,7 +78,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="123"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -98,18 +98,20 @@
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/totBudge"
+
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txStartDate"
+                    android:id="@+id/txtTot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="30/05/2017"
+                    android:textColor="@color/colorPrimary"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -142,13 +144,13 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txEndDate"
+                    android:id="@+id/txtQuotPrice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="31/05/2017"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -172,7 +174,7 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txtTot"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -243,7 +245,7 @@
                     android:id="@+id/txtCmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TEST"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 

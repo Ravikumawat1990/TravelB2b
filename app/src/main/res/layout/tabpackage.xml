@@ -117,7 +117,7 @@
                             <com.app.elixir.TravelB2B.mtplview.MtplTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Adults"
+                                android:text="Members"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -1034,11 +1034,6 @@
             android:text="Submit"
             android:textColor="@android:color/white"
             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-
-        <com.app.elixir.TravelB2B.mtplview.MtplTextView
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
 
 
     </LinearLayout>

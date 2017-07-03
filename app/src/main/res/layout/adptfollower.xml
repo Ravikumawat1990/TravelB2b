@@ -41,13 +41,13 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txtReqType"
+                    android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="Package"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -72,13 +72,14 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txtRefId"
+                    android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoLink="email"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="123"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -103,13 +104,13 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txStartDate"
+                    android:id="@+id/txtMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoLink="phone"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="30/05/2017"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -141,13 +142,13 @@
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txEndDate"
+                    android:id="@+id/txtCompName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="31/05/2017"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

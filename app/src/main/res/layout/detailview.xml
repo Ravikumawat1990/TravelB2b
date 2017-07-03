@@ -74,20 +74,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/refId"
+                        android:id="@+id/txtReqId"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/totBudget"
+                        android:id="@+id/txttotBudget"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -124,20 +122,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/members"
+                        android:id="@+id/txtMemebers"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/childrens"
+                        android:id="@+id/txtChildren"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -174,20 +170,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/startDate"
+                        android:id="@+id/txtStartDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/endDate"
+                        android:id="@+id/txtendDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -225,20 +219,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/pickupCity"
+                        android:id="@+id/txtpickupCity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
                         android:id="@+id/pickupState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -276,20 +268,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/pickupLocality"
+                        android:id="@+id/txtpickupLocation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/vical"
+                        android:id="@+id/txtVehicle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -326,20 +316,18 @@
                     android:weightSum="2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/finalState"
+                        android:id="@+id/txtDestState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2134" />
+                        android:gravity="center" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/fincalCity"
+                        android:id="@+id/txtDestCity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/totBudge" />
+                        android:gravity="center" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -361,12 +349,11 @@
                         android:textColor="@color/colorPrimary" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/txtcomment"
+                        android:id="@+id/txtCmt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:paddingLeft="@dimen/margin_5dp"
-                        android:text="test" />
+                        android:paddingLeft="@dimen/margin_5dp" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoFollowers;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoFollowers> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptfollowers(Context context, ArrayList<PojoMyResponse> data) {
+    public adptfollowers(Context context, ArrayList<pojoFollowers> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +36,17 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult;
+        public MtplTextView txtName, txtEmail, txtMobile, txtCompName;
         MtplButton btnUnBlockUser;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtReqType);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
-            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
-            adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
+            txtName = (MtplTextView) itemView.findViewById(R.id.txtName);
+            txtEmail = (MtplTextView) itemView.findViewById(R.id.txtEmail);
+            txtMobile = (MtplTextView) itemView.findViewById(R.id.txtMobile);
+            txtCompName = (MtplTextView) itemView.findViewById(R.id.txtCompName);
+
 
         }
 
@@ -76,8 +75,16 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqType = holder.reqType;
-        textViewReqType.setText(dataSet.get(position).getAdult());
+        TextView fname = holder.txtName;
+        TextView email = holder.txtEmail;
+        TextView mobileNo = holder.txtMobile;
+        TextView compName = holder.txtCompName;
+
+        compName.setText(dataSet.get(position).getCompany_name());
+        fname.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+        email.setText(dataSet.get(position).getEmail());
+        mobileNo.setText(dataSet.get(position).getMobile_number());
+
     }
 
     @Override

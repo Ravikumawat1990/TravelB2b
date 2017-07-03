@@ -3,7 +3,10 @@ package com.app.elixir.TravelB2B.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptRespondToRequest;
@@ -46,6 +53,7 @@ public class FragRespondToRequest extends Fragment {
     private RecyclerView mRecyclerView;
     private adptRespondToRequest mAdapter;
     ArrayList<pojoMyResposne> pojoMyResposneArrayList;
+    FloatingActionButton myFab;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -71,7 +79,7 @@ public class FragRespondToRequest extends Fragment {
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
 
                 if (value.equals("detail")) {
                     CM.startActivity(thisActivity, ViewRespondToRequestDetailView.class);
@@ -80,9 +88,36 @@ public class FragRespondToRequest extends Fragment {
                 }
             }
         });
-        webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), "2");
+        webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+
+
+        initView(rootView);
 
         return rootView;
+    }
+
+    private void initView(View rootView) {
+
+        myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showFilter();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    myFab.hide();
+                } else {
+                    myFab.show();
+                }
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
     }
 
 
@@ -165,39 +200,36 @@ public class FragRespondToRequest extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoMyResposne myResposne = new pojoMyResposne();
-                        myResposne.setComment(jsonArray.getJSONObject(i).get("comment").toString());
-                        JSONObject jsonObjectReq = new JSONObject(jsonArray.getJSONObject(i).get("request").toString());
-                        myResposne.setCategory_id(jsonObjectReq.optString("category_id").toString());
-                        myResposne.setReference_id(jsonObjectReq.optString("reference_id").toString());
-                        myResposne.setTotal_budget(jsonObjectReq.optString("total_budget").toString());
-                        myResposne.setChildren(jsonObjectReq.optString("children").toString());
-                        myResposne.setAdult(jsonObjectReq.optString("adult").toString());
-                        myResposne.setRoom1(jsonObjectReq.optString("room1").toString());
-                        myResposne.setRoom2(jsonObjectReq.optString("room2").toString());
-                        myResposne.setRoom3(jsonObjectReq.optString("room3").toString());
-                        myResposne.setChild_with_bed(jsonObjectReq.optString("child_with_bed").toString());
-                        myResposne.setChild_without_bed(jsonObjectReq.optString("child_without_bed").toString());
-                        myResposne.setHotel_rating(jsonObjectReq.optString("hotel_rating").toString());
-                        myResposne.setHotel_category(jsonObjectReq.optString("hotel_category").toString());
-                        myResposne.setMeal_plan(jsonObjectReq.optString("meal_plan").toString());
-                        myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
-                        myResposne.setCheck_in(jsonObjectReq.optString("check_in").toString());
-                        myResposne.setCheck_out(jsonObjectReq.optString("check_out").toString());
-                        myResposne.setTransport_requirement(jsonObjectReq.optString("transport_requirement").toString());
-                        myResposne.setPickup_city(jsonObjectReq.optString("pickup_city").toString());
-                        myResposne.setPickup_state(jsonObjectReq.optString("pickup_state").toString());
-                        myResposne.setPickup_country(jsonObjectReq.optString("pickup_country").toString());
-                        myResposne.setPickup_locality(jsonObjectReq.optString("pickup_locality").toString());
-                        myResposne.setCity_id(jsonObjectReq.optString("city_id").toString());
-                        myResposne.setState_id(jsonObjectReq.optString("state_id").toString());
-
-                        myResposne.setFinal_city(jsonObjectReq.optString("final_city").toString());
-                        myResposne.setFinal_state(jsonObjectReq.optString("final_state").toString());
-                        myResposne.setFinal_country(jsonObjectReq.optString("final_country").toString());
-                        myResposne.setUserComment(jsonObjectReq.optString("comment").toString());
-                        myResposne.setStart_date(jsonObjectReq.optString("start_date").toString());
-                        myResposne.setEnd_date(jsonObjectReq.optString("end_date").toString());
-                        JSONObject jsonObjectUser = new JSONObject(jsonObjectReq.get("user").toString());
+                        myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
+                        myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());
+                        myResposne.setTotal_budget(jsonArray.getJSONObject(i).get("total_budget").toString());
+                        myResposne.setChildren(jsonArray.getJSONObject(i).get("children").toString());
+                        myResposne.setAdult(jsonArray.getJSONObject(i).get("adult").toString());
+                        myResposne.setRoom1(jsonArray.getJSONObject(i).get("room1").toString());
+                        myResposne.setRoom2(jsonArray.getJSONObject(i).get("room2").toString());
+                        myResposne.setRoom3(jsonArray.getJSONObject(i).get("room3").toString());
+                        myResposne.setChild_with_bed(jsonArray.getJSONObject(i).get("child_with_bed").toString());
+                        myResposne.setChild_without_bed(jsonArray.getJSONObject(i).get("child_without_bed").toString());
+                        myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
+                        myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
+                        myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
+                        myResposne.setDestination_city(jsonArray.getJSONObject(i).get("destination_city").toString());
+                        myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
+                        myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
+                        myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
+                        myResposne.setPickup_city(jsonArray.getJSONObject(i).get("pickup_city").toString());
+                        myResposne.setPickup_state(jsonArray.getJSONObject(i).get("pickup_state").toString());
+                        myResposne.setPickup_country(jsonArray.getJSONObject(i).get("pickup_country").toString());
+                        myResposne.setPickup_locality(jsonArray.getJSONObject(i).get("pickup_locality").toString());
+                        myResposne.setCity_id(jsonArray.getJSONObject(i).get("city_id").toString());
+                        myResposne.setState_id(jsonArray.getJSONObject(i).get("state_id").toString());
+                        myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
+                        myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
+                        myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
+                        myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
+                        myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
+                        myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
+                        JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
                         myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
                         myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
                         myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
@@ -224,5 +256,106 @@ public class FragRespondToRequest extends Fragment {
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+    public void showFilter() {
+        LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity)
+                .setView(layout);
+        builder.setTitle("Filter By:");
+        SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by name, email, mobile");
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logo3);
+
+        Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+        final String[] cat = getResources().getStringArray(R.array.catArray);
+        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner.setAdapter(langAdapter);
+
+        Spinner spinner1 = (Spinner) layout.findViewById(R.id.spinner2);
+
+        ArrayAdapter<CharSequence> langAdapter1 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner1.setAdapter(langAdapter1);
+
+
+        Spinner spinner2 = (Spinner) layout.findViewById(R.id.spinner3);
+
+        ArrayAdapter<CharSequence> langAdapter2 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner2.setAdapter(langAdapter2);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

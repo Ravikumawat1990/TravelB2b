@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,17 +28,30 @@ import com.app.elixir.TravelB2B.adapter.adptCheckResponse;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class ViewCheckResponse extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "ViewCheckResponse";
     private RecyclerView mRecyclerView;
     adptCheckResponse mAdapter;
     MtplButton btnDetail;
     Toolbar toolbar;
+    String referenceId = "";
+    MtplTextView refId, budget, members, childres, startdate, enddate, pickupCity, pickupState, pickupLocation, vehicle, finalState, finalCity, comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +82,15 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
         }
+
+        Intent intent = getIntent();
+        referenceId = intent.getStringExtra("refId");
 
 
         initView();
@@ -108,7 +126,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
                 if (value.equals("chat")) {
                     CM.startActivity(ViewCheckResponse.this, ViewChat.class);
                 } else if (value.equals("share")) {
@@ -161,6 +179,8 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
         searchView.setQueryHint("Search by name, email, mobile");
         builder.setIcon(R.drawable.logo3);
+
+
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -244,8 +264,30 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.detailview, null);
         dialogBuilder.setView(dialogView);
-        //dialogBuilder.setTitle("Transport Details");
-        //dialogBuilder.setIcon(R.drawable.logo3);
+
+        refId = (MtplTextView) dialogView.findViewById(R.id.txtReqId);
+        budget = (MtplTextView) dialogView.findViewById(R.id.txttotBudget);
+        members = (MtplTextView) dialogView.findViewById(R.id.txtMemebers);
+        childres = (MtplTextView) dialogView.findViewById(R.id.txtChildren);
+        startdate = (MtplTextView) dialogView.findViewById(R.id.txtStartDate);
+        enddate = (MtplTextView) dialogView.findViewById(R.id.txtendDate);
+        pickupCity = (MtplTextView) dialogView.findViewById(R.id.txtpickupCity);
+        pickupState = (MtplTextView) dialogView.findViewById(R.id.pickupState);
+        pickupLocation = (MtplTextView) dialogView.findViewById(R.id.txtpickupLocation);
+        vehicle = (MtplTextView) dialogView.findViewById(R.id.txtVehicle);
+        finalState = (MtplTextView) dialogView.findViewById(R.id.txtDestState);
+        finalCity = (MtplTextView) dialogView.findViewById(R.id.txtDestCity);
+        comment = (MtplTextView) dialogView.findViewById(R.id.txtCmt);
+
+
+        if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+
+            webMyResponseDetail(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), referenceId);
+
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), this);
+        }
+
         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -289,4 +331,76 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
     }
+
+
+    public void webMyResponseDetail(String userId, String reqId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getDetail(v, userId, reqId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getMyResponseDetail(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getMyResponseDetail(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+                    refId.setText(jsonObject1.optString("id"));
+                    budget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
+                    members.setText(jsonObject1.optString("adult"));
+                    childres.setText(jsonObject1.optString("children"));
+                    comment.setText(jsonObject1.optString("comment"));
+                    vehicle.setText("");
+                    startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    pickupCity.setText(jsonObject1.optString("pickup_city"));
+                    pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewCheckResponse.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
 }

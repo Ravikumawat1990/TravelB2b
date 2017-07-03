@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
     ArrayList<String> strings;
     private MtplEditText checkIn1;
     private MtplEditText checkOut1;
+    private ImageView imageView1, imageView2, imageView3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,9 +72,62 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
         MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);
         multiSelectionSpinner.setItems(array);
         multiSelectionSpinner.setListener(this);
+
+        ExpandableLayout expandableLayout1 = (ExpandableLayout) view.findViewById(R.id.expView1);
+        ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView2);
+        ExpandableLayout expandableLayout3 = (ExpandableLayout) view.findViewById(R.id.expView4);
+
+        imageView1 = (ImageView) view.findViewById(R.id.expImg1);
+        imageView2 = (ImageView) view.findViewById(R.id.expImg2);
+        imageView3 = (ImageView) view.findViewById(R.id.expImg3);
+
+        imageView1.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorLightGray));
+        imageView1.setBackgroundResource(R.drawable.ic_add_black_24dp);
+        imageView2.setBackgroundResource(R.drawable.ic_add_black_24dp);
+        imageView3.setBackgroundResource(R.drawable.ic_add_black_24dp);
+
+
+        expandableLayout1.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+            @Override
+            public void onExpand(boolean b) {
+                if (b) {
+                    imageView1.setBackgroundResource(R.drawable.ic_remove_black_24dp);
+
+                } else {
+                    imageView1.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                }
+
+            }
+        });
+        expandableLayout2.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+            @Override
+            public void onExpand(boolean b) {
+                if (b) {
+                    imageView2.setBackgroundResource(R.drawable.ic_remove_black_24dp);
+                } else {
+                    imageView2.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                }
+
+            }
+        });
+
+
+        expandableLayout3.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+            @Override
+            public void onExpand(boolean b) {
+                if (b) {
+                    imageView3.setBackgroundResource(R.drawable.ic_remove_black_24dp);
+                } else {
+                    imageView3.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                }
+
+            }
+        });
+
+
         btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
-        expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandable_view);
+        //expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandable_view);
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
         childScrollview = (NestedScrollView) view.findViewById(R.id.childScrollView);
         checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
@@ -224,15 +280,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
 
         Calendar now = Calendar.getInstance();
 
-      /*  if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
-                now.setTime(date);
-            } catch (Exception e) {
-                e.getMessage();
-            }
-        }*/
+
 
         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                 now.get(Calendar.YEAR),

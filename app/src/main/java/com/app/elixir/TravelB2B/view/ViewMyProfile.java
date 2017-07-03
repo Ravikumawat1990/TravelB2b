@@ -21,6 +21,7 @@ import com.app.elixir.TravelB2B.adapter.adptreview;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -48,13 +49,14 @@ public class ViewMyProfile extends AppCompatActivity {
 
     Toolbar toolbar;
     private adptAdvt mAdapter1;
+    MtplTextView userEmail, userName, userMob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_my_profile);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.edtProfile));
+        toolbar.setTitle(getString(R.string.myProfile));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
@@ -77,7 +79,7 @@ public class ViewMyProfile extends AppCompatActivity {
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
             titleTextView = (TextView) f.get(toolbar);
-            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_bold));
+            Typeface font = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_black));
             titleTextView.setTypeface(font);
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {
@@ -102,6 +104,8 @@ public class ViewMyProfile extends AppCompatActivity {
 
         recyclerViewAdv = (RecyclerView) findViewById(R.id.recycleView);
         recycleViewTestimonial = (RecyclerView) findViewById(R.id.recycleView1);
+        //  recyclerViewAdv.setHasFixedSize(true);
+        // recycleViewTestimonial.setHasFixedSize(true);
         recyclerViewAdv.setLayoutManager(layoutManager);
         recycleViewTestimonial.setLayoutManager(layoutManager1);
 
@@ -110,6 +114,15 @@ public class ViewMyProfile extends AppCompatActivity {
 
         mAdapter1 = new adptAdvt(ViewMyProfile.this, pojoAdvertArrayList);
         mAdapter = new adptreview(ViewMyProfile.this, pojoTestimonialArrayList);
+
+
+        userEmail = (MtplTextView) findViewById(R.id.txtUserEmail);
+        userName = (MtplTextView) findViewById(R.id.txtUserName);
+        userMob = (MtplTextView) findViewById(R.id.userPNo);
+
+        userEmail.setText(CM.getSp(ViewMyProfile.this, CV.PrefEmail, "").toString());
+        userName.setText(CM.getSp(ViewMyProfile.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewMyProfile.this, CV.Preflast_name, "").toString());
+        userMob.setText(CM.getSp(ViewMyProfile.this, CV.PrefMobile_number, "").toString());
 
 
         webTestimonial(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());

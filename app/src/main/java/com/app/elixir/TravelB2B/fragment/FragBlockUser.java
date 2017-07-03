@@ -95,7 +95,7 @@ public class FragBlockUser extends Fragment {
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
 
                 showPopup(thisActivity);
 

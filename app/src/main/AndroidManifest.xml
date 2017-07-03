@@ -45,7 +45,7 @@
             android:name=".view.ViewRegister"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.ViewResponseDetailView"
+            android:name=".view.ViewMyResdetailView"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.ViewRespondToRequestDetailView"

@@ -15,6 +15,7 @@ import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by Elixir on 08-Aug-2016.
  */
@@ -36,11 +37,13 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
         private CardView rootView;
         MtplTextView comment, name, description;
 
+
         public MyViewHolder(View itemView) {
             super(itemView);
             comment = (MtplTextView) itemView.findViewById(R.id.txtViewComment);
             name = (MtplTextView) itemView.findViewById(R.id.txtName);
             description = (MtplTextView) itemView.findViewById(R.id.txtDescription);
+            // description.setMovementMethod(new ScrollingMovementMethod());
 
         }
 
@@ -69,13 +72,14 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-            MtplTextView comment = holder.comment;
+        MtplTextView comment = holder.comment;
         MtplTextView name = holder.name;
         MtplTextView description = holder.description;
 
         comment.setText(dataSet.get(position).getComment());
         name.setText(dataSet.get(position).getName());
         description.setText(dataSet.get(position).getDescription());
+        // description.setMovementMethod(new ScrollingMovementMethod());
 
     }
 

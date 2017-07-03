@@ -68,19 +68,19 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat");
+                    listener.onItemClick("chat","");
                     break;
                 case R.id.btnShare:
-                    listener.onItemClick("share");
+                    listener.onItemClick("share","");
                     break;
                 case R.id.btnAccept:
-                    listener.onItemClick("btnAccept");
+                    listener.onItemClick("btnAccept","");
                     break;
                 case R.id.btnRate:
-                    listener.onItemClick("rate");
+                    listener.onItemClick("rate","");
                     break;
                 case R.id.btnBlock:
-                    listener.onItemClick("block");
+                    listener.onItemClick("block","");
                     break;
             }
 

@@ -4,7 +4,7 @@ package com.app.elixir.TravelB2B.pojos;
  * Created by NetSupport on 28-06-2017.
  */
 
-public class pojoMyResposne {
+public class pojoMyRequest {
 
     String first_name;
     String last_name;

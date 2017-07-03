@@ -105,7 +105,7 @@
     <string name="title1">No need to use Whatsapp groups to fulfill your clients requests</string>
     <string name="title2">Buy/Sell Travel Packages, Hotel Rooms or Transportation</string>
     <string name="title3">No need to use Whatsapp groups to fulfill your clients requests</string>
-    <string name="title4">Pay Us Commission</string>
+    <string name="title4">Pay Us No Commission</string>
     <string name="title5">Have unrestricted, real time communication with Buyers/sellers</string>
 
     <string name="description0">India"'"s only COMMISSION FREE, B2B, Tourism Trading Marketplace CONNECTING : </string>
@@ -149,8 +149,6 @@
     <string name="refId">"Reference ID"</string>
     <string name="reqAgent">"Requesting Agent"</string>
     <string name="destination">"Destination"</string>
-
-
 
 
     <string name="stDate">"Start Date"</string>
@@ -285,7 +283,7 @@
     <string name="title_activity_view_home2">ViewHome2</string>
 
     <string name="finalized_requests">Finalized Requests</string>
-    <string name="finalized_response">Finalized Response</string>
+    <string name="finalized_response">Finalized Responses</string>
     <string name="blocked_users">Blocked Users</string>
     <string name="removed_requests">Removed Requests</string>
     <string name="followers">Followers</string>
@@ -302,9 +300,9 @@
     <string name="registerd">Registered Successfully </string>
 
 
-   <!--  1 = Package
-     2 = Transport
-     3 = Hotel-->
+    <!--  1 = Package
+      2 = Transport
+      3 = Hotel-->
 
     <string name="package1">Package</string>
     <string name="transport">Transport</string>

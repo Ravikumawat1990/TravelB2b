@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,20 +22,30 @@ import com.app.elixir.TravelB2B.adapter.adptfollowers;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.pojos.pojoFollowers;
+import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by NetSupport on 05-06-2017.
- */
 
 public class FragFollowers extends Fragment {
 
+    private static final String TAG = "FragFollowers";
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
     private RecyclerView mRecyclerView;
     adptfollowers mAdapter;
+    ArrayList<pojoFollowers> pojoFollowerses;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -61,31 +72,25 @@ public class FragFollowers extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
+        pojoFollowerses = new ArrayList<>();
 
-
-        }
-        mAdapter = new adptfollowers(thisActivity, pojoMyResponses);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new adptfollowers(thisActivity, pojoFollowerses);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value) {
+            public void onItemClick(String value, String value1) {
 
                 showPopup(thisActivity);
 
             }
         });
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webFollowers(CM.getSp(thisActivity, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
 
     }
 
@@ -132,4 +137,75 @@ public class FragFollowers extends Fragment {
         MenuItem item = menu.findItem(R.id.cartMenu);
         item.setVisible(false);
     }
+
+
+    public void webFollowers(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getFollowers(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getFollowers(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFollowers(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("user"));
+                        pojoFollowers pojoFollowers = new pojoFollowers();
+                        pojoFollowers.setFirst_name(jsonObject1.optString("first_name"));
+                        pojoFollowers.setLast_name(jsonObject1.optString("last_name"));
+                        pojoFollowers.setMobile_number(jsonObject1.optString("mobile_number"));
+                        pojoFollowers.setCompany_name(jsonObject1.optString("company_name"));
+                        pojoFollowers.setEmail(jsonObject1.optString("email"));
+                        pojoFollowerses.add(pojoFollowers);
+
+                    }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
+    }
+
+
 }

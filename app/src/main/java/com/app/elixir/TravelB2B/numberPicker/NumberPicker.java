@@ -101,7 +101,7 @@ public class NumberPicker extends LinearLayout {
     private void updateView() {
         this.displayTextView.setText(Integer.toString(this.currentValue));
         if (listener != null) {
-            this.listener.onItemClick(displayTextView.getText().toString());
+            this.listener.onItemClick(displayTextView.getText().toString(),"");
         }
     }
 

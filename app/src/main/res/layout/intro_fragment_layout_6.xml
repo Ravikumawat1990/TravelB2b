@@ -97,7 +97,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="left|center"
-                    android:text="Login to your Profile"
+                    android:text="Login to your\nProfile"
 
 
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -127,8 +127,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center|right"
-                        android:text="Review finalize responses"
 
+                        android:text="Place Request\n/Respond to Request"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                 </LinearLayout>
@@ -175,7 +175,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="left|center"
-                    android:text="Place Request/Respond to Request"
+                    android:text="Review finalize\nresponses"
 
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
             </LinearLayout>
@@ -201,7 +201,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="center|right"
-                    android:text="Negotiate via Live chat, or phone"
+                    android:text="Negotiate via\nLive chat, or phone"
 
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -249,7 +249,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="center|left"
-                    android:text="Finalize the best deal"
+                    android:text="Finalize the\nbest deal"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
             </LinearLayout>

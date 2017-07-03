@@ -109,7 +109,7 @@ public class FragPaceRequest extends Fragment {
             for (int i = 0; i < tabChildsCount; i++) {
                 View tabViewChild = vgTab.getChildAt(i);
                 if (tabViewChild instanceof TextView) {
-                    Typeface font = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                    Typeface font = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
                     ((TextView) tabViewChild).setTypeface(font);
                 }
             }

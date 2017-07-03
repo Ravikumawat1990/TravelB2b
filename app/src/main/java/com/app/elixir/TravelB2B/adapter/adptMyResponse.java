@@ -53,9 +53,8 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
             destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
-
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
-
+            reqAgent.setOnClickListener(this);
             btnDetail.setOnClickListener(this);
 
         }
@@ -64,7 +63,10 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getReference_id());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    break;
+                case R.id.reqAgent:
+                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
             }
 
@@ -101,13 +103,13 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
 
         String txtStartDt = "";
         try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd", dataSet.get(position).getStart_date());
+            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getStart_date());
         } catch (Exception e) {
             txtStartDt = dataSet.get(position).getStart_date();
         }
         String txtEndDt = "";
         try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd", dataSet.get(position).getEnd_date());
+            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getEnd_date());
         } catch (Exception e) {
             txtEndDt = dataSet.get(position).getEnd_date();
         }

@@ -2,8 +2,9 @@ package com.app.elixir.TravelB2B.interfaceimpl;
 
 
 public interface OnItemClickListener {
-    //    void onItemClick(Company item, View v);
-    void onItemClick(String value);
+
+    void onItemClick(String item, String item1);
+    // void onItemClick(String value);
 
 
 }

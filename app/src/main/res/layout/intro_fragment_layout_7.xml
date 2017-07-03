@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_10dp"
-            app:cardBackgroundColor="@color/appTextColor"
+            app:cardBackgroundColor="@color/mdtp_light_gray"
             app:cardCornerRadius="@dimen/margin_8dp">
 
             <LinearLayout
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_10dp"
-            app:cardBackgroundColor="@color/appTextColor"
+            app:cardBackgroundColor="@color/mdtp_light_gray"
             app:cardCornerRadius="@dimen/margin_8dp">
 
             <LinearLayout
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_10dp"
-            app:cardBackgroundColor="@color/appTextColor"
+            app:cardBackgroundColor="@color/mdtp_light_gray"
             app:cardCornerRadius="@dimen/margin_8dp">
 
             <LinearLayout

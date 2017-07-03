@@ -40,6 +40,7 @@ dependencies {
     compile 'com.github.SilenceDut:ExpandableLayout:1.2.0'
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
     compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
+    compile 'me.biubiubiu.justifytext:library:1.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/volley.jar')
     compile files('libs/joda-time-2.3.jar')

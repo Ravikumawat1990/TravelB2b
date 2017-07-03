@@ -67,6 +67,7 @@ public class FragHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home, container, false);
         thisActivity = getActivity();
+      //  setHasOptionsMenu(true);
 
         initView(rootView);
         return rootView;

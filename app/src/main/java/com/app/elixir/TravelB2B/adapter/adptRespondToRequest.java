@@ -55,6 +55,8 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
+
+
             btnDetail.setOnClickListener(this);
 
         }
@@ -63,7 +65,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getReference_id());
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getReference_id(),"");
                     break;
             }
 
