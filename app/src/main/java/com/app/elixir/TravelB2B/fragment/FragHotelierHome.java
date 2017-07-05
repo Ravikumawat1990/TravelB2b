@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -22,6 +23,7 @@ import com.app.elixir.TravelB2B.adapter.adptAdvt;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
+import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -42,7 +44,7 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
  * Created by NetSupport on 05-06-2017.
  */
 
-public class FragHome extends Fragment {
+public class FragHotelierHome extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
@@ -50,6 +52,7 @@ public class FragHome extends Fragment {
     adptAdvt mAdapter;
     private StaggeredGridLayoutManager mStaggeredLayoutManager;
     ArrayList<pojoAdvert> pojoAdvertArrayList;
+    MtplButton btnTellMore;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,20 +68,18 @@ public class FragHome extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.home, container, false);
+        View rootView = inflater.inflate(R.layout.hotelierhome, container, false);
         thisActivity = getActivity();
+        //  setHasOptionsMenu(true);
+
         initView(rootView);
         return rootView;
     }
 
     private void initView(View rootView) {
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
-        mStaggeredLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mStaggeredLayoutManager);
-        mRecyclerView.setHasFixedSize(true);
-        pojoAdvertArrayList = new ArrayList<>();
-        mAdapter = new adptAdvt(thisActivity, pojoAdvertArrayList);
+        btnTellMore = (MtplButton) rootView.findViewById(R.id.btntellmemore);
+        btnTellMore.setOnClickListener(this);
         webTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString());
 
     }
@@ -211,4 +212,18 @@ public class FragHome extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btntellmemore:
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragPromoteHotel fragFoodItem2 = new FragPromoteHotel();
+                transaction.setCustomAnimations(0, R.anim.push_in_from_top);
+                transaction.add(R.id.container, fragFoodItem2).addToBackStack("FragHotelierHome");
+                transaction.commit();
+
+                break;
+        }
+    }
 }

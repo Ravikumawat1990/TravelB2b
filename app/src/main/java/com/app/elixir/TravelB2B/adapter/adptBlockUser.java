@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoBlockUser;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class adptBlockUser extends RecyclerView.Adapter<adptBlockUser.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoBlockUser> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptBlockUser(Context context, ArrayList<PojoMyResponse> data) {
+    public adptBlockUser(Context context, ArrayList<pojoBlockUser> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +36,13 @@ public class adptBlockUser extends RecyclerView.Adapter<adptBlockUser.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult;
+        public MtplTextView txtUserName;
         MtplButton btnUnBlockUser;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtReqType);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
-            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
-            adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
+            txtUserName = (MtplTextView) itemView.findViewById(R.id.txtUserName);
             btnUnBlockUser = (MtplButton) itemView.findViewById(R.id.btnUnBlockUser);
             btnUnBlockUser.setOnClickListener(this);
 
@@ -57,7 +52,7 @@ public class adptBlockUser extends RecyclerView.Adapter<adptBlockUser.MyViewHold
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnUnBlockUser:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getRefId(),"");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getBlocked_user_id(), "");
                     break;
             }
 
@@ -80,8 +75,8 @@ public class adptBlockUser extends RecyclerView.Adapter<adptBlockUser.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqType = holder.reqType;
-//        textViewReqType.setText(dataSet.get(position).getAdult());
+        TextView userName = holder.txtUserName;
+        userName.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
     }
 
     @Override

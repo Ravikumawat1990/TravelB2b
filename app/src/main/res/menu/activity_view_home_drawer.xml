@@ -62,11 +62,11 @@
             android:title="Contact Us" />
         <item
             android:id="@+id/nav_tandc"
-            android:icon="@drawable/faq"
+            android:icon="@drawable/tercon"
             android:title="Term  &amp; Condition" />
         <item
             android:id="@+id/nav_privpolicy"
-            android:icon="@drawable/share"
+            android:icon="@drawable/privacypolicy"
             android:title="Privacy Policy" />
 
         <item

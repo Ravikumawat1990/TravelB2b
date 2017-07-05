@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
+import com.app.elixir.TravelB2B.numberPicker.NumberPicker;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.MultiSelectionSpinner;
 import com.silencedut.expandablelayout.ExpandableLayout;
@@ -57,6 +58,9 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     private MtplEditText checkIn1;
     private MtplEditText checkOut1;
     private ImageView imageView1, imageView2, imageView3, imageView4;
+    MtplEditText mtplEditText, totBudget;
+    NumberPicker numberPicker, childBelow;
+    ImageView imageViewNoOfRoomImg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +83,9 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView2);
         ExpandableLayout expandableLayout3 = (ExpandableLayout) view.findViewById(R.id.expView3);
         ExpandableLayout expandableLayout4 = (ExpandableLayout) view.findViewById(R.id.expView4);
+        ExpandableLayout expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandablrNoOfRoom);
+
+        imageViewNoOfRoomImg = (ImageView) view.findViewById(R.id.expandablrNoOfRoomImg);
         imageView1 = (ImageView) view.findViewById(R.id.expImg1);
         imageView2 = (ImageView) view.findViewById(R.id.expImg2);
         imageView3 = (ImageView) view.findViewById(R.id.expImg3);
@@ -88,6 +95,20 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         imageView2.setBackgroundResource(R.drawable.ic_add_black_24dp);
         imageView3.setBackgroundResource(R.drawable.ic_add_black_24dp);
         imageView4.setBackgroundResource(R.drawable.ic_add_black_24dp);
+        imageViewNoOfRoomImg.setBackgroundResource(R.drawable.ic_add_black_24dp);
+
+       /* expandableLayout1.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+            @Override
+            public void onExpand(boolean b) {
+                if (b) {
+                    imageViewNoOfRoomImg.setBackgroundResource(R.drawable.ic_remove_black_24dp);
+
+                } else {
+                    imageViewNoOfRoomImg.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                }
+
+            }
+        });*/
 
         expandableLayout1.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
             @Override
@@ -138,6 +159,18 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             }
         });
 
+        mtplEditText = (MtplEditText) view.findViewById(R.id.edtRefId);
+        totBudget = (MtplEditText) view.findViewById(R.id.edtTotalBudget);
+        numberPicker = (NumberPicker) view.findViewById(R.id.number_pickerAdult);
+        childBelow = (NumberPicker) view.findViewById(R.id.number_pickerChildBelow);
+
+
+        MtplEditText singleRoom = (MtplEditText) view.findViewById(R.id.edtSingleRoom);
+        MtplEditText doubleRoom = (MtplEditText) view.findViewById(R.id.edtDoubleRoom);
+        MtplEditText tripalRoom = (MtplEditText) view.findViewById(R.id.edtTripleRoom);
+        MtplEditText childWithbed = (MtplEditText) view.findViewById(R.id.edt_Child_with_bed);
+        MtplEditText childWithoutbed = (MtplEditText) view.findViewById(R.id.edt_Child_without_bed);
+
 
         btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
@@ -170,11 +203,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) rowView.findViewById(R.id.mySpinner);
             multiSelectionSpinner.setItems(array);
             multiSelectionSpinner.setListener(this);
-
-
             rowView.setId(i++);
-            // Log.i(TAG, "onAddField: "i++);
-
             mtplButton.setOnClickListener(this);
             Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
             parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
@@ -190,15 +219,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
     public void onDelete(View v) {
         try {
-
-
             Log.i(TAG, "onDelete: ");
-
             parentLinearLayout.removeView((View) v.getParent());
-
             CM.showToast("DESIGNATION IS REMOVED", thisActivity);
         } catch (Exception e) {
-
             CM.showToast(e.getMessage(), thisActivity);
         }
     }
@@ -214,6 +238,21 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 onDelete(view);
                 break;
             case R.id.btnSubmit:
+
+               /* if (!mtplEditText.getText().toString().equals("")) {
+                    NumberPicker numberPicker, childBelow;
+
+                    if (totBudget.getText().toString().equals("")) {
+
+
+                    } else {
+                        CM.showToast("Please Enter Total Budget", thisActivity);
+                    }
+                } else {
+                    CM.showToast("Please Enter Reference Id", thisActivity);
+
+                }*/
+
 
                 for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
                     View view1 = (View) parentLinearLayout.getChildAt(i);

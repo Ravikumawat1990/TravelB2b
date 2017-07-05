@@ -5,6 +5,7 @@
     android:id="@+id/content_view_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.app.elixir.TravelB2B.view.ViewDrawer"
@@ -14,7 +15,8 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1"
+        android:background="@android:color/white"></FrameLayout>
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
         android:id="@+id/bottom_navigation"

@@ -60,7 +60,6 @@
                 android:orientation="vertical">
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -79,7 +78,6 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

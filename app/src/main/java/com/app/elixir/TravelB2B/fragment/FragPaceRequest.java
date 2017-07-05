@@ -52,8 +52,6 @@ public class FragPaceRequest extends Fragment {
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.placeReq));
 
         Log.i(TAG, "onTabSelected: ");
-
-
         tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("PACKAGE"));
         tabLayout.addTab(tabLayout.newTab().setText("HOTEL"));

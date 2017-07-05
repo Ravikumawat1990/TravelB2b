@@ -34,6 +34,7 @@ import com.app.elixir.TravelB2B.fragment.FragFinalizedRequest;
 import com.app.elixir.TravelB2B.fragment.FragFinalizedResponses;
 import com.app.elixir.TravelB2B.fragment.FragFollowers;
 import com.app.elixir.TravelB2B.fragment.FragHome;
+import com.app.elixir.TravelB2B.fragment.FragHotelierHome;
 import com.app.elixir.TravelB2B.fragment.FragMyRequest;
 import com.app.elixir.TravelB2B.fragment.FragMyResponse;
 import com.app.elixir.TravelB2B.fragment.FragPaceRequest;
@@ -275,13 +276,15 @@ public class ViewDrawer extends AppCompatActivity
                     switch (position) {
                         case 0:
                             fragment = new FragPaceRequest();
-                            fragmentTransaction.add(R.id.container, fragment).addToBackStack(null);
+                            fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null);
+                            // fragmentTransaction.setCustomAnimations(0, R.anim.push_in_from_top);
                             fm.popBackStack();
                             fragmentTransaction.commit();
                             break;
                         case 1:
                             fragment = new FragMyRequest();
                             fragmentTransaction.add(R.id.container, fragment).addToBackStack("FragHome");
+                            //fragmentTransaction.setCustomAnimations(0, R.anim.push_in_from_top);
                             fm.popBackStack();
                             fragmentTransaction.commit();
                             break;
@@ -398,9 +401,9 @@ public class ViewDrawer extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.view_drawer, menu);
         if (isOpen) {
-            menu.getItem(0).setIcon(R.drawable.ic_arrow_back_white_24dp);
+            menu.getItem(0).setIcon(R.drawable.userhome);
         } else {
-            menu.getItem(0).setIcon(R.drawable.ic_dehaze_white_24dp);
+            menu.getItem(0).setIcon(R.drawable.userhome);
         }
 
 
@@ -472,11 +475,19 @@ public class ViewDrawer extends AppCompatActivity
         Fragment fragment = null;
         switch (i) {
             case 0:
-                fragment = new FragHome();
-                ft.add(R.id.container, fragment);
-                //fm.popBackStack();
-                ft.commit();
-                bottomNavigation.setVisibility(View.VISIBLE);
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {   // Travel Agent
+                    fragment = new FragHotelierHome();
+                    ft.add(R.id.container, fragment);
+                    ft.commit();
+                    bottomNavigation.setVisibility(View.VISIBLE);
+                } else {
+                    fragment = new FragHome();
+                    ft.add(R.id.container, fragment);
+                    ft.commit();
+                    fm.popBackStack();
+                    bottomNavigation.setVisibility(View.VISIBLE);
+                }
+
                 break;
             case 1:
                 fragment = new FragFinalizedRequest();

@@ -7,10 +7,12 @@
             android:title="My Profile" />
         <item
             android:id="@+id/nav_editProfile"
+            android:icon="@drawable/navedtprofile"
             android:title="Edit Profile" />
 
         <item
             android:id="@+id/nav_changePassword"
+            android:icon="@drawable/cp"
             android:title="Change Password" />
 
         <item

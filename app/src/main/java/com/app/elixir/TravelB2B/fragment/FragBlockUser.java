@@ -22,8 +22,8 @@ import com.app.elixir.TravelB2B.adapter.adptBlockUser;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.pojos.pojoBlockUser;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
@@ -48,6 +48,7 @@ public class FragBlockUser extends Fragment {
     private Activity thisActivity;
     private RecyclerView mRecyclerView;
     adptBlockUser mAdapter;
+    ArrayList<pojoBlockUser> pojoBlockUserArrayList;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -76,21 +77,9 @@ public class FragBlockUser extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
+        pojoBlockUserArrayList = new ArrayList<>();
 
-
-        }
-        mAdapter = new adptBlockUser(thisActivity, pojoMyResponses);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new adptBlockUser(thisActivity, pojoBlockUserArrayList);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
@@ -188,8 +177,19 @@ public class FragBlockUser extends Fragment {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
-
+                        pojoBlockUser pojoBlockUser = new pojoBlockUser();
+                        pojoBlockUser.setBlocked_user_id(jsonArray.getJSONObject(i).getString("blocked_user_id"));
+                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).getString("user"));
+                        pojoBlockUser.setEmail(jsonObject1.getString("email"));
+                        pojoBlockUser.setFirst_name(jsonObject1.getString("first_name"));
+                        pojoBlockUser.setLast_name(jsonObject1.getString("last_name"));
+                        pojoBlockUser.setMobile_number(jsonObject1.getString("mobile_number"));
+                        pojoBlockUser.setP_contact(jsonObject1.getString("p_contact"));
+                        pojoBlockUser.setCompany_name(jsonObject1.getString("company_name"));
+                        pojoBlockUserArrayList.add(pojoBlockUser);
                     }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
                     break;
                 case "202":
                     break;
