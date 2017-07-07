@@ -212,5 +212,13 @@ public class WebService {
     }
 
 
+    public static void getCheckResposne(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.CHECKRESPONSESAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.REQ_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+
 }
 

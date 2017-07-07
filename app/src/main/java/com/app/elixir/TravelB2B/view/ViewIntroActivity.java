@@ -1,6 +1,5 @@
 package com.app.elixir.TravelB2B.view;
 
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -12,15 +11,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.IntroAdapter;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.CM;
-
-import java.lang.reflect.Field;
 
 
 public class ViewIntroActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
@@ -55,7 +51,7 @@ public class ViewIntroActivity extends AppCompatActivity implements View.OnClick
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-        TextView titleTextView = null;
+       /* TextView titleTextView = null;
         try {
             Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
             f.setAccessible(true);
@@ -65,7 +61,7 @@ public class ViewIntroActivity extends AppCompatActivity implements View.OnClick
             titleTextView.setTextSize(18);
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
-        }
+        }*/
 
         layoutBottom = (LinearLayout) findViewById(R.id.layoutBottom);
 

@@ -25,6 +25,9 @@ public class URLS {
     public static final String FINALRESPONSES = URL + "myfinalresponsesapi";
     public static final String REMOVEDREQUEST = URL + "removedrequestlistapi";
     public static final String FOLLOWERS = URL + "businessbuddieslistapi";
+    public static final String CHECKRESPONSESAPI = URL + "checkresponsesapi";
+
+
 
 
 

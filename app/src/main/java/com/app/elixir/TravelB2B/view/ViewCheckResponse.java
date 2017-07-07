@@ -26,10 +26,10 @@ import android.widget.TextView;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptCheckResponse;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoCheckResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
@@ -37,6 +37,7 @@ import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     Toolbar toolbar;
     String referenceId = "";
     MtplTextView refId, budget, members, childres, startdate, enddate, pickupCity, pickupState, pickupLocation, vehicle, finalState, finalCity, comment;
+    ArrayList<pojoCheckResposne> resposneArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
-
+        webCheckResponse(referenceId);
 
         initView();
     }
@@ -101,27 +103,9 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(ViewCheckResponse.this));
         btnDetail = (MtplButton) findViewById(R.id.btnDetail);
-        ArrayList<PojoMyResponse> pojoMyResponses = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PojoMyResponse pojoMyResponse = new PojoMyResponse();
-            pojoMyResponse.setRequestType("Package");
-            pojoMyResponse.setRefId("123");
-            pojoMyResponse.setStartDate("30/05/2017");
-            pojoMyResponse.setEndDate("31/05/2017");
-            pojoMyResponse.setTotBudget("2000/-");
-            pojoMyResponse.setAdult("1");
-            pojoMyResponses.add(pojoMyResponse);
 
-
-        }
-        mAdapter = new adptCheckResponse(ViewCheckResponse.this, pojoMyResponses);
-        try {
-            mRecyclerView.setAdapter(mAdapter);
-
-        } catch (Exception e) {
-            e.getMessage();
-
-        }
+        resposneArrayList = new ArrayList<>();
+        mAdapter = new adptCheckResponse(ViewCheckResponse.this, resposneArrayList);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
@@ -333,6 +317,35 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
+    public void webCheckResponse(String reqId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getCheckResposne(v, reqId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getCheckResponse(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void webMyResponseDetail(String userId, String reqId) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
@@ -383,6 +396,57 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
                     pickupCity.setText(jsonObject1.optString("pickup_city"));
                     pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewCheckResponse.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
+    private void getCheckResponse(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+
+
+                    pojoCheckResposne checkResposne = new pojoCheckResposne();
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        checkResposne.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
+                        jsonArray.getJSONObject(i).optString("request_id");
+                        checkResposne.setComment(jsonArray.getJSONObject(i).optString("comment"));
+                        JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("request").toString());
+                        checkResposne.setReference_id(jsonObject2.optString("reference_id"));
+                        checkResposne.setTotal_budget(jsonObject2.optString("total_budget"));
+                        JSONObject jsonObject3 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
+                        checkResposne.setFirst_name(jsonObject3.optString("first_name"));
+                        checkResposne.setLast_name(jsonObject3.optString("last_name"));
+                        resposneArrayList.add(checkResposne);
+
+                    }
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.invalidate();
 
 
                     break;

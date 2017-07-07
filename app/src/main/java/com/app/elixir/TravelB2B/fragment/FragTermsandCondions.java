@@ -131,17 +131,24 @@ public class FragTermsandCondions extends Fragment {
         StringRequest stringRequest = new StringRequest(URLS.TANDC,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(final String response) {
 
                         Log.i("", "onResponse: " + response);
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
 
-                            webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        thisActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response.toString());
+
+                                    webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
 
 
                     }

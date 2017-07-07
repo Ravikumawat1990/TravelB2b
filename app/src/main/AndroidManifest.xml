@@ -9,7 +9,7 @@
 
     <application
         android:name=".TravelB2B"
-        android:hardwareAccelerated="false"
+
         android:icon="@drawable/logo1"
         android:label="@string/app_name"
         android:largeHeap="true"

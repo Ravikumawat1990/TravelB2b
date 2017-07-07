@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
-import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoCheckResposne;
 
 import java.util.ArrayList;
 
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.MyViewHolder> {
 
 
-    private ArrayList<PojoMyResponse> dataSet;
+    private ArrayList<pojoCheckResposne> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptCheckResponse(Context context, ArrayList<PojoMyResponse> data) {
+    public adptCheckResponse(Context context, ArrayList<pojoCheckResposne> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +36,18 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult;
+        public MtplTextView reqfID, txtUserName, startDate, txtTotalBudget, txtComment, txtQuotPrice;
         MtplButton btnShare, btnChat, btnAccept, btnBlock, btnRate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtReqType);
-            reqType = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
-            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
-            adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
+            txtUserName = (MtplTextView) itemView.findViewById(R.id.txtUserName);
+            reqfID = (MtplTextView) itemView.findViewById(R.id.txtRefId);
+
+            txtTotalBudget = (MtplTextView) itemView.findViewById(R.id.txtTotalBudget);
+            txtComment = (MtplTextView) itemView.findViewById(R.id.txtComment);
+            txtQuotPrice = (MtplTextView) itemView.findViewById(R.id.txtQuotPrice);
 
             btnShare = (MtplButton) itemView.findViewById(R.id.btnShare);
             btnChat = (MtplButton) itemView.findViewById(R.id.btnChat);
@@ -68,19 +68,19 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat","");
+                    listener.onItemClick("chat", "");
                     break;
                 case R.id.btnShare:
-                    listener.onItemClick("share","");
+                    listener.onItemClick("share", "");
                     break;
                 case R.id.btnAccept:
-                    listener.onItemClick("btnAccept","");
+                    listener.onItemClick("btnAccept", "");
                     break;
                 case R.id.btnRate:
-                    listener.onItemClick("rate","");
+                    listener.onItemClick("rate", "");
                     break;
                 case R.id.btnBlock:
-                    listener.onItemClick("block","");
+                    listener.onItemClick("block", "");
                     break;
             }
 
@@ -103,8 +103,20 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqType = holder.reqType;
-        textViewReqType.setText(dataSet.get(position).getAdult());
+        TextView refId = holder.reqfID;
+        TextView userName = holder.txtUserName;
+        TextView totalBudget = holder.txtTotalBudget;
+        TextView comment = holder.txtComment;
+        TextView quotPrice = holder.txtQuotPrice;
+
+        refId.setText(dataSet.get(position).getReference_id());
+        userName.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+
+        totalBudget.setText(dataSet.get(position).getTotal_budget());
+        comment.setText(dataSet.get(position).getComment());
+        quotPrice.setText(dataSet.get(position).getQuotation_price());
+
+
     }
 
     @Override
