@@ -86,7 +86,12 @@ public class FragBlockUser extends Fragment {
             @Override
             public void onItemClick(String value, String value1) {
 
-                showPopup(thisActivity);
+                if (value1.equals("block")) {
+                    showPopup(thisActivity, value);
+                } else {
+
+                }
+
 
             }
         });
@@ -123,18 +128,82 @@ public class FragBlockUser extends Fragment {
         item.setVisible(false);
     }
 
-    public void showPopup(Context context) {
+    public void showPopup(Context context, final String value1) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage("Are you sure you want to unblock this user?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //finish();
+
+
+                        getUnBlockUser(value1);
+
+
                     }
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
         }).setIcon(R.drawable.logo1).show();
+    }
+
+
+    public void getUnBlockUser(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getUnBloackUser(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseUnBlockUser(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void getResponseUnBlockUser(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    jsonObject.optString("response_object").toString();
+                    CM.showToast(getString(R.string.unblockuser), thisActivity);
+                    pojoBlockUserArrayList.clear();
+                    getBlockUser(CM.getSp(thisActivity, CV.PrefID, "").toString());
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 
     public void getBlockUser(String userId) {

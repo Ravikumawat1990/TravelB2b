@@ -52,7 +52,7 @@ public class adptBlockUser extends RecyclerView.Adapter<adptBlockUser.MyViewHold
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnUnBlockUser:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getBlocked_user_id(), "");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getBlocked_user_id(), "block");
                     break;
             }
 

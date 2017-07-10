@@ -135,6 +135,14 @@ public class WebService {
 
     }
 
+    public static void getUnBloackUser(VolleyIntialization vollyInit, String blockuser, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.UNBLOCKUSERAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, blockuser);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+
+    }
+
     public static void getEditProfile(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.EDITPROFILE;
         Map<String, String> params = new HashMap<>();
