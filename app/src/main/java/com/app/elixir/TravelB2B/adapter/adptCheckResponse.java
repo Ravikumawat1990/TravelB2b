@@ -80,7 +80,7 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
                     listener.onItemClick("rate", "");
                     break;
                 case R.id.btnBlock:
-                    listener.onItemClick("block", "");
+                    listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id());
                     break;
             }
 
@@ -112,9 +112,9 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         refId.setText(dataSet.get(position).getReference_id());
         userName.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
 
-        totalBudget.setText(dataSet.get(position).getTotal_budget());
+        totalBudget.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
         comment.setText(dataSet.get(position).getComment());
-        quotPrice.setText(dataSet.get(position).getQuotation_price());
+        quotPrice.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getQuotation_price());
 
 
     }

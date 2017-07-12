@@ -65,7 +65,7 @@ public class VolleyIntialization {
 //        if (json != null) {
 //            json.put("strSecurityKey", CV.SECURITY_KEY);
 //        }
-         if (!CM.isInternetAvailable(mActivity)) {
+        if (!CM.isInternetAvailable(mActivity)) {
             vollyHandler.onVollyError(mActivity.getResources().getString(R.string.msg_internet_unavailable_msg));
             return;
         }

@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
+import com.app.elixir.TravelB2B.utils.CM;
 
 import java.util.ArrayList;
 
@@ -91,9 +91,10 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqId = holder.txtRefid;
-        TextView mebers = holder.txtMebers;
-        TextView total = holder.txttotBudget;
+        MtplTextView textViewReqId = holder.txtRefid;
+        MtplTextView mebers = holder.txtMebers;
+        MtplTextView total = holder.txttotBudget;
+        MtplTextView reqType = holder.txtRexType;
 
 
         textViewReqId.setText(dataSet.get(position).getReference_id());
@@ -107,6 +108,8 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
         }
 
         mebers.setText(String.valueOf(mebersInt));
+
+        reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
 
 
         total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());

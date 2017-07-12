@@ -1,9 +1,11 @@
 package com.app.elixir.TravelB2B.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -16,16 +18,27 @@ import com.app.elixir.TravelB2B.adapter.ChatListAdapter;
 import com.app.elixir.TravelB2B.model.ChatMessage;
 import com.app.elixir.TravelB2B.model.Status;
 import com.app.elixir.TravelB2B.model.UserType;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 public class ViewChat extends AppCompatActivity {
 
+    private static final String TAG = "ViewChat";
     Toolbar toolbar;
     private ArrayList<ChatMessage> chatMessages;
     private ListView chatListView;
@@ -53,6 +66,12 @@ public class ViewChat extends AppCompatActivity {
 
             }
         });
+
+        Intent intent = getIntent();
+        String requestId = intent.getStringExtra("refId");
+
+
+        webgetChatHistory(requestId, "", CM.getSp(ViewChat.this, CV.PREFS_USERID, "").toString());
 
         initView();
 
@@ -127,9 +146,13 @@ public class ViewChat extends AppCompatActivity {
         if (listAdapter != null)
             listAdapter.notifyDataSetChanged();
 
+        CM.showToast("Message Send", ViewChat.this);
+        ViewChat.this.finish();
+
+
         // Mark message as delivered after one second
 
-        final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+      /*  final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
 
         exec.schedule(new Runnable() {
             @Override
@@ -151,7 +174,7 @@ public class ViewChat extends AppCompatActivity {
 
 
             }
-        }, 1, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);*/
 
     }
 
@@ -160,5 +183,81 @@ public class ViewChat extends AppCompatActivity {
     public void onBackPressed() {
         CM.finishActivity(ViewChat.this);
         super.onBackPressed();
+    }
+
+
+    public void webgetChatHistory(String reqId, String chatId, String userid) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewChat.this, true, true);
+            WebService.getChatHistory(v, reqId, chatId, userid, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getChatHistory(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewChat.this)) {
+                        CM.showPopupCommonValidation(ViewChat.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void getChatHistory(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewChat.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        final ChatMessage message = new ChatMessage();
+                        message.setMessageStatus(Status.SENT);
+                        message.setMessageText(jsonArray.getJSONObject(i).optString("message"));
+                        message.setUserType(UserType.SELF);
+                        String txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonArray.getJSONObject(i).optString("read_date_time"));
+                        DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                        Date date = format.parse(txtStartDt);
+                        long millisecond = date.getTime();
+                        message.setMessageTime(millisecond);
+                        chatMessages.add(message);
+
+                    }
+                    listAdapter.notifyDataSetChanged();
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewChat.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewChat.this, e.getMessage(), false);
+        }
     }
 }

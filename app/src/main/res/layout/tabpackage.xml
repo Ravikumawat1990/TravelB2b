@@ -500,6 +500,7 @@
                                     android:orientation="horizontal">
 
                                     <Spinner
+                                        android:id="@+id/spinnerMealPlane"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -527,7 +528,8 @@
                                 android:layout_marginRight="@dimen/margin_15dp"
                                 android:layout_marginTop="@dimen/margin_10dp">
 
-                                <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                <AutoCompleteTextView
+                                    android:id="@+id/edtDestinationCity"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination City"
@@ -546,6 +548,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationState"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination State "
@@ -564,6 +567,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationCountry"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination Country "
@@ -582,6 +586,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationLocality"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Locality"
@@ -744,6 +749,7 @@
                             android:orientation="horizontal">
 
                             <Spinner
+                                android:id="@+id/spinnerTransport"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
@@ -776,10 +782,15 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/transStatrDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                            android:drawableRight="@drawable/ic_date_range_black_24dp"
+                            android:drawableTint="@color/colorPrimary"
                             android:hint="Start Date "
                             android:inputType="text"
+
                             android:singleLine="true"
                             android:textSize="12sp"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -794,10 +805,15 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/transEndDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                            android:drawableRight="@drawable/ic_date_range_black_24dp"
+                            android:drawableTint="@color/colorPrimary"
                             android:hint="End Date "
                             android:inputType="text"
+
                             android:singleLine="true"
                             android:textSize="12sp"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -812,6 +828,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/pickupLocality"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Pickup Locality"
@@ -830,6 +847,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/trapickupCity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Pickup City"
@@ -848,6 +866,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/trapickupState"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Pickup State"
@@ -882,6 +901,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/finalLocality"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Final Locality"
@@ -900,6 +920,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/finalCity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Final City"
@@ -919,6 +940,7 @@
                         android:layout_marginTop="@dimen/margin_10dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/finalState"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Final State"
@@ -1001,7 +1023,7 @@
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                        android:id="@+id/edtDis"
+                        android:id="@+id/edtComment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_100dp"
                         android:layout_gravity="center"

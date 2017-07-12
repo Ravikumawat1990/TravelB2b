@@ -45,12 +45,20 @@ import com.app.elixir.TravelB2B.fragment.FragRespondToRequest;
 import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.CustomTypefaceSpan;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
@@ -201,6 +209,13 @@ public class ViewDrawer extends AppCompatActivity
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
+        if (CM.isInternetAvailable(ViewDrawer.this)) {
+            getCounter(CM.getSp(ViewDrawer.this, CV.PREFS_USERID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString());
+
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
+        }
+
 
         Menu nav_Menu = navigationView.getMenu();
         if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {   // Travel Agent
@@ -216,10 +231,10 @@ public class ViewDrawer extends AppCompatActivity
             bottomNavigation.addItem(item3);
             bottomNavigation.addItem(item4);
             // bottomNavigation.addItem(item5);
-            bottomNavigation.setNotification("365", 0);
-            bottomNavigation.setNotification("8", 1);
-            bottomNavigation.setNotification("2", 2);
-            bottomNavigation.setNotification("1", 3);
+            // bottomNavigation.setNotification("365", 0);
+            //  bottomNavigation.setNotification("8", 1);
+            //   bottomNavigation.setNotification("2", 2);
+            //   bottomNavigation.setNotification("1", 3);
 
         } else if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("2")) {   //Event Planner
 
@@ -233,8 +248,8 @@ public class ViewDrawer extends AppCompatActivity
             bottomNavigation.addItem(item1);
             bottomNavigation.addItem(item2);
 
-            bottomNavigation.setNotification("2", 0);
-            bottomNavigation.setNotification("1", 1);
+            //    bottomNavigation.setNotification("2", 0);
+            //    bottomNavigation.setNotification("1", 1);
 
         } else {                 //Hotelier
 
@@ -250,8 +265,8 @@ public class ViewDrawer extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(true);
             bottomNavigation.addItem(item3);
             bottomNavigation.addItem(item4);
-            bottomNavigation.setNotification("365", 0);
-            bottomNavigation.setNotification("8", 1);
+            //   bottomNavigation.setNotification("365", 0);
+            //   bottomNavigation.setNotification("8", 1);
 
 
         }
@@ -683,4 +698,90 @@ public class ViewDrawer extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+    public void getCounter(String userId, String rolId, String statID, String preference) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
+            WebService.getCounter(v, userId, rolId, statID, preference, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseCounter(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        CM.showPopupCommonValidation(ViewDrawer.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getResponseCounter(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewDrawer.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
+                    // jsonObject1.optString("myRequestCount");
+                    // jsonObject1.optString("myReponseCount");
+                    //   ;
+                    //   jsonObject1.optString("respondToRequestCount");
+
+
+                    if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
+
+
+                        bottomNavigation.setNotification(jsonObject1.optInt("placereq"), 0);
+                        bottomNavigation.setNotification(jsonObject1.optInt("myRequestCount"), 1);
+                        bottomNavigation.setNotification(jsonObject1.optInt("respondToRequestCount"), 2);
+                        bottomNavigation.setNotification(jsonObject1.optInt("myReponseCount"), 3);
+
+                    } else if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("2")) {
+
+
+                        bottomNavigation.setNotification(jsonObject1.optInt("placereq"), 0);
+                        bottomNavigation.setNotification(jsonObject1.optInt("myRequestCount"), 1);
+
+
+                    } else {
+
+                        bottomNavigation.setNotification(jsonObject1.optInt("respondToRequestCount"), 0);
+                        bottomNavigation.setNotification(jsonObject1.optInt("myReponseCount"), 1);
+
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewDrawer.this, e.getMessage(), false);
+        }
+    }
+
+
 }

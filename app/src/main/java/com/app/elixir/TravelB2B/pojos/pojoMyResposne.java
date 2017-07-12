@@ -12,6 +12,15 @@ public class pojoMyResposne {
     String p_contact;
     String email;
     String request_id;
+    String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     String reference_id;
     String total_budget;

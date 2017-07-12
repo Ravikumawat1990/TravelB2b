@@ -523,6 +523,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:id="@+id/btnIata"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -542,8 +543,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -577,6 +577,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:id="@+id/btntafipic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -597,8 +598,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -632,7 +632,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
-
+                                        android:id="@+id/btntaaipic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -653,8 +653,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -689,7 +688,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
-                                        android:id="@+id/mtplTextView3"
+                                        android:id="@+id/btniatopic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -710,8 +709,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -745,6 +743,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:id="@+id/btnadyoipic"
 
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
@@ -766,8 +765,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -801,7 +799,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
-
+                                        android:id="@+id/btniso9001pic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -822,8 +820,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -858,7 +855,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
-
+                                        android:id="@+id/btnuftaapic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -879,8 +876,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight="1"
                                         android:gravity="center"
-                                        android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray" />
+                                        android:src="@drawable/ic_photo_black_48dp" />
 
 
                                 </LinearLayout>
@@ -914,6 +910,7 @@
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                        android:id="@+id/btnadtoipic"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/margin_30dp"
                                         android:layout_gravity="center"
@@ -935,7 +932,7 @@
                                         android:layout_weight="1"
                                         android:gravity="center"
                                         android:src="@drawable/ic_photo_black_48dp"
-                                        android:tint="@color/colorLightGray"
+
 
                                         />
 

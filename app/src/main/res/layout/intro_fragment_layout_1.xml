@@ -58,11 +58,12 @@
                     android:src="@drawable/tt" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                    android:id="@+id/taCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="150"
+                    android:text=""
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 
@@ -91,12 +92,12 @@
                     android:src="@drawable/hh" />
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/mtplTextView"
+                    android:id="@+id/hotCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="150"
+                    android:text=""
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 
@@ -123,11 +124,12 @@
 
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                    android:id="@+id/EpCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="150"
+                    android:text=""
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
             </LinearLayout>

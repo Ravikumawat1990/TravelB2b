@@ -15,6 +15,7 @@ import com.app.elixir.TravelB2B.model.UserType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -63,6 +64,7 @@ public class ChatListAdapter extends BaseAdapter {
 
                 holder1.messageTextView = (TextView) v.findViewById(R.id.message_text);
                 holder1.timeTextView = (TextView) v.findViewById(R.id.time_text);
+                holder1.userName = (TextView) v.findViewById(R.id.chat_company_reply_author);
 
                 v.setTag(holder1);
             } else {
@@ -73,7 +75,11 @@ public class ChatListAdapter extends BaseAdapter {
 
             //  holder1.messageTextView.setText(Emoji.replaceEmoji(message.getMessageText(), holder1.messageTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16)));
             holder1.messageTextView.setText(message.getMessageText());
-            holder1.timeTextView.setText(SIMPLE_DATE_FORMAT.format(message.getMessageTime()));
+
+            Date date = new Date(message.getMessageTime());
+            SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+            String dateText = df2.format(date);
+            holder1.timeTextView.setText(dateText);
 
         } else if (message.getUserType() == UserType.OTHER) {
 
@@ -81,8 +87,6 @@ public class ChatListAdapter extends BaseAdapter {
                 v = LayoutInflater.from(context).inflate(R.layout.chat_user2_item, null, false);
 
                 holder2 = new ViewHolder2();
-
-
                 holder2.messageTextView = (TextView) v.findViewById(R.id.message_text);
                 holder2.timeTextView = (TextView) v.findViewById(R.id.time_text);
                 holder2.messageStatus = (ImageView) v.findViewById(R.id.user_reply_status);
@@ -126,6 +130,7 @@ public class ChatListAdapter extends BaseAdapter {
     private class ViewHolder1 {
         public TextView messageTextView;
         public TextView timeTextView;
+        public TextView userName;
 
 
     }

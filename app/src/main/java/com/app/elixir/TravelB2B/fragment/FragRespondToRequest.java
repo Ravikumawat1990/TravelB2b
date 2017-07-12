@@ -3,6 +3,7 @@ package com.app.elixir.TravelB2B.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -66,7 +67,7 @@ public class FragRespondToRequest extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.frag_resposndtorequest, container, false);
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.respondToReq));
@@ -81,8 +82,11 @@ public class FragRespondToRequest extends Fragment {
             @Override
             public void onItemClick(String value, String value1) {
 
-                if (value.equals("detail")) {
-                    CM.startActivity(thisActivity, ViewRespondToRequestDetailView.class);
+                if (value1.equals("detail")) {
+
+                    Intent intent = new Intent(thisActivity, ViewRespondToRequestDetailView.class);
+                    intent.putExtra("refId", value);
+                    CM.startActivity(intent, thisActivity);
                 } else {
                     ShowInterest();
                 }
@@ -200,6 +204,7 @@ public class FragRespondToRequest extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoMyResposne myResposne = new pojoMyResposne();
+                        myResposne.setUserId(jsonArray.getJSONObject(i).get("id").toString());
                         myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
                         myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());
                         myResposne.setTotal_budget(jsonArray.getJSONObject(i).get("total_budget").toString());

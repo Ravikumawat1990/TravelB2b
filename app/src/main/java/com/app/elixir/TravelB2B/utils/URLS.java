@@ -27,12 +27,18 @@ public class URLS {
     public static final String FOLLOWERS = URL + "businessbuddieslistapi";
     public static final String CHECKRESPONSESAPI = URL + "checkresponsesapi";
     public static final String UNBLOCKUSERAPI = URL + "unblockuserapi";
+    public static final String MY_PROFILE = URL + "userprofileapi";
+    public static final String HOMECOUNTER = URL + "dashboardcounterapi";
+    public static final String SPLASHCOUNTER = URL + "counterapi";
 
+    public static final String STATENAMEAPI = URL + "statenameapi";
 
+    public static final String CITYNAMEAPI = URL + "citynameapi";
+    public static final String USERCHATAPI = URL + "userchatapi";
+    public static final String RESPONDTOREQUESTAPI = URL + "respondtorequestapi";
 
-
-
-
-
+    public static final String REMOVEREQUESTAPI = URL + "removerequestapi";
+    public static final String BLOCKUSERAPI = URL + "blockuserapi";
+    public static final String SUBMITEDITPROFILE = URL + "edtprogile";
 
 }

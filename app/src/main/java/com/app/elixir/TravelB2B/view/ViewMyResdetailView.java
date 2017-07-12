@@ -117,7 +117,12 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         pickupLocation = (MtplTextView) findViewById(R.id.txtpickupLocation);
 
 
-        webMyResponseDeatil(CM.getSp(ViewMyResdetailView.this, CV.PrefID, "").toString(), referenceId);
+        if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+            webMyResponseDeatil(CM.getSp(ViewMyResdetailView.this, CV.PrefID, "").toString(), referenceId);
+        } else {
+
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyResdetailView.this);
+        }
 
     }
 
@@ -300,18 +305,34 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     child_without_bed.setText(jsonObject1.optString("child_without_bed"));
                     checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
                     checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
-                    destiState.setText(jsonObject1.optString("pickup_state"));
-                    destiCity.setText(jsonObject1.optString("destination_city"));
                     locality.setText(jsonObject1.optString("locality"));
-                    hotelCat.setText(jsonObject1.optString("hotel_category"));
-                    meal.setText(jsonObject1.optString("meal_plan"));
+                    hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
+                    meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
                     comment.setText(jsonObject1.optString("comment"));
                     vehicle.setText("");
                     startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
                     enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
-                    pickupCity.setText(jsonObject1.optString("pickup_city"));
+
                     pickupLocation.setText(jsonObject1.optString("pickup_locality"));
-                    // jsonObject1.optString("pickup_country")
+
+
+                    if (jsonObject1.optString("destination_city").equals("") || jsonObject1.optString("destination_city").toString().equals("0")) {
+
+                    } else {
+                        webCity(jsonObject1.optString("destination_city"), "1");
+                    }
+
+                    if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("0")) {
+                        webCity(jsonObject1.optString("pickup_city"), "2");
+                    } else {
+
+                    }
+
+                    if (!jsonObject1.optString("pickup_state").equals("")) {
+                        webState(jsonObject1.optString("pickup_state"), "1");
+                    } else {
+
+                    }
 
 
                     break;
@@ -333,4 +354,132 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
     }
 
 
+    public void webCity(String cityId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewMyResdetailView.this, true, true);
+            WebService.getCityApi(v, cityId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getCity(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                        CM.showPopupCommonValidation(ViewMyResdetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCity(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+
+                    if (type.equals("1")) {
+                        destiCity.setText(jsonObject1.optString("name"));
+                    } else {
+                        pickupCity.setText(jsonObject1.optString("name"));
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewMyResdetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, e.getMessage(), false);
+        }
+    }
+
+    public void webState(String stateId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewMyResdetailView.this, true, true);
+            WebService.getStateApi(v, stateId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getState(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                        CM.showPopupCommonValidation(ViewMyResdetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getState(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+                    if (type.equals("1")) {
+                        destiState.setText(jsonObject1.optString("state_name"));
+                    } else {
+                        //    finalState.setText(jsonObject1.optString("state_name"));
+                    }
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewMyResdetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewMyResdetailView.this, e.getMessage(), false);
+        }
+    }
 }

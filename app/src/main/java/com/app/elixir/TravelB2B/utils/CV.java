@@ -64,6 +64,7 @@ public class CV {
     public static final String OLD_PASSWORD = "old_password";
     public static final String REQ_ID = "request_id";
 
+    public static final String BlockUser_Id = "blockuser_id";
 
 
     public static final String PrefID = "id";
@@ -73,6 +74,9 @@ public class CV {
     public static final String Preffirst_name = "first_name";
     public static final String Preflast_name = "last_name";
     public static final String PrefIsLogin = "isLogin";   // 0 for logout 1 for login
+    public static final String PrefPreference = "preference";
+    public static final String PrefState_id = "state_id";
+    public static final String PrefChatUserid = "chatuserid";
 
 
 }

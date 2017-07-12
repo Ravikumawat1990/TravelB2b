@@ -3,8 +3,11 @@ package com.app.elixir.TravelB2B.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptfollowers;
@@ -46,6 +53,7 @@ public class FragFollowers extends Fragment {
     private RecyclerView mRecyclerView;
     adptfollowers mAdapter;
     ArrayList<pojoFollowers> pojoFollowerses;
+    FloatingActionButton myFab;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -73,6 +81,26 @@ public class FragFollowers extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         pojoFollowerses = new ArrayList<>();
+
+        myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showFilter();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    myFab.hide();
+                } else {
+                    myFab.show();
+                }
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
         mAdapter = new adptfollowers(thisActivity, pojoFollowerses);
 
@@ -207,5 +235,104 @@ public class FragFollowers extends Fragment {
         }
     }
 
+    public void showFilter() {
+        LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity)
+                .setView(layout);
+        builder.setTitle("Filter By:");
+        SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by name, email, mobile");
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logo3);
 
+        Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+        final String[] cat = getResources().getStringArray(R.array.catArray);
+        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner.setAdapter(langAdapter);
+
+        Spinner spinner1 = (Spinner) layout.findViewById(R.id.spinner2);
+
+        ArrayAdapter<CharSequence> langAdapter1 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner1.setAdapter(langAdapter1);
+
+
+        Spinner spinner2 = (Spinner) layout.findViewById(R.id.spinner3);
+
+        ArrayAdapter<CharSequence> langAdapter2 = new ArrayAdapter<CharSequence>(thisActivity, R.layout.support_simple_spinner_dropdown_item, cat) {
+
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                ((TextView) v).setTypeface(externalFont);
+                ((TextView) v).setTextColor(Color.WHITE);
+                v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                return v;
+            }
+        };
+        spinner2.setAdapter(langAdapter2);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }

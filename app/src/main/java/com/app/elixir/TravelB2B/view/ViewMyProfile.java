@@ -185,7 +185,6 @@ public class ViewMyProfile extends AppCompatActivity {
                 case "200":
                     // CM.showToast(jsonObject.optString("response_object"), ViewAgentProfile.this);
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-
                     // pojoAdverts
                     for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -205,7 +204,6 @@ public class ViewMyProfile extends AppCompatActivity {
                     for (int i = 0; i < jsonArray1.length(); i++) {
 
                         pojoAdvert pojoAdverts = new pojoAdvert();
-
                         pojoAdverts.setId(jsonArray1.getJSONObject(i).getString("id"));
                         pojoAdverts.setUser_id(jsonArray1.getJSONObject(i).getString("user_id"));
                         pojoAdverts.setHotel_name(jsonArray1.getJSONObject(i).getString("hotel_name"));

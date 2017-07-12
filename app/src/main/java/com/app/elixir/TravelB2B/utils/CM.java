@@ -683,5 +683,116 @@ public class CM {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    public static String setHotelCat(String hotCat) {
+        String catName = "";
+        switch (hotCat) {
+            case "1":
+                catName = "Corporate Hotel";
+                break;
+            case "2":
+                catName = "Boutique Hotel";
+                break;
+            case "3":
+                catName = "Heritage Hotel";
+                break;
+            case "4":
+                catName = "House Boat";
+                break;
+            case "5":
+                catName = "Resort";
+                break;
+            case "6":
+                catName = "Eco Resort";
+                break;
+            case "7":
+                catName = "Farm-stay";
+                break;
+            case "8":
+                catName = "Homestay";
+                break;
+            case "9":
+                catName = "Heritage Homestay";
+                break;
+            case "10":
+                catName = "Camping  ";
+                break;
+            case "11":
+                catName = "Glamping";
+                break;
+            default:
+                catName = "Glamping";
+
+        }
+        return catName;
+    }
+
+
+    // array("1"=>"Luxury Car", "2"=>"Sedan", "3"=>"Innova/ Tavera", "4"=>"Tempo Traveller", "5"=>"AC Coach", "6"=>"Non AC Bus");
+
+    public static String setVichel(String vicType) {
+        String type = "";
+        switch (vicType) {
+            case "1":
+
+                type = "Luxury Car";
+                break;
+            case "2":
+                type = "Sedan";
+                break;
+            case "3":
+                type = "Innova/ Tavera";
+                break;
+            case "4":
+                type = "Tempo Traveller";
+                break;
+            case "5":
+                type = "AC Coach";
+                break;
+            case "6":
+                type = "Non AC Bus";
+                break;
+        }
+
+        return type;
+    }
+
+    public static String getReqType(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "1":
+                text = "Package";
+                break;
+            case "2":
+                text = "Transport";
+                break;
+            case "3":
+                text = "Hotel";
+                break;
+
+        }
+        return text;
+    }
+
+
+    //return array("1"=>"EP - European Plan", "2"=>"CP - Contenental Plan", "3"=>"Modified American Plan", "4"=>"AP - American Plan");
+    public static String getMealPlane(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "1":
+                text = "European Plan";
+                break;
+            case "2":
+                text = "Contenental Plan";
+                break;
+            case "3":
+                text = "Modified American Plan";
+                break;
+            case "4":
+                text = "AP - American Plan";
+                break;
+
+        }
+        return text;
+    }
 }
 

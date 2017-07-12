@@ -4,6 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_myprofile"
+            android:icon="@drawable/myprofile"
             android:title="My Profile" />
         <item
             android:id="@+id/nav_editProfile"

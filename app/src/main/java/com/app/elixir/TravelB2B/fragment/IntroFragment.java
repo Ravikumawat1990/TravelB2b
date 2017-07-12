@@ -21,15 +21,22 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoMemberShip;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.utils.UlTagHandler;
 import com.app.elixir.TravelB2B.view.ViewRegister;
+import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
+import com.app.elixir.TravelB2B.volly.VolleyIntialization;
+import com.app.elixir.TravelB2B.volly.WebService;
+import com.app.elixir.TravelB2B.volly.WebServiceTag;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -44,6 +51,7 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
     private int mBackgroundColor, mPage;
     Activity thisActivity;
     ArrayList<pojoMemberShip> memberShipArrayList;
+    MtplTextView ta, hot, ep;
 
     public static IntroFragment newInstance(int backgroundColor, int page) {
         IntroFragment frag = new IntroFragment();
@@ -78,6 +86,11 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         switch (mPage) {
             case 0:
                 layoutResId = R.layout.intro_fragment_layout_1;
+                if (CM.isInternetAvailable(thisActivity)) {
+                    webCounter();
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                }
                 break;
             case 1:
                 layoutResId = R.layout.intro_fragment_layout_2;
@@ -160,7 +173,11 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
             view3.setOnClickListener(this);
 
 
-        } else if (mPage == 7) {
+        } else if (mPage == 0) {
+
+            ta = (MtplTextView) view.findViewById(R.id.taCount);
+            hot = (MtplTextView) view.findViewById(R.id.hotCount);
+            ep = (MtplTextView) view.findViewById(R.id.EpCount);
 
 
         }
@@ -311,6 +328,82 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         queue.add(req);
 
 
+    }
+
+
+    public void webCounter() {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getSplashCount(v, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseCounter(response);
+
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getResponseCounter(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
+
+
+                    try {
+                        ta.setText(jsonObject1.optString("travelAgentCount"));
+                    } catch (Exception e) {
+                        ta.setText("0");
+                    }
+                    try {
+                        ep.setText(jsonObject1.optString("eventPlannerCount"));
+                    } catch (Exception e) {
+
+                        ep.setText("0");
+                    }
+                    try {
+                        hot.setText(jsonObject1.optString("hotelierCount"));
+                    } catch (Exception e) {
+                        hot.setText("0");
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 
 }

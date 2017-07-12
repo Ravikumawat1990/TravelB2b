@@ -94,7 +94,7 @@ public class FragMyRequest extends Fragment {
             public void onItemClick(String value, String value1) {
 
                 if (value.equals("remove")) {
-                    showPopup(thisActivity);
+                    showPopup(thisActivity, value1);
                 } else {
                     Intent intent = new Intent(thisActivity, ViewCheckResponse.class);
                     intent.putExtra("refId", value1);
@@ -158,13 +158,13 @@ public class FragMyRequest extends Fragment {
     }
 
 
-    public void showPopup(Context context) {
+    public void showPopup(Context context, final String requestId) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage("Are you sure want to remove this request?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //finish();
+                        webRemoveRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), requestId);
                     }
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -176,7 +176,7 @@ public class FragMyRequest extends Fragment {
     public void webMyRequest(String userId, String userRole) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getMyResponseToReq(v, userId, userRole, new OnVolleyHandler() {
+            WebService.getMyReq(v, userId, userRole, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -213,7 +213,7 @@ public class FragMyRequest extends Fragment {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
 
-
+                    pojoMyResposneArrayList.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoMyRequest myResposne = new pojoMyRequest();
@@ -375,6 +375,67 @@ public class FragMyRequest extends Fragment {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void webRemoveRequest(String userId, String reqid) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getRemReq(v, userId, reqid, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getRemoveRequest(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getRemoveRequest(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    if (jsonObject.optString("response_object").toString().equals("1")) {
+                        webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+                    } else {
+                        CM.showToast(jsonObject.optString("response_object").toString(), thisActivity);
+                    }
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), thisActivity);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 
 }

@@ -51,7 +51,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ViewEditProfile extends AppCompatActivity implements View.OnFocusChangeListener, View.OnClickListener {
@@ -363,6 +365,25 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
         compRegister = (ImageView) findViewById(R.id.compRegister);
 
 
+        MtplButton btnIata = (MtplButton) findViewById(R.id.btnIata);
+        MtplButton btntafipic = (MtplButton) findViewById(R.id.btntafipic);
+        MtplButton btntaaipic = (MtplButton) findViewById(R.id.btntaaipic);
+        MtplButton btniatopic = (MtplButton) findViewById(R.id.btniatopic);
+        MtplButton btnadyoipic = (MtplButton) findViewById(R.id.btnadyoipic);
+        MtplButton btniso9001pic = (MtplButton) findViewById(R.id.btniso9001pic);
+        MtplButton btnuftaapic = (MtplButton) findViewById(R.id.btnuftaapic);
+        MtplButton btnadtoipic = (MtplButton) findViewById(R.id.btnadtoipic);
+
+        btnIata.setOnClickListener(this);
+        btntafipic.setOnClickListener(this);
+        btntaaipic.setOnClickListener(this);
+        btniatopic.setOnClickListener(this);
+        btnadyoipic.setOnClickListener(this);
+        btniso9001pic.setOnClickListener(this);
+        btnuftaapic.setOnClickListener(this);
+        btnadtoipic.setOnClickListener(this);
+
+
         edtProfilepic.setOnFocusChangeListener(this);
         edtOfficePic.setOnFocusChangeListener(this);
         edtOfficePic1.setOnFocusChangeListener(this);
@@ -420,7 +441,6 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, 6);
                 break;
-
         }
     }
 
@@ -541,6 +561,152 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                         });
                     }
                     break;
+                case 7:
+
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageIata.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 8:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imagetafipic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 9:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageTaaipic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 10:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageiatopic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 11:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageadyo.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 12:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageiso.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 13:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageufta.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+                case 14:
+                    if (photoUri != null) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
+                                    imageadto.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                    break;
+
 
             }
 
@@ -798,10 +964,10 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
     }
 
 
-    public void webSubmit() {
+    public void webSubmit(Map<String, String> params) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewEditProfile.this, true, true);
-            WebService.getSubmitEditProfile(v, "", new OnVolleyHandler() {
+            WebService.getSubmitEditProfile(v, params, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -857,7 +1023,9 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
     @Override
     public void onClick(View view) {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         switch (view.getId()) {
+
             case R.id.profileupdatedetails:
 
 
@@ -909,12 +1077,63 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
                                                                     if (selectedItemList.size() == 5) {
 
-                                                                        Bitmap bitmap = ((BitmapDrawable) proPic.getDrawable()).getBitmap();
-                                                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                                                        byte[] imageBytes = baos.toByteArray();
-                                                                        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                                                                        Log.i(TAG, "initView: " + encodedImage);
+
+                                                                        Map<String, String> params = new HashMap<>();
+                                                                        params.put("cateName", spinner.getSelectedItem().toString());
+                                                                        params.put("fname", first_name.getText().toString());
+                                                                        params.put("lname", last_name.getText().toString());
+                                                                        params.put("compName", compName.getText().toString());
+                                                                        params.put("email", email.getText().toString());
+                                                                        params.put("mobile", primMobileNo.getText().toString());
+                                                                        params.put("secMobile", secMobileNo.getText().toString());
+                                                                        params.put("address1", address1.getText().toString());
+                                                                        params.put("address2", address2.getText().toString());
+                                                                        params.put("locality", locality.getText().toString());
+                                                                        params.put("city", cityId);
+                                                                        params.put("state", stateId);
+                                                                        params.put("country", countryId);
+                                                                        params.put("pincode", pinCode.getText().toString());
+                                                                        params.put("website", webUrl.getText().toString());
+
+                                                                        StringBuilder stringBuilder = new StringBuilder();
+                                                                        ArrayList<String> strings = new ArrayList<>();
+                                                                        for (int i = 0; i < selectedItemList.size(); i++) {
+                                                                            strings.add(selectedItemList.get(i).getEmail());
+                                                                        }
+                                                                        params.put("stateToOperate", strings.toString());
+
+
+                                                                        String iataImg = BASE64String(imageIata);
+                                                                        String tafipic = BASE64String(imagetafipic);
+                                                                        String taaipic = BASE64String(imageTaaipic);
+                                                                        String iatopic = BASE64String(imageiatopic);
+                                                                        String adyo = BASE64String(imageadyo);
+                                                                        String iso900 = BASE64String(imageiso);
+                                                                        String ufta = BASE64String(imageufta);
+                                                                        String adto = BASE64String(imageadto);
+                                                                        String proPics = BASE64String(proPic);
+                                                                        String officePics = BASE64String(officePic);
+                                                                        String officePic1s = BASE64String(officePic1);
+                                                                        String panCards = BASE64String(panCard);
+                                                                        String businessCards = BASE64String(businessCard);
+                                                                        String comRegisters = BASE64String(comRegister);
+
+                                                                        params.put("imgIata", iataImg);
+                                                                        params.put("imgTafi", tafipic);
+                                                                        params.put("imgTaai", taaipic);
+                                                                        params.put("imgIato", iatopic);
+                                                                        params.put("imgAdyo", adyo);
+                                                                        params.put("imgIso", iso900);
+                                                                        params.put("imgUfta", ufta);
+                                                                        params.put("imgAdto", adto);
+                                                                        params.put("profPic", proPics);
+                                                                        params.put("picOffice1", officePics);
+                                                                        params.put("picOffice2", officePic1s);
+                                                                        params.put("picPanCard", panCards);
+                                                                        params.put("picBusCard", businessCards);
+                                                                        params.put("picActReg", comRegisters);
+                                                                        params.put("description", edtDis.getText().toString());
+                                                                        webSubmit(params);
 
 
                                                                     } else {
@@ -981,13 +1200,38 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                 } else {
                     CM.showToast(getString(R.string.entfname), ViewEditProfile.this);
                 }
-
-/*
-                } else {
-                    CM.showToast(getString(R.string.entcat), ViewEditProfile.this);
-                }*/
-
-
+                break;
+            case R.id.btnIata:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 7);
+                break;
+            case R.id.btntafipic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 8);
+                break;
+            case R.id.btntaaipic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 9);
+                break;
+            case R.id.btniatopic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 10);
+                break;
+            case R.id.btnadyoipic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 11);
+                break;
+            case R.id.btniso9001pic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 12);
+                break;
+            case R.id.btnuftaapic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 13);
+                break;
+            case R.id.btnadtoipic:
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 14);
                 break;
         }
     }
@@ -1194,6 +1438,24 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
         }
     }
 
+
+    public String BASE64String(ImageView image) {
+        String encodedImage = "";
+        try {
+            Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            Log.i(TAG, "initView: " + encodedImage);
+
+        } catch (Exception e) {
+            encodedImage = "";
+        }
+
+
+        return encodedImage;
+    }
 
 }
 

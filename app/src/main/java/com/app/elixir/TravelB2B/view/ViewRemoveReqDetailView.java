@@ -178,7 +178,6 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
                 case "200":
 
 
-
                     if (jsonObject.optString("response_object") != null) {
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
 
@@ -186,14 +185,41 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
                         budget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
                         members.setText(jsonObject1.optString("adult"));
                         childres.setText(jsonObject1.optString("children"));
-                        startDate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date ")));
+                        startDate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
                         endDate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
-                        pickupState.setText(jsonObject1.optString("pickup_state"));
-                        pickupCity.setText(jsonObject1.optString("pickup_city"));
+                        //pickupState.setText(jsonObject1.optString("pickup_state"));
+                        //  pickupCity.setText(jsonObject1.optString("pickup_city"));
                         pickupLocality.setText(jsonObject1.optString("locality"));
-                        finalState.setText(jsonObject1.optString("final_state"));
-                        finalCity.setText(jsonObject1.optString("final_city"));
+                        //     finalState.setText();
+                        //   finalCity.setText();
                         //  vichel.setText(jsonObject1.optString("comment"));
+
+                        if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").toString().equals("null") || jsonObject1.optString("pickup_state") == null) {
+
+                        } else {
+                            webCity(jsonObject1.optString("pickup_state"), "1");
+                        }
+
+                        if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("null") || jsonObject1.optString("pickup_city") == null) {
+
+                        } else {
+                            webState(jsonObject1.optString("pickup_city"), "1");
+                        }
+
+
+                        if (jsonObject1.optString("final_city").equals("") || jsonObject1.optString("final_city").toString().equals("null") || jsonObject1.optString("final_city") == null) {
+
+                        } else {
+                            webCity(jsonObject1.optString("final_city"), "2");
+                        }
+
+                        if (jsonObject1.optString("final_state").equals("") || jsonObject1.optString("final_state").toString().equals("null") || jsonObject1.optString("final_state") == null) {
+
+                        } else {
+                            webState(jsonObject1.optString("final_state"), "2");
+                        }
+
+
                     }
 
 
@@ -216,4 +242,132 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
     }
 
 
+    public void webCity(String cityId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewRemoveReqDetailView.this, true, true);
+            WebService.getCityApi(v, cityId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getCity(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                        CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCity(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+
+                    if (type.equals("1")) {
+                        pickupCity.setText(jsonObject1.optString("name"));
+                    } else {
+                        finalCity.setText(jsonObject1.optString("name"));
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewRemoveReqDetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, e.getMessage(), false);
+        }
+    }
+
+    public void webState(String stateId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewRemoveReqDetailView.this, true, true);
+            WebService.getStateApi(v, stateId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getState(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                        CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getState(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+                    if (type.equals("1")) {
+                        pickupState.setText(jsonObject1.optString("state_name"));
+                    } else {
+                        finalState.setText(jsonObject1.optString("state_name"));
+                    }
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewRemoveReqDetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewRemoveReqDetailView.this, e.getMessage(), false);
+        }
+    }
 }

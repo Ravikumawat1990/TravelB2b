@@ -51,7 +51,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:padding="5dp"
-                        android:text="Package"
+
                         android:textSize="@dimen/font_12sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -82,7 +82,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:padding="5dp"
-                        android:text="123"
+
                         android:textSize="@dimen/font_12sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -113,7 +113,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:padding="5dp"
-                        android:text="30/05/2017"
+
                         android:textSize="@dimen/font_12sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -151,7 +151,6 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:padding="5dp"
-                        android:text="31/05/2017"
                         android:textSize="@dimen/font_12sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

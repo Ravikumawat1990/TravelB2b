@@ -14,6 +14,7 @@ import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoRemoveReq;
+import com.app.elixir.TravelB2B.utils.CM;
 
 import java.util.ArrayList;
 
@@ -80,9 +81,11 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
         TextView textViewReqId = holder.txtRefid;
         TextView mebers = holder.txtMebers;
         TextView total = holder.txttotBudget;
+        TextView reqType = holder.txtRexType;
 
 
         textViewReqId.setText(dataSet.get(position).getReference_id());
+        reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
 
         int mebersInt = 0;
         try {

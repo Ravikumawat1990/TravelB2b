@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
 
 public class ViewCheckResponse extends AppCompatActivity implements View.OnClickListener {
 
@@ -114,13 +116,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 if (value.equals("chat")) {
                     CM.startActivity(ViewCheckResponse.this, ViewChat.class);
                 } else if (value.equals("share")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?");
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value1, value);
                 } else if (value.equals("btnAccept")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?");
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value1, value);
                 } else if (value.equals("rate")) {
                     showRating();
                 } else if (value.equals("block")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?");
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value1, value);
                 }
             }
         });
@@ -219,13 +221,19 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
-    public void showPopup(Context context, String msg) {
+    public void showPopup(Context context, String msg, final String blockId, final String type) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //finish();
+
+                        if (type.equals("block")) {
+
+                            getBlockUser(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), blockId);
+
+                        }
+
                     }
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -384,7 +392,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+                    final JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
 
                     refId.setText(jsonObject1.optString("id"));
                     budget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
@@ -394,8 +402,69 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     vehicle.setText("");
                     startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
                     enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
-                    pickupCity.setText(jsonObject1.optString("pickup_city"));
                     pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+                    //pickupCity.setText(jsonObject1.optString("pickup_city"));
+                    //pickupState.setText(jsonObject1.optString("pickup_state"));
+
+                    //finalCity.setText(jsonObject1.optString("final_city"));
+                    //finalState.setText(jsonObject1.optString("final_state"));
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").equals("0") || jsonObject1.optString("pickup_state").toString().equals("null")) {
+
+                            } else {
+                                webState(jsonObject1.optString("pickup_state"), "1");
+                            }
+
+                        }
+                    }, 100);
+
+                    final Handler handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (jsonObject1.optString("final_state").equals("") || jsonObject1.optString("final_state").equals("0") || jsonObject1.optString("final_state").toString().equals("null")) {
+
+                            } else {
+                                webState(jsonObject1.optString("final_state"), "2");
+                            }
+
+
+                        }
+                    }, 200);
+
+
+                    final Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").equals("0") || jsonObject1.optString("pickup_city").toString().equals("null")) {
+
+                            } else {
+                                webCity(jsonObject1.optString("pickup_city"), "1");
+                            }
+
+                        }
+                    }, 400);
+
+                    final Handler handler3 = new Handler();
+                    handler3.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (jsonObject1.optString("final_city").equals("") || jsonObject1.optString("final_city").equals("0") || jsonObject1.optString("final_city").toString().equals("null")) {
+
+                            } else {
+                                webCity(jsonObject1.optString("final_city"), "2");
+                            }
+
+                        }
+                    }, 500);
 
 
                     break;
@@ -434,6 +503,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         checkResposne.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
+                        checkResposne.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
                         jsonArray.getJSONObject(i).optString("request_id");
                         checkResposne.setComment(jsonArray.getJSONObject(i).optString("comment"));
                         JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("request").toString());
@@ -449,6 +519,194 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     mRecyclerView.invalidate();
 
 
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewCheckResponse.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
+
+    public void getBlockUser(String userId, String blockUId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getBlockUser(v, userId, blockUId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseBlockUser(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getResponseBlockUser(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    jsonObject.optString("response_object").toString();
+
+                    // mRecyclerView.setAdapter(mAdapter);
+                    //  mRecyclerView.invalidate();
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
+
+    public void webCity(String cityId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getCityApi(v, cityId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getCity(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCity(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+
+                    if (type.equals("1")) {
+                        pickupCity.setText(jsonObject1.optString("name"));
+                    } else {
+                        finalCity.setText(jsonObject1.optString("name"));
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewCheckResponse.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
+    public void webState(String stateId, final String type) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getStateApi(v, stateId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getState(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getState(String response, String type) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+                    if (type.equals("1")) {
+                        pickupState.setText(jsonObject1.optString("state_name"));
+                    } else {
+                        finalState.setText(jsonObject1.optString("state_name"));
+                    }
                     break;
                 case "202":
                     break;

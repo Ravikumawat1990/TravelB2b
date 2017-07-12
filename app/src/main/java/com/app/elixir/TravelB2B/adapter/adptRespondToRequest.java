@@ -40,7 +40,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
         private CardView rootView;
         public MtplTextView reqType, reqAgent, startDate, endDate, total, adult, txtComment, destination;
-        MtplButton btnDetail;
+        MtplButton btnDetail, btnShowInterest;
         ImageView catImage;
 
         public MyViewHolder(View itemView) {
@@ -55,8 +55,8 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
-
-
+            btnShowInterest = (MtplButton) itemView.findViewById(R.id.btnShowInterest);
+            btnShowInterest.setOnClickListener(this);
             btnDetail.setOnClickListener(this);
 
         }
@@ -65,7 +65,10 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getReference_id(),"");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getUserId(), "detail");
+                    break;
+                case R.id.btnShowInterest:
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getUserId(), "showInt");
                     break;
             }
 
@@ -98,7 +101,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         ImageView catImg = holder.catImage;
 
         reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
-        txtComment.setText(dataSet.get(position).getComment());
+        txtComment.setText(dataSet.get(position).getUserComment());
 
         String txtStartDt = "";
         try {

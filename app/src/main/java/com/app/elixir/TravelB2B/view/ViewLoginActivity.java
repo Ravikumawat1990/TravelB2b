@@ -222,11 +222,15 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                     JSONObject jsonObject1 = new JSONObject(jsonObject.getString("response_object"));
                     CM.showToast(jsonObject.getString("msg"), ViewLoginActivity.this);
                     CM.setSp(ViewLoginActivity.this, CV.PrefID, String.valueOf(jsonObject1.getInt("id")));
-                    CM.setSp(ViewLoginActivity.this, CV.PrefEmail, jsonObject1.getString("email"));
+                    CM.setSp(ViewLoginActivity.this, CV.PrefEmail, jsonObject1.optString("email"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefRole_Id, String.valueOf(jsonObject1.getInt("role_id")));
-                    CM.setSp(ViewLoginActivity.this, CV.PrefMobile_number, jsonObject1.getString("mobile_number"));
-                    CM.setSp(ViewLoginActivity.this, CV.Preffirst_name, jsonObject1.getString("first_name"));
-                    CM.setSp(ViewLoginActivity.this, CV.Preflast_name, jsonObject1.getString("last_name"));
+                    CM.setSp(ViewLoginActivity.this, CV.PrefMobile_number, jsonObject1.optString("mobile_number"));
+                    CM.setSp(ViewLoginActivity.this, CV.Preffirst_name, jsonObject1.optString("first_name"));
+                    CM.setSp(ViewLoginActivity.this, CV.Preflast_name, jsonObject1.optString("last_name"));
+                    CM.setSp(ViewLoginActivity.this, CV.PrefPreference, jsonObject1.optString("preference"));
+                    CM.setSp(ViewLoginActivity.this, CV.PrefState_id, jsonObject1.optString("state_id"));
+
+
                     CM.setSp(ViewLoginActivity.this, CV.PrefIsLogin, "1");
                     CM.startActivity(ViewLoginActivity.this, ViewDrawer.class);
                     finish();

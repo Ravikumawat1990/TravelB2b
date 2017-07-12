@@ -75,7 +75,7 @@
     <string name="entcity">Please select city</string>
     <string name="entcityfirst">Please select city first</string>
     <string name="entpin">Please enter pincode</string>
-    <string name="entlist">Please select at least 5 items</string>
+    <string name="entlist">Please select at least 5 City</string>
 
 
     <!-- Sign Up -->
@@ -310,5 +310,19 @@
     <string name="transport">Transport</string>
     <string name="hotel">Hotel</string>
 
+    <item name="checkin1" type="id" />
+    <item name="checkout1" type="id" />
+
+    <item name="checkin2" type="id" />
+    <item name="checkout2" type="id" />
+
+    <item name="checkin3" type="id" />
+    <item name="checkout3" type="id" />
+
+    <item name="checkin4" type="id" />
+    <item name="checkout4" type="id" />
+
+    <item name="checkin5" type="id" />
+    <item name="checkout5" type="id" />
 
 </resources>

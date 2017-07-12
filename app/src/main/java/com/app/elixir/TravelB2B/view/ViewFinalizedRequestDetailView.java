@@ -252,16 +252,147 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     triplePer.setText(jsonObject1.optString("room3"));
                     child_with_bed.setText(jsonObject1.optString("child_with_bed"));
                     child_without_bed.setText(jsonObject1.optString("child_without_bed"));
-                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy",jsonObject1.optString("check_in")));
-                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy",jsonObject1.optString("check_out")));
-                    destiState.setText(jsonObject1.optString("pickup_state"));
-                    destiCity.setText(jsonObject1.optString("destination_city"));
+                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
+                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
+                    //   destiState.setText(jsonObject1.optString("pickup_state"));
+                    // destiCity.setText(jsonObject1.optString("destination_city"));
                     locality.setText(jsonObject1.optString("locality"));
-                    hotelCat.setText(jsonObject1.optString("hotel_category"));
+                    hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
                     meal.setText(jsonObject1.optString("meal_plan"));
                     comment.setText(jsonObject1.optString("comment"));
 
+                    if (!jsonObject1.optString("pickup_state").toString().equals("")) {
+                        webState(jsonObject1.optString("pickup_state"));
+                    } else {
 
+                    }
+                    if (!jsonObject1.optString("destination_city").toString().equals("") && !jsonObject1.optString("destination_city").toString().equals("0")) {
+                        webCity(jsonObject1.optString("destination_city"));
+                    } else {
+                    }
+
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedRequestDetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (
+                Exception e)
+
+        {
+            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, e.getMessage(), false);
+        }
+
+    }
+
+    public void webCity(String cityId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewFinalizedRequestDetailView.this, true, true);
+            WebService.getCityApi(v, cityId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getCity(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
+                        CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCity(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+                    destiCity.setText(jsonObject1.optString("name"));
+
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedRequestDetailView.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, e.getMessage(), false);
+        }
+    }
+
+    public void webState(String stateId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewFinalizedRequestDetailView.this, true, true);
+            WebService.getStateApi(v, stateId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getState(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
+                        CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getState(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewFinalizedRequestDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+                    destiState.setText(jsonObject1.optString("state_name"));
                     break;
                 case "202":
                     break;
