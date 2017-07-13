@@ -78,7 +78,7 @@
                             android:id="@+id/edtRefId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Reference ID"
+                            android:hint="Reference ID*"
                             android:inputType="text"
                             android:singleLine="true"
                             android:textSize="12sp"
@@ -95,7 +95,7 @@
                             android:id="@+id/edtTotalBudget"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Total Budget"
+                            android:hint="Total Budget*"
                             android:inputType="text"
                             android:singleLine="true"
                             android:textSize="12sp"
@@ -401,7 +401,7 @@
 
 
                                     <Spinner
-                                        android:id="@+id/spinnerHotelCat"
+                                        android:id="@+id/spinnerHotelRating"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -484,7 +484,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_10dp"
-                                    android:entries="@array/hotRating"
+
                                     android:gravity="center_vertical"
                                     android:text="Meal Plan"
                                     android:textColor="@color/colorPrimary"
@@ -506,7 +506,7 @@
                                         android:layout_centerVertical="true"
                                         android:layout_gravity="center"
                                         android:background="@android:color/transparent"
-                                        android:entries="@array/hotRating"
+                                        android:entries="@array/MealPlaneArray"
                                         android:gravity="center"
                                         android:spinnerMode="dropdown" />
 
@@ -532,7 +532,7 @@
                                     android:id="@+id/edtDestinationCity"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Destination City"
+                                    android:hint="Destination City*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -612,7 +612,7 @@
                                     android:drawableEnd="@drawable/ic_date_range_black_24dp"
                                     android:drawableRight="@drawable/ic_date_range_black_24dp"
                                     android:drawableTint="@color/colorPrimary"
-                                    android:hint="Check In"
+                                    android:hint="Check In*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -634,8 +634,7 @@
                                     android:drawableEnd="@drawable/ic_date_range_black_24dp"
                                     android:drawableRight="@drawable/ic_date_range_black_24dp"
                                     android:drawableTint="@color/colorPrimary"
-
-                                    android:hint="Check Out"
+                                    android:hint="Check Out*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -755,7 +754,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
-                                android:entries="@array/hotRating"
+                                android:entries="@array/TransportArray"
                                 android:gravity="center"
                                 android:spinnerMode="dropdown" />
 
@@ -790,8 +789,7 @@
                             android:drawableTint="@color/colorPrimary"
                             android:hint="Start Date "
                             android:inputType="text"
-
-                            android:singleLine="true"
+                            android:maxLines="1"
                             android:textSize="12sp"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

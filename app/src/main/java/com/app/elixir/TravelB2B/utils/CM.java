@@ -714,13 +714,13 @@ public class CM {
                 catName = "Heritage Homestay";
                 break;
             case "10":
-                catName = "Camping  ";
+                catName = "Camping";
                 break;
             case "11":
                 catName = "Glamping";
                 break;
             default:
-                catName = "Glamping";
+                catName = "";
 
         }
         return catName;
@@ -733,7 +733,6 @@ public class CM {
         String type = "";
         switch (vicType) {
             case "1":
-
                 type = "Luxury Car";
                 break;
             case "2":

@@ -75,6 +75,7 @@
                         android:layout_marginTop="@dimen/margin_5dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/edtRefId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Reference ID"
@@ -91,6 +92,7 @@
                         android:layout_marginTop="@dimen/margin_5dp">
 
                         <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/edtTotalBudget"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Total Budget"
@@ -123,7 +125,7 @@
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                             <com.app.elixir.TravelB2B.numberPicker.NumberPicker
-                                android:id="@+id/number_picker"
+                                android:id="@+id/number_pickerAdult"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/margin_2dp"
@@ -147,7 +149,7 @@
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                             <com.app.elixir.TravelB2B.numberPicker.NumberPicker
-                                android:id="@+id/number_picker1"
+                                android:id="@+id/number_pickerChildBelow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/margin_2dp"
@@ -281,6 +283,7 @@
                                             android:layout_marginTop="@dimen/margin_5dp">
 
                                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                                android:id="@+id/edtSingleRoom"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Single"
@@ -298,6 +301,7 @@
                                             android:layout_marginTop="@dimen/margin_5dp">
 
                                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                                android:id="@+id/edtDoubleRoom"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Double"
@@ -315,6 +319,7 @@
                                             android:layout_marginTop="@dimen/margin_5dp">
 
                                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                                android:id="@+id/edtTripleRoom"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Triple"
@@ -332,6 +337,7 @@
                                             android:layout_marginTop="@dimen/margin_5dp">
 
                                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                                android:id="@+id/edt_Child_with_bed"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Child with bed"
@@ -348,6 +354,7 @@
                                             android:layout_marginTop="@dimen/margin_5dp">
 
                                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                                android:id="@+id/edt_Child_without_bed"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Child without bed"
@@ -393,7 +400,7 @@
 
 
                                     <Spinner
-                                        android:id="@+id/spinnerHotelCat"
+                                        android:id="@+id/spinnerHotelRating"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -476,7 +483,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_10dp"
-                                    android:entries="@array/hotRating"
+
                                     android:gravity="center_vertical"
                                     android:text="Meal Plan"
                                     android:textColor="@color/colorPrimary"
@@ -492,6 +499,7 @@
                                     android:orientation="horizontal">
 
                                     <Spinner
+                                        android:id="@+id/spinnerMealPlane"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_centerVertical="true"
@@ -520,6 +528,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationCity"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination City"
@@ -538,6 +547,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationState"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination State "
@@ -556,6 +566,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationCountry"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Destination Country "
@@ -574,6 +585,7 @@
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/edtDestinationLocality"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Locality"

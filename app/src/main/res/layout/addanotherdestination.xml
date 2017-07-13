@@ -277,7 +277,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:entries="@array/hotRating"
+                android:entries="@array/MealPlaneArray"
                 android:gravity="center"
                 android:spinnerMode="dropdown" />
 

@@ -51,8 +51,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.app.elixir.TravelB2B.R.id.checkin2;
-import static com.app.elixir.TravelB2B.R.id.checkout4;
 import static com.app.elixir.TravelB2B.R.id.checkout5;
 
 
@@ -98,12 +96,14 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     final int DRAWABLE_RIGHT = 2;
     final int DRAWABLE_BOTTOM = 3;
     View rootView;
+    MultiSelectionSpinner spinnerHotelCatMain;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rowViewMain = inflater.inflate(R.layout.tabpackage, container, false);
         thisActivity = getActivity();
+
         initView(rowViewMain);
 
 
@@ -114,18 +114,58 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
     private void initView(View view) {
 
+
         countryArrayList = new ArrayList<>();
         pojoCities = new ArrayList<>();
         pojoStateArrayList = new ArrayList<>();
-        btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
-        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
-        MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);
-        multiSelectionSpinner.setItems(array);
-        multiSelectionSpinner.setListener(this);
-        spinnerHotelRating = (Spinner) view.findViewById(R.id.spinnerHotelCat);
-        spinnerMealPlane = (Spinner) view.findViewById(R.id.spinnerMealPlane);
-        spinnerTransport = (Spinner) view.findViewById(R.id.spinnerTransport);
 
+
+        //General Req
+        refId = (MtplEditText) view.findViewById(R.id.edtRefId);
+        totBudget = (MtplEditText) view.findViewById(R.id.edtTotalBudget);
+        numberPicker = (NumberPicker) view.findViewById(R.id.number_pickerAdult);
+        childBelow = (NumberPicker) view.findViewById(R.id.number_pickerChildBelow);
+
+
+        //Stay Req
+        singleRoom = (MtplEditText) view.findViewById(R.id.edtSingleRoom);
+        doubleRoom = (MtplEditText) view.findViewById(R.id.edtDoubleRoom);
+        tripalRoom = (MtplEditText) view.findViewById(R.id.edtTripleRoom);
+        childWithbed = (MtplEditText) view.findViewById(R.id.edt_Child_with_bed);
+        childWithoutbed = (MtplEditText) view.findViewById(R.id.edt_Child_without_bed);
+        spinnerHotelRating = (Spinner) view.findViewById(R.id.spinnerHotelRating);
+        spinnerHotelCatMain = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);
+        String[] array = getResources().getStringArray(R.array.hotCatArray);
+        spinnerHotelCatMain.setItems(array);
+        spinnerHotelCatMain.setListener(this);
+        spinnerMealPlane = (Spinner) view.findViewById(R.id.spinnerMealPlane);
+        destiCity = (AutoCompleteTextView) view.findViewById(R.id.edtDestinationCity);
+        destiState = (MtplEditText) view.findViewById(R.id.edtDestinationState);
+        destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
+        destiLocality = (MtplEditText) view.findViewById(R.id.edtDestinationLocality);
+        destiState.setEnabled(false);
+        destiCountry.setEnabled(false);
+        checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
+        checkOut = (MtplEditText) view.findViewById(R.id.edtCheckOut);
+        btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
+
+
+        //Transport Req
+        spinnerTransport = (Spinner) view.findViewById(R.id.spinnerTransport);
+        transStatrDate = (MtplEditText) view.findViewById(R.id.transStatrDate);
+        transEndDate = (MtplEditText) view.findViewById(R.id.transEndDate);
+        pickupLocality = (MtplEditText) view.findViewById(R.id.pickupLocality);
+        trapickupCity = (MtplEditText) view.findViewById(R.id.trapickupCity);
+        pickupState = (MtplEditText) view.findViewById(R.id.trapickupState);
+        finalLocality = (MtplEditText) view.findViewById(R.id.finalLocality);
+        finalCity = (MtplEditText) view.findViewById(R.id.finalCity);
+        finalState = (MtplEditText) view.findViewById(R.id.finalState);
+
+        //Comment
+        edtComment = (MtplEditText) view.findViewById(R.id.edtComment);
+
+
+        btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
 
         ExpandableLayout expandableLayout1 = (ExpandableLayout) view.findViewById(R.id.expView1);
         ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView2);
@@ -145,7 +185,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         imageView4.setBackgroundResource(R.drawable.ic_add_black_24dp);
         imageViewNoOfRoomImg.setBackgroundResource(R.drawable.ic_add_black_24dp);
 
-       /* expandableLayout1.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+        expandableLayout.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
             @Override
             public void onExpand(boolean b) {
                 if (b) {
@@ -156,7 +196,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
 
             }
-        });*/
+        });
 
         expandableLayout1.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
             @Override
@@ -207,45 +247,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             }
         });
 
-        refId = (MtplEditText) view.findViewById(R.id.edtRefId);
-        totBudget = (MtplEditText) view.findViewById(R.id.edtTotalBudget);
-        numberPicker = (NumberPicker) view.findViewById(R.id.number_pickerAdult);
-        childBelow = (NumberPicker) view.findViewById(R.id.number_pickerChildBelow);
 
-
-        singleRoom = (MtplEditText) view.findViewById(R.id.edtSingleRoom);
-        doubleRoom = (MtplEditText) view.findViewById(R.id.edtDoubleRoom);
-        tripalRoom = (MtplEditText) view.findViewById(R.id.edtTripleRoom);
-        childWithbed = (MtplEditText) view.findViewById(R.id.edt_Child_with_bed);
-        childWithoutbed = (MtplEditText) view.findViewById(R.id.edt_Child_without_bed);
-
-
-        btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
         childScrollview = (NestedScrollView) view.findViewById(R.id.childScrollView);
-        checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
-        checkOut = (MtplEditText) view.findViewById(R.id.edtCheckOut);
-
-
-        destiCity = (AutoCompleteTextView) view.findViewById(R.id.edtDestinationCity);
-        destiState = (MtplEditText) view.findViewById(R.id.edtDestinationState);
-        destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
-        destiLocality = (MtplEditText) view.findViewById(R.id.edtDestinationLocality);
-        destiState.setEnabled(false);
-        destiCountry.setEnabled(false);
-
-
-        transStatrDate = (MtplEditText) view.findViewById(R.id.transStatrDate);
-        transEndDate = (MtplEditText) view.findViewById(R.id.transEndDate);
-        pickupLocality = (MtplEditText) view.findViewById(R.id.pickupLocality);
-        trapickupCity = (MtplEditText) view.findViewById(R.id.trapickupCity);
-        pickupState = (MtplEditText) view.findViewById(R.id.trapickupState);
-
-        finalLocality = (MtplEditText) view.findViewById(R.id.finalLocality);
-        finalCity = (MtplEditText) view.findViewById(R.id.finalCity);
-        finalState = (MtplEditText) view.findViewById(R.id.finalState);
-        edtComment = (MtplEditText) view.findViewById(R.id.edtComment);
 
 
         destiCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -360,7 +365,13 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         checkIn.setOnTouchListener(this);
         checkOut.setOnTouchListener(this);
         transStatrDate.setOnClickListener(this);
+
+        transStatrDate.setOnTouchListener(this);
+        transEndDate.setOnTouchListener(this);
+
         btnSubmit.setOnClickListener(this);
+
+
         btnAddAnother.setOnClickListener(this);
         strings = new ArrayList<>();
         webCallCity();
@@ -374,44 +385,21 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         try {
             LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rootView = inflater.inflate(R.layout.addanotherdestination, null);
-            //   rowView.setId(i++);
             MtplButton mtplButton = (MtplButton) rootView.findViewById(R.id.btnRemove);
             edtlocality = (MtplEditText) rootView.findViewById(R.id.locality);
+
             checkIn1 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn1);
             checkOut1 = (MtplEditText) rootView.findViewById(R.id.edtCheckout1);
-            i++;
-
-            if (i == 1) {
-                checkIn1.setId(R.id.checkin1);
-                checkOut1.setId(R.id.checkout1);
-            } else if (i == 2) {
-                checkIn1.setId(checkin2);
-                checkOut1.setId(R.id.checkout2);
-            } else if (i == 3) {
-                checkIn1.setId(R.id.checkin3);
-                checkOut1.setId(R.id.checkout3);
-            } else if (i == 4) {
-                checkIn1.setId(R.id.checkin4);
-                checkOut1.setId(checkout4);
-            } else if (i == 5) {
-                checkIn1.setId(R.id.checkin5);
-                checkOut1.setId(checkout5);
-            }
-
-
             checkIn1.setOnTouchListener(this);
             checkOut1.setOnTouchListener(this);
 
-            String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+            String[] array = getResources().getStringArray(R.array.hotCatArray);
             spinnerHotelCat = (MultiSelectionSpinner) rootView.findViewById(R.id.mySpinner);
             spinnerHotelCat.setItems(array);
             spinnerHotelCat.setListener(this);
-            //   rowView.setId(i++);
             mtplButton.setOnClickListener(this);
             Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
             parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
-
-
             CM.showToast("DESIGNATION ADDED", thisActivity);
 
 
@@ -447,36 +435,103 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 if (!refId.getText().toString().equals("")) {
 
 
-                    if (totBudget.getText().toString().equals("")) {
+                    if (!totBudget.getText().toString().equals("")) {
 
 
-                        if (destiCity.getText().toString().equals("")) {
+                        if (!destiCity.getText().toString().equals("")) {
 
 
-                            if (checkIn.getText().toString().equals("")) {
+                            if (!checkIn.getText().toString().equals("")) {
 
-                                if (checkOut.getText().toString().equals("")) {
+                                if (!checkOut.getText().toString().equals("")) {
 
-                                    numberPicker.getValue();
-                                    childBelow.getValue();
-                                    singleRoom.getText().toString();
-                                    doubleRoom.getText().toString();
-                                    tripalRoom.getText().toString();
-                                    childWithbed.getText().toString();
-                                    childWithoutbed.getText().toString();
-                                    spinnerHotelCat.getSelectedItemsAsString();
-                                    spinnerHotelRating.getSelectedItem();
-                                    spinnerMealPlane.getSelectedItem();
-                                    destiCity.getText().toString();
-                                    destiState.getText().toString();
-                                    destiCountry.getText().toString();
-                                    destiLocality.getText().toString();
-                                    checkIn.getText().toString();
-                                    checkOut.getText().toString();
+                                    JSONObject jsonObject = new JSONObject();
 
-                                    spinnerTransport.getSelectedItem();
-                                    edtComment.getText().toString();
 
+                                    JSONObject jsonObject1 = new JSONObject();
+
+
+                                    //General Req
+                                    JSONObject generalReqObj = new JSONObject();
+                                    JSONArray generalReqArray = new JSONArray();
+                                    JSONObject obj = new JSONObject();
+                                    try {
+                                        obj.put("refId", refId.getText().toString());
+                                        obj.put("totBudget", totBudget.getText().toString());
+                                        obj.put("members", numberPicker.getValue());
+                                        obj.put("childBelow", childBelow.getValue());
+                                        generalReqArray.put(obj);
+                                        generalReqObj.put("General_Req", generalReqArray);
+                                    } catch (Exception e) {
+
+                                    }
+
+
+                                    //Stay Req
+
+                                    JSONObject obj1 = new JSONObject();
+                                    JSONObject stayReqReqObj = new JSONObject();
+                                    JSONArray stayReqArray = new JSONArray();
+                                    try {
+
+                                        for (int j = 0; j < 2; j++) {
+                                            obj1.put("singleRoom", singleRoom.getText().toString());
+                                            obj1.put("doubleRoom", doubleRoom.getText().toString());
+                                            obj1.put("tripalRoom", tripalRoom.getText().toString());
+                                            obj1.put("childWithbed", childWithbed.getText().toString());
+                                            obj1.put("childWithoutbed", childWithoutbed.getText().toString());
+                                            obj1.put("HotelRating", spinnerHotelRating.getSelectedItem());
+                                            obj1.put("HotelCat", spinnerHotelCatMain.getSelectedStrings());
+                                            obj1.put("MealPlane", spinnerMealPlane.getSelectedItem());
+                                            obj1.put("destiCity", destiCity.getText().toString());
+                                            obj1.put("destiState", destiState.getText().toString());
+                                            obj1.put("destiCountry", destiCountry.getText().toString());
+                                            obj1.put("destiLocality", destiLocality.getText().toString());
+                                            obj1.put("checkIn", checkIn.getText().toString());
+                                            obj1.put("checkOut", checkOut.getText().toString());
+                                            stayReqArray.put(obj1);
+                                        }
+                                        generalReqObj.put("Stay_Req", stayReqArray);
+
+
+                                    } catch (Exception e) {
+
+                                    }
+
+
+                                    //Transport Req
+                                    JSONObject transportReqObj = new JSONObject();
+                                    JSONArray transportReqArray = new JSONArray();
+                                    JSONObject obj3 = new JSONObject();
+                                    try {
+                                        obj3.put("transport", spinnerTransport.getSelectedItem());
+                                        obj3.put("StatrDate", transStatrDate.getText().toString());
+                                        obj3.put("EndDate", transEndDate.getText().toString());
+                                        obj3.put("Locality", pickupLocality.getText().toString());
+                                        obj3.put("pickupCity", trapickupCity.getText().toString());
+                                        obj3.put("pickupState", pickupState.getText().toString());
+                                        obj3.put("finalLocality", finalLocality.getText().toString());
+                                        obj3.put("finalCity", finalCity.getText().toString());
+                                        obj3.put("finalState", finalState.getText().toString());
+                                        transportReqArray.put(obj3);
+                                        generalReqObj.put("Transport_Req", transportReqArray);
+                                    } catch (Exception e) {
+
+                                    }
+                                    // JSONObject commentObj = new JSONObject();
+                                    try {
+                                        generalReqObj.put("comt", edtComment.getText().toString());
+                                    } catch (Exception e) {
+
+                                    }
+
+                                    try {
+                                        jsonObject1.put("responsneCode", "200");
+                                        jsonObject1.put("responsneObject", generalReqObj);
+                                    } catch (Exception e) {
+
+                                    }
+                                    Log.i(TAG, "onClick: " + jsonObject1);
 
                                 } else {
                                     CM.showToast("Please select check-out date.", thisActivity);
@@ -758,6 +813,23 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkout5.getRight() - checkout5.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkOut(checkout5);
+                        return true;
+                    }
+                }
+
+            case R.id.transStatrDate:
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (transStatrDate.getRight() - transStatrDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        checkIn(transStatrDate);
+                        return true;
+                    }
+                }
+                break;
+
+            case R.id.transEndDate:
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (transEndDate.getRight() - transEndDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        checkOut(transEndDate);
                         return true;
                     }
                 }

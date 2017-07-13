@@ -13,14 +13,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
+import com.app.elixir.TravelB2B.numberPicker.NumberPicker;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.MultiSelectionSpinner;
 import com.silencedut.expandablelayout.ExpandableLayout;
@@ -68,10 +71,42 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
 
     private void initView(View view) {
         btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
-        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
-        MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);
-        multiSelectionSpinner.setItems(array);
-        multiSelectionSpinner.setListener(this);
+
+
+        //General Req
+        MtplEditText refId = (MtplEditText) view.findViewById(R.id.edtRefId);
+        MtplEditText totBudget = (MtplEditText) view.findViewById(R.id.edtTotalBudget);
+        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.number_pickerAdult);
+        NumberPicker childBelow = (NumberPicker) view.findViewById(R.id.number_pickerChildBelow);
+
+
+        //Stay Req
+        MtplEditText singleRoom = (MtplEditText) view.findViewById(R.id.edtSingleRoom);
+        MtplEditText doubleRoom = (MtplEditText) view.findViewById(R.id.edtDoubleRoom);
+        MtplEditText tripalRoom = (MtplEditText) view.findViewById(R.id.edtTripleRoom);
+        MtplEditText childWithbed = (MtplEditText) view.findViewById(R.id.edt_Child_with_bed);
+        MtplEditText childWithoutbed = (MtplEditText) view.findViewById(R.id.edt_Child_without_bed);
+        Spinner spinnerHotelRating = (Spinner) view.findViewById(R.id.spinnerHotelRating);
+        MultiSelectionSpinner spinnerHotelCatMain = (MultiSelectionSpinner) view.findViewById(R.id.mySpinner);
+        String[] array = getResources().getStringArray(R.array.hotCatArray);
+        spinnerHotelCatMain.setItems(array);
+        spinnerHotelCatMain.setListener(this);
+        Spinner spinnerMealPlane = (Spinner) view.findViewById(R.id.spinnerMealPlane);
+        AutoCompleteTextView destiCity = (AutoCompleteTextView) view.findViewById(R.id.edtDestinationCity);
+        MtplEditText destiState = (MtplEditText) view.findViewById(R.id.edtDestinationState);
+        MtplEditText destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
+        MtplEditText destiLocality = (MtplEditText) view.findViewById(R.id.edtDestinationLocality);
+        destiState.setEnabled(false);
+        destiCountry.setEnabled(false);
+        checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
+        checkOut = (MtplEditText) view.findViewById(R.id.edtCheckOut);
+        btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
+
+
+        //Comment
+        MtplEditText edtComment = (MtplEditText) view.findViewById(R.id.edtComment);
+
+        btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
 
         ExpandableLayout expandableLayout1 = (ExpandableLayout) view.findViewById(R.id.expView1);
         ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView2);
@@ -125,13 +160,10 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
         });
 
 
-        btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
-        //expandableLayout = (ExpandableLayout) view.findViewById(R.id.expandable_view);
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
         childScrollview = (NestedScrollView) view.findViewById(R.id.childScrollView);
-        checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
-        checkOut = (MtplEditText) view.findViewById(R.id.edtCheckOut);
+
         checkIn.setOnTouchListener(this);
         checkOut.setOnTouchListener(this);
         btnSubmit.setOnClickListener(this);
@@ -153,7 +185,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             checkIn1.setOnTouchListener(this);
             checkOut1.setOnTouchListener(this);
 
-            String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+            String[] array = getResources().getStringArray(R.array.hotCatArray);
             MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) rowView.findViewById(R.id.mySpinner);
             multiSelectionSpinner.setItems(array);
             multiSelectionSpinner.setListener(this);
@@ -279,7 +311,6 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
     public void showCalendar() {
 
         Calendar now = Calendar.getInstance();
-
 
 
         DatePickerDialog dpd = DatePickerDialog.newInstance(null,

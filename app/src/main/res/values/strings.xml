@@ -220,10 +220,10 @@
 
     <string-array name="hotRating">
         <item>1 star</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+        <item>2 star</item>
+        <item>3 star</item>
+        <item>4 star</item>
+        <item>5 star</item>
 
     </string-array>
 
@@ -324,5 +324,37 @@
 
     <item name="checkin5" type="id" />
     <item name="checkout5" type="id" />
+
+    <string-array name="hotCatArray">
+        <item>Corporate Hotel</item>
+        <item>Boutique Hotel</item>
+        <item>Heritage Hotel</item>
+        <item>House Boat</item>
+        <item>Resort</item>
+        <item>Eco Resort</item>
+        <item>Farm-stay</item>
+        <item>Homestay</item>
+        <item>Heritage Homestay</item>
+        <item>Camping</item>
+        <item>Glamping</item>
+    </string-array>
+
+    <string-array name="MealPlaneArray">
+        <item>European Plan</item>
+        <item>Contenental Plan</item>
+        <item>Modified American Plan</item>
+        <item>AP - American Plan</item>
+    </string-array>
+
+    <string-array name="TransportArray">
+        <item>Luxury Car</item>
+        <item>Sedan</item>
+        <item>Innova/ Tavera</item>
+        <item>Tempo Traveller</item>
+
+        <item>AC Coach</item>
+        <item>Non AC Bus</item>
+    </string-array>
+
 
 </resources>
