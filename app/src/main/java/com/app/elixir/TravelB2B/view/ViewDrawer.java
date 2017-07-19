@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -73,6 +75,9 @@ public class ViewDrawer extends AppCompatActivity
     Toolbar toolbar;
     private String mTitle = "";
     private AHBottomNavigation bottomNavigation;
+    TextView txtCount;
+    ProgressBar progressBar;
+    ImageView icon1, icon2, icon3, icon4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +215,7 @@ public class ViewDrawer extends AppCompatActivity
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         if (CM.isInternetAvailable(ViewDrawer.this)) {
-            getCounter(CM.getSp(ViewDrawer.this, CV.PREFS_USERID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString());
+            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, CV.city_id, "").toString());
 
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
@@ -366,6 +371,16 @@ public class ViewDrawer extends AppCompatActivity
         View headerLayout = navigationViewSec.getHeaderView(0);
         MtplTextView navHeaderTitle = (MtplTextView) headerLayout.findViewById(R.id.txtUserName);
         MtplTextView navHeaderEamil = (MtplTextView) headerLayout.findViewById(R.id.textUserEmail);
+
+        icon1 = (ImageView) headerLayout.findViewById(R.id.icon1);
+        icon2 = (ImageView) headerLayout.findViewById(R.id.icon2);
+        icon3 = (ImageView) headerLayout.findViewById(R.id.icon3);
+        icon4 = (ImageView) headerLayout.findViewById(R.id.icon4);
+
+        txtCount = (TextView) headerLayout.findViewById(R.id.totRating);
+        progressBar = (ProgressBar) headerLayout.findViewById(R.id.progressRating);
+
+
         try
 
         {
@@ -380,7 +395,7 @@ public class ViewDrawer extends AppCompatActivity
 
                 toString());
 
-
+        webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
         setFragment(0);
     }
 
@@ -683,7 +698,7 @@ public class ViewDrawer extends AppCompatActivity
                         CM.setSp(ViewDrawer.this, CV.PrefIsLogin, "0");
                         CM.setSp(ViewDrawer.this, CV.PrefRole_Id, "0");
 
-                        CM.startActivity(ViewDrawer.this, ViewLoginActivity.class);
+                        CM.startActivity(ViewDrawer.this, ViewIntroActivity.class);
                         finish();
 
 
@@ -700,10 +715,10 @@ public class ViewDrawer extends AppCompatActivity
     }
 
 
-    public void getCounter(String userId, String rolId, String statID, String preference) {
+    public void getCounter(String userId, String rolId, String statID, String preference, String cityId) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
-            WebService.getCounter(v, userId, rolId, statID, preference, new OnVolleyHandler() {
+            WebService.getCounter(v, userId, rolId, statID, preference, cityId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -739,11 +754,6 @@ public class ViewDrawer extends AppCompatActivity
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
-                    // jsonObject1.optString("myRequestCount");
-                    // jsonObject1.optString("myReponseCount");
-                    //   ;
-                    //   jsonObject1.optString("respondToRequestCount");
-
 
                     if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
 
@@ -784,4 +794,255 @@ public class ViewDrawer extends AppCompatActivity
     }
 
 
+    public void webUserProfile(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
+            WebService.getUserProfile(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getUserProfile(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        CM.showPopupCommonValidation(ViewDrawer.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getUserProfile(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewDrawer.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
+
+                    int i = 0;
+
+                    if (!jsonObject1.optString("pancard_pic").toString().equals("") && !jsonObject1.optString("pancard_pic").toString().equals("null")) {
+                        icon2.setVisibility(View.VISIBLE);
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2")) {
+                                i += 15;
+                            } else if (jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 10;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    } else {
+                        icon2.setVisibility(View.GONE);
+                    }
+                    if (!jsonObject1.optString("company_shop_registration_pic").toString().equals("") && !jsonObject1.optString("company_shop_registration_pic").toString().equals("null")) {
+                        icon3.setVisibility(View.VISIBLE);
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2")) {
+                                i += 15;
+                            } else if (jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 10;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    } else {
+                        icon3.setVisibility(View.GONE);
+                    }
+                    if (!jsonObject1.optString("company_img_1_pic").toString().equals("") && !jsonObject1.optString("company_img_1_pic").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 10;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("id_card_pic").toString().equals("") && !jsonObject1.optString("id_card_pic").toString().equals("null")) {
+                        icon3.setVisibility(View.VISIBLE);
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 10;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    } else {
+                        icon3.setVisibility(View.GONE);
+                    }
+                    if (!jsonObject1.optString("profile_pic").toString().equals("") && !jsonObject1.optString("profile_pic").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 10;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("first_name").toString().equals("") && !jsonObject1.optString("first_name").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 3;
+                            } else {
+                                i += 2;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("company_name").toString().equals("") && !jsonObject1.optString("company_name").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 3;
+                            } else {
+                                i += 2;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("email").toString().equals("") && !jsonObject1.optString("email").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("mobile_number").toString().equals("") && !jsonObject1.optString("mobile_number").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 4;
+                            } else {
+                                i += 5;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("p_contact").toString().equals("") && !jsonObject1.optString("p_contact").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("address").toString().equals("") && !jsonObject1.optString("address").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("locality").toString().equals("") && !jsonObject1.optString("locality").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 3;
+                            } else {
+                                i += 2;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("city_id").toString().equals("") && !jsonObject1.optString("city_id").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("country_id").toString().equals("") && !jsonObject1.optString("country_id").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("pincode").toString().equals("") && !jsonObject1.optString("pincode").toString().equals("null")) {
+                        i += 3;
+                    }
+                    if (!jsonObject1.optString("web_url").toString().equals("") && !jsonObject1.optString("web_url").toString().equals("null")) {
+                        i += 3;
+                        icon1.setVisibility(View.VISIBLE);
+                    } else {
+                        icon1.setVisibility(View.GONE);
+                    }
+                    if (!jsonObject1.optString("description").toString().equals("") && !jsonObject1.optString("description").toString().equals("null")) {
+                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                                i += 3;
+                            } else {
+                                i += 2;
+                            }
+                        }
+                    }
+                    if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                        if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                            if (!jsonObject1.optString("hotel_rating").toString().equals("") && !jsonObject1.optString("hotel_rating").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("hotel_categories").toString().equals("") && !jsonObject1.optString("hotel_categories").toString().equals("null")) {
+                                i += 5;
+                            }
+                        } else {
+                            if (!jsonObject1.optString("iata_pic").toString().equals("") && !jsonObject1.optString("iata_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("tafi_pic").toString().equals("") && !jsonObject1.optString("tafi_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("taai_pic").toString().equals("") && !jsonObject1.optString("taai_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("iato_pic").toString().equals("") && !jsonObject1.optString("iato_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("adyoi_pic").toString().equals("") && !jsonObject1.optString("adyoi_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("iso9001_pic").toString().equals("") && !jsonObject1.optString("iso9001_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("uftaa_pic").toString().equals("") && !jsonObject1.optString("uftaa_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                            if (!jsonObject1.optString("adtoi_pic").toString().equals("") && !jsonObject1.optString("adtoi_pic").toString().equals("null")) {
+                                i += 5;
+                            }
+                        }
+                    }
+
+                    txtCount.setText(String.valueOf(i) + " %");
+                    progressBar.setProgress(i);
+
+
+                  /*  jsonObject1.optString("company_shop_registration_pic");
+                    jsonObject1.optString("company_img_1_pic");
+                    jsonObject1.optString("id_card_pic");
+                    jsonObject1.optString("profile_pic");
+                    jsonObject1.optString("first_name");
+                    jsonObject1.optString("company_name");
+
+                    jsonObject1.optString("email");
+                    jsonObject1.optString("mobile_number");
+                    jsonObject1.optString("p_contact");
+                    jsonObject1.optString("address");
+                    jsonObject1.optString("locality");
+                    jsonObject1.optString("city_id");
+
+                    jsonObject1.optString("state_id");
+                    jsonObject1.optString("country_id");
+                    jsonObject1.optString("pincode");
+                    jsonObject1.optString("web_url");
+                    jsonObject1.optString("description");
+                    jsonObject1.optString("hotel_rating");
+
+                    jsonObject1.optString("hotel_categories");
+                    jsonObject1.optString("iata_pic");*/
+
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewDrawer.this, e.getMessage(), false);
+        }
+    }
 }

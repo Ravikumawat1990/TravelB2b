@@ -39,6 +39,15 @@ public class URLS {
 
     public static final String REMOVEREQUESTAPI = URL + "removerequestapi";
     public static final String BLOCKUSERAPI = URL + "blockuserapi";
-    public static final String SUBMITEDITPROFILE = URL + "edtprogile";
+    public static final String SUBMITEDITPROFILE = URL + "editapi";
+    public static final String ADDCHATAPI = URL + "addchatapi";
+    public static final String ACCEPTOFFERAPI = URL + "acceptofferapi";
+    public static final String SHAREDETAILSAPI = URL + "sharedetailsapi";
+    public static final String SENDREQAPI = URL + "sendreqapi"; //Package // hotel // transport
+    public static final String PROMOTIONSCITYAPI = URL + "promotionscityapi";
+
+    public static final String ADDRESPONSEAPI = URL + "addresponseapi";
+    public static final String ADDTESTIMONIALAPI = URL + "addtestimonialapi";
+
 
 }

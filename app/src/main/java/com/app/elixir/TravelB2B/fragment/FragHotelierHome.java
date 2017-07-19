@@ -26,7 +26,6 @@ import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
-import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -51,8 +50,9 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     adptAdvt mAdapter;
     private StaggeredGridLayoutManager mStaggeredLayoutManager;
-    ArrayList<pojoAdvert> pojoAdvertArrayList;
+
     MtplButton btnTellMore;
+    ArrayList<pojoAdvert> pojoAdvertArrayList;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -80,7 +80,7 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
 
         btnTellMore = (MtplButton) rootView.findViewById(R.id.btntellmemore);
         btnTellMore.setOnClickListener(this);
-        webTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString());
+
 
     }
 

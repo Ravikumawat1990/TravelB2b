@@ -229,6 +229,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                     CM.setSp(ViewLoginActivity.this, CV.Preflast_name, jsonObject1.optString("last_name"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefPreference, jsonObject1.optString("preference"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefState_id, jsonObject1.optString("state_id"));
+                    CM.setSp(ViewLoginActivity.this, CV.PrefCity_id, jsonObject1.optString("city_id"));
 
 
                     CM.setSp(ViewLoginActivity.this, CV.PrefIsLogin, "1");

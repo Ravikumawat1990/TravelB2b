@@ -22,20 +22,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptfinalizedRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.view.ViewChat;
 import com.app.elixir.TravelB2B.view.ViewFinalizedRequestDetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
@@ -48,6 +52,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
@@ -117,9 +123,9 @@ public class FragFinalizedRequest extends Fragment {
         mAdapter = new adptfinalizedRequest(thisActivity, pojoFinalizeReqArrayList);
 
 
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
-            public void onItemClick(String value, String value1) {
+            public void onItemClick(String value, String value1, String value2) {
 
                 if (value.equals("detail")) {
 
@@ -133,12 +139,17 @@ public class FragFinalizedRequest extends Fragment {
 
                     Intent intent = new Intent(thisActivity, ViewChat.class);
                     intent.putExtra("refId", value1);
+                    intent.putExtra("chatUserId", value2);
+
                     CM.startActivity(intent, thisActivity);
 
 
                 } else {
-                    showPopupForTestimonial();
 
+                    //mohit
+                    //rate user
+                    //showPopupForTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
+                    showRating(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
                 }
 
 
@@ -264,6 +275,7 @@ public class FragFinalizedRequest extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoFinalizeReq pojoMyResponse = new pojoFinalizeReq();
+                        pojoMyResponse.setId(jsonArray.getJSONObject(i).optString("user_id"));
                         pojoMyResponse.setAdult(jsonArray.getJSONObject(i).optString("adult"));
                         pojoMyResponse.setCategory_id(jsonArray.getJSONObject(i).optString("category_id"));
                         pojoMyResponse.setChildren(jsonArray.getJSONObject(i).optString("children"));
@@ -390,5 +402,117 @@ public class FragFinalizedRequest extends Fragment {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    public void showRating(final String userId, final String profileuID) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(thisActivity);
+        LayoutInflater inflater = thisActivity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.rating, null);
+        dialogBuilder.setView(dialogView);
+
+
+        final EditText edtComment = (EditText) dialogView.findViewById(R.id.edtDis);
+        final RatingBar Ratingbar = (RatingBar) dialogView.findViewById(R.id.ratingBar);
+
+
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String Comment;
+                float Rating;
+
+                Comment = edtComment.getText().toString();
+                Rating = Ratingbar.getRating();
+
+
+                if (!Comment.matches("")) {
+                    if (Rating > 0) {
+                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+                    } else {
+                        CM.showToast("select Rating", thisActivity);
+                    }
+                } else {
+                    CM.showToast("Enter Comment", thisActivity);
+                }
+
+            }
+        });
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void webReview(String id, String profileuID, String rating, String status, String comment, String userName) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getReview(v, id, profileuID, rating, status, comment, userName, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getReview(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getReview(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    CM.showToast((getString(R.string.review_submit)), thisActivity);
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
+    }
+
+    public static void getReview(VolleyIntialization vollyInit, String userId, String prouserid, String rating, String staus, String comment, String userName, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.ADDTESTIMONIALAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userId);
+        params.put(CV.PROFILEUSER_ID, prouserid);
+        params.put(CV.RATING, rating);
+        params.put(CV.STATUS, staus);
+        params.put(CV.COMMENT, comment);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 }

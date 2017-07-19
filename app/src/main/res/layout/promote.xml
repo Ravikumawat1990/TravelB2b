@@ -21,7 +21,7 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                android:id="@+id/edtCompName"
+                android:id="@+id/edtUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="User Name"
@@ -38,6 +38,7 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtHotelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Hotel Name"
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Hotel Name"
+                android:text="Hotel Type"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -72,14 +73,15 @@
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/spinnerHotel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
                     android:gravity="center"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:entries="@array/hotCatArray" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -100,10 +102,11 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtCheapRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tariff of Cheapest Room"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -116,10 +119,11 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtExpenciveRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tariff of Most Expensive Room"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -132,6 +136,7 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtHoelWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Hotel Website"
@@ -148,9 +153,11 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <AutoCompleteTextView
+                android:id="@+id/autotextState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="States"
+                android:completionThreshold="3"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
@@ -159,6 +166,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/txtCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_5dp"
@@ -169,6 +177,7 @@
             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/txtTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -196,11 +205,12 @@
                 android:layout_weight=".8"
                 android:background="@android:color/darker_gray">
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/allCityList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white"></ListView>
+                    android:background="@android:color/white"/>
 
 
             </LinearLayout>
@@ -218,14 +228,14 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/margin_200dp"
                 android:layout_weight=".8"
-
                 android:background="@android:color/darker_gray">
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/selectedCityList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white"></ListView>
+                    android:background="@android:color/white"/>
 
 
             </LinearLayout>
@@ -238,10 +248,11 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtDuration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Duration(in Month)"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -254,18 +265,20 @@
             android:layout_marginTop="@dimen/margin_5dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                android:id="@+id/edtCharge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Charges"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
         </android.support.design.widget.TextInputLayout>
 
-        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-            android:id="@+id/edtProfilePic"
+        <!--<com.app.elixir.TravelB2B.mtplview.MtplEditText-->
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/edtPromoPic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10dp"
@@ -295,6 +308,7 @@
             android:orientation="horizontal">
 
             <com.app.elixir.TravelB2B.mtplview.MtplButton
+                android:id="@+id/btnCart"
                 android:layout_width="@dimen/margin_120dp"
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginRight="@dimen/margin_5dp"
@@ -306,9 +320,9 @@
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
             <com.app.elixir.TravelB2B.mtplview.MtplButton
+                android:id="@+id/btnPriview"
                 android:layout_width="@dimen/margin_120dp"
                 android:layout_height="@dimen/margin_40dp"
-
                 android:background="@drawable/blue_rect"
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"

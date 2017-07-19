@@ -261,7 +261,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     meal.setText(jsonObject1.optString("meal_plan"));
                     comment.setText(jsonObject1.optString("comment"));
 
-                    if (!jsonObject1.optString("pickup_state").toString().equals("")) {
+                    if (!jsonObject1.optString("pickup_state").toString().equals("") && !jsonObject1.optString("pickup_state").toString().equals("null")) {
                         webState(jsonObject1.optString("pickup_state"));
                     } else {
 

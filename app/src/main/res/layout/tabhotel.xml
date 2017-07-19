@@ -78,7 +78,7 @@
                             android:id="@+id/edtRefId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Reference ID"
+                            android:hint="Reference ID*"
                             android:inputType="text"
                             android:singleLine="true"
                             android:textSize="12sp"
@@ -95,7 +95,7 @@
                             android:id="@+id/edtTotalBudget"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Total Budget"
+                            android:hint="Total Budget*"
                             android:inputType="text"
                             android:singleLine="true"
                             android:textSize="12sp"
@@ -527,11 +527,11 @@
                                 android:layout_marginRight="@dimen/margin_15dp"
                                 android:layout_marginTop="@dimen/margin_10dp">
 
-                                <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                <AutoCompleteTextView
                                     android:id="@+id/edtDestinationCity"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Destination City"
+                                    android:hint="Destination City*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -611,7 +611,7 @@
                                     android:drawableEnd="@drawable/ic_date_range_black_24dp"
                                     android:drawableRight="@drawable/ic_date_range_black_24dp"
                                     android:drawableTint="@color/colorPrimary"
-                                    android:hint="Check In"
+                                    android:hint="Check In*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -633,8 +633,7 @@
                                     android:drawableEnd="@drawable/ic_date_range_black_24dp"
                                     android:drawableRight="@drawable/ic_date_range_black_24dp"
                                     android:drawableTint="@color/colorPrimary"
-
-                                    android:hint="Check Out"
+                                    android:hint="Check Out*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -732,7 +731,7 @@
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                     <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                        android:id="@+id/edtDis"
+                        android:id="@+id/edtComment"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_100dp"
                         android:layout_gravity="center"

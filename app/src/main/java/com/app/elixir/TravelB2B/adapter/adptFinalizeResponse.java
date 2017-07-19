@@ -60,7 +60,7 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
                     listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
                 case R.id.txtAgentName:
-                    listener.onItemClick("agent", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("agent", dataSet.get(getAdapterPosition()).getId());
                     break;
 
             }

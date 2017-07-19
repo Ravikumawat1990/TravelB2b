@@ -45,6 +45,8 @@ public class ViewChat extends AppCompatActivity {
     private EditText chatEditText1;
     private ImageView enterChatView1;
     private ChatListAdapter listAdapter;
+    String requestId = "";
+    String chatUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,11 @@ public class ViewChat extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String requestId = intent.getStringExtra("refId");
+        requestId = intent.getStringExtra("refId");
+        chatUserId = intent.getStringExtra("chatUserId");
 
 
-        webgetChatHistory(requestId, "", CM.getSp(ViewChat.this, CV.PREFS_USERID, "").toString());
+        webgetChatHistory(requestId, chatUserId, CM.getSp(ViewChat.this, CV.PrefID, "").toString());
 
         initView();
 
@@ -146,9 +149,8 @@ public class ViewChat extends AppCompatActivity {
         if (listAdapter != null)
             listAdapter.notifyDataSetChanged();
 
-        CM.showToast("Message Send", ViewChat.this);
-        ViewChat.this.finish();
 
+        webgetSendChatHistory(CM.getSp(ViewChat.this, CV.PrefID, "").toString(), chatUserId, requestId, messageText);
 
         // Mark message as delivered after one second
 
@@ -183,6 +185,34 @@ public class ViewChat extends AppCompatActivity {
     public void onBackPressed() {
         CM.finishActivity(ViewChat.this);
         super.onBackPressed();
+    }
+
+    public void webgetSendChatHistory(String userid, String chatUserId, String reqId, String msg) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewChat.this, true, true);
+            WebService.getSendChat(v, userid, chatUserId, reqId, msg, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getsendChatHistory(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewChat.this)) {
+                        CM.showPopupCommonValidation(ViewChat.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -232,17 +262,51 @@ public class ViewChat extends AppCompatActivity {
                         message.setMessageStatus(Status.SENT);
                         message.setMessageText(jsonArray.getJSONObject(i).optString("message"));
                         message.setUserType(UserType.SELF);
-                        String txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonArray.getJSONObject(i).optString("read_date_time"));
-                        DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-                        Date date = format.parse(txtStartDt);
-                        long millisecond = date.getTime();
-                        message.setMessageTime(millisecond);
+                        if (jsonArray.getJSONObject(i).optString("read_date_time") != null && !jsonArray.getJSONObject(i).optString("read_date_time").equals("null")) {
+                            String txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonArray.getJSONObject(i).optString("read_date_time"));
+                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                            Date date = format.parse(txtStartDt);
+                            long millisecond = date.getTime();
+                            message.setMessageTime(millisecond);
+
+                        }
                         chatMessages.add(message);
 
                     }
                     listAdapter.notifyDataSetChanged();
 
 
+                    break;
+                case "202":
+                    break;
+                case "501":
+                    CM.showToast(jsonObject.optString("msg"), ViewChat.this);
+
+
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewChat.this, e.getMessage(), false);
+        }
+    }
+
+    private void getsendChatHistory(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewChat.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    CM.showToast("Message Send", ViewChat.this);
+                    ViewChat.this.finish();
+                    CM.showToast(jsonObject.optString("response_object").toString(), ViewChat.this);
                     break;
                 case "202":
                     break;

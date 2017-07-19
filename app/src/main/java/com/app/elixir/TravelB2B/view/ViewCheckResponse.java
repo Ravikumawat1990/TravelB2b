@@ -20,13 +20,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptCheckResponse;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -110,19 +111,24 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         mAdapter = new adptCheckResponse(ViewCheckResponse.this, resposneArrayList);
 
 
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
-            public void onItemClick(String value, String value1) {
+            public void onItemClick(String value, String value1, String value2) {
                 if (value.equals("chat")) {
-                    CM.startActivity(ViewCheckResponse.this, ViewChat.class);
+
+                    Intent intent = new Intent(ViewCheckResponse.this, ViewChat.class);
+                    intent.putExtra("chatUserId", value1);
+                    intent.putExtra("refId", value2);
+                    CM.startActivity(intent, ViewCheckResponse.this);
+
                 } else if (value.equals("share")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value1, value);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value, value1, value2);
                 } else if (value.equals("btnAccept")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value1, value);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2);
                 } else if (value.equals("rate")) {
-                    showRating();
+                    showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
                 } else if (value.equals("block")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value1, value);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2);
                 }
             }
         });
@@ -221,24 +227,39 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
-    public void showPopup(Context context, String msg, final String blockId, final String type) {
+    public void showPopup(Context context, String msg, final String typeNew, final String blockId, final String value2) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage(msg)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (type.equals("block")) {
+                        if (typeNew.equals("block")) {
 
                             getBlockUser(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), blockId);
 
+                        } else if (typeNew.equals("btnAccept")) {
+
+                            webAcceptOffer(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+
+
+                        } else if (typeNew.equals("share")) {
+
+                            webShareDetail(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
                         }
 
                     }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).setIcon(R.drawable.logo1).show();
+                }).
+
+                setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).
+
+                setIcon(R.drawable.logo1).
+
+                show();
+
     }
 
     @Override
@@ -503,11 +524,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         checkResposne.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
+                        checkResposne.setId(jsonArray.getJSONObject(i).optString("id"));
                         checkResposne.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
-                        jsonArray.getJSONObject(i).optString("request_id");
+                        checkResposne.setRequest_id(jsonArray.getJSONObject(i).optString("request_id"));
                         checkResposne.setComment(jsonArray.getJSONObject(i).optString("comment"));
                         JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("request").toString());
                         checkResposne.setReference_id(jsonObject2.optString("reference_id"));
+                        checkResposne.setResponse_id(jsonObject2.optString("response_id"));
                         checkResposne.setTotal_budget(jsonObject2.optString("total_budget"));
                         JSONObject jsonObject3 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
                         checkResposne.setFirst_name(jsonObject3.optString("first_name"));
@@ -725,4 +748,162 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         }
     }
 
+    public void webAcceptOffer(String userid, final String reqId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getAcceptOffer(v, userid, reqId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    //  getState(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void webShareDetail(String userId, final String reqId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getShareDetail(v, userId, reqId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    //  getState(response, type);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showRating(final String userId, final String profileuID) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ViewCheckResponse.this);
+        LayoutInflater inflater = ViewCheckResponse.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.rating, null);
+        dialogBuilder.setView(dialogView);
+
+
+        final EditText edtComment = (EditText) dialogView.findViewById(R.id.edtDis);
+        final RatingBar Ratingbar = (RatingBar) dialogView.findViewById(R.id.ratingBar);
+
+
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String Comment;
+                float Rating;
+
+                Comment = edtComment.getText().toString();
+                Rating = Ratingbar.getRating();
+
+                if (!Comment.matches("")) {
+                    if (Rating > 0) {
+
+                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+                    } else {
+                        CM.showToast("select Rating", ViewCheckResponse.this);
+                    }
+                } else {
+                    CM.showToast("Enter Comment", ViewCheckResponse.this);
+                }
+
+            }
+        });
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+    public void webReview(String id, String profileuID, String rating, String status, String comment, String userName) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getReview(v, id, profileuID, rating, status, comment, userName, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (ViewCheckResponse.this.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getReview(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void getReview(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    CM.showToast((getString(R.string.review_submit)), ViewCheckResponse.this);
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
 }

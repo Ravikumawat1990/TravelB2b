@@ -138,13 +138,12 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
-            catImg.setImageResource(R.drawable.h);
+            catImg.setImageResource(R.drawable.hh);
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
-            catImg.setImageResource(R.drawable.t);
+            catImg.setImageResource(R.drawable.tt);
         } else {
-            catImg.setImageResource(R.drawable.e);
-
+            catImg.setImageResource(R.drawable.pp);
         }
     }
 

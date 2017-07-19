@@ -727,6 +727,49 @@ public class CM {
     }
 
 
+    public static String setHotelCatRev(String hotCat) {
+        String catName = "";
+        switch (hotCat) {
+            case "Corporate Hotel":
+                catName = "1";
+                break;
+            case "Boutique Hotel":
+                catName = "2";
+                break;
+            case "Heritage Hotel":
+                catName = "3";
+                break;
+            case "House Boat":
+                catName = "4";
+                break;
+            case "Resort":
+                catName = "5";
+                break;
+            case "Eco Resort":
+                catName = "6";
+                break;
+            case "Farm-stay":
+                catName = "7";
+                break;
+            case "Homestay":
+                catName = "8";
+                break;
+            case "Heritage Homestay":
+                catName = "9";
+                break;
+            case "Camping":
+                catName = "10";
+                break;
+            case "Glamping":
+                catName = "11";
+                break;
+
+
+        }
+        return catName;
+    }
+
+
     // array("1"=>"Luxury Car", "2"=>"Sedan", "3"=>"Innova/ Tavera", "4"=>"Tempo Traveller", "5"=>"AC Coach", "6"=>"Non AC Bus");
 
     public static String setVichel(String vicType) {
@@ -755,6 +798,32 @@ public class CM {
         return type;
     }
 
+    public static String setVichelRev(String vicType) {
+        String type = "";
+        switch (vicType) {
+            case "Luxury Car":
+                type = "1";
+                break;
+            case "Sedan":
+                type = "2";
+                break;
+            case "Innova/ Tavera":
+                type = "2";
+                break;
+            case "Tempo Traveller":
+                type = "3";
+                break;
+            case "AC Coach":
+                type = "4";
+                break;
+            case "Non AC Bus":
+                type = "5";
+                break;
+        }
+
+        return type;
+    }
+
     public static String getReqType(String reqId) {
         String text = "";
         switch (reqId) {
@@ -767,6 +836,27 @@ public class CM {
             case "3":
                 text = "Hotel";
                 break;
+
+        }
+        return text;
+    }
+
+    public static String getReqTypeRev(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "Package":
+                text = "1";
+                break;
+            case "Transport":
+                text = "2";
+                break;
+            case "Hotel":
+                text = "3";
+                break;
+            default:
+                text = "";
+                break;
+
 
         }
         return text;
@@ -788,6 +878,50 @@ public class CM {
                 break;
             case "4":
                 text = "AP - American Plan";
+                break;
+
+        }
+        return text;
+    }
+
+
+    public static String getMealPlaneRev(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "European Plan":
+                text = "1";
+                break;
+            case "Contenental Plan":
+                text = "2";
+                break;
+            case "Modified American Plan":
+                text = "3";
+                break;
+            case "AP - American Plan":
+                text = "4";
+                break;
+
+        }
+        return text;
+    }
+
+    public static String getHotelRating(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "1 star":
+                text = "1";
+                break;
+            case "2 star":
+                text = "2";
+                break;
+            case "3 star":
+                text = "3";
+                break;
+            case "4 star":
+                text = "4";
+                break;
+            case "5 star":
+                text = "5";
                 break;
 
         }

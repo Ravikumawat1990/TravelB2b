@@ -13,6 +13,33 @@ public class pojoCheckResposne {
     String last_name;
     String reference_id;
     String user_id;
+    String id;
+    String request_id;
+    String response_id;
+
+    public String getResponse_id() {
+        return response_id;
+    }
+
+    public void setResponse_id(String response_id) {
+        this.response_id = response_id;
+    }
+
+    public String getRequest_id() {
+        return request_id;
+    }
+
+    public void setRequest_id(String request_id) {
+        this.request_id = request_id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUser_id() {
         return user_id;

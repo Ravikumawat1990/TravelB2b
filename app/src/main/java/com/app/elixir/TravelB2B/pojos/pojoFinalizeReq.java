@@ -12,6 +12,15 @@ public class pojoFinalizeReq {
     String adult;
     String children;
     String category_id;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCategory_id() {
         return category_id;

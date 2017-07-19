@@ -43,24 +43,22 @@ public class ViewSplashScreen extends AppCompatActivity implements Runnable {
     @Override
     public void run() {
 
-        if (prefs.getBoolean("firstrun", true)) {
+       /* if (prefs.getBoolean("firstrun", true)) {
             prefs.edit().putBoolean("firstrun", false).commit();
             CM.startActivity(this, ViewIntroActivity.class);
             finish();
+        } else {*/
+
+        if (CM.getSp(ViewSplashScreen.this, CV.PrefIsLogin, "").equals("1")) {
+
+            CM.startActivity(this, ViewDrawer.class);
+            finish();
+
         } else {
-
-            if (CM.getSp(ViewSplashScreen.this, CV.PrefIsLogin, "").equals("1")) {
-
-                CM.startActivity(this, ViewDrawer.class);
-                finish();
-
-            } else {
-                CM.startActivity(this, ViewLoginActivity.class);
-                finish();
-            }
-
-
+            CM.startActivity(this, ViewIntroActivity.class);
+            finish();
         }
+
 
     }
 }

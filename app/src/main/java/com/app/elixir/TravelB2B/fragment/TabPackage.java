@@ -31,8 +31,10 @@ import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.numberPicker.NumberPicker;
 import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
+import com.app.elixir.TravelB2B.pojos.pojoPackage;
 import com.app.elixir.TravelB2B.pojos.pojoState;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.MultiSelectionSpinner;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -82,15 +84,18 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     Spinner spinnerHotelRating, spinnerMealPlane, spinnerTransport;
     MultiSelectionSpinner spinnerHotelCat;
     MtplEditText destiState, destiCountry, destiLocality;
-    AutoCompleteTextView destiCity;
+    AutoCompleteTextView destiCity, trapickupCity, finalCity;
 
     ArrayList<pojoCity> pojoCities;
     ArrayList<pojoCountry> countryArrayList;
     ArrayList<pojoState> pojoStateArrayList;
     Person person;
     ArrayList<Person> pojoStates;
+    String transcountryId, transcityId, transstateId;
+    String finalcityId, finalstateId;
+
     String countryId, cityId, stateId;
-    MtplEditText transStatrDate, transEndDate, pickupLocality, trapickupCity, pickupState, finalLocality, finalCity, finalState, edtComment;
+    MtplEditText transStatrDate, transEndDate, pickupLocality, pickupState, finalLocality, finalState, edtComment;
     final int DRAWABLE_LEFT = 0;
     final int DRAWABLE_TOP = 1;
     final int DRAWABLE_RIGHT = 2;
@@ -155,10 +160,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         transStatrDate = (MtplEditText) view.findViewById(R.id.transStatrDate);
         transEndDate = (MtplEditText) view.findViewById(R.id.transEndDate);
         pickupLocality = (MtplEditText) view.findViewById(R.id.pickupLocality);
-        trapickupCity = (MtplEditText) view.findViewById(R.id.trapickupCity);
+        trapickupCity = (AutoCompleteTextView) view.findViewById(R.id.trapickupCity);
         pickupState = (MtplEditText) view.findViewById(R.id.trapickupState);
         finalLocality = (MtplEditText) view.findViewById(R.id.finalLocality);
-        finalCity = (MtplEditText) view.findViewById(R.id.finalCity);
+        finalCity = (AutoCompleteTextView) view.findViewById(R.id.finalCity);
         finalState = (MtplEditText) view.findViewById(R.id.finalState);
 
         //Comment
@@ -258,17 +263,20 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Log.d("your selected item", "" + pojoCities.get(position).getId());
                 String statename = "";
+                cityId = pojoCities.get(position).getId();
                 if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
                     for (int i = 0; i < pojoStateArrayList.size(); i++) {
                         if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
 
                             statename = pojoStateArrayList.get(i).getState_name();
+                            stateId = pojoStateArrayList.get(i).getId();
                             destiState.setText(statename);
                             for (int j = 0; j < countryArrayList.size(); j++) {
 
                                 if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
 
                                     destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                    countryId = countryArrayList.get(j).getId();
                                     break;
 
                                 }
@@ -307,7 +315,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             destiState.setText(statename);
 
 
-                                            for (int l = 0; l < countryArrayList.size(); l++) {
+                                          /*  for (int l = 0; l < countryArrayList.size(); l++) {
 
                                                 if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
 
@@ -317,7 +325,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                                 }
 
 
-                                            }
+                                            }*/
 
 
                                             break;
@@ -362,17 +370,203 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         });
 
 
+        trapickupCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("your selected item", "" + pojoCities.get(position).getId());
+                String statename = "";
+                transcityId = pojoCities.get(position).getId();
+                if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                    for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                        if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                            statename = pojoStateArrayList.get(i).getState_name();
+                            transstateId = pojoStateArrayList.get(i).getId();
+                            pickupState.setText(statename);
+
+
+                            break;
+                        } else {
+
+                        }
+                    }
+                } else {
+                    pickupState.setText("");
+                }
+
+
+            }
+        });
+
+
+        trapickupCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+
+                    for (int i = 0; i < pojoCities.size(); i++) {
+                        if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                            for (int j = 0; j < pojoCities.size(); j++) {
+                                if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                                    String id = pojoCities.get(i).getState_id();
+                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
+                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
+                                            String statename = pojoStateArrayList.get(k).getState_name();
+                                            pickupState.setText(statename);
+
+
+                                            for (int l = 0; l < countryArrayList.size(); l++) {
+
+                                                if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
+
+                                                    destiCountry.setText(countryArrayList.get(l).getCountry_name());
+                                                    //   transcountryId = countryArrayList.get(l).getId();
+                                                    break;
+
+                                                }
+
+
+                                            }
+
+
+                                            break;
+                                        } else {
+
+
+                                        }
+
+                                    }
+
+
+                                } else {
+                                    pickupState.setText("");
+                                    // destiCountry.setText("");
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+                            trapickupCity.setText("");
+                            pickupState.setText("");
+
+
+                        }
+                    }
+
+                    if (pojoCities != null && pojoCities.size() == 0) {
+                        trapickupCity.setText("");
+                        pickupState.setText("");
+
+                    }
+
+                } else {
+
+
+                }
+            }
+        });
+
+
+        finalCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("your selected item", "" + pojoCities.get(position).getId());
+                String statename = "";
+                finalcityId = pojoCities.get(position).getId();
+                if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                    for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                        if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                            statename = pojoStateArrayList.get(i).getState_name();
+                            finalstateId = pojoStateArrayList.get(i).getId();
+                            finalState.setText(statename);
+
+
+                            break;
+                        } else {
+
+                        }
+                    }
+                } else {
+                    finalState.setText("");
+                }
+
+
+            }
+        });
+
+
+        finalCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+
+                    for (int i = 0; i < pojoCities.size(); i++) {
+                        if (finalCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                            for (int j = 0; j < pojoCities.size(); j++) {
+                                if (finalCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                                    String id = pojoCities.get(i).getState_id();
+                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
+                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
+                                            String statename = pojoStateArrayList.get(k).getState_name();
+                                            finalState.setText(statename);
+
+
+                                            break;
+                                        } else {
+
+
+                                        }
+
+                                    }
+
+
+                                } else {
+                                    finalState.setText("");
+                                    // destiCountry.setText("");
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+                            finalCity.setText("");
+                            finalState.setText("");
+
+
+                        }
+                    }
+
+                    if (pojoCities != null && pojoCities.size() == 0) {
+                        finalCity.setText("");
+                        finalState.setText("");
+
+                    }
+
+                } else {
+
+
+                }
+            }
+        });
+
+
         checkIn.setOnTouchListener(this);
         checkOut.setOnTouchListener(this);
         transStatrDate.setOnClickListener(this);
-
         transStatrDate.setOnTouchListener(this);
         transEndDate.setOnTouchListener(this);
-
         btnSubmit.setOnClickListener(this);
-
-
         btnAddAnother.setOnClickListener(this);
+
+
         strings = new ArrayList<>();
         webCallCity();
         webCallState();
@@ -383,23 +577,25 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     public void onAddField(View v) {
 
         try {
+
             LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rootView = inflater.inflate(R.layout.addanotherdestination, null);
             MtplButton mtplButton = (MtplButton) rootView.findViewById(R.id.btnRemove);
-            edtlocality = (MtplEditText) rootView.findViewById(R.id.locality);
+            Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
 
+
+            edtlocality = (MtplEditText) rootView.findViewById(R.id.locality);
             checkIn1 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn1);
             checkOut1 = (MtplEditText) rootView.findViewById(R.id.edtCheckout1);
             checkIn1.setOnTouchListener(this);
             checkOut1.setOnTouchListener(this);
-
             String[] array = getResources().getStringArray(R.array.hotCatArray);
             spinnerHotelCat = (MultiSelectionSpinner) rootView.findViewById(R.id.mySpinner);
             spinnerHotelCat.setItems(array);
             spinnerHotelCat.setListener(this);
-            mtplButton.setOnClickListener(this);
-            Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
+
             parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+            mtplButton.setOnClickListener(this);
             CM.showToast("DESIGNATION ADDED", thisActivity);
 
 
@@ -432,6 +628,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 break;
             case R.id.btnSubmit:
 
+
                 if (!refId.getText().toString().equals("")) {
 
 
@@ -450,7 +647,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                     JSONObject jsonObject1 = new JSONObject();
 
-
+                                    pojoPackage pojoPackage = new pojoPackage();
                                     //General Req
                                     JSONObject generalReqObj = new JSONObject();
                                     JSONArray generalReqArray = new JSONArray();
@@ -531,6 +728,68 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                     } catch (Exception e) {
 
                                     }
+                                    ArrayList<pojoPackage> pojoPackages = new ArrayList<>();
+
+
+                                    pojoPackage aPackage = new pojoPackage();
+                                    aPackage.setCategory_id(CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+                                    aPackage.setUser_id(CM.getSp(thisActivity, CV.PrefID, "").toString());
+                                    aPackage.setReference_id(refId.getText().toString());
+                                    aPackage.setTotal_budget(totBudget.getText().toString());
+                                    aPackage.setAdult(String.valueOf(numberPicker.getValue()));
+                                    aPackage.setChildren(String.valueOf(childBelow.getValue()));
+                                    aPackage.setRoom1(singleRoom.getText().toString());
+                                    aPackage.setRoom2(doubleRoom.getText().toString());
+                                    aPackage.setRoom3(tripalRoom.getText().toString());
+                                    aPackage.setChild_with_bed(childWithbed.getText().toString());
+                                    aPackage.setChild_without_bed(childWithoutbed.getText().toString());
+                                    aPackage.setHotel_rating(CM.getHotelRating(spinnerHotelRating.getSelectedItem().toString()));
+
+                                    List<String> words = spinnerHotelCatMain.getSelectedStrings();
+                                    StringBuilder stringBuilder = new StringBuilder();
+                                    ArrayList<String> strings = new ArrayList<>();
+                                    for (int i1 = 0; i1 < words.size(); i1++) {
+
+                                        Log.i(TAG, "onClick: " + CM.setHotelCatRev(words.get(i1).toString()));
+                                        stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+                                        strings.add(CM.setHotelCatRev(words.get(i1).toString()));
+                                        stringBuilder.append(",");
+
+                                    }
+                                    String stateList = strings.toString().replace("[", "").replace("]", "")
+                                            .replace(", ", ",");
+
+                                    aPackage.setHotel_category(stateList);
+                                    aPackage.setMeal_plan(CM.getMealPlaneRev(spinnerMealPlane.getSelectedItem().toString()));
+                                    aPackage.setLocality(destiLocality.getText().toString());
+                                    aPackage.setCity_name(destiCity.getText().toString());
+                                    aPackage.setCity_id(cityId);
+                                    aPackage.setState_id(stateId);
+                                    aPackage.setState_name(destiState.getText().toString());
+                                    aPackage.setCountry_name(destiCountry.getText().toString());
+                                    aPackage.setCountry_id(countryId);
+                                    aPackage.setCheck_in(checkIn.getText().toString());
+                                    aPackage.setCheck_out(checkOut.getText().toString());
+                                    aPackage.setTransport_requirement(CM.setVichelRev(spinnerTransport.getSelectedItem().toString()));
+                                    aPackage.setStart_date(transStatrDate.getText().toString());
+                                    aPackage.setEnd_date(transEndDate.getText().toString());
+                                    aPackage.setPickup_locality(pickupLocality.getText().toString());
+                                    aPackage.setPickup_city_name(trapickupCity.getText().toString());
+                                    aPackage.setPickup_city_id(transcityId);
+                                    aPackage.setPickup_state_id(transstateId);
+                                    aPackage.setPickup_state_name(pickupState.getText().toString());
+                                    aPackage.setPickup_country_name(pickupLocality.getText().toString());
+                                    aPackage.setPickup_country_id(countryId);
+                                    aPackage.setFinalLocality(finalLocality.getText().toString());
+                                    aPackage.setP_final_city_name(finalCity.getText().toString());
+                                    aPackage.setP_final_state_id(finalstateId);
+                                    aPackage.setP_final_state_name(finalState.getText().toString());
+                                    aPackage.setP_final_city_id(finalcityId);
+                                    aPackage.setComment(edtComment.getText().toString());
+                                    pojoPackages.add(aPackage);
+                                    webGetPackage(pojoPackages);
+
+
                                     Log.i(TAG, "onClick: " + jsonObject1);
 
                                 } else {
@@ -636,61 +895,6 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
         }
 
-
-    }
-
-
-    public void showCalendar() {
-
-        Calendar now = Calendar.getInstance();
-
-      /*  if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
-                now.setTime(date);
-            } catch (Exception e) {
-                e.getMessage();
-            }
-        }*/
-
-        DatePickerDialog dpd = DatePickerDialog.newInstance(null,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH));
-        try {
-            Calendar now1 = Calendar.getInstance();
-            int day = now1.get(Calendar.DATE);
-            int days = now1.getActualMaximum(Calendar.DAY_OF_MONTH);
-            ArrayList<Calendar> calendars = new ArrayList<>();
-
-
-            int month = now1.get(Calendar.MONTH) + 1;
-            String yearMonth = now1.get(Calendar.YEAR) + "/" + month + "/";
-            for (int i = day + 3; i <= days; i++) {
-                calendars.add(DateToCalendar(new Date(yearMonth + i)));
-            }
-
-            Calendar tArray[] = calendars.toArray(new Calendar[calendars.size()]);
-            dpd.setDisabledDays(tArray);
-            dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
-            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
-
-
-            LocalDate monthEnd = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
-            // 2016-12-31
-            if ((day == (monthEnd.getDayOfMonth() - 2)) || (day == (monthEnd.getDayOfMonth() - 1)) || (day == (monthEnd.getDayOfMonth()))) {
-
-            } else {
-                Calendar c = Calendar.getInstance();
-                c.set(monthEnd.getYear(), monthEnd.getMonthOfYear() - 1, monthEnd.getDayOfMonth());//Year,Mounth -1,Day
-                dpd.setMaxDate(c);
-            }
-
-        } catch (Exception e) {
-            e.getMessage();
-
-        }
 
     }
 
@@ -934,7 +1138,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     destiCity.setThreshold(1);
                     destiCity.setAdapter(adptCountry1);
-
+                    trapickupCity.setAdapter(adptCountry1);
+                    trapickupCity.setThreshold(1);
+                    finalCity.setAdapter(adptCountry1);
+                    finalCity.setThreshold(1);
 
                   /*  pojoCity cityPojo = new pojoCity();
                     cityPojo.setId(cityId);
@@ -1233,4 +1440,62 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     }
 
 
+    public void webGetPackage(ArrayList<pojoPackage> pojoPackages) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getPackage(v, pojoPackages, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getGetPackage(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getGetPackage(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    if (jsonObject.optString("ResponseObject") != null) {
+
+                        CM.showToast(jsonObject.optString("ResponseObject"), thisActivity);
+
+                    }
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
+    }
 }

@@ -79,6 +79,8 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
     List<String> prefArray;
     ImageView imageIata, imagetafipic, imageTaaipic, imageiatopic, imageadyo, imageiso, imageufta, imageadto;
     ImageView offilePic, offilePic1, compRegister;
+    //mohit
+    boolean boolIata, boolTafi, boolTaai, boolIato, boolAdyoi, boolIso9001, boolUftaa, boolAdtoi, boolProfilePic, boolOffice1, boolOffice2, boolPanCard, boolBussCard, boolComActReg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -462,6 +464,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     proPic.setImageBitmap(CM.getResizedBitmap(currentImage, 75));
                                     edtProfilepic.setText(photoUri.getPath());
+                                    boolProfilePic = true;
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -482,6 +485,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     officePic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtOfficePic.setText(photoUri.getPath());
+                                    boolOffice1 = true;
                                 } catch (Exception e) {
 
                                 }
@@ -500,6 +504,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     officePic1.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtOfficePic1.setText(photoUri.getPath());
+                                    boolOffice2 = true;
                                 } catch (Exception e) {
 
                                 }
@@ -517,6 +522,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     panCard.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtPanCard.setText(photoUri.getPath());
+                                    boolPanCard = true;
 
 
                                 } catch (Exception e) {
@@ -536,6 +542,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     businessCard.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtBusinessCard.setText(photoUri.getPath());
+                                    boolBussCard = true;
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -553,6 +560,8 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     comRegister.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     edtCompReg.setText(photoUri.getPath());
+                                    boolComActReg = true;
+
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -571,7 +580,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageIata.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolIata = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -589,7 +598,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imagetafipic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolTafi = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -607,7 +616,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageTaaipic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolTaai = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -625,7 +634,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageiatopic.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolIato = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -643,7 +652,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageadyo.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolAdyoi = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -661,7 +670,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageiso.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolIso9001 = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -679,7 +688,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                 try {
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageufta.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
-
+                                    boolUftaa = true;
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -698,7 +707,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageadto.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
 
-
+                                    boolAdtoi = true;
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -1004,6 +1013,8 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                 case "200":
                     if (jsonObject.optString("ResponseObject") != null) {
 
+                        CM.showToast(jsonObject.optString("ResponseObject").toString(), ViewEditProfile.this);
+
                     }
 
                     break;
@@ -1029,176 +1040,423 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             case R.id.profileupdatedetails:
 
 
-               /* if (!catName.getText().toString().equals("")) {*/
-
-                if (!first_name.getText().toString().equals("")) {
-
-                    if (!last_name.getText().toString().equals("")) {
-
-                        if (!compName.getText().toString().equals("")) {
+                if (CM.isInternetAvailable(ViewEditProfile.this)) {
 
 
-                            if (!email.getText().toString().equals("") && CM.isEmailValid(email.getText().toString())) {
+                    if (!first_name.getText().toString().equals("")) {
 
-                                if (!primMobileNo.getText().toString().equals("")) {
+                        if (!last_name.getText().toString().equals("")) {
 
-                                    if (primMobileNo.getText().length() == 10) {
-
-                                        //Sec No.
-                                        if (secMobileNo.getText().toString().length() > 0) {
-
-                                            if (secMobileNo.getText().toString().length() == 10) {
+                            if (!compName.getText().toString().equals("")) {
 
 
-                                            } else {
-                                                CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
-                                            }
+                                if (!email.getText().toString().equals("") && CM.isEmailValid(email.getText().toString())) {
+
+                                    if (!primMobileNo.getText().toString().equals("")) {
+
+                                        if (primMobileNo.getText().length() == 10) {
+
+                                            //Sec No.
+                                            if (secMobileNo.getText().toString().length() > 0) {
+
+                                                if (secMobileNo.getText().toString().length() == 10) {
 
 
-                                        } else {
-
-                                            if (!address1.getText().toString().equals("")) {
+                                                    if (!address1.getText().toString().equals("")) {
 
 
-                                                if (!locality.getText().toString().equals("")) {
+                                                        if (!locality.getText().toString().equals("")) {
 
 
-                                                    if (!city.getText().toString().equals("")) {
+                                                            if (!city.getText().toString().equals("")) {
 
 
-                                                        if (!state.getText().toString().equals("")) {
+                                                                if (!state.getText().toString().equals("")) {
 
-                                                            if (!country.getText().toString().equals("")) {
+                                                                    if (!country.getText().toString().equals("")) {
 
-                                                                if (!pinCode.getText().toString().equals("")) {
-
-
-                                                                    List<Person> selectedItemList = completionView.getObjects();
-
-                                                                    if (selectedItemList.size() == 5) {
+                                                                        if (!pinCode.getText().toString().equals("")) {
 
 
-                                                                        Map<String, String> params = new HashMap<>();
-                                                                        params.put("cateName", spinner.getSelectedItem().toString());
-                                                                        params.put("fname", first_name.getText().toString());
-                                                                        params.put("lname", last_name.getText().toString());
-                                                                        params.put("compName", compName.getText().toString());
-                                                                        params.put("email", email.getText().toString());
-                                                                        params.put("mobile", primMobileNo.getText().toString());
-                                                                        params.put("secMobile", secMobileNo.getText().toString());
-                                                                        params.put("address1", address1.getText().toString());
-                                                                        params.put("address2", address2.getText().toString());
-                                                                        params.put("locality", locality.getText().toString());
-                                                                        params.put("city", cityId);
-                                                                        params.put("state", stateId);
-                                                                        params.put("country", countryId);
-                                                                        params.put("pincode", pinCode.getText().toString());
-                                                                        params.put("website", webUrl.getText().toString());
+                                                                            List<Person> selectedItemList = completionView.getObjects();
 
-                                                                        StringBuilder stringBuilder = new StringBuilder();
-                                                                        ArrayList<String> strings = new ArrayList<>();
-                                                                        for (int i = 0; i < selectedItemList.size(); i++) {
-                                                                            strings.add(selectedItemList.get(i).getEmail());
+                                                                            if (selectedItemList.size() == 5) {
+
+
+                                                                                Map<String, String> params = new HashMap<>();
+                                                                                // params.put("cateName", spinner.getSelectedItem().toString());
+                                                                                params.put("user_id", CM.getSp(ViewEditProfile.this, CV.PrefID, "").toString());
+                                                                                params.put("first_name", first_name.getText().toString());
+                                                                                params.put("last_name", last_name.getText().toString());
+                                                                                params.put("company_name", compName.getText().toString());
+                                                                                //  params.put("email", email.getText().toString());
+                                                                                params.put("mobile_number", primMobileNo.getText().toString());
+                                                                                params.put("p_contact", secMobileNo.getText().toString());
+                                                                                params.put("address", address1.getText().toString());
+                                                                                params.put("address1", address2.getText().toString());
+                                                                                params.put("locality", locality.getText().toString());
+                                                                                params.put("city_id", cityId);
+                                                                                params.put("state_id", stateId);
+                                                                                params.put("country_id", countryId);
+                                                                                params.put("pincode", pinCode.getText().toString());
+                                                                                params.put("web_url", webUrl.getText().toString());
+
+                                                                                StringBuilder stringBuilder = new StringBuilder();
+                                                                                ArrayList<String> strings = new ArrayList<>();
+                                                                                for (int i = 0; i < selectedItemList.size(); i++) {
+                                                                                    strings.add(selectedItemList.get(i).getEmail());
+                                                                                }
+                                                                                String stateList = strings.toString().replace("[", "").replace("]", "")
+                                                                                        .replace(", ", ",");
+
+                                                                                params.put("preference", stateList);
+
+
+                                                                                String iataImg = BASE64String(imageIata);
+                                                                                String tafipic = BASE64String(imagetafipic);
+                                                                                String taaipic = BASE64String(imageTaaipic);
+                                                                                String iatopic = BASE64String(imageiatopic);
+                                                                                String adyo = BASE64String(imageadyo);
+                                                                                String iso900 = BASE64String(imageiso);
+                                                                                String ufta = BASE64String(imageufta);
+                                                                                String adto = BASE64String(imageadto);
+                                                                                String proPics = BASE64String(proPic);
+                                                                                String officePics = BASE64String(officePic);
+                                                                                String officePic1s = BASE64String(officePic1);
+                                                                                String panCards = BASE64String(panCard);
+                                                                                String businessCards = BASE64String(businessCard);
+                                                                                String comRegisters = BASE64String(comRegister);
+
+
+                                                                               /* params.put("iata_pic", iataImg);
+                                                                                params.put("tafi_pic", tafipic);
+                                                                                params.put("taai_pic", taaipic);
+                                                                                params.put("iato_pic", iatopic);
+                                                                                params.put("adyoi_pic", adyo);
+                                                                                params.put("iso9001_pic", iso900);
+                                                                                params.put("uftaa_pic", ufta);
+                                                                                params.put("adtoi_pic", adto);
+                                                                                params.put("profile_pic", proPics);
+                                                                                params.put("company_img_1", officePics);
+                                                                                params.put("company_img_2", officePic1s);
+                                                                                params.put("pancard", panCards);
+                                                                                params.put("id_card", businessCards);
+                                                                                params.put("company_shop_registration", comRegisters);*/
+
+
+                                                                                if (boolIata) {
+                                                                                    params.put("iata_pic", iataImg);
+                                                                                } else {
+                                                                                    params.put("iata_pic", "");
+                                                                                }
+                                                                                if (boolTafi) {
+                                                                                    params.put("tafi_pic", tafipic);
+                                                                                } else {
+                                                                                    params.put("tafi_pic", "");
+                                                                                }
+                                                                                if (boolTaai) {
+                                                                                    params.put("taai_pic", taaipic);
+                                                                                } else {
+                                                                                    params.put("taai_pic", "");
+                                                                                }
+                                                                                if (boolIato) {
+                                                                                    params.put("iato_pic", iatopic);
+                                                                                } else {
+                                                                                    params.put("iato_pic", "");
+                                                                                }
+                                                                                if (boolAdyoi) {
+                                                                                    params.put("adyoi_pic", adyo);
+                                                                                } else {
+                                                                                    params.put("adyoi_pic", "");
+                                                                                }
+                                                                                if (boolUftaa) {
+                                                                                    params.put("uftaa_pic", ufta);
+                                                                                } else {
+                                                                                    params.put("uftaa_pic", "");
+                                                                                }
+                                                                                if (boolAdtoi) {
+                                                                                    params.put("adtoi_pic", adto);
+                                                                                } else {
+                                                                                    params.put("adtoi_pic", "");
+                                                                                }
+                                                                                if (boolProfilePic) {
+                                                                                    params.put("profile_pic", proPics);
+                                                                                } else {
+                                                                                    params.put("profile_pic", "");
+                                                                                }
+                                                                                if (boolOffice1) {
+                                                                                    params.put("company_img_1", officePics);
+                                                                                } else {
+                                                                                    params.put("company_img_1", "");
+                                                                                }
+                                                                                if (boolOffice2) {
+                                                                                    params.put("company_img_2", officePic1s);
+                                                                                } else {
+                                                                                    params.put("company_img_2", "");
+                                                                                }
+                                                                                if (boolPanCard) {
+                                                                                    params.put("pancard", panCards);
+                                                                                } else {
+                                                                                    params.put("pancard", "");
+                                                                                }
+                                                                                if (boolBussCard) {
+                                                                                    params.put("id_card", businessCards);
+                                                                                } else {
+                                                                                    params.put("id_card", "");
+                                                                                }
+                                                                                if (boolComActReg) {
+                                                                                    params.put("company_shop_registration", comRegisters);
+                                                                                } else {
+                                                                                    params.put("company_shop_registration", "");
+                                                                                }
+
+
+                                                                                params.put("description", edtDis.getText().toString());
+                                                                                webSubmit(params);
+
+
+                                                                            } else {
+                                                                                CM.showToast(getString(R.string.entlist), ViewEditProfile.this);
+                                                                            }
+
+
+                                                                        } else {
+                                                                            CM.showToast(getString(R.string.entpin), ViewEditProfile.this);
                                                                         }
-                                                                        params.put("stateToOperate", strings.toString());
-
-
-                                                                        String iataImg = BASE64String(imageIata);
-                                                                        String tafipic = BASE64String(imagetafipic);
-                                                                        String taaipic = BASE64String(imageTaaipic);
-                                                                        String iatopic = BASE64String(imageiatopic);
-                                                                        String adyo = BASE64String(imageadyo);
-                                                                        String iso900 = BASE64String(imageiso);
-                                                                        String ufta = BASE64String(imageufta);
-                                                                        String adto = BASE64String(imageadto);
-                                                                        String proPics = BASE64String(proPic);
-                                                                        String officePics = BASE64String(officePic);
-                                                                        String officePic1s = BASE64String(officePic1);
-                                                                        String panCards = BASE64String(panCard);
-                                                                        String businessCards = BASE64String(businessCard);
-                                                                        String comRegisters = BASE64String(comRegister);
-
-                                                                        params.put("imgIata", iataImg);
-                                                                        params.put("imgTafi", tafipic);
-                                                                        params.put("imgTaai", taaipic);
-                                                                        params.put("imgIato", iatopic);
-                                                                        params.put("imgAdyo", adyo);
-                                                                        params.put("imgIso", iso900);
-                                                                        params.put("imgUfta", ufta);
-                                                                        params.put("imgAdto", adto);
-                                                                        params.put("profPic", proPics);
-                                                                        params.put("picOffice1", officePics);
-                                                                        params.put("picOffice2", officePic1s);
-                                                                        params.put("picPanCard", panCards);
-                                                                        params.put("picBusCard", businessCards);
-                                                                        params.put("picActReg", comRegisters);
-                                                                        params.put("description", edtDis.getText().toString());
-                                                                        webSubmit(params);
 
 
                                                                     } else {
-                                                                        CM.showToast(getString(R.string.entlist), ViewEditProfile.this);
+                                                                        CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
                                                                     }
 
-
                                                                 } else {
-                                                                    CM.showToast(getString(R.string.entpin), ViewEditProfile.this);
+                                                                    CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
                                                                 }
 
 
                                                             } else {
-                                                                CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
+                                                                CM.showToast(getString(R.string.entcity), ViewEditProfile.this);
                                                             }
 
+
                                                         } else {
-                                                            CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
+                                                            CM.showToast(getString(R.string.entlocality), ViewEditProfile.this);
                                                         }
 
 
                                                     } else {
-                                                        CM.showToast(getString(R.string.entcity), ViewEditProfile.this);
+
+                                                        CM.showToast(getString(R.string.entAddres1), ViewEditProfile.this);
+
                                                     }
 
 
                                                 } else {
-                                                    CM.showToast(getString(R.string.entlocality), ViewEditProfile.this);
+                                                    CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
                                                 }
 
 
                                             } else {
 
-                                                CM.showToast(getString(R.string.entAddres1), ViewEditProfile.this);
+                                                if (!address1.getText().toString().equals("")) {
+
+
+                                                    if (!locality.getText().toString().equals("")) {
+
+
+                                                        if (!city.getText().toString().equals("")) {
+
+
+                                                            if (!state.getText().toString().equals("")) {
+
+                                                                if (!country.getText().toString().equals("")) {
+
+                                                                    if (!pinCode.getText().toString().equals("")) {
+
+
+                                                                        List<Person> selectedItemList = completionView.getObjects();
+
+                                                                        if (selectedItemList.size() == 5) {
+
+
+                                                                            Map<String, String> params = new HashMap<>();
+                                                                            // params.put("cateName", spinner.getSelectedItem().toString());
+                                                                            params.put("user_id", CM.getSp(ViewEditProfile.this, CV.PrefID, "").toString());
+                                                                            params.put("first_name", first_name.getText().toString());
+                                                                            params.put("last_name", last_name.getText().toString());
+                                                                            params.put("company_name", compName.getText().toString());
+                                                                            //  params.put("email", email.getText().toString());
+                                                                            params.put("mobile_number", primMobileNo.getText().toString());
+                                                                            params.put("p_contact", secMobileNo.getText().toString());
+                                                                            params.put("address", address1.getText().toString());
+                                                                            params.put("address1", address2.getText().toString());
+                                                                            params.put("locality", locality.getText().toString());
+                                                                            params.put("city_id", cityId);
+                                                                            params.put("state_id", stateId);
+                                                                            params.put("country_id", countryId);
+                                                                            params.put("pincode", pinCode.getText().toString());
+                                                                            params.put("web_url", webUrl.getText().toString());
+
+                                                                            StringBuilder stringBuilder = new StringBuilder();
+                                                                            ArrayList<String> strings = new ArrayList<>();
+                                                                            for (int i = 0; i < selectedItemList.size(); i++) {
+                                                                                strings.add(selectedItemList.get(i).getEmail());
+                                                                            }
+                                                                            String stateList = strings.toString().replace("[", "").replace("]", "")
+                                                                                    .replace(", ", ",");
+
+                                                                            params.put("preference", stateList);
+
+
+                                                                            String iataImg = BASE64String(imageIata);
+                                                                            String tafipic = BASE64String(imagetafipic);
+                                                                            String taaipic = BASE64String(imageTaaipic);
+                                                                            String iatopic = BASE64String(imageiatopic);
+                                                                            String adyo = BASE64String(imageadyo);
+                                                                            String iso900 = BASE64String(imageiso);
+                                                                            String ufta = BASE64String(imageufta);
+                                                                            String adto = BASE64String(imageadto);
+                                                                            String proPics = BASE64String(proPic);
+                                                                            String officePics = BASE64String(officePic);
+                                                                            String officePic1s = BASE64String(officePic1);
+                                                                            String panCards = BASE64String(panCard);
+                                                                            String businessCards = BASE64String(businessCard);
+                                                                            String comRegisters = BASE64String(comRegister);
+
+                                                                            if (boolIata) {
+                                                                                params.put("iata_pic", iataImg);
+                                                                            } else {
+                                                                                params.put("iata_pic", "");
+                                                                            }
+                                                                            if (boolTafi) {
+                                                                                params.put("tafi_pic", tafipic);
+                                                                            } else {
+                                                                                params.put("tafi_pic", "");
+                                                                            }
+                                                                            if (boolTaai) {
+                                                                                params.put("taai_pic", taaipic);
+                                                                            } else {
+                                                                                params.put("taai_pic", "");
+                                                                            }
+                                                                            if (boolIato) {
+                                                                                params.put("iato_pic", iatopic);
+                                                                            } else {
+                                                                                params.put("iato_pic", "");
+                                                                            }
+                                                                            if (boolAdyoi) {
+                                                                                params.put("adyoi_pic", adyo);
+                                                                            } else {
+                                                                                params.put("adyoi_pic", "");
+                                                                            }
+                                                                            if (boolUftaa) {
+                                                                                params.put("uftaa_pic", ufta);
+                                                                            } else {
+                                                                                params.put("uftaa_pic", "");
+                                                                            }
+                                                                            if (boolAdtoi) {
+                                                                                params.put("adtoi_pic", adto);
+                                                                            } else {
+                                                                                params.put("adtoi_pic", "");
+                                                                            }
+                                                                            if (boolProfilePic) {
+                                                                                params.put("profile_pic", proPics);
+                                                                            } else {
+                                                                                params.put("profile_pic", "");
+                                                                            }
+                                                                            if (boolOffice1) {
+                                                                                params.put("company_img_1", officePics);
+                                                                            } else {
+                                                                                params.put("company_img_1", "");
+                                                                            }
+                                                                            if (boolOffice2) {
+                                                                                params.put("company_img_2", officePic1s);
+                                                                            } else {
+                                                                                params.put("company_img_2", "");
+                                                                            }
+                                                                            if (boolPanCard) {
+                                                                                params.put("pancard", panCards);
+                                                                            } else {
+                                                                                params.put("pancard", "");
+                                                                            }
+                                                                            if (boolBussCard) {
+                                                                                params.put("id_card", businessCards);
+                                                                            } else {
+                                                                                params.put("id_card", "");
+                                                                            }
+                                                                            if (boolComActReg) {
+                                                                                params.put("company_shop_registration", comRegisters);
+                                                                            } else {
+                                                                                params.put("company_shop_registration", "");
+                                                                            }
+                                                                            webSubmit(params);
+
+
+                                                                        } else {
+                                                                            CM.showToast(getString(R.string.entlist), ViewEditProfile.this);
+                                                                        }
+
+
+                                                                    } else {
+                                                                        CM.showToast(getString(R.string.entpin), ViewEditProfile.this);
+                                                                    }
+
+
+                                                                } else {
+                                                                    CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
+                                                                }
+
+                                                            } else {
+                                                                CM.showToast(getString(R.string.entcityfirst), ViewEditProfile.this);
+                                                            }
+
+
+                                                        } else {
+                                                            CM.showToast(getString(R.string.entcity), ViewEditProfile.this);
+                                                        }
+
+
+                                                    } else {
+                                                        CM.showToast(getString(R.string.entlocality), ViewEditProfile.this);
+                                                    }
+
+
+                                                } else {
+
+                                                    CM.showToast(getString(R.string.entAddres1), ViewEditProfile.this);
+
+                                                }
 
                                             }
 
+
+                                        } else {
+                                            CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
                                         }
 
 
                                     } else {
-                                        CM.showToast(getString(R.string.entvpno), ViewEditProfile.this);
+                                        CM.showToast(getString(R.string.entpno), ViewEditProfile.this);
                                     }
 
-
                                 } else {
-                                    CM.showToast(getString(R.string.entpno), ViewEditProfile.this);
+                                    CM.showToast(getString(R.string.entvemail), ViewEditProfile.this);
                                 }
 
                             } else {
-                                CM.showToast(getString(R.string.entvemail), ViewEditProfile.this);
+
+                                CM.showToast(getString(R.string.entComName), ViewEditProfile.this);
+
                             }
 
                         } else {
-
-                            CM.showToast(getString(R.string.entComName), ViewEditProfile.this);
-
+                            CM.showToast(getString(R.string.entlname), ViewEditProfile.this);
                         }
 
                     } else {
-                        CM.showToast(getString(R.string.entlname), ViewEditProfile.this);
+                        CM.showToast(getString(R.string.entfname), ViewEditProfile.this);
                     }
-
                 } else {
-                    CM.showToast(getString(R.string.entfname), ViewEditProfile.this);
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewEditProfile.this);
                 }
                 break;
             case R.id.btnIata:

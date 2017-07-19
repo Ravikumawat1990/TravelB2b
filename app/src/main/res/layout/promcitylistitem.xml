@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+        android:id="@+id/txtCity"
+        android:padding="@dimen/font_5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Hotel Name"
+        android:singleLine="true"
+        android:textSize="15sp"
+        mtplview:TypeFace="@string/fontface_DroidSerif_Regular"
+        android:layout_toEndOf="@+id/headerImg" />
+
+</LinearLayout>

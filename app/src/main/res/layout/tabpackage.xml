@@ -261,6 +261,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
+                                        android:layout_marginRight="@dimen/margin_10dp"
                                         android:paddingRight="@dimen/margin_10dp"
                                         android:tint="@android:color/darker_gray" />
                                 </LinearLayout>
@@ -288,9 +289,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:hint="Single"
-
                                                 android:inputType="number"
-                                                android:singleLine="true"
+                                                android:maxLines="1"
                                                 android:textSize="12sp"
                                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -818,24 +818,6 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/pickupLocality"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Pickup Locality"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -844,7 +826,7 @@
                         android:layout_marginRight="@dimen/margin_15dp"
                         android:layout_marginTop="@dimen/margin_10dp">
 
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                        <AutoCompleteTextView
                             android:id="@+id/trapickupCity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -867,7 +849,28 @@
                             android:id="@+id/trapickupState"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:enabled="false"
                             android:hint="Pickup State"
+                            android:inputType="text"
+                            android:singleLine="true"
+                            android:textSize="12sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_15dp"
+                        android:layout_marginRight="@dimen/margin_15dp"
+                        android:layout_marginTop="@dimen/margin_10dp">
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                            android:id="@+id/pickupLocality"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Pickup Locality"
                             android:inputType="text"
                             android:singleLine="true"
                             android:textSize="12sp"
@@ -917,7 +920,7 @@
                         android:layout_marginRight="@dimen/margin_15dp"
                         android:layout_marginTop="@dimen/margin_10dp">
 
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                        <AutoCompleteTextView
                             android:id="@+id/finalCity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -943,6 +946,8 @@
                             android:layout_height="wrap_content"
                             android:hint="Final State"
                             android:inputType="text"
+                            android:enabled="false"
+                            android:editable="false"
                             android:singleLine="true"
                             android:textSize="12sp"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

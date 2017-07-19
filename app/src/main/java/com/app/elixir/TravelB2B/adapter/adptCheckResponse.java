@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoCheckResposne;
@@ -25,7 +25,7 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
 
     private ArrayList<pojoCheckResposne> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    public OnItemClickListeners listener;
 
     public adptCheckResponse(Context context, ArrayList<pojoCheckResposne> data) {
         this.dataSet = data;
@@ -68,26 +68,26 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat", "");
+                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getUser_id(), "");
                     break;
                 case R.id.btnShare:
-                    listener.onItemClick("share", "");
+                    listener.onItemClick("share", dataSet.get(getAdapterPosition()).getUser_id(), "");
                     break;
                 case R.id.btnAccept:
-                    listener.onItemClick("btnAccept", "");
+                    listener.onItemClick("btnAccept", dataSet.get(getAdapterPosition()).getUser_id(), "");
                     break;
                 case R.id.btnRate:
-                    listener.onItemClick("rate", "");
+                    listener.onItemClick("rate", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId());
                     break;
                 case R.id.btnBlock:
-                    listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id());
+                    listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id(), "");
                     break;
             }
 
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnItemClickListeners mItemClickListener) {
 
         this.listener = mItemClickListener;
     }

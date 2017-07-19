@@ -31,6 +31,7 @@ import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -60,6 +61,7 @@ public class FragFinalizedResponses extends Fragment {
     adptFinalizeResponse mAdapter;
     ArrayList<pojoFinalizeResposne> finalizeResposneArrayList;
     FloatingActionButton myFab;
+    MtplTextView userName, phoneNumber, email, discription;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -84,6 +86,10 @@ public class FragFinalizedResponses extends Fragment {
     }
 
     private void initView(View rootView) {
+
+
+
+
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
@@ -124,7 +130,11 @@ public class FragFinalizedResponses extends Fragment {
                     CM.startActivity(intent, thisActivity);
 
                 } else {
-                    CM.startActivity(thisActivity, ViewAgentProfile.class);
+
+                    Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
+                    intent.putExtra("userId", value1);
+                    CM.startActivity(intent, thisActivity);
+
                 }
             }
         });
@@ -231,6 +241,7 @@ public class FragFinalizedResponses extends Fragment {
 
 
                         JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
+                        pojoMyResponse.setId(jsonObject2.optString("id"));
                         pojoMyResponse.setFirst_name(jsonObject2.optString("first_name"));
                         pojoMyResponse.setLast_name(jsonObject2.optString("last_name"));
 

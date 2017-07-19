@@ -356,5 +356,33 @@
         <item>Non AC Bus</item>
     </string-array>
 
+    <!--"id": request_id
+    "user_id": chatuserid
+    sessionid = userid-->
+
+    <string name="intrest_submit">"Your Intrest Submited"</string>
+    <string name="review_submit">"Review Submited"</string>
+    <string-array name="refTypeArray">
+        <item>Select Package</item>
+        <item>Package</item>
+        <item>Hotel</item>
+        <item>Transport</item>
+    </string-array>
+    <string-array name="budgetArray">
+        <item>Select Budget</item>
+        <item>0-10000</item>
+        <item>10000-30000</item>
+        <item>30000-50000</item>
+        <item>50000-100000</item>
+    </string-array>
+
+    <string-array name="ratingArray">
+        <item>Select Rating</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 
 </resources>

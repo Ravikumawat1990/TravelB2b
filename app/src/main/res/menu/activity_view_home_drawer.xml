@@ -63,7 +63,7 @@
         <item
             android:id="@+id/nav_tandc"
             android:icon="@drawable/tercon"
-            android:title="Term  &amp; Condition" />
+            android:title="Terms  &amp; Conditions" />
         <item
             android:id="@+id/nav_privpolicy"
             android:icon="@drawable/privacypolicy"

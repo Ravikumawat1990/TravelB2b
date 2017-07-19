@@ -15,6 +15,15 @@ public class pojoFinalizeResposne {
     String last_name;
     String quotation_price;
     String comment;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFirst_name() {
         return first_name;

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
@@ -25,7 +25,7 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
 
     private ArrayList<pojoFinalizeReq> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    public OnItemClickListeners listener;
 
     public adptfinalizedRequest(Context context, ArrayList<pojoFinalizeReq> dataSet) {
         this.dataSet = dataSet;
@@ -60,13 +60,13 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId());
                     break;
                 case R.id.btnDetail:
-                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId());
                     break;
                 case R.id.btntestimonial:
-                    listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
 
 
@@ -75,7 +75,7 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnItemClickListeners mItemClickListener) {
 
         this.listener = mItemClickListener;
     }

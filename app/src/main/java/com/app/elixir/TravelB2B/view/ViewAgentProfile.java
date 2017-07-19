@@ -1,5 +1,6 @@
 package com.app.elixir.TravelB2B.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -16,14 +17,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.adapter.adptAdvt;
+import com.app.elixir.TravelB2B.adapter.adptCertificate;
 import com.app.elixir.TravelB2B.adapter.adptreview;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.certifyCatePogo;
 import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 import com.app.elixir.TravelB2B.utils.CM;
-import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -44,6 +46,10 @@ public class ViewAgentProfile extends AppCompatActivity {
     ArrayList<pojoTestimonial> pojoTestimonialArrayList;
     Toolbar toolbar;
     private ArrayList<pojoAdvert> pojoAdvertArrayList;
+    MtplTextView userName, phoneNumber, email, discription;
+    ArrayList<certifyCatePogo> certifyCatePogoArrayList;
+    ArrayList<String> stringArrayList;
+    adptCertificate mAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,12 +109,26 @@ public class ViewAgentProfile extends AppCompatActivity {
 
         }
         pojoAdvertArrayList = new ArrayList<>();
-        adptAdvt mAdapter1 = new adptAdvt(ViewAgentProfile.this, pojoAdvertArrayList);
+        certifyCatePogoArrayList = new ArrayList<>();
+        mAdapter1 = new adptCertificate(ViewAgentProfile.this, stringArrayList);
         recyclerViewAdv.setAdapter(mAdapter1);
         pojoTestimonialArrayList = new ArrayList<>();
         mAdapter = new adptreview(ViewAgentProfile.this, pojoTestimonialArrayList);
 
-        webTestimonial(CM.getSp(ViewAgentProfile.this, CV.PrefID, "").toString());
+
+        initView();
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("userId");
+
+        webTestimonial(userId);
+    }
+
+    private void initView() {
+
+        userName = (MtplTextView) findViewById(R.id.userName);
+        phoneNumber = (MtplTextView) findViewById(R.id.phoneNumber);
+        email = (MtplTextView) findViewById(R.id.email);
+        discription = (MtplTextView) findViewById(R.id.txtDiscription);
     }
 
     @Override
@@ -180,11 +200,46 @@ public class ViewAgentProfile extends AppCompatActivity {
                         pojoTestimonial.setProfile_pic(jsonArray.getJSONObject(i).optString("profile_pic"));
                         pojoTestimonial.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
                         pojoTestimonial.setAuthor_id(jsonArray.getJSONObject(i).optString("author_id"));
+                        // JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("userprofile"));
+
+
                         pojoTestimonialArrayList.add(pojoTestimonial);
 
                     }
+                    //JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(0).optString("userprofile"));
+
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("userprofile").toString());
+                    userName.setText(jsonObject1.optString("first_name") + " " + jsonArray.getJSONObject(0).optString("last_name"));
+                    phoneNumber.setText(jsonObject1.optString("mobile_number"));
+                    email.setText(jsonObject1.optString("email"));
+                    discription.setText(jsonObject1.optString("description1"));
+
+
+                   /* certifyCatePogo catePogo = new certifyCatePogo();
+                    catePogo.setIata_pic(jsonObject1.optString("iata_pic"));
+                    catePogo.setTafi_pic(jsonObject1.optString("tafi_pic"));
+                    catePogo.setTaai_pic(jsonObject1.optString("taai_pic"));
+                    catePogo.setIato_pic(jsonObject1.optString("iato_pic"));
+                    catePogo.setAdyoi_pic(jsonObject1.optString("adyoi_pic"));
+                    catePogo.setIso9001_pic(jsonObject1.optString("iso9001_pic"));
+                    catePogo.setUftaa_pic(jsonObject1.optString("uftaa_pic"));
+                    catePogo.setAdyoi_pic(jsonObject1.optString("adtoi_pic"));*/
+
+                    stringArrayList.add(jsonObject1.optString("iata_pic"));
+                    stringArrayList.add(jsonObject1.optString("tafi_pic"));
+                    stringArrayList.add(jsonObject1.optString("taai_pic"));
+                    stringArrayList.add(jsonObject1.optString("iato_pic"));
+                    stringArrayList.add(jsonObject1.optString("adyoi_pic"));
+                    stringArrayList.add(jsonObject1.optString("iso9001_pic"));
+                    stringArrayList.add(jsonObject1.optString("uftaa_pic"));
+                    stringArrayList.add(jsonObject1.optString("adtoi_pic"));
+                    //certifyCatePogoArrayList.add(catePogo);
+
+
                     pojoTestimonialArrayList.size();
                     recycleViewTestimonial.setAdapter(mAdapter);
+                    recyclerViewAdv.setAdapter(mAdapter1);
+                    recyclerViewAdv.invalidate();
                     recycleViewTestimonial.invalidate();
 
                     break;
