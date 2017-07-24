@@ -175,7 +175,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="left|center"
-                    android:text="Review finalize\nresponses"
+                    android:text="Review/Shortlist \nresponses"
 
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
             </LinearLayout>
@@ -201,7 +201,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.25"
                     android:gravity="center|right"
-                    android:text="Negotiate via\nLive chat, or phone"
+                    android:text="Negotiate via\nlive chat, or phone"
 
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

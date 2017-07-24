@@ -1,6 +1,7 @@
 package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -41,7 +42,6 @@ import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
 import com.silencedut.expandablelayout.ExpandableLayout;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.joda.time.LocalDate;
 import org.json.JSONArray;
@@ -102,6 +102,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     final int DRAWABLE_BOTTOM = 3;
     View rootView;
     MultiSelectionSpinner spinnerHotelCatMain;
+
+    private int dayOfMonth1;
+    private int month1;
+    private int year1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1136,12 +1140,12 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                         }
                     }
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
-                    destiCity.setThreshold(1);
+                    destiCity.setThreshold(3);
                     destiCity.setAdapter(adptCountry1);
                     trapickupCity.setAdapter(adptCountry1);
-                    trapickupCity.setThreshold(1);
+                    trapickupCity.setThreshold(3);
                     finalCity.setAdapter(adptCountry1);
-                    finalCity.setThreshold(1);
+                    finalCity.setThreshold(3);
 
                   /*  pojoCity cityPojo = new pojoCity();
                     cityPojo.setId(cityId);
@@ -1318,6 +1322,51 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
     public void checkIn(final EditText ed) {
         Calendar now = Calendar.getInstance();
+        Log.i(ContentValues.TAG, "onTouch:" + ed.getId());
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+        try {
+
+
+            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+            dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
+            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+                    Log.i(ContentValues.TAG, "onDateSet: ");
+                    dayOfMonth1 = dayOfMonth;
+                    month1 = monthOfYear;
+                    year1 = year;
+
+                    int month = monthOfYear + 1;
+                    if (ed != null) {
+
+
+                    /*dayOfMonth1 = dayOfMonth;
+                    month1 = month;
+                    year1 = year;*/
+                        ed.setText(month + "-" + dayOfMonth + "-" + year);
+                        ed.setSelection(ed.getText().length());
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.getMessage();
+
+        }
+
+
+    }
+
+
+
+   /* public void checkIn(final EditText ed) {
+        Calendar now = Calendar.getInstance();
         Log.i(TAG, "onTouch:" + ed.getId());
         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                 now.get(Calendar.YEAR),
@@ -1373,12 +1422,51 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             e.getMessage();
 
         }
-
-
     }
-
+*/
 
     public void checkOut(final EditText edt) {
+
+        Calendar now = Calendar.getInstance();
+        Log.i(ContentValues.TAG, "onTouch:" + edt.getId());
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+
+        try {
+            Calendar now1 = Calendar.getInstance();
+            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+            dpd.setMinDate(now1);
+
+            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+
+
+            LocalDate monthEnd = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+
+            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                    Log.i(ContentValues.TAG, "onDateSet: ");
+
+                    int month = monthOfYear + 1;
+                    if (edt != null) {
+                        edt.setText(month + "-" + dayOfMonth + "-" + year);
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.getMessage();
+
+        }
+    }
+
+   /* public void checkOut(final EditText edt) {
 
         Calendar now = Calendar.getInstance();
         Log.i(TAG, "onTouch:" + edt.getId());
@@ -1437,7 +1525,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             e.getMessage();
 
         }
-    }
+    }*/
 
 
     public void webGetPackage(ArrayList<pojoPackage> pojoPackages) {

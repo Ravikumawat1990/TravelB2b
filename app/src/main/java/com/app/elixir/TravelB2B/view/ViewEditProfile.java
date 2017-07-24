@@ -177,7 +177,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                 completionView.setTypeface(face);
                 completionView.setAdapter(adapter);
                 completionView.setTokenLimit(5);
-                completionView.setDuplicateParentStateEnabled(true);
+                // completionView.setDuplicateParentStateEnabled(true);
 
                 completionView.setOnClickListener(new View.OnClickListener() {
                     @Override

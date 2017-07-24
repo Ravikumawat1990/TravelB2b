@@ -1,6 +1,7 @@
 package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -84,6 +85,10 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
     NumberPicker numberPicker, childBelow;
     Spinner spinnerHotelRating, spinnerMealPlane, spinnerTransport;
 
+    private int dayOfMonth1;
+    private int month1;
+    private int year1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabtransport, container, false);
@@ -132,8 +137,8 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
 
         ExpandableLayout expandableLayout1 = (ExpandableLayout) view.findViewById(R.id.expView1);
-        ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView3);
-        ExpandableLayout expandableLayout3 = (ExpandableLayout) view.findViewById(R.id.expView4);
+        ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView4);
+        ExpandableLayout expandableLayout3 = (ExpandableLayout) view.findViewById(R.id.expView3);
         imageView1 = (ImageView) view.findViewById(R.id.expImg1);
         imageView2 = (ImageView) view.findViewById(R.id.expImg3);
         imageView3 = (ImageView) view.findViewById(R.id.expImg4);
@@ -736,9 +741,9 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (transStatrDate.getRight() - transStatrDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                        Calendar now = Calendar.getInstance();
+                       /* Calendar now = Calendar.getInstance();
 
-                        /*if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
+                        *//*if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
@@ -746,7 +751,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             } catch (Exception e) {
                                 e.getMessage();
                             }
-                        }*/
+                        }*//*
 
                         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                                 now.get(Calendar.YEAR),
@@ -802,7 +807,43 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             e.getMessage();
 
                         }
-                        return true;
+                        return true;*/
+
+                        Calendar now = Calendar.getInstance();
+                        Log.i(ContentValues.TAG, "onTouch:" + transStatrDate.getId());
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                                now.get(Calendar.YEAR),
+                                now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+                        try {
+
+
+                            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+                            dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
+                            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+                                    Log.i(ContentValues.TAG, "onDateSet: ");
+                                    dayOfMonth1 = dayOfMonth;
+                                    month1 = monthOfYear;
+                                    year1 = year;
+
+                                    int month = monthOfYear + 1;
+                                    if (transStatrDate != null) {
+
+
+                                        transStatrDate.setText(month + "-" + dayOfMonth + "-" + year);
+                                        transStatrDate.setSelection(transStatrDate.getText().length());
+                                    }
+
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.getMessage();
+
+                        }
                     }
                 }
                 break;
@@ -810,8 +851,8 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (transEndDate.getRight() - transEndDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Calendar now = Calendar.getInstance();
-                     /*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
+                      /*  Calendar now = Calendar.getInstance();
+                     *//*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
@@ -819,7 +860,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             } catch (Exception e) {
                                 e.getMessage();
                             }
-                        }*/
+                        }*//*
 
                         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                                 now.get(Calendar.YEAR),
@@ -877,7 +918,44 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             e.getMessage();
 
                         }
-                        return true;
+                        return true;*/
+                        Calendar now = Calendar.getInstance();
+                        Log.i(ContentValues.TAG, "onTouch:" + transEndDate.getId());
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                                now.get(Calendar.YEAR),
+                                now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+
+                        try {
+                            Calendar now1 = Calendar.getInstance();
+                            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+                            dpd.setMinDate(now1);
+
+                            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+
+
+                            LocalDate monthEnd = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+
+                            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                                    Log.i(ContentValues.TAG, "onDateSet: ");
+
+                                    int month = monthOfYear + 1;
+                                    if (transEndDate != null) {
+                                        transEndDate.setText(month + "-" + dayOfMonth + "-" + year);
+                                    }
+
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.getMessage();
+
+                        }
                     }
                 }
                 break;
@@ -885,8 +963,8 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkOut.getRight() - checkOut.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Calendar now = Calendar.getInstance();
-                     /*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
+                     /*   Calendar now = Calendar.getInstance();
+                     *//*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
@@ -894,7 +972,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             } catch (Exception e) {
                                 e.getMessage();
                             }
-                        }*/
+                        }*//*
 
                         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                                 now.get(Calendar.YEAR),
@@ -951,7 +1029,42 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             e.getMessage();
 
                         }
-                        return true;
+                        return true;*/
+                        Calendar now = Calendar.getInstance();
+                        Log.i(ContentValues.TAG, "onTouch:" + checkIn1.getId());
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                                now.get(Calendar.YEAR),
+                                now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+                        try {
+
+
+                            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+                            dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
+                            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+                                    Log.i(ContentValues.TAG, "onDateSet: ");
+                                    dayOfMonth1 = dayOfMonth;
+                                    month1 = monthOfYear;
+                                    year1 = year;
+
+                                    int month = monthOfYear + 1;
+                                    if (checkIn1 != null) {
+
+
+                                        checkIn1.setText(month + "-" + dayOfMonth + "-" + year);
+                                        checkIn1.setSelection(checkIn1.getText().length());
+                                    }
+
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.getMessage();
+
+                        }
                     }
                 }
                 break;
@@ -959,8 +1072,8 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
             case R.id.edtCheckout1:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkOut.getRight() - checkOut.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        Calendar now = Calendar.getInstance();
-                     /*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
+                       /* Calendar now = Calendar.getInstance();
+                     *//*   if (!CM.getSp(thisActivity, "serverDate", "").equals("")) {
                             try {
                                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = format.parse(CM.getSp(thisActivity, "serverDate", "").toString());
@@ -968,7 +1081,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             } catch (Exception e) {
                                 e.getMessage();
                             }
-                        }*/
+                        }*//*
 
                         DatePickerDialog dpd = DatePickerDialog.newInstance(null,
                                 now.get(Calendar.YEAR),
@@ -1025,7 +1138,44 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             e.getMessage();
 
                         }
-                        return true;
+                        return true;*/
+                        Calendar now = Calendar.getInstance();
+                        Log.i(ContentValues.TAG, "onTouch:" + checkOut1.getId());
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                                now.get(Calendar.YEAR),
+                                now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+
+                        try {
+                            Calendar now1 = Calendar.getInstance();
+                            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+                            dpd.setMinDate(now1);
+
+                            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+
+
+                            LocalDate monthEnd = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+
+                            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                                    Log.i(ContentValues.TAG, "onDateSet: ");
+
+                                    int month = monthOfYear + 1;
+                                    if (checkOut1 != null) {
+                                        checkOut1.setText(month + "-" + dayOfMonth + "-" + year);
+                                    }
+
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.getMessage();
+
+                        }
                     }
                 }
                 break;

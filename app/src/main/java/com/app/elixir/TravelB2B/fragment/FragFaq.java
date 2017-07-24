@@ -55,7 +55,7 @@ public class FragFaq extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.faq, container, false);
         thisActivity = getActivity();
-        ((ActionBarTitleSetter) thisActivity).setTitle("FAQ");
+        ((ActionBarTitleSetter) thisActivity).setTitle("FAQs");
         progressBar = (ImageView) rootView.findViewById(R.id.dialogProgressBar);
         Animation a = AnimationUtils.loadAnimation(thisActivity, R.anim.scale);
         a.setDuration(1000);

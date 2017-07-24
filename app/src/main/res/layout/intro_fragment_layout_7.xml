@@ -53,7 +53,7 @@
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Travel Agent: "
+                        android:text="Travel Agents "
                         android:textColor="@android:color/white"
 
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />

@@ -275,7 +275,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/totBudge"
-                    android:textColor="@android:color/black"
+                    android:textColor="#1295a2"
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
@@ -289,6 +289,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="Rs. 10"
+                    android:textColor="#1295a2"
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -377,7 +378,7 @@
                 android:background="@drawable/blue_rect"
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"
-                android:text="Detail"
+                android:text="Details"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

@@ -132,14 +132,12 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtlastName"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Last Name*"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -177,7 +175,6 @@
                                 android:singleLine="true"
                                 android:text="kravi@elixirinfo.com"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -189,14 +186,12 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtMobileNo"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Mobile Number*"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -208,14 +203,12 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtSecNo"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Secondary Contact*"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -227,14 +220,12 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtAddress1"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Address Line 1*"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -253,7 +244,6 @@
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -265,14 +255,12 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtLocality"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Locality*"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -304,7 +292,6 @@
 
                             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                 android:id="@+id/edtState"
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:editable="false"
@@ -313,7 +300,6 @@
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -334,7 +320,6 @@
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -353,7 +338,6 @@
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -373,7 +357,6 @@
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textSize="12sp"
-
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -387,7 +370,6 @@
                             android:text="Select up to 5 states where you operate"
                             android:textColor="@color/colorLightGray"
                             android:textSize="12sp"
-
                             mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
 
@@ -457,7 +439,6 @@
                                         android:gravity="center"
                                         android:text="Sr. No."
                                         android:textSize="12sp"
-
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
@@ -478,7 +459,6 @@
                                         android:gravity="center"
                                         android:text="Certificate Image"
                                         android:textSize="12sp"
-
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
@@ -572,7 +552,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="T A F I Pic"
+                                        android:text="T A F I "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -627,7 +607,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="T A A I Pic"
+                                        android:text="T A A I "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -683,7 +663,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="I A T O Pic"
+                                        android:text="I A T O "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -738,7 +718,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="A D Y O I Pic"
+                                        android:text="A D Y O I "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -794,7 +774,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="I S O 9001 Pic"
+                                        android:text="I S O 9001 "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -850,7 +830,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="U F T A A Pic"
+                                        android:text="U F T A A "
 
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -905,7 +885,7 @@
                                         android:layout_gravity="center"
                                         android:layout_weight="1.7"
                                         android:gravity="center"
-                                        android:text="A D T O I Pic"
+                                        android:text="A D T O I "
                                         android:textSize="@dimen/font_12sp"
                                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -1174,7 +1154,7 @@
                                     android:layout_weight="1"
                                     android:gravity="center|left"
                                     android:paddingLeft="@dimen/margin_15dp"
-                                    android:text="ID/Registration"
+                                    android:text="ID / Registration"
                                     android:textColor="@android:color/white" />
 
                                 <ImageView

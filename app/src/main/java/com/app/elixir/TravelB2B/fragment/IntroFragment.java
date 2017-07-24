@@ -205,15 +205,22 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.layoutTa:
 
-                showDiloag("0");
+                if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+
+                    showDiloag("0");
+                }
 
                 break;
             case R.id.layoutHotl:
-                showDiloag("1");
+                if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+                    showDiloag("1");
+                }
                 break;
 
             case R.id.layoutEp:
-                showDiloag("2");
+                if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+                    showDiloag("2");
+                }
 
                 break;
 

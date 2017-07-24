@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10dp"
         android:gravity="center"
-        android:text="RESPONSES FOR: VEHICLE (LUXURY CAR) START DATE (27/04/2017) END DATE (28/04/2017) CITY"
+        android:text="RESPONSES FOR: VEHICLE (LUXURY CAR) \n START DATE (27/04/2017)    END DATE (28/04/2017) CITY"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="@dimen/font_12sp"
         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -68,7 +68,7 @@
         android:background="@drawable/blue_rect"
         android:paddingLeft="@dimen/margin_10dp"
         android:paddingRight="@dimen/margin_10dp"
-        android:text="Detail"
+        android:text="Details"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_12sp"
         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

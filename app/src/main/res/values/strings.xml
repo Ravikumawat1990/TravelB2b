@@ -86,9 +86,9 @@
     <string name="btnlogin">LOGIN</string>
 
 
-    <string name="tb">Travel Agent</string>
-    <string name="ht">Hotelier</string>
-    <string name="ep">Event Planner</string>
+    <string name="tb">Travel Agents</string>
+    <string name="ht">Hoteliers</string>
+    <string name="ep">Event Planners</string>
 
 
     <string name="hitwork">How it works?</string>
@@ -104,17 +104,17 @@
 
     <string name="title1">No need to use Whatsapp groups to fulfill your clients requests</string>
     <string name="title2">Buy/Sell Travel Packages, Hotel Rooms or Transportation</string>
-    <string name="title3">No need to use Whatsapp groups to fulfill your clients requests</string>
+    <string name="title3">No need to use Whatsapp groups to fulfill your client"'"s request</string>
     <string name="title4">Pay Us No Commission</string>
-    <string name="title5">Have unrestricted, real time communication with Buyers/sellers</string>
+    <string name="title5">Have unrestricted, real time communication with Buyers/Sellers</string>
 
-    <string name="description0">India"'"s only COMMISSION FREE, B2B, Tourism Trading Marketplace CONNECTING : </string>
+    <string name="description0">India"'"s only COMMISSION FREE, B2B, Tourism Trading Marketplace, CONNECTING : </string>
     <string name="description01">India"'"s only COMMISSION FREE, B2B, Tourism Trading Market Place</string>
 
-    <string name="description1">Negotiate with the other party via phone or live chat, right from the beginning of the trade</string>
-    <string name="description2">You will simply place a request with your requirements, and multiple interested sellers will contact you, through the App with options/quotations. </string>
-    <string name="description3">Directly connect with a large network of Buyers (Travel Agent, and Event Planners) or Sellers (Hoteliers, DMCs, Tour Operstors, Travel Agents etc.) </string>
-    <string name="description4">You will have to pay us no commission despite the value of your deal. Our nominal membership fee will leave you surprised.</string>
+    <string name="description1">Negotiate with the other party via phone or live chat, right from the beginning of the trade.</string>
+    <string name="description2">You will simply place a request with your requirements and multiple interested sellers will contact you, through the App with options/quotations. </string>
+    <string name="description3">Directly connect with a large network of Buyers (Travel Agent, and Event Planners) or Sellers (Hoteliers, DMCs, Tour Operators, Travel Agents etc.) </string>
+    <string name="description4">You won"'"t pay us any commission despite the value of your deal. Our nominal membership fee will leave you surprised.</string>
     <string name="description5">You will simply place a request with your requirements, and multiple interested sellers will contact you, through the App with options/quotations. </string>
     <string name="title_activity_login">Sign in</string>
 
@@ -229,7 +229,7 @@
 
     <string-array name="subArray">
         <item>Feedback</item>
-        <item>Need Assistance</item>
+        <item>Need assistance</item>
         <item>Report a bug</item>
         <item>Other</item>
     </string-array>
@@ -286,7 +286,7 @@
     <string name="finalized_response">Finalized Responses</string>
     <string name="blocked_users">Blocked Users</string>
     <string name="removed_requests">Removed Requests</string>
-    <string name="followers">Followers</string>
+    <string name="followers">Following</string>
     <string name="contact_us">Contact Us</string>
 
     <string name="res200">200</string>
@@ -360,7 +360,7 @@
     "user_id": chatuserid
     sessionid = userid-->
 
-    <string name="intrest_submit">"Your Intrest Submited"</string>
+    <string name="intrest_submit">"Your Interest Submited"</string>
     <string name="review_submit">"Review Submited"</string>
     <string-array name="refTypeArray">
         <item>Select Package</item>
@@ -374,6 +374,9 @@
         <item>10000-30000</item>
         <item>30000-50000</item>
         <item>50000-100000</item>
+        <item>100000+</item>
+
+
     </string-array>
 
     <string-array name="ratingArray">

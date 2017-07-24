@@ -33,6 +33,7 @@ import com.app.elixir.TravelB2B.pojos.pojoMemberShip;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.utils.UlTagHandler;
+import com.app.elixir.TravelB2B.volly.MtplProgressDialog;
 import com.app.elixir.TravelB2B.volly.VolleySingleton;
 
 import org.json.JSONArray;
@@ -52,6 +53,7 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
 
     ArrayList<pojoMemberShip> memberShipArrayList;
     ImageView progressBar;
+    private MtplProgressDialog mtplDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,7 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
         View view2 = (View) findViewById(R.id.layoutHotl);
         View view3 = (View) findViewById(R.id.layoutEp);
 
+
         memberShipArrayList = new ArrayList<>();
         view1.setOnClickListener(this);
         view2.setOnClickListener(this);
@@ -134,21 +137,28 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.layoutTa:
                 if (CM.isInternetAvailable(ViewRegisterAs.this)) {
-                    showDiloag("0");
+                    if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+                        showDiloag("0");
+                    }
+
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRegisterAs.this);
                 }
                 break;
             case R.id.layoutHotl:
                 if (CM.isInternetAvailable(ViewRegisterAs.this)) {
-                    showDiloag("1");
+                    if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+                        showDiloag("1");
+                    }
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRegisterAs.this);
                 }
                 break;
             case R.id.layoutEp:
                 if (CM.isInternetAvailable(ViewRegisterAs.this)) {
-                    showDiloag("2");
+                    if (memberShipArrayList != null && memberShipArrayList.size() > 0) {
+                        showDiloag("2");
+                    }
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRegisterAs.this);
                 }
@@ -223,7 +233,11 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
 
 
     public void callApi() {
-        progressBar.setVisibility(View.VISIBLE);
+        // progressBar.setVisibility(View.GONE);
+        if (mtplDialog == null)
+            mtplDialog = new MtplProgressDialog(ViewRegisterAs.this, "", false);
+        if (!mtplDialog.isShowing())
+            mtplDialog.show();
         RequestQueue queue = Volley.newRequestQueue(ViewRegisterAs.this);
         JsonArrayRequest req = new JsonArrayRequest(URLS.MEMBERSHIPS,
                 new Response.Listener<JSONArray>() {
@@ -249,7 +263,9 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
                                     "Error: " + e.getMessage(),
                                     Toast.LENGTH_LONG).show();
                         }
-                        progressBar.setVisibility(View.GONE);
+                        // progressBar.setVisibility(View.GONE);
+                        if (mtplDialog != null && mtplDialog.isShowing())
+                            mtplDialog.dismiss();
 
 
                     }
@@ -259,7 +275,9 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(ViewRegisterAs.this,
                         error.getMessage(), Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                // progressBar.setVisibility(View.GONE);
+                if (mtplDialog != null && mtplDialog.isShowing())
+                    mtplDialog.dismiss();
 
             }
         });

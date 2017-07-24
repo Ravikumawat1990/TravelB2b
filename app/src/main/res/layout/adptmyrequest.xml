@@ -318,7 +318,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/totBudge"
-                    android:textColor="@android:color/black"
+                    android:textColor="#1295a2"
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
@@ -333,6 +333,7 @@
                     android:padding="@dimen/margin_5dp"
                     android:text="Rs. 10"
                     android:textSize="12sp"
+                    android:textColor="#1295a2"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 

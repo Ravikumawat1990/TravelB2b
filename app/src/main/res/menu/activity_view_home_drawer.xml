@@ -35,7 +35,7 @@
         <item
             android:id="@+id/nav_follower"
             android:icon="@drawable/follower"
-            android:title="Followers" />
+            android:title="Following" />
         <item
             android:id="@+id/nav_block_user"
             android:icon="@drawable/blockuser"
@@ -72,7 +72,7 @@
         <item
             android:id="@+id/nav_faq"
             android:icon="@drawable/faq"
-            android:title="FAQ" />
+            android:title="FAQs" />
 
 
         <item

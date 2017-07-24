@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="#B3000000">
+                    android:background="#1295a2">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
                         android:id="@+id/txtCharges"

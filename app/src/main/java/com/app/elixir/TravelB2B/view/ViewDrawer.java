@@ -246,7 +246,7 @@ public class ViewDrawer extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(false);
             nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
             nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
-            nav_Menu.findItem(R.id.nav_follower).setVisible(false);
+            nav_Menu.findItem(R.id.nav_follower).setVisible(true);
             AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.placeReq, R.drawable.ic_send_black_24dp, R.color.colorLightGray);
             AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.MyReq, R.drawable.ic_drafts_black_24dp, R.color.colorLightGray);
 
@@ -264,7 +264,7 @@ public class ViewDrawer extends AppCompatActivity
 
             nav_Menu.findItem(R.id.nav_fin_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
-            nav_Menu.findItem(R.id.nav_follower).setVisible(false);
+            nav_Menu.findItem(R.id.nav_follower).setVisible(true);
             nav_Menu.findItem(R.id.nav_block_user).setVisible(false);
             nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(true);
