@@ -123,6 +123,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
         }
 
         spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setEnabled(false);
         final String[] cat = getResources().getStringArray(R.array.catArray);
         ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(ViewRegister.this, R.layout.support_simple_spinner_dropdown_item, cat) {
 

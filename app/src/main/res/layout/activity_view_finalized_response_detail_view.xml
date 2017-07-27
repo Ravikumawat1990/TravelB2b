@@ -580,13 +580,14 @@
                                 android:id="@+id/txtHotelCat"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:ellipsize="marquee"
                                 android:gravity="center"
+                                android:marqueeRepeatLimit="marquee_forever"
                                 android:maxLines="1"
                                 android:padding="@dimen/margin_5dp"
-
+                                android:singleLine="true"
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
                         </LinearLayout>
                     </LinearLayout>
 

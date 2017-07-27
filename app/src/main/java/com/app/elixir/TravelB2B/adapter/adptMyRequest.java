@@ -113,13 +113,13 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         String txtStartDt = "";
         try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getStart_date());
+            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_in());
         } catch (Exception e) {
             txtStartDt = dataSet.get(position).getStart_date();
         }
         String txtEndDt = "";
         try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getEnd_date());
+            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_out());
         } catch (Exception e) {
             txtEndDt = dataSet.get(position).getEnd_date();
         }

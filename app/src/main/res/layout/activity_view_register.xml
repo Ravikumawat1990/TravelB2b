@@ -73,6 +73,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="center"
                                 android:background="@android:color/transparent"
+                                android:clickable="false"
                                 android:gravity="center"
                                 android:spinnerMode="dropdown" />
 
@@ -368,7 +369,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:text="I agree to the Privacy Policy and Terms and Conditions"
+                            android:text="@string/trmsCond"
                             android:textSize="@dimen/font_12sp"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

@@ -306,7 +306,22 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
                     checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
                     locality.setText(jsonObject1.optString("locality"));
-                    hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
+                    //hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
+
+
+                    String hotel_categorys = "";
+                    String[] items = jsonObject1.optString("hotel_category").split(",");
+                    for (String item : items) {
+                        if (hotel_categorys.equals("")) {
+                            hotel_categorys = CM.setHotelCat(item);
+                        } else {
+                            hotel_categorys = hotel_categorys + "," + CM.setHotelCat(item);
+                        }
+                        // CM.showToast(item,ViewRespondToRequestDetailView.this);
+                    }
+
+                    hotelCat.setText(hotel_categorys);
+                    hotelCat.setSelected(true);
                     meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
                     comment.setText(jsonObject1.optString("comment"));
                     vehicle.setText("");
@@ -328,7 +343,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
                     }
 
-                    if (!jsonObject1.optString("pickup_state").equals("")) {
+                    if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("null")) {
                         webState(jsonObject1.optString("pickup_state"), "1");
                     } else {
 

@@ -107,15 +107,15 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
         String txtStartDt = "";
         try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd", dataSet.get(position).getStart_date());
+            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_in().trim().toString());
         } catch (Exception e) {
-            txtStartDt = dataSet.get(position).getStart_date();
+            txtStartDt = dataSet.get(position).getCheck_in();
         }
         String txtEndDt = "";
         try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd", dataSet.get(position).getEnd_date());
+            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_out().trim().toString());
         } catch (Exception e) {
-            txtEndDt = dataSet.get(position).getEnd_date();
+            txtEndDt = dataSet.get(position).getCheck_out();
         }
 
 

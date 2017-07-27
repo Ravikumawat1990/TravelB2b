@@ -42,6 +42,7 @@ import com.app.elixir.TravelB2B.fragment.FragMyResponse;
 import com.app.elixir.TravelB2B.fragment.FragPaceRequest;
 import com.app.elixir.TravelB2B.fragment.FragPrivacyPolicys;
 import com.app.elixir.TravelB2B.fragment.FragPromoteHotel;
+import com.app.elixir.TravelB2B.fragment.FragPromotionReports;
 import com.app.elixir.TravelB2B.fragment.FragRemoveRequest;
 import com.app.elixir.TravelB2B.fragment.FragRespondToRequest;
 import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
@@ -231,6 +232,7 @@ public class ViewDrawer extends AppCompatActivity
             AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.MyResponse, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
             //   AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.app_name, R.drawable.ic_unarchive_black_24dp, R.color.colorLightGray);
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(false);
+            nav_Menu.findItem(R.id.nav_pro_report).setVisible(false);
             bottomNavigation.addItem(item1);
             bottomNavigation.addItem(item2);
             bottomNavigation.addItem(item3);
@@ -246,6 +248,7 @@ public class ViewDrawer extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(false);
             nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
             nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
+            nav_Menu.findItem(R.id.nav_pro_report).setVisible(false);
             nav_Menu.findItem(R.id.nav_follower).setVisible(true);
             AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.placeReq, R.drawable.ic_send_black_24dp, R.color.colorLightGray);
             AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.MyReq, R.drawable.ic_drafts_black_24dp, R.color.colorLightGray);
@@ -265,6 +268,7 @@ public class ViewDrawer extends AppCompatActivity
             nav_Menu.findItem(R.id.nav_fin_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_fin_res).setVisible(false);
             nav_Menu.findItem(R.id.nav_follower).setVisible(true);
+            nav_Menu.findItem(R.id.nav_pro_report).setVisible(true);
             nav_Menu.findItem(R.id.nav_block_user).setVisible(false);
             nav_Menu.findItem(R.id.nav_remove_req).setVisible(false);
             nav_Menu.findItem(R.id.nav_pro_hotel).setVisible(true);
@@ -489,6 +493,8 @@ public class ViewDrawer extends AppCompatActivity
             setFragment(14);
         } else if (id == R.id.nav_privpolicy) {
             setFragment(15);
+        } else if (id == R.id.nav_pro_report) {
+            setFragment(16);
         }
 
 
@@ -534,7 +540,12 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 3:
                 fragment = new FragFollowers();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
+
                 fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -554,19 +565,32 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 6:
                 fragment = new FragPromoteHotel();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 7:
                 fragment = new FragContactUs();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
+
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 8:
                 fragment = new FragFaq();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
@@ -593,15 +617,29 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 14:
                 fragment = new FragTermsandCondions();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 15:
                 fragment = new FragPrivacyPolicys();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                } else {
+                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
+                break;
+            case 16:
+                fragment = new FragPromotionReports();
+                ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                ft.commit();
+                // bottomNavigation.setVisibility(View.GONE);
                 break;
 
 
@@ -628,6 +666,9 @@ public class ViewDrawer extends AppCompatActivity
                         if (f instanceof FragHome) {
                             bottomNavigation.setVisibility(View.VISIBLE);
                             setTitle(getString(R.string.app_name));
+                        } else if (f instanceof FragHotelierHome) {
+                            bottomNavigation.setVisibility(View.VISIBLE);
+                            setTitle(getString(R.string.app_name));
                         }
                     } else {
                         showPopup(ViewDrawer.this);
@@ -640,6 +681,9 @@ public class ViewDrawer extends AppCompatActivity
             toggle.setDrawerIndicatorEnabled(showDrawerToggle);
             toggle.setHomeAsUpIndicator(getResources().getDrawable(R.drawable.barg));
             if (f instanceof FragHome) {
+                bottomNavigation.setVisibility(View.VISIBLE);
+                setTitle(getString(R.string.app_name));
+            } else if (f instanceof FragHotelierHome) {
                 bottomNavigation.setVisibility(View.VISIBLE);
                 setTitle(getString(R.string.app_name));
             }

@@ -3,6 +3,8 @@ package com.app.elixir.TravelB2B.volly;
 
 import com.android.volley.Request;
 import com.app.elixir.TravelB2B.pojos.pojoPackage;
+import com.app.elixir.TravelB2B.pojos.pojoStayReq;
+import com.app.elixir.TravelB2B.pojos.pojoTransportReq;
 import com.app.elixir.TravelB2B.pojos.transportPojo;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -400,7 +402,7 @@ public class WebService {
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
-    public static void getPackage(VolleyIntialization vollyInit, ArrayList<pojoPackage> pojoPackages, OnVolleyHandler vollyHanlder) throws JSONException {
+    public static void getPackage(VolleyIntialization vollyInit, ArrayList<pojoPackage> pojoPackages, ArrayList<pojoStayReq> pojoStayReqs, ArrayList<pojoTransportReq> pojoTransportReqs, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.SENDREQAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.category_id, "1");
@@ -442,24 +444,28 @@ public class WebService {
         params.put(CV.p_final_state_id, pojoPackages.get(0).getP_final_state_id());
 
         params.put(CV.comment, pojoPackages.get(0).getComment());
-       /* params.put(CV.hh_room1, "");
-        params.put(CV.hh_room2, "");
-        params.put(CV.hh_child_with_bed, "");
-        params.put(CV.hh_child_without_bed, "");
-        params.put(CV.hh_hotel_rating, "");
-        params.put(CV.hh_hotel_category, "");
-        params.put(CV.hh_meal_plan, "");
-        params.put(CV.hh_city_name, "");
-        params.put(CV.hh_city_id, "");
-        params.put(CV.hh_state_id, "");
-        params.put(CV.hh_hotel_rating, "");
-        params.put(CV.hh_state_name, "");
-        params.put(CV.hh_country_name, "");
-        params.put(CV.hh_country_id, "");
-        params.put(CV.hh_locality, "");
-        params.put(CV.hh_check_in, "");
-        params.put(CV.hh_check_out, "");
-        params.put(CV.hh_room3, "");*/
+
+        for (int i = 0; i < pojoStayReqs.size(); i++) {
+            params.put(CV.hh_room1 + "[" + i + "]", pojoStayReqs.get(i).getSingleRoom());
+            params.put(CV.hh_room2 + "[" + i + "]", pojoStayReqs.get(i).getDoubleRoom());
+            params.put(CV.hh_child_with_bed + "[" + i + "]", pojoStayReqs.get(i).getChildwithbed());
+            params.put(CV.hh_child_without_bed + "[" + i + "]", pojoStayReqs.get(i).getChildwithouthbed());
+            params.put(CV.hh_hotel_rating + "[" + i + "]", pojoStayReqs.get(i).getHotelRating());
+            params.put(CV.hh_hotel_category + "[" + i + "]", pojoStayReqs.get(i).getHotlCat());
+            params.put(CV.hh_meal_plan + "[" + i + "]", pojoStayReqs.get(i).getMealPlane());
+            params.put(CV.hh_city_id + "[" + i + "]", pojoStayReqs.get(i).getDestiCity());
+            params.put(CV.hh_state_id + "[" + i + "]", pojoStayReqs.get(i).getDestiState());
+            params.put(CV.hh_country_id + "[" + i + "]", pojoStayReqs.get(i).getDestiCountry());
+            params.put(CV.hh_locality + "[" + i + "]", pojoStayReqs.get(i).getLocality());
+            params.put(CV.hh_check_in + "[" + i + "]", pojoStayReqs.get(i).getCheckIn());
+            params.put(CV.hh_check_out + "[" + i + "]", pojoStayReqs.get(i).getCheckOut());
+        }
+
+        for (int i = 0; i < pojoTransportReqs.size(); i++) {
+            params.put("stops" + "[" + i + "]", pojoTransportReqs.get(i).getLocality());
+            params.put("id_trasport_stop_city" + "[" + i + "]", pojoTransportReqs.get(i).getCity());
+            params.put("state_id_trasport_stop_city" + "[" + i + "]", pojoTransportReqs.get(i).getState());
+        }
 
 
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
@@ -604,6 +610,13 @@ public class WebService {
         params.put(CV.DURATION, duration);
         params.put(CV.CHARGES, charges);
         params.put(CV.HOTEL_PIC, hotelpic);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getPromoReport(VolleyIntialization vollyInit, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.PROMOTIONREPORTSAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 }

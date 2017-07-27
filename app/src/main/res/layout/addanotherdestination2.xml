@@ -11,8 +11,7 @@
     <com.silencedut.expandablelayout.ExpandableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp"
         app:expDuration="300"
         app:expExpandScrollTogether="false"
@@ -153,8 +152,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp"
         android:orientation="vertical">
 
@@ -207,8 +205,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp"
         android:orientation="vertical">
 
@@ -254,8 +251,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp"
         android:orientation="vertical">
 
@@ -303,8 +299,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp">
 
         <AutoCompleteTextView
@@ -321,10 +316,9 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -342,8 +336,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -361,8 +354,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -380,8 +372,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -403,8 +394,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
+
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -414,7 +404,8 @@
             android:drawableEnd="@drawable/ic_date_range_black_24dp"
             android:drawableRight="@drawable/ic_date_range_black_24dp"
             android:drawableTint="@color/appTextColor"
-            android:hint="Check Out "
+            android:hint="Check Out"
+
             android:inputType="text"
             android:maxLines="1"
             android:textSize="12sp"

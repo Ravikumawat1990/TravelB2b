@@ -257,7 +257,23 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     //   destiState.setText(jsonObject1.optString("pickup_state"));
                     // destiCity.setText(jsonObject1.optString("destination_city"));
                     locality.setText(jsonObject1.optString("locality"));
-                    hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
+                    // hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
+
+
+                    String hotel_categorys = "";
+                    String[] items = jsonObject1.optString("hotel_category").split(",");
+                    for (String item : items) {
+                        if (hotel_categorys.equals("")) {
+                            hotel_categorys = CM.setHotelCat(item);
+                        } else {
+                            hotel_categorys = hotel_categorys + "," + CM.setHotelCat(item);
+                        }
+                        // CM.showToast(item,ViewRespondToRequestDetailView.this);
+                    }
+
+                    hotelCat.setText(hotel_categorys);
+                    hotelCat.setSelected(true);
+
                     meal.setText(jsonObject1.optString("meal_plan"));
                     comment.setText(jsonObject1.optString("comment"));
 

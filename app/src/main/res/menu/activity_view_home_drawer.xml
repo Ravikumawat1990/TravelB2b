@@ -50,6 +50,11 @@
             android:id="@+id/nav_pro_hotel"
             android:icon="@drawable/promote"
             android:title="Promote your hotel" />
+
+        <item
+            android:id="@+id/nav_pro_report"
+            android:icon="@drawable/promote"
+            android:title="Promotional Report" />
     </group>
 
 

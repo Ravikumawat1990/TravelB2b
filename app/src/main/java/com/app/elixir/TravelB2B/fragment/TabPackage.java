@@ -34,6 +34,8 @@ import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
 import com.app.elixir.TravelB2B.pojos.pojoPackage;
 import com.app.elixir.TravelB2B.pojos.pojoState;
+import com.app.elixir.TravelB2B.pojos.pojoStayReq;
+import com.app.elixir.TravelB2B.pojos.pojoTransportReq;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.MultiSelectionSpinner;
@@ -175,7 +177,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         pojoStateArrayList = new ArrayList<>();
         stringArrayList = new ArrayList<>();
         stringArrayListStayReq = new ArrayList<>();
-
+        destiCity = (AutoCompleteTextView) view.findViewById(R.id.edtDestinationCity);
 
         //General Req
         refId = (MtplEditText) view.findViewById(R.id.edtRefId);
@@ -196,7 +198,6 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         spinnerHotelCatMain.setItems(array);
         spinnerHotelCatMain.setListener(this);
         spinnerMealPlane = (Spinner) view.findViewById(R.id.spinnerMealPlane);
-        destiCity = (AutoCompleteTextView) view.findViewById(R.id.edtDestinationCity);
         destiState = (MtplEditText) view.findViewById(R.id.edtDestinationState);
         destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
         destiLocality = (MtplEditText) view.findViewById(R.id.edtDestinationLocality);
@@ -218,6 +219,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         finalCity = (AutoCompleteTextView) view.findViewById(R.id.finalCity);
         finalState = (MtplEditText) view.findViewById(R.id.finalState);
         //destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
+
         transStatrDate = (MtplEditText) view.findViewById(R.id.transStatrDate);
         transEndDate = (MtplEditText) view.findViewById(R.id.transEndDate);
 
@@ -710,35 +712,74 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
 
                     if (stringArrayListStayReq.contains("1")) {
-                        stringArrayListStayReq.remove(0);
-                        parentLinearLayout.removeView((View) v.getParent());
+
+                        int position = -1;
+                        position = stringArrayListStayReq.indexOf("1");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayListStayReq.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
+
                     }
+
+
                     break;
                 case R.id.btnRemove2:
 
                     if (stringArrayListStayReq.contains("2")) {
-                        stringArrayListStayReq.remove(1);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayListStayReq.indexOf("2");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayListStayReq.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
                     break;
                 case R.id.btnRemove3:
                     if (stringArrayListStayReq.contains("3")) {
-                        stringArrayListStayReq.remove(2);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayListStayReq.indexOf("3");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayListStayReq.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
                     //   stringArrayList.remove(2);
                     break;
                 case R.id.btnRemove4:
                     if (stringArrayListStayReq.contains("4")) {
-                        stringArrayListStayReq.remove(3);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayListStayReq.indexOf("4");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayListStayReq.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
 
                     break;
                 case R.id.btnRemove5:
                     if (stringArrayListStayReq.contains("5")) {
-                        stringArrayListStayReq.remove(4);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayListStayReq.indexOf("5");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayListStayReq.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
 
                     break;
@@ -816,35 +857,88 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
 
                     if (stringArrayList.contains("1")) {
-                        stringArrayList.remove(0);
-                        parentLinearLayout1.removeView((View) v.getParent());
+                        //    stringArrayList.remove(0);
+                        int position = -1;
+                        position = stringArrayList.indexOf("1");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout1.removeView((View) v.getParent());
+                        }
+
+                        // parentLinearLayout1.removeView((View) v.getParent());
                     }
                     break;
                 case R.id.btnRemoveStop1:
 
                     if (stringArrayList.contains("2")) {
-                        stringArrayList.remove(1);
-                        parentLinearLayout1.removeView((View) v.getParent());
+                        // stringArrayList.remove(1);
+                        int position = -1;
+                        position = stringArrayList.indexOf("2");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout1.removeView((View) v.getParent());
+                        }
+
+                        //  parentLinearLayout1.removeView((View) v.getParent());
                     }
                     break;
                 case R.id.btnRemoveStop2:
                     if (stringArrayList.contains("3")) {
-                        stringArrayList.remove(2);
-                        parentLinearLayout1.removeView((View) v.getParent());
+                        //  stringArrayList.remove(2);
+
+                        int position = -1;
+                        position = stringArrayList.indexOf("3");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout1.removeView((View) v.getParent());
+                        }
+
+                        //  parentLinearLayout1.removeView((View) v.getParent());
                     }
                     //   stringArrayList.remove(2);
                     break;
                 case R.id.btnRemoveStop3:
                     if (stringArrayList.contains("4")) {
-                        stringArrayList.remove(3);
-                        parentLinearLayout1.removeView((View) v.getParent());
+                        //stringArrayList.remove(3);
+                        int position = -1;
+                        position = stringArrayList.indexOf("4");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout1.removeView((View) v.getParent());
+                        }
+
+
+                        // parentLinearLayout1.removeView((View) v.getParent());
                     }
 
                     break;
                 case R.id.btnRemoveStop4:
                     if (stringArrayList.contains("5")) {
-                        stringArrayList.remove(4);
-                        parentLinearLayout1.removeView((View) v.getParent());
+
+
+                        int position = -1;
+                        position = stringArrayList.indexOf("5");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout1.removeView((View) v.getParent());
+                        }
+
+
                     }
 
                     break;
@@ -1021,16 +1115,16 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                     List<String> words = spinnerHotelCatMain.getSelectedStrings();
                                     StringBuilder stringBuilder = new StringBuilder();
-                                    ArrayList<String> strings = new ArrayList<>();
+
                                     for (int i1 = 0; i1 < words.size(); i1++) {
 
                                         Log.i(TAG, "onClick: " + CM.setHotelCatRev(words.get(i1).toString()));
                                         stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
-                                        strings.add(CM.setHotelCatRev(words.get(i1).toString()));
+
                                         stringBuilder.append(",");
 
                                     }
-                                    String stateList = strings.toString().replace("[", "").replace("]", "")
+                                    String stateList = stringBuilder.toString().replace("[", "").replace("]", "")
                                             .replace(", ", ",");
 
                                     aPackage.setHotel_category(stateList);
@@ -1061,7 +1155,232 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                     aPackage.setP_final_city_id(finalcityId);
                                     aPackage.setComment(edtComment.getText().toString());
                                     pojoPackages.add(aPackage);
-                                    webGetPackage(pojoPackages);
+
+                                    ArrayList<pojoStayReq> pojoStayReqs = new ArrayList<>();
+                                    for (int i1 = 0; i1 < stringArrayListStayReq.size(); i1++) {
+                                        pojoStayReq stayReq = new pojoStayReq();
+
+                                        if (i1 == 0) {
+
+
+                                            stayReq.setSingleRoom(singleRoom1.getText().toString());
+                                            stayReq.setDoubleRoom(doubleRoom1.getText().toString());
+                                            stayReq.setTripleRoom(tripalRoom1.getText().toString());
+                                            stayReq.setChildwithbed(childWithbed1.getText().toString());
+                                            stayReq.setChildwithouthbed(childWithoutbed1.getText().toString());
+                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating1.getSelectedItem().toString()));
+
+
+                                            List<String> selectedStrings = spinnerHotelCat1.getSelectedStrings();
+                                            StringBuilder stringBuilder1 = new StringBuilder();
+
+                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder1.append(",");
+
+                                            }
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                    .replace(", ", ",");
+
+                                            stayReq.setHotlCat(stateList1);
+                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane1.getSelectedItem().toString()));
+                                            stayReq.setDestiCity(cityId1.getText().toString());
+                                            stayReq.setDestiState(stateId1.getText().toString());
+                                            stayReq.setDestiCountry(countryId1.getText().toString());
+                                            stayReq.setLocality(destiLocality1.getText().toString());
+                                            stayReq.setCheckIn(checkIn1.getText().toString());
+                                            stayReq.setCheckOut(checkOut1.getText().toString());
+                                            pojoStayReqs.add(stayReq);
+
+                                        } else if (i1 == 1) {
+
+                                            stayReq.setSingleRoom(singleRoom2.getText().toString());
+                                            stayReq.setDoubleRoom(doubleRoom2.getText().toString());
+                                            stayReq.setTripleRoom(tripalRoom2.getText().toString());
+                                            stayReq.setChildwithbed(childWithbed2.getText().toString());
+                                            stayReq.setChildwithouthbed(childWithoutbed2.getText().toString());
+                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating2.getSelectedItem().toString()));
+
+
+                                            List<String> selectedStrings = spinnerHotelCat2.getSelectedStrings();
+                                            StringBuilder stringBuilder1 = new StringBuilder();
+
+                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder1.append(",");
+
+                                            }
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                    .replace(", ", ",");
+
+
+                                            stayReq.setHotlCat(stateList1);
+                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane2.getSelectedItem().toString()));
+                                            stayReq.setDestiCity(cityId2.getText().toString());
+                                            stayReq.setDestiState(stateId2.getText().toString());
+                                            stayReq.setDestiCountry(countryId2.getText().toString());
+                                            stayReq.setLocality(destiLocality2.getText().toString());
+                                            stayReq.setCheckIn(checkIn2.getText().toString());
+                                            stayReq.setCheckOut(checkOut2.getText().toString());
+                                            pojoStayReqs.add(stayReq);
+
+                                        } else if (i1 == 2) {
+
+                                            stayReq.setSingleRoom(singleRoom3.getText().toString());
+                                            stayReq.setDoubleRoom(doubleRoom3.getText().toString());
+                                            stayReq.setTripleRoom(tripalRoom3.getText().toString());
+                                            stayReq.setChildwithbed(childWithbed3.getText().toString());
+                                            stayReq.setChildwithouthbed(childWithoutbed3.getText().toString());
+                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating3.getSelectedItem().toString()));
+
+                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                            StringBuilder stringBuilder1 = new StringBuilder();
+
+                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder1.append(",");
+
+                                            }
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                    .replace(", ", ",");
+
+                                            stayReq.setHotlCat(stateList1);
+                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane3.getSelectedItem().toString()));
+                                            stayReq.setDestiCity(cityId3.getText().toString());
+                                            stayReq.setDestiState(stateId3.getText().toString());
+                                            stayReq.setDestiCountry(countryId3.getText().toString());
+                                            stayReq.setLocality(destiLocality3.getText().toString());
+                                            stayReq.setCheckIn(checkIn3.getText().toString());
+                                            stayReq.setCheckOut(checkOut3.getText().toString());
+                                            pojoStayReqs.add(stayReq);
+
+                                        } else if (i1 == 3) {
+
+                                            stayReq.setSingleRoom(singleRoom4.getText().toString());
+                                            stayReq.setDoubleRoom(doubleRoom4.getText().toString());
+                                            stayReq.setTripleRoom(tripalRoom4.getText().toString());
+                                            stayReq.setChildwithbed(childWithbed4.getText().toString());
+                                            stayReq.setChildwithouthbed(childWithoutbed4.getText().toString());
+                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating4.getSelectedItem().toString()));
+
+                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                            StringBuilder stringBuilder1 = new StringBuilder();
+
+                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder1.append(",");
+
+                                            }
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                    .replace(", ", ",");
+
+                                            stayReq.setHotlCat(stateList1);
+                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane4.getSelectedItem().toString()));
+                                            stayReq.setDestiCity(cityId4.getText().toString());
+                                            stayReq.setDestiState(stateId4.getText().toString());
+                                            stayReq.setDestiCountry(countryId4.getText().toString());
+                                            stayReq.setLocality(destiLocality4.getText().toString());
+                                            stayReq.setCheckIn(checkIn4.getText().toString());
+                                            stayReq.setCheckOut(checkOut4.getText().toString());
+                                            pojoStayReqs.add(stayReq);
+
+                                        } else if (i1 == 4) {
+
+                                            stayReq.setSingleRoom(singleRoom5.getText().toString());
+                                            stayReq.setDoubleRoom(doubleRoom5.getText().toString());
+                                            stayReq.setTripleRoom(tripalRoom5.getText().toString());
+                                            stayReq.setChildwithbed(childWithbed5.getText().toString());
+                                            stayReq.setChildwithouthbed(childWithoutbed5.getText().toString());
+                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating5.getSelectedItem().toString()));
+
+                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                            StringBuilder stringBuilder1 = new StringBuilder();
+
+                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                stringBuilder1.append(",");
+
+                                            }
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                    .replace(", ", ",");
+
+
+                                            stayReq.setHotlCat(stateList1);
+                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane5.getSelectedItem().toString()));
+                                            stayReq.setDestiCity(cityId5.getText().toString());
+                                            stayReq.setDestiState(stateId5.getText().toString());
+                                            stayReq.setDestiCountry(countryId5.getText().toString());
+                                            stayReq.setLocality(destiLocality5.getText().toString());
+                                            stayReq.setCheckIn(checkIn5.getText().toString());
+                                            stayReq.setCheckOut(checkOut5.getText().toString());
+                                            pojoStayReqs.add(stayReq);
+
+                                        }
+
+
+                                    }
+
+
+                                    ArrayList<pojoTransportReq> pojoTransportReqs = new ArrayList<>();
+
+
+                                    for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
+
+                                        pojoTransportReq transportReq = new pojoTransportReq();
+
+
+                                        if (i1 == 0) {
+
+                                            transportReq.setLocality(edtStopLocality1.getText().toString());
+                                            transportReq.setCity(edtStopCityID1.getText().toString());
+                                            transportReq.setState(edtStopStateID1.getText().toString());
+                                            pojoTransportReqs.add(transportReq);
+
+                                        } else if (i1 == 1) {
+
+                                            transportReq.setLocality(edtStopLocality2.getText().toString());
+                                            transportReq.setCity(edtStopCityID2.getText().toString());
+                                            transportReq.setState(edtStopStateID2.getText().toString());
+                                            pojoTransportReqs.add(transportReq);
+
+                                        } else if (i1 == 2) {
+
+                                            transportReq.setLocality(edtStopLocality3.getText().toString());
+                                            transportReq.setCity(edtStopCityID3.getText().toString());
+                                            transportReq.setState(edtStopStateID3.getText().toString());
+                                            pojoTransportReqs.add(transportReq);
+
+
+                                        } else if (i1 == 3) {
+
+                                            transportReq.setLocality(edtStopLocality4.getText().toString());
+                                            transportReq.setCity(edtStopCityID4.getText().toString());
+                                            transportReq.setState(edtStopStateID4.getText().toString());
+                                            pojoTransportReqs.add(transportReq);
+
+                                        } else if (i1 == 4) {
+
+                                            transportReq.setLocality(edtStopLocality5.getText().toString());
+                                            transportReq.setCity(edtStopCityID5.getText().toString());
+                                            transportReq.setState(edtStopStateID5.getText().toString());
+                                            pojoTransportReqs.add(transportReq);
+
+                                        }
+
+                                    }
+                                    pojoStayReqs.size();
+                                    pojoTransportReqs.size();
+                                    webGetPackage(pojoPackages, pojoStayReqs, pojoTransportReqs);
 
 
                                     Log.i(TAG, "onClick: " + jsonObject1);
@@ -1710,10 +2029,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     }*/
 
 
-    public void webGetPackage(ArrayList<pojoPackage> pojoPackages) {
+    public void webGetPackage(ArrayList<pojoPackage> pojoPackages, ArrayList<pojoStayReq> pojoStayReqs, ArrayList<pojoTransportReq> pojoTransportReqs) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getPackage(v, pojoPackages, new OnVolleyHandler() {
+            WebService.getPackage(v, pojoPackages, pojoStayReqs, pojoTransportReqs, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -1801,7 +2120,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     edtStopCity.setThreshold(3);
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
                     edtStopCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -1871,7 +2190,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     edtStopCity1.setThreshold(3);
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -1942,7 +2261,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     mtplButton.setOnClickListener(this);
 
                     parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -2013,7 +2332,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     i++;
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -2085,7 +2404,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     //i = 0;
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
 
                     edtStopCity4.setOnItemClickListener(new AdapterView.OnItemClickListener() {

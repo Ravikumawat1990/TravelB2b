@@ -11,7 +11,6 @@
     <com.silencedut.expandablelayout.ExpandableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="@dimen/margin_10dp"
         app:expDuration="300"
         app:expExpandScrollTogether="false"
@@ -351,8 +350,6 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15dp"
-        android:layout_marginRight="@dimen/margin_15dp"
         android:layout_marginTop="@dimen/margin_10dp">
 
         <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -446,6 +443,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/margin_40dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:background="@drawable/blue_rect"
         android:gravity="center"

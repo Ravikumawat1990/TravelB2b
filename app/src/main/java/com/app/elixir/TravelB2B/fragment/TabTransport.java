@@ -196,7 +196,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         });
 
 
-        parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
+        parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout1);
 
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
         childScrollview = (NestedScrollView) view.findViewById(R.id.childScrollView);
@@ -404,35 +404,72 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
 
                     if (stringArrayList.contains("1")) {
-                        stringArrayList.remove(0);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayList.indexOf("1");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
+
+
                     break;
                 case R.id.btnRemoveStop1:
 
                     if (stringArrayList.contains("2")) {
-                        stringArrayList.remove(1);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayList.indexOf("2");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
                     break;
                 case R.id.btnRemoveStop2:
                     if (stringArrayList.contains("3")) {
-                        stringArrayList.remove(2);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayList.indexOf("3");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
                     //   stringArrayList.remove(2);
                     break;
                 case R.id.btnRemoveStop3:
                     if (stringArrayList.contains("4")) {
-                        stringArrayList.remove(3);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayList.indexOf("4");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
 
                     break;
                 case R.id.btnRemoveStop4:
                     if (stringArrayList.contains("5")) {
-                        stringArrayList.remove(4);
-                        parentLinearLayout.removeView((View) v.getParent());
+                        int position = -1;
+                        position = stringArrayList.indexOf("5");
+                        if (position == -1) {
+                            Log.e(TAG, "Object not found in List");
+                        } else {
+                            Log.i(TAG, "" + position);
+                            stringArrayList.remove(position);
+                            parentLinearLayout.removeView((View) v.getParent());
+                        }
                     }
 
                     break;
@@ -440,7 +477,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
             }
 
 
-            CM.showToast("DESIGNATION IS REMOVED", thisActivity);
+            CM.showToast("STOP IS REMOVED", thisActivity);
         } catch (Exception e) {
 
             CM.showToast(e.getMessage(), thisActivity);
@@ -1826,7 +1863,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     edtStopCity.setThreshold(3);
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
                     edtStopCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -1896,7 +1933,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     edtStopCity1.setThreshold(3);
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -1967,7 +2004,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     mtplButton.setOnClickListener(this);
 
                     parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -2038,7 +2075,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     i++;
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
                     edtStopCity3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -2110,7 +2147,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     //i = 0;
                     mtplButton.setOnClickListener(this);
                     parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    CM.showToast("STOP ADDED", thisActivity);
 
 
                     edtStopCity4.setOnItemClickListener(new AdapterView.OnItemClickListener() {

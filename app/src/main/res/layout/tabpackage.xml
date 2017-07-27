@@ -636,6 +636,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/margin_40dp"
                                 android:layout_gravity="center"
+                                android:layout_marginBottom="@dimen/margin_10dp"
                                 android:layout_marginTop="@dimen/margin_10dp"
                                 android:background="@drawable/blue_rect"
                                 android:gravity="center"
@@ -695,11 +696,12 @@
 
 
             </LinearLayout>
-            ---
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_10dp"
                 android:orientation="vertical">
 
                 <android.support.v4.widget.NestedScrollView
@@ -711,27 +713,27 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/margin_10dp"
                         android:background="@drawable/bordersec"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/parent_linear_layout1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:elevation="4dp"
-                            android:orientation="vertical"
-                            android:padding="@dimen/margin_10dp">
+                            android:orientation="vertical">
 
 
                             <LinearLayout
+                                android:id="@+id/parent_linear_layout1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:padding="@dimen/margin_10dp">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
                                     android:orientation="vertical">
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
@@ -781,8 +783,7 @@
                                 <android.support.design.widget.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
-                                    android:layout_marginRight="@dimen/margin_15dp"
+
                                     android:layout_marginTop="@dimen/margin_10dp">
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -804,8 +805,7 @@
                                 <android.support.design.widget.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
-                                    android:layout_marginRight="@dimen/margin_15dp"
+
                                     android:layout_marginTop="@dimen/margin_10dp">
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -824,30 +824,11 @@
 
                                 </android.support.design.widget.TextInputLayout>
 
-                                <android.support.design.widget.TextInputLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
-                                    android:layout_marginRight="@dimen/margin_15dp"
-                                    android:layout_marginTop="@dimen/margin_10dp">
-
-                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                                        android:id="@+id/pickupLocality"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:hint="Pickup Locality"
-                                        android:inputType="text"
-                                        android:singleLine="true"
-                                        android:textSize="12sp"
-                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                                </android.support.design.widget.TextInputLayout>
 
                                 <android.support.design.widget.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
-                                    android:layout_marginRight="@dimen/margin_15dp"
+
                                     android:layout_marginTop="@dimen/margin_10dp">
 
                                     <AutoCompleteTextView
@@ -865,8 +846,7 @@
                                 <android.support.design.widget.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/margin_15dp"
-                                    android:layout_marginRight="@dimen/margin_15dp"
+
                                     android:layout_marginTop="@dimen/margin_10dp">
 
                                     <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -883,12 +863,29 @@
 
                                 </android.support.design.widget.TextInputLayout>
 
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/pickupLocality"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Pickup Locality"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
                                 <com.app.elixir.TravelB2B.mtplview.MtplButton
                                     android:id="@+id/btnAddStop"
                                     android:layout_width="wrap_content"
                                     android:layout_height="@dimen/margin_40dp"
                                     android:layout_gravity="center"
-                                    android:layout_marginBottom="@dimen/margin_10dp"
                                     android:layout_marginTop="@dimen/margin_10dp"
                                     android:background="@drawable/blue_rect"
                                     android:gravity="center"
@@ -907,13 +904,13 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin_10dp">
 
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -931,8 +928,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <AutoCompleteTextView
@@ -951,8 +947,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/margin_15dp"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -977,7 +971,7 @@
 
             </LinearLayout>
 
-            ---
+
         </com.silencedut.expandablelayout.ExpandableLayout>
 
 

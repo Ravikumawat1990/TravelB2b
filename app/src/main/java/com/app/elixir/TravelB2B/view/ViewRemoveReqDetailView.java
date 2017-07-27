@@ -197,13 +197,14 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
                         if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").toString().equals("null") || jsonObject1.optString("pickup_state") == null) {
 
                         } else {
-                            webCity(jsonObject1.optString("pickup_state"), "1");
+                            webState(jsonObject1.optString("pickup_city"), "1");
                         }
 
                         if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("null") || jsonObject1.optString("pickup_city") == null) {
 
                         } else {
-                            webState(jsonObject1.optString("pickup_city"), "1");
+                            webCity(jsonObject1.optString("pickup_state"), "1");
+
                         }
 
 

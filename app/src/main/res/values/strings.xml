@@ -392,4 +392,11 @@
     <string name="tot">"Total Budget\n1000</string>
 
     <string name="offerACT">"Offer Accepted"</string>
+
+    <string name="hname">"Hotel Name"</string>
+    <string name="tview">"Total Views"</string>
+    <string name="promo_report">Promotion Reports</string>
+
+    <string name="trmsCond"> I agree to the Privacy Policy &amp; Terms and Conditions</string>
+
 </resources>
