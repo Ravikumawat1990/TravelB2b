@@ -88,9 +88,6 @@ public class FragFinalizedResponses extends Fragment {
     private void initView(View rootView) {
 
 
-
-
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         finalizeResposneArrayList = new ArrayList<>();
@@ -101,20 +98,21 @@ public class FragFinalizedResponses extends Fragment {
                 showFilter();
             }
         });
+        myFab.setVisibility(View.GONE);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
-                    myFab.hide();
+                    //  myFab.hide();
                 } else {
-                    myFab.show();
+                    // myFab.show();
                 }
 
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-
+        myFab.hide();
         mAdapter = new adptFinalizeResponse(thisActivity, finalizeResposneArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -152,10 +150,10 @@ public class FragFinalizedResponses extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
-
+        //menu.findItem(R.id.filter).setVisible(false);
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -164,7 +162,7 @@ public class FragFinalizedResponses extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     public void showPopup(Context context) {
         new AlertDialog.Builder(context)
@@ -180,11 +178,11 @@ public class FragFinalizedResponses extends Fragment {
         }).setIcon(R.drawable.logo3).show();
     }
 
-    @Override
+   /* @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.cartMenu);
         item.setVisible(false);
-    }
+    }*/
 
     public void webFinalizeResponse(String userId) {
         try {
@@ -366,4 +364,22 @@ public class FragFinalizedResponses extends Fragment {
         alertDialog.show();
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.cartMenu);
+        MenuItem item1 = menu.findItem(R.id.filter);
+        item.setVisible(false);
+        item1.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                CM.showToast("Pressed", thisActivity);
+                //showFilterPopup();
+                return true;
+        }
+        return false;
+    }
 }

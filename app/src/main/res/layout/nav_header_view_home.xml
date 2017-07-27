@@ -45,30 +45,22 @@
         <ImageView
             android:id="@+id/icon1"
             android:layout_width="@dimen/margin_24dp"
-            android:layout_height="@dimen/margin_24dp"
-            android:src="@drawable/ic_person_black_24dp"
-            android:tint="@android:color/white" />
+            android:layout_height="@dimen/margin_24dp" />
 
         <ImageView
             android:id="@+id/icon2"
             android:layout_width="@dimen/margin_24dp"
-            android:layout_height="@dimen/margin_24dp"
-            android:src="@drawable/ic_person_black_24dp"
-            android:tint="@android:color/white" />
+            android:layout_height="@dimen/margin_24dp" />
 
         <ImageView
             android:id="@+id/icon3"
             android:layout_width="@dimen/margin_24dp"
-            android:layout_height="@dimen/margin_24dp"
-            android:src="@drawable/ic_person_black_24dp"
-            android:tint="@android:color/white" />
+            android:layout_height="@dimen/margin_24dp" />
 
         <ImageView
             android:id="@+id/icon4"
             android:layout_width="@dimen/margin_24dp"
-            android:layout_height="@dimen/margin_24dp"
-            android:src="@drawable/ic_person_black_24dp"
-            android:tint="@android:color/white" />
+            android:layout_height="@dimen/margin_24dp" />
 
 
     </LinearLayout>

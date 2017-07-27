@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.model.Person;
-import com.tokenautocomplete.TokenCompleteTextView;
+import com.app.elixir.TravelB2B.tokenautocomplete.TokenCompleteTextView;
+
 
 /**
  * Created by elixirtechnologies on 30/05/17.

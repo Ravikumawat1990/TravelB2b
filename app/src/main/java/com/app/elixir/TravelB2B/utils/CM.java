@@ -905,6 +905,30 @@ public class CM {
         return text;
     }
 
+  /*  public static String getHotelRating(String reqId) {
+        String text = "";
+        switch (reqId) {
+            case "*":
+                text = "1";
+                break;
+            case "**":
+                text = "2";
+                break;
+            case "***":
+                text = "3";
+                break;
+            case "****":
+                text = "4";
+                break;
+            case "*****":
+                text = "5";
+                break;
+
+        }
+        return text;
+    }*/
+
+
     public static String getHotelRating(String reqId) {
         String text = "";
         switch (reqId) {

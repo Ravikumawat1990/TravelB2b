@@ -80,7 +80,7 @@
 
         <activity
             android:name=".view.Popup_Hotel_Promote_preview"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            android:theme="@style/DialogNoTitleBar"></activity>
 
 
     </application>

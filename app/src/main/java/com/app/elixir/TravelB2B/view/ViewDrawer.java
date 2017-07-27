@@ -430,13 +430,12 @@ public class ViewDrawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.view_drawer, menu);
+        menu.getItem(0).setIcon(R.drawable.ic_filter_list_white_24dp);
         if (isOpen) {
-            menu.getItem(0).setIcon(R.drawable.userhome);
+            menu.getItem(1).setIcon(R.drawable.userhome);
         } else {
-            menu.getItem(0).setIcon(R.drawable.userhome);
+            menu.getItem(1).setIcon(R.drawable.userhome);
         }
-
-
         return true;
     }
 
@@ -840,7 +839,7 @@ public class ViewDrawer extends AppCompatActivity
                         icon2.setVisibility(View.VISIBLE);
                         if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
                             if (jsonObject1.optString("role_id").toString().equals("2")) {
-                                i += 15;
+                                i += 16;
                             } else if (jsonObject1.optString("role_id").toString().equals("3")) {
                                 i += 10;
                             } else {
@@ -967,7 +966,7 @@ public class ViewDrawer extends AppCompatActivity
                         }
                     }
                     if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                        if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                        if (jsonObject1.optString("role_id").toString().equals("3")) {
                             if (!jsonObject1.optString("hotel_rating").toString().equals("") && !jsonObject1.optString("hotel_rating").toString().equals("null")) {
                                 i += 5;
                             }
@@ -975,6 +974,13 @@ public class ViewDrawer extends AppCompatActivity
                                 i += 5;
                             }
                         } else {
+
+                        }
+                    }
+
+                    if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
+                        if (jsonObject1.optString("role_id").toString().equals("1")) {
+
                             if (!jsonObject1.optString("iata_pic").toString().equals("") && !jsonObject1.optString("iata_pic").toString().equals("null")) {
                                 i += 5;
                             }
@@ -999,8 +1005,12 @@ public class ViewDrawer extends AppCompatActivity
                             if (!jsonObject1.optString("adtoi_pic").toString().equals("") && !jsonObject1.optString("adtoi_pic").toString().equals("null")) {
                                 i += 5;
                             }
+
+                        } else {
+
                         }
                     }
+
 
                     txtCount.setText(String.valueOf(i) + " %");
                     progressBar.setProgress(i);

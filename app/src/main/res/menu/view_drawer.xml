@@ -4,8 +4,17 @@
 
 
     <item
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        android:title="filter"
+        android:visible="false"
+        myapp:showAsAction="always" />
+
+    <item
         android:id="@+id/cartMenu"
         android:icon="@drawable/userhome"
         android:title="drawer"
+        android:visible="true"
         myapp:showAsAction="always" />
+
 </menu>

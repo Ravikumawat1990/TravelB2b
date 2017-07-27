@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.model.Person;
-import com.tokenautocomplete.TokenCompleteTextView;
+import com.app.elixir.TravelB2B.tokenautocomplete.TokenCompleteTextView;
+
 
 /**
  * Created by elixirtechnologies on 30/05/17.
@@ -34,7 +35,8 @@ public class AutoCompletionView extends TokenCompleteTextView<Person> {
         TextView view = (TextView) l.inflate(R.layout.autocomplet, (ViewGroup) getParent(), false);
         Typeface face = Typeface.createFromAsset(context.getAssets(), context.getString(R.string.fontface_roboto_regular));
         view.setTypeface(face);
-        view.setText(person.getName());
+
+        view.setText(person.getName().trim());
 
         return view;
     }

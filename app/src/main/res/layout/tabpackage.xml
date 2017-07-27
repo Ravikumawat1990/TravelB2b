@@ -232,8 +232,6 @@
                                 android:id="@+id/expandablrNoOfRoom"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
                                 android:layout_marginTop="@dimen/margin_10dp"
                                 app:expDuration="300"
                                 app:expExpandScrollTogether="false"
@@ -375,8 +373,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp"
                                 android:orientation="vertical">
 
@@ -429,8 +426,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp"
                                 android:orientation="vertical">
 
@@ -475,8 +471,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp"
                                 android:orientation="vertical">
 
@@ -484,7 +479,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_10dp"
-
                                     android:gravity="center_vertical"
                                     android:text="Meal Plan"
                                     android:textColor="@color/colorPrimary"
@@ -524,8 +518,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <AutoCompleteTextView
@@ -543,15 +536,14 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
                                     android:id="@+id/edtDestinationState"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Destination State "
+                                    android:hint="Destination State*"
                                     android:inputType="text"
                                     android:singleLine="true"
                                     android:textSize="12sp"
@@ -562,8 +554,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -581,8 +572,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -601,8 +591,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -623,8 +612,7 @@
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_15dp"
-                                android:layout_marginRight="@dimen/margin_15dp"
+
                                 android:layout_marginTop="@dimen/margin_10dp">
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplEditText
@@ -707,257 +695,289 @@
 
 
             </LinearLayout>
+            ---
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
-                <LinearLayout
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/childScrollView1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:background="@drawable/bordersec"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bordersec"
                         android:orientation="vertical">
 
-                        <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_10dp"
-                            android:gravity="center_vertical"
-                            android:text="Select Transport"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
-
-
-                        <RelativeLayout
+                        <LinearLayout
+                            android:id="@+id/parent_linear_layout1"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/margin_40dp"
-                            android:layout_marginTop="@dimen/margin_5dp"
-                            android:background="@drawable/spinner_border"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:elevation="4dp"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin_10dp">
 
-                            <Spinner
-                                android:id="@+id/spinnerTransport"
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:orientation="vertical">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_10dp"
+                                        android:gravity="center_vertical"
+                                        android:text="Select Transport"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/margin_40dp"
+                                        android:layout_marginTop="@dimen/margin_5dp"
+                                        android:background="@drawable/spinner_border"
+                                        android:orientation="horizontal">
+
+                                        <Spinner
+                                            android:id="@+id/spinnerTransport"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:layout_gravity="center"
+                                            android:background="@android:color/transparent"
+                                            android:entries="@array/TransportArray"
+                                            android:gravity="center"
+                                            android:spinnerMode="dropdown" />
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_gravity="center"
+                                            android:layout_marginRight="@dimen/margin_5dp"
+                                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                                    </RelativeLayout>
+
+
+                                </LinearLayout>
+
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:layout_marginRight="@dimen/margin_15dp"
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/transStatrDate"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                        android:drawableRight="@drawable/ic_date_range_black_24dp"
+                                        android:drawableTint="@color/colorPrimary"
+                                        android:hint="Start Date*"
+                                        android:inputType="text"
+
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:layout_marginRight="@dimen/margin_15dp"
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/transEndDate"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:drawableEnd="@drawable/ic_date_range_black_24dp"
+                                        android:drawableRight="@drawable/ic_date_range_black_24dp"
+                                        android:drawableTint="@color/colorPrimary"
+                                        android:hint="End Date*"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:layout_marginRight="@dimen/margin_15dp"
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/pickupLocality"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Pickup Locality"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:layout_marginRight="@dimen/margin_15dp"
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/trapickupCity"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Pickup City*"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/margin_15dp"
+                                    android:layout_marginRight="@dimen/margin_15dp"
+                                    android:layout_marginTop="@dimen/margin_10dp">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                        android:id="@+id/trapickupState"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:editable="false"
+                                        android:enabled="false"
+                                        android:hint="Pickup State*"
+                                        android:inputType="text"
+                                        android:singleLine="true"
+                                        android:textSize="12sp"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                                </android.support.design.widget.TextInputLayout>
+
+                                <com.app.elixir.TravelB2B.mtplview.MtplButton
+                                    android:id="@+id/btnAddStop"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/margin_40dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginBottom="@dimen/margin_10dp"
+                                    android:layout_marginTop="@dimen/margin_10dp"
+                                    android:background="@drawable/blue_rect"
+                                    android:gravity="center"
+                                    android:paddingLeft="@dimen/margin_10dp"
+                                    android:paddingRight="@dimen/margin_10dp"
+                                    android:text="Add Stop"
+                                    android:textColor="@android:color/white"
+                                    mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:background="@android:color/transparent"
-                                android:entries="@array/TransportArray"
-                                android:gravity="center"
-                                android:spinnerMode="dropdown" />
+                                android:layout_marginLeft="@dimen/margin_15dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:layout_marginTop="@dimen/margin_10dp">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
+                                <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/finalLocality"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Final Locality"
+                                    android:inputType="text"
+                                    android:singleLine="true"
+                                    android:textSize="12sp"
+                                    mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_gravity="center"
-                                android:layout_marginRight="@dimen/margin_5dp"
-                                android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+                                android:layout_marginLeft="@dimen/margin_15dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:layout_marginTop="@dimen/margin_10dp">
 
-                        </RelativeLayout>
+                                <AutoCompleteTextView
+                                    android:id="@+id/finalCity"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Final City*"
+                                    android:inputType="text"
+                                    android:singleLine="true"
+                                    android:textSize="12sp"
+                                    mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/margin_15dp"
+                                android:layout_marginLeft="@dimen/margin_15dp"
+                                android:layout_marginRight="@dimen/margin_15dp"
+                                android:layout_marginTop="@dimen/margin_10dp">
+
+                                <com.app.elixir.TravelB2B.mtplview.MtplEditText
+                                    android:id="@+id/finalState"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:editable="true"
+                                    android:enabled="false"
+                                    android:hint="Final State*"
+                                    android:inputType="text"
+                                    android:singleLine="true"
+                                    android:textSize="12sp"
+                                    mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                            </android.support.design.widget.TextInputLayout>
 
 
+                        </LinearLayout>
                     </LinearLayout>
-
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/transStatrDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                            android:drawableRight="@drawable/ic_date_range_black_24dp"
-                            android:drawableTint="@color/colorPrimary"
-                            android:hint="Start Date "
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/transEndDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/ic_date_range_black_24dp"
-                            android:drawableRight="@drawable/ic_date_range_black_24dp"
-                            android:drawableTint="@color/colorPrimary"
-                            android:hint="End Date "
-                            android:inputType="text"
-
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/trapickupCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Pickup City"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/trapickupState"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:editable="false"
-                            android:enabled="false"
-                            android:hint="Pickup State"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/pickupLocality"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Pickup Locality"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <com.app.elixir.TravelB2B.mtplview.MtplButton
-                        android:id="@+id/btnAddStop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/margin_40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="@dimen/margin_10dp"
-                        android:layout_marginTop="@dimen/margin_10dp"
-                        android:background="@drawable/blue_rect"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/margin_10dp"
-                        android:paddingRight="@dimen/margin_10dp"
-                        android:text="Add Stop"
-                        android:textColor="@android:color/white"
-                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
-
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/finalLocality"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Final Locality"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/finalCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Final City"
-                            android:inputType="text"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_15dp"
-                        android:layout_marginLeft="@dimen/margin_15dp"
-                        android:layout_marginRight="@dimen/margin_15dp"
-                        android:layout_marginTop="@dimen/margin_10dp">
-
-                        <com.app.elixir.TravelB2B.mtplview.MtplEditText
-                            android:id="@+id/finalState"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Final State"
-                            android:inputType="text"
-                            android:enabled="false"
-                            android:editable="false"
-                            android:singleLine="true"
-                            android:textSize="12sp"
-                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
+                </android.support.v4.widget.NestedScrollView>
 
 
             </LinearLayout>
+
+            ---
         </com.silencedut.expandablelayout.ExpandableLayout>
 
 

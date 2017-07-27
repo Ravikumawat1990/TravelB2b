@@ -147,4 +147,16 @@ public class CV {
     public static final String BUDGETSEARCH = "budgetsearch";
     public static final String AGENTNAMESEARCH = "agentnamesearch";
     public static final String RATINGFILTER = "ratingfilter";
+
+
+    public static final String HOTEL_NAME = "hotel_name";
+    public static final String HOTEL_CATEGORIES = "hotel_categories";
+    public static final String CHEAP_TARIFF = "cheap_tariff";
+    public static final String EXPENSIVE_TARIFF = "expensive_tariff";
+    public static final String WEBSITE = "website";
+    public static final String CITYID = "cityid";
+    public static final String CITYCHARGE = "citycharge";
+    public static final String DURATION = "duration";
+    public static final String CHARGES = "charges";
+    public static final String HOTEL_PIC = "hotel_pic";
 }

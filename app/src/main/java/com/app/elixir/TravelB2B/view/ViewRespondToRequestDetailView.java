@@ -316,10 +316,10 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (jsonObject1.optString("destination_city").equals("") || jsonObject1.optString("destination_city").toString().equals("0")) {
+                            if (jsonObject1.optString("city_id").equals("") || jsonObject1.optString("city_id").toString().equals("0")) {
 
                             } else {
-                                webCity(jsonObject1.optString("destination_city"), "1");
+                                webCity(jsonObject1.optString("city_id"), "1");
                             }
                         }
                     }, 100);

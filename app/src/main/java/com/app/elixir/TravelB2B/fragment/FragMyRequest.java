@@ -52,19 +52,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
-
 /**
  * Created by NetSupport on 01-06-2017.
  */
 
 public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
+    private static final String TAG = "FragMyRequest";
     private OnFragmentInteractionListener mListener;
     Activity thisActivity;
 
     adptMyRequest mAdapter;
-
     private RecyclerView mRecyclerView;
 
     ArrayList<pojoMyRequest> pojoMyResposneArrayList;
@@ -139,6 +137,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 showFilterPopup();
             }
         });
+        myFab.setVisibility(View.GONE);
     }
 
     @Override
@@ -151,10 +150,11 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.filter).setVisible(true);
     }
 
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
@@ -166,7 +166,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.filter);
-    }
+    }*/
 
 
     public void showPopup(Context context, final String requestId) {
@@ -566,7 +566,10 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                         myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
                         myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
                         myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
-                        myResposne.setDestination_city(jsonArray.getJSONObject(i).get("destination_city").toString());
+                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
+                        if (jsonObject1 != null) {
+                            myResposne.setDestination_city(jsonObject1.optString("name"));
+                        }
                         myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
                         myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
                         myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
@@ -582,6 +585,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                         myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
                         myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
                         myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
+
                         JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
                         myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
                         myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
@@ -734,5 +738,21 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.filter);
+        item.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                showFilterPopup();
+                return true;
+        }
+        return false;
     }
 }

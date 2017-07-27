@@ -104,7 +104,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
         edtEmail = (EditText) findViewById(R.id.login_Email);
         edtEmail.setSelection(edtEmail.getText().toString().length());
         editPassword = (EditText) findViewById(R.id.login_edtPassword);
-        Typeface face = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+        Typeface face = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_roboto_light));
         editPassword.setTypeface(face);
         editPassword.setTransformationMethod(new PasswordTransformationMethod());
 

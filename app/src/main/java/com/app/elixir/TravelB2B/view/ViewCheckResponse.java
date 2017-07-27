@@ -113,7 +113,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
-            public void onItemClick(String value, String value1, String value2) {
+            public void onItemClick(String value, String value1, String value2, String value3) {
                 if (value.equals("chat")) {
 
                     Intent intent = new Intent(ViewCheckResponse.this, ViewChat.class);
@@ -122,13 +122,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     CM.startActivity(intent, ViewCheckResponse.this);
 
                 } else if (value.equals("share")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value, value1, value2);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value, value1, value2, "");
                 } else if (value.equals("btnAccept")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2, value3);
                 } else if (value.equals("rate")) {
                     showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
                 } else if (value.equals("block")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2);
+                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2, "");
                 }
             }
         });
@@ -227,7 +227,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
-    public void showPopup(Context context, String msg, final String typeNew, final String blockId, final String value2) {
+    public void showPopup(Context context, String msg, final String typeNew, final String blockId, final String value2, final String value3) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage(msg)
@@ -240,7 +240,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
                         } else if (typeNew.equals("btnAccept")) {
 
-                            webAcceptOffer(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+                            webAcceptOffer(blockId, value2, value3);
 
 
                         } else if (typeNew.equals("share")) {
@@ -535,6 +535,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         JSONObject jsonObject3 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
                         checkResposne.setFirst_name(jsonObject3.optString("first_name"));
                         checkResposne.setLast_name(jsonObject3.optString("last_name"));
+                        //   checkResposne.setId(jsonObject3.optString("id"));
                         resposneArrayList.add(checkResposne);
 
                     }
@@ -748,10 +749,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void webAcceptOffer(String userid, final String reqId) {
+    public void webAcceptOffer(String resid, final String reqid, String userid) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
-            WebService.getAcceptOffer(v, userid, reqId, new OnVolleyHandler() {
+            WebService.getAcceptOffer(v, resid, reqid, userid, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -759,7 +760,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     }
                     MtplLog.i("WebCalls", response);
                     Log.e(TAG, response);
-                    //  getState(response, type);
+                    getAcceptOffer(response);
 
                 }
 
@@ -876,6 +877,35 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             });
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void getAcceptOffer(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    CM.showToast(getString(R.string.offerACT), ViewCheckResponse.this);
+                    webCheckResponse(referenceId);
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
         }
     }
 

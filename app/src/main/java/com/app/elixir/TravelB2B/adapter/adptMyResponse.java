@@ -3,6 +3,8 @@ package com.app.elixir.TravelB2B.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
@@ -48,9 +51,11 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, total, adult, txtComment, destination;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination;
         MtplButton btnDetail;
         ImageView catImage;
+        ImageView imageView;
+        TextView total;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -59,11 +64,12 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
+            total = (TextView) itemView.findViewById(R.id.txtTot);
             adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
             destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
+            //  imageView = (ImageView) itemView.findViewById(R.id.imageView);
             reqAgent.setOnClickListener(this);
             btnDetail.setOnClickListener(this);
 
@@ -76,7 +82,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
                     listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
                 case R.id.reqAgent:
-                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getId());
                     break;
             }
 
@@ -107,6 +113,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         TextView adult = holder.adult;
         TextView destination = holder.destination;
         ImageView catImg = holder.catImage;
+        //ImageView imageView = holder.imageView;
 
         reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         txtComment.setText(dataSet.get(position).getComment());
@@ -127,7 +134,8 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
 
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
-        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
+        //  total.setSingleLine(false);
+        total.setText("Budget\n" + context.getString(R.string.rsSymbol) + "" + dataSet.get(position).getTotal_budget());
         int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
@@ -135,17 +143,27 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             totMemb = 0;
         }
         adult.setText(String.valueOf(totMemb));
-        destination.setText(dataSet.get(position).getCity_id() + " " + dataSet.get(position).getState_id());
+        destination.setText(dataSet.get(position).getDestination_city());
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
-            catImg.setImageResource(R.drawable.hh);
+            catImg.setImageResource(R.drawable.pp);
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
         } else {
-            catImg.setImageResource(R.drawable.pp);
+            catImg.setImageResource(R.drawable.hh);
         }
+
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .useFont(Typeface.DEFAULT)
+                .fontSize(30) /* size in px */
+                .toUpperCase()
+                .endConfig()
+                .buildRect(context.getString(R.string.tot), Color.RED);
+
+//        imageView.setImageDrawable(drawable);
     }
 
     @Override

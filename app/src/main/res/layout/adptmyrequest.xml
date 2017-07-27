@@ -39,31 +39,64 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/reqAgent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center_vertical"
-                    android:maxLines="1"
-                    android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingTop="@dimen/margin_2dp"
-                    android:text="Ravi kumawat (Agent Name)"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
-                    mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    style="?android:attr/ratingBarStyleSmall"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:id="@+id/reqAgent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/margin_2dp"
+                        android:paddingTop="@dimen/margin_2dp"
+                        android:text="Ravi kumawat (Agent Name)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:numStars="5"
+                        android:stepSize="1.0" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:padding="@dimen/margin_5dp">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@android:color/transparent"
+                        app:backgroundTint="@android:color/holo_orange_dark" />
+
+                    <TextView
+                        android:id="@+id/txtTot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:elevation="16dp"
+                        android:gravity="center"
+                        android:text="@string/tot"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white"
+                        android:textSize="9sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -320,11 +353,11 @@
                     android:text="@string/totBudge"
                     android:textColor="#1295a2"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/txtTot"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -332,8 +365,9 @@
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="Rs. 10"
-                    android:textSize="12sp"
                     android:textColor="#1295a2"
+                    android:textSize="12sp"
+                    android:visibility="gone"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 

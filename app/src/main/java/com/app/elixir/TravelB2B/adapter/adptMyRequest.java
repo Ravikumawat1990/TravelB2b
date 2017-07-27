@@ -38,9 +38,10 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, total, adult, txtComment, destination, txtRefId;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, txtRefId;
         MtplButton btnRemoveReq, btnCheckRes;
         ImageView catImage;
+        TextView total;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -52,7 +53,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
-            total = (MtplTextView) itemView.findViewById(R.id.txtTot);
+            total = (TextView) itemView.findViewById(R.id.txtTot);
             adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
             destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
@@ -126,7 +127,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
-        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
+        total.setText("Budget\n" + context.getString(R.string.rsSymbol) + "" + dataSet.get(position).getTotal_budget());
         int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
@@ -134,16 +135,16 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
             totMemb = 0;
         }
         adult.setText(String.valueOf(totMemb));
-        destination.setText(dataSet.get(position).getCity_id() + " " + dataSet.get(position).getState_id());
+        destination.setText(dataSet.get(position).getDestination_city());
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
-            catImg.setImageResource(R.drawable.hh);
+            catImg.setImageResource(R.drawable.pp);
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
         } else {
-            catImg.setImageResource(R.drawable.pp);
+            catImg.setImageResource(R.drawable.hh);
         }
     }
 

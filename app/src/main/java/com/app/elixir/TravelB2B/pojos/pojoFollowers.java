@@ -11,6 +11,15 @@ public class pojoFollowers {
     String mobile_number;
     String email;
     String company_name;
+    String web_url;
+
+    public String getWeb_url() {
+        return web_url;
+    }
+
+    public void setWeb_url(String web_url) {
+        this.web_url = web_url;
+    }
 
     public String getCompany_name() {
         return company_name;

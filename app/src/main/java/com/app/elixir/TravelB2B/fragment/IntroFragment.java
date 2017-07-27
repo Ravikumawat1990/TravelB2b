@@ -40,13 +40,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
-
 
 public class IntroFragment extends Fragment implements View.OnClickListener {
 
     private static final String BACKGROUND_COLOR = "backgroundColor";
     private static final String PAGE = "page";
+    private static final String TAG = "IntroFragment";
 
     private int mBackgroundColor, mPage;
     Activity thisActivity;

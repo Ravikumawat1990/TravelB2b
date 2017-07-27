@@ -36,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 /**
  * Created by NetSupport on 05-06-2017.
@@ -44,6 +43,7 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 public class FragHome extends Fragment {
 
+    private static final String TAG = "FragHome";
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
     private RecyclerView mRecyclerView;
@@ -93,7 +93,7 @@ public class FragHome extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
-
+        menu.findItem(R.id.filter).setVisible(false);
     }
 
     @Override

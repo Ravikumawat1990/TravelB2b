@@ -62,7 +62,7 @@ public class FragTermsandCondions extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragtermescondition, container, false);
         thisActivity = getActivity();
-        ((ActionBarTitleSetter) thisActivity).setTitle("Term & Condition");
+        ((ActionBarTitleSetter) thisActivity).setTitle("Terms & Conditions");
 /*
         progressBar = (ImageView) rootView.findViewById(R.id.dialogProgressBar);
         Animation a = AnimationUtils.loadAnimation(thisActivity, R.anim.scale);

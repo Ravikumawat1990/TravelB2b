@@ -5,7 +5,8 @@ package com.app.elixir.TravelB2B.utils;
  */
 public class CONSTANT {
     //public static final String URL = "http://192.168.3.105:8081/AppApi";
-    public static final String URL = "http://www.travelb2bhub.com/b2b/";
+    public static final String URL = "http://192.168.3.82/b2b/pages/";
+    //  public static final String URL = "http://www.travelb2bhub.com/b2b/";
     public static final String SOAP_ACTION = "http://tempuri.org/IService1/GetOTP";
 
     public static final String CAPPSTORECODE = "cAppStoreCode";

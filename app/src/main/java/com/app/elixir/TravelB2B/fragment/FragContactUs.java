@@ -41,7 +41,6 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 /**
  * Created by NetSupport on 05-06-2017.
@@ -49,6 +48,7 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 public class FragContactUs extends Fragment implements View.OnClickListener {
 
+    private static final String TAG = "FragContactUs";
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
     ArrayList<pojoContact_us> pojoContact_us;

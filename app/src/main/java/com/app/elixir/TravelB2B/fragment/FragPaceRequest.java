@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class FragPaceRequest extends Fragment {
         View rootView = inflater.inflate(R.layout.frag_placerequest, container, false);
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.placeReq));
-
+        setHasOptionsMenu(true);
         Log.i(TAG, "onTabSelected: ");
         tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("PACKAGE"));
@@ -112,5 +114,11 @@ public class FragPaceRequest extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.filter).setVisible(false);
+
     }
 }

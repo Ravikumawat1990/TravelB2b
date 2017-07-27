@@ -43,12 +43,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 
 public class ViewRegisterAs extends AppCompatActivity implements View.OnClickListener {
 
 
+    private static final String TAG = "ViewRegisterAs";
     Toolbar toolbar;
 
     ArrayList<pojoMemberShip> memberShipArrayList;

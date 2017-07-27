@@ -13,7 +13,19 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_15dp"
         android:layout_marginRight="@dimen/margin_15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_10dp">
+
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.app.elixir.TravelB2B.mtplview.MtplTextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/appTextColor" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -79,9 +91,9 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
+                    android:entries="@array/hotCatArray"
                     android:gravity="center"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/hotCatArray" />
+                    android:spinnerMode="dropdown" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -156,8 +168,8 @@
                 android:id="@+id/autotextState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="States"
                 android:completionThreshold="3"
+                android:hint="States"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
@@ -186,7 +198,7 @@
             android:background="@drawable/blue_rect"
             android:gravity="center_vertical"
             android:padding="@dimen/margin_5dp"
-            android:text="Total 8000"
+            android:text="Total 0"
             android:textColor="@color/appBackColor"
             android:textSize="@dimen/font_12sp"
             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -210,7 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white"/>
+                    android:background="@android:color/white" />
 
 
             </LinearLayout>
@@ -235,7 +247,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white"/>
+                    android:background="@android:color/white" />
 
 
             </LinearLayout>
@@ -317,6 +329,7 @@
                 android:paddingRight="@dimen/margin_10dp"
                 android:text="CART"
                 android:textColor="@android:color/white"
+                android:visibility="gone"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
             <com.app.elixir.TravelB2B.mtplview.MtplButton
@@ -326,7 +339,7 @@
                 android:background="@drawable/blue_rect"
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"
-                android:text="PREVIEW"
+                android:text="Submit"
                 android:textColor="@android:color/white"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -339,6 +352,7 @@
             android:inputType="text"
             android:singleLine="true"
             android:textSize="@dimen/font_12sp"
+            android:visibility="gone"
             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 

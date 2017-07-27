@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,13 @@ import com.app.elixir.TravelB2B.adapter.AutocompleteAdapter;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.numberPicker.NumberPicker;
 import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
 import com.app.elixir.TravelB2B.pojos.pojoPackage;
 import com.app.elixir.TravelB2B.pojos.pojoState;
+import com.app.elixir.TravelB2B.pojos.transportPojo;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.MultiSelectionSpinner;
@@ -54,12 +58,12 @@ import java.util.List;
  * Created by NetSupport on 02-06-2017.
  */
 
-public class TabTransport extends Fragment implements View.OnClickListener, View.OnTouchListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
+public class TabTransport extends Fragment implements View.OnClickListener, View.OnTouchListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener, View.OnFocusChangeListener {
 
     private static final String TAG = "TabTransport";
     Activity thisActivity;
-    MtplButton btnAddAnother, btnSubmit;
-    private LinearLayout parentLinearLayout;
+    MtplButton btnAddAnother, btnSubmit, btnAddStop;
+    private LinearLayout parentLinearLayout, parentLinearLayout1;
     private ExpandableLayout expandableLayout;
     private NestedScrollView rootScrollView;
     NestedScrollView childScrollview;
@@ -88,12 +92,19 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
     private int dayOfMonth1;
     private int month1;
     private int year1;
+    MtplEditText edtStopState, edtStopState1, edtStopState2, edtStopState3, edtStopState4;
+    AutoCompleteTextView edtStopCity, edtStopCity1, edtStopCity2, edtStopCity3, edtStopCity4;
+    AutocompleteAdapter adptCountry1;
+    ArrayList<String> stringArrayList;
+    MtplEditText edtStopLocality, edtStopLocality5, edtStopLocality4, edtStopLocality3, edtStopLocality2, edtStopLocality1;
+    MtplEditText edtStopStateID4, edtStopCityID4, edtStopStateID5, edtStopCityID5, edtStopStateID3, edtStopCityID3, edtStopStateID2, edtStopCityID2, edtStopStateID1, edtStopCityID1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabtransport, container, false);
         thisActivity = getActivity();
         initView(rootView);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -102,7 +113,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         countryArrayList = new ArrayList<>();
         pojoCities = new ArrayList<>();
         pojoStateArrayList = new ArrayList<>();
-
+        stringArrayList = new ArrayList<>();
 
         //General Req
         refId = (MtplEditText) view.findViewById(R.id.edtRefId);
@@ -134,7 +145,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
 
         btnSubmit = (MtplButton) view.findViewById(R.id.btnSubmit);
-
+        btnAddStop = (MtplButton) view.findViewById(R.id.btnAddStop);
 
         ExpandableLayout expandableLayout1 = (ExpandableLayout) view.findViewById(R.id.expView1);
         ExpandableLayout expandableLayout2 = (ExpandableLayout) view.findViewById(R.id.expView4);
@@ -186,12 +197,13 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
 
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
+
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
         childScrollview = (NestedScrollView) view.findViewById(R.id.childScrollView);
 
         btnSubmit.setOnClickListener(this);
         strings = new ArrayList<>();
-
+        // trapickupCity.setOnItemClickListener(this);
         trapickupCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -232,78 +244,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
             }
         });
-
-
-        trapickupCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-
-                    for (int i = 0; i < pojoCities.size(); i++) {
-                        if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
-                            for (int j = 0; j < pojoCities.size(); j++) {
-                                if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
-                                    String id = pojoCities.get(i).getState_id();
-                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
-                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
-                                            String statename = pojoStateArrayList.get(k).getState_name();
-                                            pickupState.setText(statename);
-
-
-                                            for (int l = 0; l < countryArrayList.size(); l++) {
-
-                                                if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
-
-                                                    //    destiCountry.setText(countryArrayList.get(l).getCountry_name());
-                                                    transcountryId = countryArrayList.get(l).getId();
-                                                    break;
-
-                                                }
-
-
-                                            }
-
-
-                                            break;
-                                        } else {
-
-
-                                        }
-
-                                    }
-
-
-                                } else {
-                                    pickupState.setText("");
-                                    // destiCountry.setText("");
-
-                                }
-
-
-                            }
-
-
-                            break;
-                        } else {
-                            trapickupCity.setText("");
-                            pickupState.setText("");
-
-
-                        }
-                    }
-
-                    if (pojoCities != null && pojoCities.size() == 0) {
-                        trapickupCity.setText("");
-                        pickupState.setText("");
-
-                    }
-
-                } else {
-
-
-                }
-            }
-        });
+        trapickupCity.setOnFocusChangeListener(this);
 
 
         finalCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -393,6 +334,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         });
         transStatrDate.setOnTouchListener(this);
         transEndDate.setOnTouchListener(this);
+        btnAddStop.setOnClickListener(this);
         webCallCity();
         webCallState();
         webCallCountry();
@@ -402,28 +344,46 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
         try {
             LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.addanotherdestination, null);
-            rowView.setId(i++);
-            MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemove);
-            edtlocality = (MtplEditText) rowView.findViewById(R.id.locality);
-            checkIn1 = (MtplEditText) rowView.findViewById(R.id.edtCheckIn1);
-            checkOut1 = (MtplEditText) rowView.findViewById(R.id.edtCheckout1);
-            checkIn1.setOnTouchListener(this);
-            checkOut1.setOnTouchListener(this);
 
-            String[] array = getResources().getStringArray(R.array.hotCatArray);
-            MultiSelectionSpinner multiSelectionSpinner = (MultiSelectionSpinner) rowView.findViewById(R.id.mySpinner);
-            multiSelectionSpinner.setItems(array);
-            multiSelectionSpinner.setListener(this);
+            if (i == 0) {
+                setPosition("1", inflater);
+            } else if (i == 1) {
+                setPosition("2", inflater);
+
+            } else if (i == 2) {
+
+                setPosition("3", inflater);
+            } else if (i == 3) {
+
+                setPosition("4", inflater);
+            } else if (i == 4) {
+                setPosition("5", inflater);
+            }
+
+            if (i > 4) {
 
 
-            rowView.setId(i++);
-            // Log.i(TAG, "onAddField: "i++);
+                if (!stringArrayList.contains("1")) { //&& (stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 1");
+                    setPosition("1", inflater);
+                } else if (!stringArrayList.contains("2")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 2");
+                    setPosition("2", inflater);
+                } else if (!stringArrayList.contains("3")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 3");
+                    setPosition("3", inflater);
+                } else if (!stringArrayList.contains("4")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 4");
+                    setPosition("4", inflater);
+                } else if (!stringArrayList.contains("5")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4"))
+                    Log.i(TAG, "onAddField: 5");
+                    setPosition("5", inflater);
+                }
 
-            mtplButton.setOnClickListener(this);
+            }
+
+
             Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
-            parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
-            CM.showToast("DESIGNATION ADDED", thisActivity);
 
 
         } catch (Exception e) {
@@ -439,7 +399,46 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
             Log.i(TAG, "onDelete: ");
 
-            parentLinearLayout.removeView((View) v.getParent());
+            switch (v.getId()) {
+                case R.id.btnRemoveStop:
+
+
+                    if (stringArrayList.contains("1")) {
+                        stringArrayList.remove(0);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemoveStop1:
+
+                    if (stringArrayList.contains("2")) {
+                        stringArrayList.remove(1);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemoveStop2:
+                    if (stringArrayList.contains("3")) {
+                        stringArrayList.remove(2);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    //   stringArrayList.remove(2);
+                    break;
+                case R.id.btnRemoveStop3:
+                    if (stringArrayList.contains("4")) {
+                        stringArrayList.remove(3);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+
+                    break;
+                case R.id.btnRemoveStop4:
+                    if (stringArrayList.contains("5")) {
+                        stringArrayList.remove(4);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+
+                    break;
+
+            }
+
 
             CM.showToast("DESIGNATION IS REMOVED", thisActivity);
         } catch (Exception e) {
@@ -452,10 +451,23 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnAddAnother:
+            case R.id.btnAddStop:
+
                 onAddField(view);
                 break;
-            case R.id.btnRemove:
+            case R.id.btnRemoveStop:
+                onDelete(view);
+                break;
+            case R.id.btnRemoveStop1:
+                onDelete(view);
+                break;
+            case R.id.btnRemoveStop2:
+                onDelete(view);
+                break;
+            case R.id.btnRemoveStop3:
+                onDelete(view);
+                break;
+            case R.id.btnRemoveStop4:
                 onDelete(view);
                 break;
             case R.id.btnSubmit:
@@ -552,9 +564,58 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                                                 aPackage.setPickup_country_name("");
                                                 aPackage.setPickup_country_id(transcountryId);
                                                 aPackage.setComment(edtComment.getText().toString());
-
                                                 pojoPackages.add(aPackage);
-                                                webGetTransport(pojoPackages);
+
+                                                ArrayList<transportPojo> transportPojos = new ArrayList<>();
+
+
+                                                for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
+
+                                                    transportPojo pojo = new transportPojo();
+
+                                                    if (i1 == 0) {
+
+                                                        pojo.setStops(edtStopLocality1.getText().toString());
+                                                        pojo.setId_trasport_stop_city(edtStopCityID1.getText().toString());
+                                                        pojo.setState_id_trasport_stop_city(edtStopStateID1.getText().toString());
+                                                        transportPojos.add(pojo);
+
+                                                    } else if (i1 == 1) {
+
+                                                        pojo.setStops(edtStopLocality2.getText().toString());
+                                                        pojo.setId_trasport_stop_city(edtStopCityID2.getText().toString());
+                                                        pojo.setState_id_trasport_stop_city(edtStopStateID2.getText().toString());
+
+                                                        transportPojos.add(pojo);
+
+                                                    } else if (i1 == 2) {
+
+                                                        pojo.setStops(edtStopLocality3.getText().toString());
+                                                        pojo.setId_trasport_stop_city(edtStopCityID3.getText().toString());
+                                                        pojo.setState_id_trasport_stop_city(edtStopStateID3.getText().toString());
+                                                        transportPojos.add(pojo);
+
+                                                    } else if (i1 == 3) {
+
+
+                                                        pojo.setStops(edtStopLocality4.getText().toString());
+                                                        pojo.setId_trasport_stop_city(edtStopCityID4.getText().toString());
+                                                        pojo.setState_id_trasport_stop_city(edtStopStateID4.getText().toString());
+                                                        transportPojos.add(pojo);
+                                                    } else if (i1 == 4) {
+
+                                                        pojo.setStops(edtStopLocality5.getText().toString());
+                                                        pojo.setId_trasport_stop_city(edtStopCityID5.getText().toString());
+                                                        pojo.setState_id_trasport_stop_city(edtStopStateID5.getText().toString());
+
+                                                        transportPojos.add(pojo);
+                                                    }
+
+
+                                                }
+                                                transportPojos.size();
+
+                                                webGetTransport(pojoPackages, transportPojos);
 
 
                                                 Log.i(TAG, "onClick: " + jsonObject1);
@@ -1275,13 +1336,13 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                             pojoCities.add(country);
                         }
                     }
-                    AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
+                    adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     //   destiCity.setThreshold(1);
                     //  destiCity.setAdapter(adptCountry1);
                     trapickupCity.setAdapter(adptCountry1);
-                    trapickupCity.setThreshold(1);
+                    trapickupCity.setThreshold(3);
                     finalCity.setAdapter(adptCountry1);
-                    finalCity.setThreshold(1);
+                    finalCity.setThreshold(3);
 
                   /*  pojoCity cityPojo = new pojoCity();
                     cityPojo.setId(cityId);
@@ -1456,10 +1517,10 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
     }
 
 
-    public void webGetTransport(ArrayList<pojoPackage> pojoPackages) {
+    public void webGetTransport(ArrayList<pojoPackage> pojoPackages, ArrayList<transportPojo> transportPojos) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getTransport(v, pojoPackages, new OnVolleyHandler() {
+            WebService.getTransport(v, pojoPackages, transportPojos, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -1513,5 +1574,598 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+  /*  @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        view.getId()
+        switch (adapterView.getId()) {
+            case R.id.trapickupCity:
+                Log.d("your selected item", "" + pojoCities.get(position).getId());
+                String statename = "";
+                transcityId = pojoCities.get(position).getId();
+                if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                    for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                        if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                            statename = pojoStateArrayList.get(i).getState_name();
+                            transstateId = pojoStateArrayList.get(i).getId();
+                            pickupState.setText(statename);
+
+                            for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                    //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                    transcountryId = countryArrayList.get(j).getId();
+                                    break;
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+
+                        }
+                    }
+                } else {
+                    pickupState.setText("");
+                }
+                break;
+            case R.id.edtStopCity:
+                Log.d("your selected item", "" + pojoCities.get(position).getId());
+                //  String statename = "";
+                edtStopCity.setText(pojoCities.get(position).getName());
+                transcityId = pojoCities.get(position).getId();
+                if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                    for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                        if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                            statename = pojoStateArrayList.get(i).getState_name();
+                            //    transstateId = pojoStateArrayList.get(i).getId();
+                            edtStopState.setText(statename);
+                            edtStopState.setText(statename);
+
+                            for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                    //  edtStopCity.setText(countryArrayList.get(j).getCountry_name());
+                                    //  transcountryId = countryArrayList.get(j).getId();
+                                    break;
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+
+                        }
+                    }
+                } else {
+                    //  pickupState.setText("");
+                }
+                break;
+
+
+        }
+
+
+    }*/
+
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+        switch (view.getId()) {
+            case R.id.trapickupCity:
+                if (!hasFocus) {
+
+                    for (int i = 0; i < pojoCities.size(); i++) {
+                        if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                            for (int j = 0; j < pojoCities.size(); j++) {
+                                if (trapickupCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                                    String id = pojoCities.get(i).getState_id();
+                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
+                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
+                                            String statename = pojoStateArrayList.get(k).getState_name();
+                                            pickupState.setText(statename);
+
+
+                                            for (int l = 0; l < countryArrayList.size(); l++) {
+
+                                                if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
+
+                                                    //    destiCountry.setText(countryArrayList.get(l).getCountry_name());
+                                                    transcountryId = countryArrayList.get(l).getId();
+                                                    break;
+
+                                                }
+
+
+                                            }
+
+
+                                            break;
+                                        } else {
+
+
+                                        }
+
+                                    }
+
+
+                                } else {
+                                    pickupState.setText("");
+                                    // destiCountry.setText("");
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+                            trapickupCity.setText("");
+                            pickupState.setText("");
+
+
+                        }
+                    }
+
+                    if (pojoCities != null && pojoCities.size() == 0) {
+                        trapickupCity.setText("");
+                        pickupState.setText("");
+
+                    }
+
+                } else {
+
+
+                }
+                break;
+            case R.id.edtStopCity:
+                if (!hasFocus) {
+
+                    for (int i = 0; i < pojoCities.size(); i++) {
+                        if (edtStopCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                            for (int j = 0; j < pojoCities.size(); j++) {
+                                if (edtStopCity.getText().toString().equals(pojoCities.get(i).getName())) {
+                                    String id = pojoCities.get(i).getState_id();
+                                    for (int k = 0; k < pojoStateArrayList.size(); k++) {
+                                        if (id.equals(pojoStateArrayList.get(k).getId().toString())) {
+                                            String statename = pojoStateArrayList.get(k).getState_name();
+                                            edtStopState.setText(statename);
+
+
+                                            for (int l = 0; l < countryArrayList.size(); l++) {
+
+                                                if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
+
+                                                    //    destiCountry.setText(countryArrayList.get(l).getCountry_name());
+                                                    // transcountryId = countryArrayList.get(l).getId();
+                                                    break;
+
+                                                }
+
+
+                                            }
+
+
+                                            break;
+                                        } else {
+
+
+                                        }
+
+                                    }
+
+
+                                } else {
+                                    pickupState.setText("");
+                                    // destiCountry.setText("");
+
+                                }
+
+
+                            }
+
+
+                            break;
+                        } else {
+                            edtStopCity.setText("");
+                            edtStopState.setText("");
+
+
+                        }
+                    }
+
+                    if (pojoCities != null && pojoCities.size() == 0) {
+                        edtStopCity.setText("");
+                        edtStopState.setText("");
+
+                    }
+
+                } else {
+
+
+                }
+                break;
+        }
+
+    }
+
+
+    public void setPosition(String pos, LayoutInflater inflater) {
+        switch (pos) {
+            case "1":
+                if (stringArrayList.contains("1")) {
+
+                } else {
+                    stringArrayList.add("1");
+                    rowView = inflater.inflate(R.layout.addstoplayout, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop);
+                    edtStopLocality1 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity);
+                    edtStopState = (MtplEditText) rowView.findViewById(R.id.edtStopState);
+                    edtStopStateID1 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID1);
+                    edtStopCityID1 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID1);
+
+
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    txtStop.setText("Stop 1");
+                    i++;
+                    //  edtStopCity.setOnItemClickListener(this);
+                    edtStopCity.setOnFocusChangeListener(this);
+                    edtStopCity.setAdapter(adptCountry1);
+                    edtStopCity.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    edtStopCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            // transcityId = pojoCities.get(position).getId();
+                            edtStopCityID1.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        // transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState.setText(statename);
+                                        edtStopStateID1.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+
+                break;
+            case "2":
+
+                if (stringArrayList.contains("2")) {
+
+                } else {
+
+                    stringArrayList.add("2");
+                    rowView = inflater.inflate(R.layout.addstoplayout1, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop1);
+                    edtStopLocality2 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity1 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity1);
+                    edtStopState1 = (MtplEditText) rowView.findViewById(R.id.edtStopState1);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID2 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID2);
+                    edtStopCityID2 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID2);
+
+                    txtStop.setText("Stop 2");
+                    i++;
+                    // edtStopCity1.setOnItemClickListener(this);
+                    edtStopCity1.setOnFocusChangeListener(this);
+                    edtStopCity1.setAdapter(adptCountry1);
+                    edtStopCity1.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID2.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState1.setText(statename);
+                                        edtStopStateID2.setText(pojoStateArrayList.get(i).getId());
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState1.setText("");
+                            }
+
+
+                        }
+                    });
+
+
+                }
+                break;
+            case "3":
+
+                if (stringArrayList.contains("3")) {
+
+                } else {
+                    stringArrayList.add("3");
+                    rowView = inflater.inflate(R.layout.addstoplayout2, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop2);
+                    edtStopLocality3 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity2 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity2);
+                    edtStopState2 = (MtplEditText) rowView.findViewById(R.id.edtStopState2);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID3 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID3);
+                    edtStopCityID3 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID3);
+
+                    txtStop.setText("Stop 3");
+                    i++;
+                    //edtStopCity2.setOnItemClickListener(this);
+                    edtStopCity2.setOnFocusChangeListener(this);
+                    edtStopCity2.setAdapter(adptCountry1);
+                    edtStopCity2.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+
+                    parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID3.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState2.setText(statename);
+                                        edtStopStateID3.setText(pojoStateArrayList.get(i).getId());
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState2.setText("");
+                            }
+
+
+                        }
+                    });
+
+
+                }
+                break;
+            case "4":
+
+                if (stringArrayList.contains("4")) {
+
+                } else {
+                    stringArrayList.add("4");
+                    rowView = inflater.inflate(R.layout.addstoplayout3, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop3);
+                    edtStopLocality4 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity3 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity3);
+                    edtStopState3 = (MtplEditText) rowView.findViewById(R.id.edtStopState3);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID4 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID4);
+                    edtStopCityID4 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID4);
+
+
+                    // edtStopCity3.setOnItemClickListener(this);
+                    edtStopCity3.setOnFocusChangeListener(this);
+                    edtStopCity3.setAdapter(adptCountry1);
+                    edtStopCity3.setThreshold(3);
+                    txtStop.setText("Stop 4");
+                    i++;
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID4.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState3.setText(statename);
+                                        edtStopStateID4.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState2.setText("");
+                            }
+
+
+                        }
+                    });
+
+                }
+                break;
+            case "5":
+
+                if (stringArrayList.contains("5")) {
+
+                } else {
+                    stringArrayList.add("5");
+                    rowView = inflater.inflate(R.layout.addstoplayout4, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop4);
+                    edtStopLocality5 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity4 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity4);
+                    edtStopState4 = (MtplEditText) rowView.findViewById(R.id.edtStopState4);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID5 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID5);
+                    edtStopCityID5 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID5);
+
+                    //  edtStopCity4.setOnItemClickListener(this);
+                    edtStopCity4.setOnFocusChangeListener(this);
+                    edtStopCity4.setAdapter(adptCountry1);
+                    edtStopCity4.setThreshold(3);
+                    txtStop.setText("Stop 5");
+                    i++;
+                    //i = 0;
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+
+                    edtStopCity4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID5.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState4.setText(statename);
+                                        edtStopStateID5.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState4.setText("");
+                            }
+
+
+                        }
+                    });
+
+                }
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.filter).setVisible(false);
+
     }
 }

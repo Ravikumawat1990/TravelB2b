@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -152,7 +153,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View v = super.getView(position, convertView, parent);
 
-                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_roboto_regular));
                         ((TextView) v).setTypeface(externalFont);
 
                         return v;
@@ -162,7 +163,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     public View getDropDownView(int position, View convertView, ViewGroup parent) {
                         View v = super.getDropDownView(position, convertView, parent);
 
-                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_DroidSerif_Bold));
+                        Typeface externalFont = Typeface.createFromAsset(getAssets(), getString(R.string.fontface_roboto_regular));
                         ((TextView) v).setTypeface(externalFont);
                         ((TextView) v).setTextColor(Color.WHITE);
                         v.setBackgroundColor(Color.parseColor("#1295a2"));
@@ -176,7 +177,9 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                 Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), getString(R.string.fontface_roboto_regular));
                 completionView.setTypeface(face);
                 completionView.setAdapter(adapter);
-                completionView.setTokenLimit(5);
+                //   completionView.setTokenLimit(5);
+                completionView.allowDuplicates(false);
+
                 // completionView.setDuplicateParentStateEnabled(true);
 
                 completionView.setOnClickListener(new View.OnClickListener() {
@@ -186,10 +189,41 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                         Log.i(TAG, "onClick: " + strings.size());
                         for (int i = 0; i < strings.size(); i++) {
 
+
                             strings.get(i);
 
                         }
 
+
+                    }
+                });
+
+                completionView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        if (MotionEvent.ACTION_UP == event.getAction()) {
+
+                            List<Person> strings = completionView.getObjects();
+                            Log.i(TAG, "onClick: " + strings.size());
+
+                        }
+                        return false;
+                    }
+                });
+
+                completionView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        List<Person> strings = completionView.getObjects();
+
+                        if (strings.size() == 5) {
+                            /*Person person = new Person(strings.get(i).getEmail(), strings.get(i).getEmail());
+                            completionView.removeObject(person);*/
+
+                        }
+
+                        Log.i(TAG, "onClick: " + strings.size());
 
                     }
                 });

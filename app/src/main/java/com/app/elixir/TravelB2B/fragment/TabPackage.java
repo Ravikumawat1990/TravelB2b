@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import com.app.elixir.TravelB2B.model.Person;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.numberPicker.NumberPicker;
 import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
@@ -53,18 +53,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.app.elixir.TravelB2B.R.id.checkout5;
+import static com.app.elixir.TravelB2B.R.id.btnRemove1;
+import static com.app.elixir.TravelB2B.R.id.btnRemove2;
+import static com.app.elixir.TravelB2B.R.id.edtCheckOut;
 
 
 /**
  * Created by NetSupport on 02-06-2017.
  */
 
-public class TabPackage extends Fragment implements View.OnClickListener, View.OnTouchListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
+public class TabPackage extends Fragment implements View.OnClickListener, View.OnTouchListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener, View.OnFocusChangeListener {
     private static final String TAG = "TabPackage";
     Activity thisActivity;
     MtplButton btnAddAnother, btnSubmit;
-    private LinearLayout parentLinearLayout;
+    private LinearLayout parentLinearLayout, parentLinearLayout1;
     private ExpandableLayout expandableLayout;
     private NestedScrollView rootScrollView;
     NestedScrollView childScrollview;
@@ -72,10 +74,16 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     int i;
     private MtplEditText edtlocality;
     private View rowViewMain;
-
+    MtplEditText edtStopLocality, edtStopLocality5, edtStopLocality4, edtStopLocality3, edtStopLocality2, edtStopLocality1;
     ArrayList<String> strings;
-    MtplEditText checkIn1;
-    MtplEditText checkOut1;
+    MtplEditText checkIn1, checkOut1;
+    MtplEditText checkIn2, checkOut2;
+    MtplEditText checkIn3, checkOut3;
+    MtplEditText checkIn4, checkOut4;
+    MtplEditText checkIn5, checkOut5;
+
+
+    MtplEditText edtStopState, edtStopState1, edtStopState2, edtStopState3, edtStopState4;
     private ImageView imageView1, imageView2, imageView3, imageView4;
     MtplEditText refId, totBudget;
     NumberPicker numberPicker, childBelow;
@@ -85,7 +93,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     MultiSelectionSpinner spinnerHotelCat;
     MtplEditText destiState, destiCountry, destiLocality;
     AutoCompleteTextView destiCity, trapickupCity, finalCity;
-
+    AutoCompleteTextView edtStopCity, edtStopCity1, edtStopCity2, edtStopCity3, edtStopCity4;
     ArrayList<pojoCity> pojoCities;
     ArrayList<pojoCountry> countryArrayList;
     ArrayList<pojoState> pojoStateArrayList;
@@ -93,7 +101,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     ArrayList<Person> pojoStates;
     String transcountryId, transcityId, transstateId;
     String finalcityId, finalstateId;
-
+    ArrayList<String> stringArrayList, stringArrayListStayReq;
     String countryId, cityId, stateId;
     MtplEditText transStatrDate, transEndDate, pickupLocality, pickupState, finalLocality, finalState, edtComment;
     final int DRAWABLE_LEFT = 0;
@@ -102,10 +110,48 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     final int DRAWABLE_BOTTOM = 3;
     View rootView;
     MultiSelectionSpinner spinnerHotelCatMain;
+    MtplEditText edtStopStateID4, edtStopCityID4, edtStopStateID5, edtStopCityID5, edtStopStateID3, edtStopCityID3, edtStopStateID2, edtStopCityID2, edtStopStateID1, edtStopCityID1;
 
     private int dayOfMonth1;
     private int month1;
     private int year1;
+    private View rowView;
+    AutocompleteAdapter adptCountry1;
+    MtplButton btnAddStop;
+    MtplEditText cityId1, stateId1, countryId1;
+    MtplEditText cityId2, stateId2, countryId2;
+    MtplEditText cityId3, stateId3, countryId3;
+    MtplEditText cityId4, stateId4, countryId4;
+    MtplEditText cityId5, stateId5, countryId5;
+
+
+    int j = 0;
+
+    MtplEditText singleRoom1, doubleRoom1, tripalRoom1, childWithbed1, childWithoutbed1, destiState1, destiCountry1, destiLocality1;
+    MtplEditText singleRoom2, doubleRoom2, tripalRoom2, childWithbed2, childWithoutbed2, destiState2, destiCountry2, destiLocality2;
+    MtplEditText singleRoom3, doubleRoom3, tripalRoom3, childWithbed3, childWithoutbed3, destiState3, destiCountry3, destiLocality3;
+    MtplEditText singleRoom4, doubleRoom4, tripalRoom4, childWithbed4, childWithoutbed4, destiState4, destiCountry4, destiLocality4;
+    MtplEditText singleRoom5, doubleRoom5, tripalRoom5, childWithbed5, childWithoutbed5, destiState5, destiCountry5, destiLocality5;
+
+
+    MultiSelectionSpinner spinnerHotelCat1;
+    MultiSelectionSpinner spinnerHotelCat2;
+    MultiSelectionSpinner spinnerHotelCat3;
+    MultiSelectionSpinner spinnerHotelCat4;
+    MultiSelectionSpinner spinnerHotelCat5;
+
+    Spinner spinnerMealPlane1, spinnerHotelRating1;
+    Spinner spinnerMealPlane2, spinnerHotelRating2;
+    Spinner spinnerMealPlane3, spinnerHotelRating3;
+    Spinner spinnerMealPlane4, spinnerHotelRating4;
+    Spinner spinnerMealPlane5, spinnerHotelRating5;
+
+    AutoCompleteTextView destiCity1;
+    AutoCompleteTextView destiCity2;
+    AutoCompleteTextView destiCity3;
+    AutoCompleteTextView destiCity4;
+    AutoCompleteTextView destiCity5;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,7 +160,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         thisActivity = getActivity();
 
         initView(rowViewMain);
-
+        setHasOptionsMenu(true);
 
         return rowViewMain;
 
@@ -127,6 +173,8 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         countryArrayList = new ArrayList<>();
         pojoCities = new ArrayList<>();
         pojoStateArrayList = new ArrayList<>();
+        stringArrayList = new ArrayList<>();
+        stringArrayListStayReq = new ArrayList<>();
 
 
         //General Req
@@ -155,7 +203,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         destiState.setEnabled(false);
         destiCountry.setEnabled(false);
         checkIn = (MtplEditText) view.findViewById(R.id.edtCheckIn);
-        checkOut = (MtplEditText) view.findViewById(R.id.edtCheckOut);
+        checkOut = (MtplEditText) view.findViewById(edtCheckOut);
         btnAddAnother = (MtplButton) view.findViewById(R.id.btnAddAnother);
 
 
@@ -169,6 +217,14 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         finalLocality = (MtplEditText) view.findViewById(R.id.finalLocality);
         finalCity = (AutoCompleteTextView) view.findViewById(R.id.finalCity);
         finalState = (MtplEditText) view.findViewById(R.id.finalState);
+        //destiCountry = (MtplEditText) view.findViewById(R.id.edtDestinationCountry);
+        transStatrDate = (MtplEditText) view.findViewById(R.id.transStatrDate);
+        transEndDate = (MtplEditText) view.findViewById(R.id.transEndDate);
+
+        transStatrDate.setOnClickListener(this);
+        transEndDate.setOnClickListener(this);
+
+        btnAddStop = (MtplButton) view.findViewById(R.id.btnAddStop);
 
         //Comment
         edtComment = (MtplEditText) view.findViewById(R.id.edtComment);
@@ -255,7 +311,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
             }
         });
-
+        parentLinearLayout1 = (LinearLayout) view.findViewById(R.id.parent_linear_layout1);
 
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
         rootScrollView = (NestedScrollView) view.findViewById(R.id.rootScroolView);
@@ -569,6 +625,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         transEndDate.setOnTouchListener(this);
         btnSubmit.setOnClickListener(this);
         btnAddAnother.setOnClickListener(this);
+        btnAddStop.setOnClickListener(this);
 
 
         strings = new ArrayList<>();
@@ -583,27 +640,57 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         try {
 
             LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rootView = inflater.inflate(R.layout.addanotherdestination, null);
-            MtplButton mtplButton = (MtplButton) rootView.findViewById(R.id.btnRemove);
-            Log.i(TAG, "onAddField: " + parentLinearLayout.getChildCount());
 
 
-            edtlocality = (MtplEditText) rootView.findViewById(R.id.locality);
-            checkIn1 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn1);
-            checkOut1 = (MtplEditText) rootView.findViewById(R.id.edtCheckout1);
-            checkIn1.setOnTouchListener(this);
-            checkOut1.setOnTouchListener(this);
-            String[] array = getResources().getStringArray(R.array.hotCatArray);
-            spinnerHotelCat = (MultiSelectionSpinner) rootView.findViewById(R.id.mySpinner);
-            spinnerHotelCat.setItems(array);
-            spinnerHotelCat.setListener(this);
+            if (j == 0) {
+                setPositionForStayReq("1", inflater);
+            } else if (j == 1) {
+                setPositionForStayReq("2", inflater);
 
-            parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
-            mtplButton.setOnClickListener(this);
+            } else if (j == 2) {
+
+                setPositionForStayReq("3", inflater);
+            } else if (j == 3) {
+
+                setPositionForStayReq("4", inflater);
+            } else if (j == 4) {
+                setPositionForStayReq("5", inflater);
+            }
+
+
+            if (j > 4) {
+
+
+                if (!stringArrayListStayReq.contains("1")) { //&& (stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 1");
+                    setPositionForStayReq("1", inflater);
+                } else if (!stringArrayListStayReq.contains("2")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 2");
+                    setPositionForStayReq("2", inflater);
+                } else if (!stringArrayListStayReq.contains("3")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 3");
+                    setPositionForStayReq("3", inflater);
+                } else if (!stringArrayListStayReq.contains("4")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 4");
+                    setPositionForStayReq("4", inflater);
+                } else if (!stringArrayListStayReq.contains("5")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4"))
+                    Log.i(TAG, "onAddField: 5");
+                    setPositionForStayReq("5", inflater);
+                }
+
+            }
+
+
+            //  parentLinearLayout.addView(rootView, parentLinearLayout1.getChildCount());
+
+
             CM.showToast("DESIGNATION ADDED", thisActivity);
 
 
-        } catch (Exception e) {
+        } catch (
+                Exception e)
+
+        {
             CM.showToast(e.getMessage(), thisActivity);
         }
 
@@ -613,9 +700,161 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     public void onDelete(View v) {
         try {
             Log.i(TAG, "onDelete: ");
-            parentLinearLayout.removeView((View) v.getParent());
+            //  parentLinearLayout.removeView((View) v.getParent());
+
+
+            Log.i(TAG, "onDelete: ");
+
+            switch (v.getId()) {
+                case R.id.btnRemove1:
+
+
+                    if (stringArrayListStayReq.contains("1")) {
+                        stringArrayListStayReq.remove(0);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemove2:
+
+                    if (stringArrayListStayReq.contains("2")) {
+                        stringArrayListStayReq.remove(1);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemove3:
+                    if (stringArrayListStayReq.contains("3")) {
+                        stringArrayListStayReq.remove(2);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+                    //   stringArrayList.remove(2);
+                    break;
+                case R.id.btnRemove4:
+                    if (stringArrayListStayReq.contains("4")) {
+                        stringArrayListStayReq.remove(3);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+
+                    break;
+                case R.id.btnRemove5:
+                    if (stringArrayListStayReq.contains("5")) {
+                        stringArrayListStayReq.remove(4);
+                        parentLinearLayout.removeView((View) v.getParent());
+                    }
+
+                    break;
+            }
+
+
             CM.showToast("DESIGNATION IS REMOVED", thisActivity);
         } catch (Exception e) {
+            CM.showToast(e.getMessage(), thisActivity);
+        }
+    }
+
+
+    public void onAddField1(View v) {
+
+        try {
+            LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (i == 0) {
+                setPosition("1", inflater);
+            } else if (i == 1) {
+                setPosition("2", inflater);
+
+            } else if (i == 2) {
+
+                setPosition("3", inflater);
+            } else if (i == 3) {
+
+                setPosition("4", inflater);
+            } else if (i == 4) {
+                setPosition("5", inflater);
+            }
+
+            if (i > 4) {
+
+
+                if (!stringArrayList.contains("1")) { //&& (stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 1");
+                    setPosition("1", inflater);
+                } else if (!stringArrayList.contains("2")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("3") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 2");
+                    setPosition("2", inflater);
+                } else if (!stringArrayList.contains("3")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("4") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 3");
+                    setPosition("3", inflater);
+                } else if (!stringArrayList.contains("4")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("5"))
+                    Log.i(TAG, "onAddField: 4");
+                    setPosition("4", inflater);
+                } else if (!stringArrayList.contains("5")) { //&& (stringArrayList.contains("1") && stringArrayList.contains("2") && stringArrayList.contains("3") && stringArrayList.contains("4"))
+                    Log.i(TAG, "onAddField: 5");
+                    setPosition("5", inflater);
+                }
+
+            }
+
+
+            Log.i(TAG, "onAddField: " + parentLinearLayout1.getChildCount());
+
+
+        } catch (Exception e) {
+            CM.showToast(e.getMessage(), thisActivity);
+        }
+
+
+    }
+
+    public void onDelete1(View v) {
+        try {
+
+
+            Log.i(TAG, "onDelete: ");
+
+            switch (v.getId()) {
+                case R.id.btnRemoveStop:
+
+
+                    if (stringArrayList.contains("1")) {
+                        stringArrayList.remove(0);
+                        parentLinearLayout1.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemoveStop1:
+
+                    if (stringArrayList.contains("2")) {
+                        stringArrayList.remove(1);
+                        parentLinearLayout1.removeView((View) v.getParent());
+                    }
+                    break;
+                case R.id.btnRemoveStop2:
+                    if (stringArrayList.contains("3")) {
+                        stringArrayList.remove(2);
+                        parentLinearLayout1.removeView((View) v.getParent());
+                    }
+                    //   stringArrayList.remove(2);
+                    break;
+                case R.id.btnRemoveStop3:
+                    if (stringArrayList.contains("4")) {
+                        stringArrayList.remove(3);
+                        parentLinearLayout1.removeView((View) v.getParent());
+                    }
+
+                    break;
+                case R.id.btnRemoveStop4:
+                    if (stringArrayList.contains("5")) {
+                        stringArrayList.remove(4);
+                        parentLinearLayout1.removeView((View) v.getParent());
+                    }
+
+                    break;
+
+            }
+
+
+            CM.showToast("DESIGNATION IS REMOVED", thisActivity);
+        } catch (Exception e) {
+
             CM.showToast(e.getMessage(), thisActivity);
         }
     }
@@ -624,10 +863,41 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     public void onClick(View view) {
 
         switch (view.getId()) {
+            case R.id.btnAddStop:
+                onAddField1(view);
+                break;
+            case R.id.btnRemoveStop:
+                onDelete1(view);
+                break;
+            case R.id.btnRemoveStop1:
+                onDelete1(view);
+                break;
+            case R.id.btnRemoveStop2:
+                onDelete1(view);
+                break;
+            case R.id.btnRemoveStop3:
+                onDelete1(view);
+                break;
+            case R.id.btnRemoveStop4:
+                onDelete1(view);
+                break;
+
             case R.id.btnAddAnother:
                 onAddField(view);
                 break;
-            case R.id.btnRemove:
+            case btnRemove1:
+                onDelete(view);
+                break;
+            case R.id.btnRemove2:
+                onDelete(view);
+                break;
+            case R.id.btnRemove3:
+                onDelete(view);
+                break;
+            case R.id.btnRemove4:
+                onDelete(view);
+                break;
+            case R.id.btnRemove5:
                 onDelete(view);
                 break;
             case R.id.btnSubmit:
@@ -816,85 +1086,6 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     CM.showToast("Please Enter Reference Id", thisActivity);
 
                 }
-
-
-                for (int i = 0; i < parentLinearLayout.getChildCount(); i++) {
-                    View view1 = (View) parentLinearLayout.getChildAt(i);
-                    if (view1 instanceof TextInputLayout) {
-                        ((TextInputLayout) view1).getEditText().getText();
-                        ((TextInputLayout) view1).getEditText().getId();
-                        strings.add(((TextInputLayout) view1).getEditText().getText().toString());
-                        //((TextInputLayout) view1).getHint().toString()
-
-
-                    } else if (view1 instanceof TextInputLayout) {
-
-
-                    } else if (view1 instanceof LinearLayout) {
-
-                        if (((LinearLayout) view1).getChildCount() == 11) {    // New Created  Layout  Add New Destiantion
-
-                            for (int j = 0; j < ((LinearLayout) view1).getChildCount(); j++) {
-                                View view11 = (View) ((LinearLayout) view1).getChildAt(j);
-
-                                if (view11 instanceof TextInputLayout) {
-                                    ((TextInputLayout) view11).getEditText().getText();
-                                    ((TextInputLayout) view11).getEditText().getId();
-                                    Log.i(TAG, "onClick: " + ((TextInputLayout) view11).getEditText().getText().toString());
-                                    strings.add(((TextInputLayout) view11).getEditText().getText().toString());
-                                }
-
-
-                            }
-
-                        } else if (((LinearLayout) view1).getChildCount() == 2) {
-
-                            for (int j = 0; j < ((LinearLayout) view1).getChildCount(); j++) {
-                                View view11 = (View) ((LinearLayout) view1).getChildAt(j);
-                                if (view11 instanceof RelativeLayout) {
-
-                                    for (int k = 0; k < ((RelativeLayout) view11).getChildCount(); k++) {
-
-                                        View view111 = (View) ((RelativeLayout) view11).getChildAt(k);
-
-                                        if (view111 instanceof AppCompatSpinner) {
-
-                                            if (((AppCompatSpinner) view111).getSelectedItem() != null) {
-                                                ((AppCompatSpinner) view111).getSelectedItem().toString();
-
-                                                CM.showToast(((AppCompatSpinner) view111).getSelectedItem().toString(), thisActivity);
-
-                                            } else {
-                                                Log.i(TAG, "onClick: ");
-                                            }
-
-
-                                            Log.i(TAG, "onClick: ");
-                                        } else if (view111 instanceof MultiSelectionSpinner) {
-
-                                            if (((MultiSelectionSpinner) view111).getSelectedItemsAsString() != null) {
-                                                ((MultiSelectionSpinner) view111).getSelectedItemsAsString().toString();
-                                                CM.showToast(((MultiSelectionSpinner) view111).getSelectedItemsAsString().toString(), thisActivity);
-                                            } else {
-                                                Log.i(TAG, "onClick: ");
-                                            }
-                                        }
-
-
-                                    }
-
-
-                                }
-
-                            }
-
-                        }
-
-
-                    }
-                }
-
-                strings.size();
                 break;
 
         }
@@ -928,18 +1119,15 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     }
                 }
                 break;
-            case R.id.checkin1:
-                EditText checkIn1 = (EditText) rowViewMain.findViewById(R.id.checkin1);
+            case R.id.edtCheckIn1:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkIn1.getRight() - checkIn1.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        checkIn(checkIn1);
+                        checkOut(checkIn1);
                         return true;
                     }
                 }
                 break;
-
-            case R.id.checkout1:
-                EditText checkOut1 = (EditText) rowViewMain.findViewById(R.id.checkout1);
+            case R.id.edtCheckout1:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkOut1.getRight() - checkOut1.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkOut(checkOut1);
@@ -947,8 +1135,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     }
                 }
                 break;
-            case R.id.checkin2:
-                EditText checkIn2 = (EditText) rowViewMain.findViewById(R.id.checkin2);
+            case R.id.edtCheckIn2:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkIn2.getRight() - checkIn2.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkIn(checkIn2);
@@ -957,8 +1144,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case R.id.checkout2:
-                EditText checkOut2 = (EditText) rowViewMain.findViewById(R.id.checkout2);
+            case R.id.edtCheckout2:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkOut2.getRight() - checkOut2.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkOut(checkOut2);
@@ -967,8 +1153,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case R.id.checkin3:
-                EditText checkIn3 = (EditText) rowViewMain.findViewById(R.id.checkin3);
+            case R.id.edtCheckIn3:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkIn3.getRight() - checkIn3.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkIn(checkIn3);
@@ -977,8 +1162,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case R.id.checkout3:
-                EditText checkOut3 = (EditText) rowViewMain.findViewById(R.id.checkout3);
+            case R.id.edtCheckout3:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkOut3.getRight() - checkOut3.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkOut(checkOut3);
@@ -987,8 +1171,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case R.id.checkin4:
-                final EditText checkIn4 = (EditText) rowViewMain.findViewById(R.id.checkin4);
+            case R.id.edtCheckIn4:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkIn4.getRight() - checkIn4.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkIn(checkIn4);
@@ -997,17 +1180,16 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case R.id.checkout4:
-                EditText checkout4 = (EditText) rowViewMain.findViewById(R.id.checkout4);
+            case R.id.edtCheckout4:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    if (motionEvent.getRawX() >= (checkout4.getRight() - checkout4.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        checkOut(checkout4);
+                    if (motionEvent.getRawX() >= (checkOut4.getRight() - checkOut4.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        checkOut(checkOut4);
                         return true;
                     }
                 }
                 break;
-            case R.id.checkin5:
-                final EditText checkIn5 = (EditText) rowViewMain.findViewById(R.id.checkin5);
+            case R.id.edtCheckIn5:
+                // final EditText checkIn5 = (EditText) rowViewMain.findViewById(R.id.checkin5);
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     if (motionEvent.getRawX() >= (checkIn5.getRight() - checkIn5.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         checkIn(checkIn5);
@@ -1016,11 +1198,11 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 }
                 break;
 
-            case checkout5:
-                final EditText checkout5 = (EditText) rowViewMain.findViewById(R.id.checkout5);
+            case R.id.edtCheckout5:
+                // final EditText checkout5 = (EditText) rowViewMain.findViewById(R.id.checkout5);
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    if (motionEvent.getRawX() >= (checkout5.getRight() - checkout5.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        checkOut(checkout5);
+                    if (motionEvent.getRawX() >= (checkOut5.getRight() - checkOut5.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        checkOut(checkOut5);
                         return true;
                     }
                 }
@@ -1139,7 +1321,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                             pojoCities.add(country);
                         }
                     }
-                    AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
+                    adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     destiCity.setThreshold(3);
                     destiCity.setAdapter(adptCountry1);
                     trapickupCity.setAdapter(adptCountry1);
@@ -1585,5 +1767,803 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.filter).setVisible(false);
+
+    }
+
+
+    public void setPosition(String pos, LayoutInflater inflater) {
+        switch (pos) {
+            case "1":
+                if (stringArrayList.contains("1")) {
+
+                } else {
+                    stringArrayList.add("1");
+                    rowView = inflater.inflate(R.layout.addstoplayout, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop);
+                    edtStopLocality1 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity);
+                    edtStopState = (MtplEditText) rowView.findViewById(R.id.edtStopState);
+                    edtStopStateID1 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID1);
+                    edtStopCityID1 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID1);
+
+
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    txtStop.setText("Stop 1");
+                    i++;
+                    //  edtStopCity.setOnItemClickListener(this);
+                    edtStopCity.setOnFocusChangeListener(this);
+                    edtStopCity.setAdapter(adptCountry1);
+                    edtStopCity.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+                    edtStopCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            // transcityId = pojoCities.get(position).getId();
+                            edtStopCityID1.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        // transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState.setText(statename);
+                                        edtStopStateID1.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+
+                break;
+            case "2":
+
+                if (stringArrayList.contains("2")) {
+
+                } else {
+
+                    stringArrayList.add("2");
+                    rowView = inflater.inflate(R.layout.addstoplayout1, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop1);
+                    edtStopLocality2 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity1 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity1);
+                    edtStopState1 = (MtplEditText) rowView.findViewById(R.id.edtStopState1);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID2 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID2);
+                    edtStopCityID2 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID2);
+
+                    txtStop.setText("Stop 2");
+                    i++;
+                    // edtStopCity1.setOnItemClickListener(this);
+                    edtStopCity1.setOnFocusChangeListener(this);
+                    edtStopCity1.setAdapter(adptCountry1);
+                    edtStopCity1.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID2.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState1.setText(statename);
+                                        edtStopStateID2.setText(pojoStateArrayList.get(i).getId());
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState1.setText("");
+                            }
+
+
+                        }
+                    });
+
+
+                }
+                break;
+            case "3":
+
+                if (stringArrayList.contains("3")) {
+
+                } else {
+                    stringArrayList.add("3");
+                    rowView = inflater.inflate(R.layout.addstoplayout2, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop2);
+                    edtStopLocality3 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity2 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity2);
+                    edtStopState2 = (MtplEditText) rowView.findViewById(R.id.edtStopState2);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID3 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID3);
+                    edtStopCityID3 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID3);
+
+                    txtStop.setText("Stop 3");
+                    i++;
+                    //edtStopCity2.setOnItemClickListener(this);
+                    edtStopCity2.setOnFocusChangeListener(this);
+                    edtStopCity2.setAdapter(adptCountry1);
+                    edtStopCity2.setThreshold(3);
+                    mtplButton.setOnClickListener(this);
+
+                    parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID3.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState2.setText(statename);
+                                        edtStopStateID3.setText(pojoStateArrayList.get(i).getId());
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState2.setText("");
+                            }
+
+
+                        }
+                    });
+
+
+                }
+                break;
+            case "4":
+
+                if (stringArrayList.contains("4")) {
+
+                } else {
+                    stringArrayList.add("4");
+                    rowView = inflater.inflate(R.layout.addstoplayout3, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop3);
+                    edtStopLocality4 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity3 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity3);
+                    edtStopState3 = (MtplEditText) rowView.findViewById(R.id.edtStopState3);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID4 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID4);
+                    edtStopCityID4 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID4);
+
+
+                    // edtStopCity3.setOnItemClickListener(this);
+                    edtStopCity3.setOnFocusChangeListener(this);
+                    edtStopCity3.setAdapter(adptCountry1);
+                    edtStopCity3.setThreshold(3);
+                    txtStop.setText("Stop 4");
+                    i++;
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+                    edtStopCity3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID4.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState3.setText(statename);
+                                        edtStopStateID4.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState2.setText("");
+                            }
+
+
+                        }
+                    });
+
+                }
+                break;
+            case "5":
+
+                if (stringArrayList.contains("5")) {
+
+                } else {
+                    stringArrayList.add("5");
+                    rowView = inflater.inflate(R.layout.addstoplayout4, null);
+                    MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemoveStop4);
+                    edtStopLocality5 = (MtplEditText) rowView.findViewById(R.id.edtStopLocality);
+                    edtStopCity4 = (AutoCompleteTextView) rowView.findViewById(R.id.edtStopCity4);
+                    edtStopState4 = (MtplEditText) rowView.findViewById(R.id.edtStopState4);
+                    MtplTextView txtStop = (MtplTextView) rowView.findViewById(R.id.txtStop);
+                    edtStopStateID5 = (MtplEditText) rowView.findViewById(R.id.edtStopStateID5);
+                    edtStopCityID5 = (MtplEditText) rowView.findViewById(R.id.edtStopCityID5);
+
+                    //  edtStopCity4.setOnItemClickListener(this);
+                    edtStopCity4.setOnFocusChangeListener(this);
+                    edtStopCity4.setAdapter(adptCountry1);
+                    edtStopCity4.setThreshold(3);
+                    txtStop.setText("Stop 5");
+                    i++;
+                    //i = 0;
+                    mtplButton.setOnClickListener(this);
+                    parentLinearLayout1.addView(rowView, parentLinearLayout1.getChildCount());
+                    CM.showToast("DESIGNATION ADDED", thisActivity);
+
+
+                    edtStopCity4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            edtStopCityID5.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        edtStopState4.setText(statename);
+                                        edtStopStateID5.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                //   destiCountry.setText(countryArrayList.get(j).getCountry_name());
+                                                // transcountryId = countryArrayList.get(j).getId();
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                edtStopState4.setText("");
+                            }
+
+
+                        }
+                    });
+
+                }
+                break;
+
+        }
+
+    }
+
+
+    public void setPositionForStayReq(String pos, LayoutInflater inflater) {
+        switch (pos) {
+            case "1":
+                if (stringArrayListStayReq.contains("1")) {
+
+                } else {
+                    stringArrayListStayReq.add("1");
+                    rootView = inflater.inflate(R.layout.addanotherdestination, null);
+
+                    singleRoom1 = (MtplEditText) rootView.findViewById(R.id.edtSingleRoom1);
+                    doubleRoom1 = (MtplEditText) rootView.findViewById(R.id.edtDoubleRoom1);
+                    tripalRoom1 = (MtplEditText) rootView.findViewById(R.id.edtTripleRoom1);
+                    childWithbed1 = (MtplEditText) rootView.findViewById(R.id.edt_Child_with_bed1);
+                    childWithoutbed1 = (MtplEditText) rootView.findViewById(R.id.edt_Child_without_bed1);
+                    spinnerHotelRating1 = (Spinner) rootView.findViewById(R.id.spinnerHotelRating1);
+                    spinnerHotelCat1 = (MultiSelectionSpinner) rootView.findViewById(R.id.hotCatSpinner);
+                    String[] array = getResources().getStringArray(R.array.hotCatArray);
+                    spinnerHotelCat1.setItems(array);
+                    spinnerHotelCat1.setListener(this);
+                    spinnerMealPlane1 = (Spinner) rootView.findViewById(R.id.spinnerMealPlane1);
+                    destiCity1 = (AutoCompleteTextView) rootView.findViewById(R.id.edtDestinationCity1);
+                    destiState1 = (MtplEditText) rootView.findViewById(R.id.edtDestinationState1);
+                    destiCountry1 = (MtplEditText) rootView.findViewById(R.id.edtDestinationCountry1);
+                    destiLocality1 = (MtplEditText) rootView.findViewById(R.id.edtDestinationLocality1);
+                    destiState1.setEnabled(false);
+                    destiCountry1.setEnabled(false);
+                    checkIn1 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn1);
+                    checkOut1 = (MtplEditText) rootView.findViewById(R.id.edtCheckout1);
+
+                    cityId1 = (MtplEditText) rootView.findViewById(R.id.cityId1);
+                    stateId1 = (MtplEditText) rootView.findViewById(R.id.stateId1);
+                    countryId1 = (MtplEditText) rootView.findViewById(R.id.countryId1);
+                    j++;
+                    MtplButton btnRemove = (MtplButton) rootView.findViewById(btnRemove1);
+                    destiCity1.setAdapter(adptCountry1);
+                    destiCity1.setThreshold(3);
+                    checkIn1.setOnTouchListener(this);
+                    checkOut1.setOnTouchListener(this);
+                    btnRemove.setOnClickListener(this);
+                    parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+                    destiCity1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            cityId1.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        destiState1.setText(statename);
+                                        stateId1.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                destiCountry1.setText(countryArrayList.get(j).getCountry_name());
+                                                countryId1.setText(countryArrayList.get(j).getId());
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                destiState1.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+
+                break;
+            case "2":
+
+                if (stringArrayListStayReq.contains("2")) {
+
+                } else {
+
+                    stringArrayListStayReq.add("2");
+                    rootView = inflater.inflate(R.layout.addanotherdestination1, null);
+
+                    singleRoom2 = (MtplEditText) rootView.findViewById(R.id.edtSingleRoom1);
+                    doubleRoom2 = (MtplEditText) rootView.findViewById(R.id.edtDoubleRoom1);
+                    tripalRoom2 = (MtplEditText) rootView.findViewById(R.id.edtTripleRoom1);
+                    childWithbed2 = (MtplEditText) rootView.findViewById(R.id.edt_Child_with_bed1);
+                    childWithoutbed2 = (MtplEditText) rootView.findViewById(R.id.edt_Child_without_bed1);
+                    spinnerHotelRating2 = (Spinner) rootView.findViewById(R.id.spinnerHotelRating1);
+                    spinnerHotelCat2 = (MultiSelectionSpinner) rootView.findViewById(R.id.hotCatSpinner);
+                    String[] array = getResources().getStringArray(R.array.hotCatArray);
+                    spinnerHotelCat2.setItems(array);
+                    spinnerHotelCat2.setListener(this);
+                    spinnerMealPlane2 = (Spinner) rootView.findViewById(R.id.spinnerMealPlane1);
+                    destiCity2 = (AutoCompleteTextView) rootView.findViewById(R.id.edtDestinationCity1);
+                    destiState2 = (MtplEditText) rootView.findViewById(R.id.edtDestinationState1);
+                    destiCountry2 = (MtplEditText) rootView.findViewById(R.id.edtDestinationCountry1);
+                    destiLocality2 = (MtplEditText) rootView.findViewById(R.id.edtDestinationLocality1);
+                    destiState2.setEnabled(false);
+                    destiCountry2.setEnabled(false);
+                    checkIn2 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn2);
+                    checkOut2 = (MtplEditText) rootView.findViewById(R.id.edtCheckout2);
+
+                    cityId2 = (MtplEditText) rootView.findViewById(R.id.cityId2);
+                    stateId2 = (MtplEditText) rootView.findViewById(R.id.stateId2);
+                    countryId2 = (MtplEditText) rootView.findViewById(R.id.countryId2);
+                    j++;
+                    MtplButton btnRemove = (MtplButton) rootView.findViewById(btnRemove2);
+                    destiCity2.setAdapter(adptCountry1);
+                    destiCity2.setThreshold(3);
+                    checkIn2.setOnTouchListener(this);
+                    checkOut2.setOnTouchListener(this);
+                    btnRemove.setOnClickListener(this);
+                    parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+                    destiCity2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            cityId2.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        destiState2.setText(statename);
+                                        stateId2.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                destiCountry2.setText(countryArrayList.get(j).getCountry_name());
+                                                countryId2.setText(countryArrayList.get(j).getId());
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                destiState2.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+                break;
+            case "3":
+
+                if (stringArrayListStayReq.contains("3")) {
+
+                } else {
+                    stringArrayListStayReq.add("3");
+                    rootView = inflater.inflate(R.layout.addanotherdestination2, null);
+
+                    singleRoom3 = (MtplEditText) rootView.findViewById(R.id.edtSingleRoom1);
+                    doubleRoom3 = (MtplEditText) rootView.findViewById(R.id.edtDoubleRoom1);
+                    tripalRoom3 = (MtplEditText) rootView.findViewById(R.id.edtTripleRoom1);
+                    childWithbed3 = (MtplEditText) rootView.findViewById(R.id.edt_Child_with_bed1);
+                    childWithoutbed3 = (MtplEditText) rootView.findViewById(R.id.edt_Child_without_bed1);
+                    spinnerHotelRating3 = (Spinner) rootView.findViewById(R.id.spinnerHotelRating1);
+                    spinnerHotelCat3 = (MultiSelectionSpinner) rootView.findViewById(R.id.hotCatSpinner);
+                    String[] array = getResources().getStringArray(R.array.hotCatArray);
+                    spinnerHotelCat3.setItems(array);
+                    spinnerHotelCat3.setListener(this);
+                    spinnerMealPlane3 = (Spinner) rootView.findViewById(R.id.spinnerMealPlane1);
+                    destiCity3 = (AutoCompleteTextView) rootView.findViewById(R.id.edtDestinationCity1);
+                    destiState3 = (MtplEditText) rootView.findViewById(R.id.edtDestinationState1);
+                    destiCountry3 = (MtplEditText) rootView.findViewById(R.id.edtDestinationCountry1);
+                    destiLocality3 = (MtplEditText) rootView.findViewById(R.id.edtDestinationLocality1);
+                    destiState3.setEnabled(false);
+                    destiCountry3.setEnabled(false);
+                    checkIn3 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn3);
+                    checkOut3 = (MtplEditText) rootView.findViewById(R.id.edtCheckout3);
+
+                    cityId3 = (MtplEditText) rootView.findViewById(R.id.cityId3);
+                    stateId3 = (MtplEditText) rootView.findViewById(R.id.stateId3);
+                    countryId3 = (MtplEditText) rootView.findViewById(R.id.countryId3);
+                    j++;
+                    MtplButton btnRemove = (MtplButton) rootView.findViewById(R.id.btnRemove3);
+                    destiCity3.setAdapter(adptCountry1);
+                    destiCity3.setThreshold(3);
+                    checkIn3.setOnTouchListener(this);
+                    checkOut3.setOnTouchListener(this);
+                    btnRemove.setOnClickListener(this);
+                    parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+                    destiCity3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            cityId3.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        destiState3.setText(statename);
+                                        stateId3.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                destiCountry3.setText(countryArrayList.get(j).getCountry_name());
+                                                countryId3.setText(countryArrayList.get(j).getId());
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                destiState3.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+                break;
+            case "4":
+
+                if (stringArrayListStayReq.contains("4")) {
+
+                } else {
+                    stringArrayListStayReq.add("4");
+                    rootView = inflater.inflate(R.layout.addanotherdestination3, null);
+
+                    singleRoom4 = (MtplEditText) rootView.findViewById(R.id.edtSingleRoom1);
+                    doubleRoom4 = (MtplEditText) rootView.findViewById(R.id.edtDoubleRoom1);
+                    tripalRoom4 = (MtplEditText) rootView.findViewById(R.id.edtTripleRoom1);
+                    childWithbed4 = (MtplEditText) rootView.findViewById(R.id.edt_Child_with_bed1);
+                    childWithoutbed4 = (MtplEditText) rootView.findViewById(R.id.edt_Child_without_bed1);
+                    spinnerHotelRating4 = (Spinner) rootView.findViewById(R.id.spinnerHotelRating1);
+                    spinnerHotelCat4 = (MultiSelectionSpinner) rootView.findViewById(R.id.hotCatSpinner);
+                    String[] array = getResources().getStringArray(R.array.hotCatArray);
+                    spinnerHotelCat4.setItems(array);
+                    spinnerHotelCat4.setListener(this);
+                    spinnerMealPlane4 = (Spinner) rootView.findViewById(R.id.spinnerMealPlane1);
+                    destiCity4 = (AutoCompleteTextView) rootView.findViewById(R.id.edtDestinationCity1);
+                    destiState4 = (MtplEditText) rootView.findViewById(R.id.edtDestinationState1);
+                    destiCountry4 = (MtplEditText) rootView.findViewById(R.id.edtDestinationCountry1);
+                    destiLocality4 = (MtplEditText) rootView.findViewById(R.id.edtDestinationLocality1);
+                    destiState4.setEnabled(false);
+                    destiCountry4.setEnabled(false);
+                    checkIn4 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn4);
+                    checkOut4 = (MtplEditText) rootView.findViewById(R.id.edtCheckout4);
+
+                    cityId4 = (MtplEditText) rootView.findViewById(R.id.cityId4);
+                    stateId4 = (MtplEditText) rootView.findViewById(R.id.stateId4);
+                    countryId4 = (MtplEditText) rootView.findViewById(R.id.countryId4);
+                    j++;
+                    MtplButton btnRemove = (MtplButton) rootView.findViewById(R.id.btnRemove4);
+                    destiCity4.setAdapter(adptCountry1);
+                    destiCity4.setThreshold(3);
+                    checkIn4.setOnTouchListener(this);
+                    checkOut4.setOnTouchListener(this);
+                    btnRemove.setOnClickListener(this);
+                    parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+                    destiCity4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            cityId4.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        destiState4.setText(statename);
+                                        stateId4.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                destiCountry4.setText(countryArrayList.get(j).getCountry_name());
+                                                countryId4.setText(countryArrayList.get(j).getId());
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                destiState4.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+                break;
+            case "5":
+
+                if (stringArrayListStayReq.contains("5")) {
+
+                } else {
+                    stringArrayListStayReq.add("5");
+                    rootView = inflater.inflate(R.layout.addanotherdestination4, null);
+
+                    singleRoom5 = (MtplEditText) rootView.findViewById(R.id.edtSingleRoom1);
+                    doubleRoom5 = (MtplEditText) rootView.findViewById(R.id.edtDoubleRoom1);
+                    tripalRoom5 = (MtplEditText) rootView.findViewById(R.id.edtTripleRoom1);
+                    childWithbed5 = (MtplEditText) rootView.findViewById(R.id.edt_Child_with_bed1);
+                    childWithoutbed5 = (MtplEditText) rootView.findViewById(R.id.edt_Child_without_bed1);
+                    spinnerHotelRating5 = (Spinner) rootView.findViewById(R.id.spinnerHotelRating1);
+                    spinnerHotelCat5 = (MultiSelectionSpinner) rootView.findViewById(R.id.hotCatSpinner);
+                    String[] array = getResources().getStringArray(R.array.hotCatArray);
+                    spinnerHotelCat5.setItems(array);
+                    spinnerHotelCat5.setListener(this);
+                    spinnerMealPlane5 = (Spinner) rootView.findViewById(R.id.spinnerMealPlane1);
+                    destiCity5 = (AutoCompleteTextView) rootView.findViewById(R.id.edtDestinationCity1);
+                    destiState5 = (MtplEditText) rootView.findViewById(R.id.edtDestinationState1);
+                    destiCountry5 = (MtplEditText) rootView.findViewById(R.id.edtDestinationCountry1);
+                    destiLocality5 = (MtplEditText) rootView.findViewById(R.id.edtDestinationLocality1);
+                    destiState5.setEnabled(false);
+                    destiCountry5.setEnabled(false);
+                    checkIn5 = (MtplEditText) rootView.findViewById(R.id.edtCheckIn5);
+                    checkOut5 = (MtplEditText) rootView.findViewById(R.id.edtCheckout5);
+
+                    cityId5 = (MtplEditText) rootView.findViewById(R.id.cityId5);
+                    stateId5 = (MtplEditText) rootView.findViewById(R.id.stateId5);
+                    countryId5 = (MtplEditText) rootView.findViewById(R.id.countryId5);
+                    j++;
+                    MtplButton btnRemove = (MtplButton) rootView.findViewById(R.id.btnRemove5);
+                    destiCity5.setAdapter(adptCountry1);
+                    destiCity5.setThreshold(3);
+                    checkIn5.setOnTouchListener(this);
+                    checkOut5.setOnTouchListener(this);
+                    btnRemove.setOnClickListener(this);
+                    parentLinearLayout.addView(rootView, parentLinearLayout.getChildCount());
+                    destiCity5.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            Log.d("your selected item", "" + pojoCities.get(position).getId());
+                            String statename = "";
+                            //  transcityId = pojoCities.get(position).getId();
+                            cityId1.setText(pojoCities.get(position).getId());
+                            if (pojoCities.get(position).getId() != null && !pojoCities.get(position).getId().equals("")) {
+                                for (int i = 0; i < pojoStateArrayList.size(); i++) {
+                                    if (pojoCities.get(position).getState_id().equals(pojoStateArrayList.get(i).getId())) {
+
+                                        statename = pojoStateArrayList.get(i).getState_name();
+                                        //    transstateId = pojoStateArrayList.get(i).getId();
+                                        destiState5.setText(statename);
+                                        stateId5.setText(pojoStateArrayList.get(i).getId());
+
+                                        for (int j = 0; j < countryArrayList.size(); j++) {
+
+                                            if (pojoStateArrayList.get(i).getCountry_id().toString().equals(countryArrayList.get(j).getId().toString())) {
+
+                                                destiCountry5.setText(countryArrayList.get(j).getCountry_name());
+                                                countryId5.setText(countryArrayList.get(j).getId());
+                                                break;
+
+                                            }
+
+
+                                        }
+
+
+                                        break;
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                destiState5.setText("");
+                            }
+
+
+                        }
+                    });
+                }
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+
     }
 }

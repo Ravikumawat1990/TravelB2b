@@ -3,6 +3,7 @@ package com.app.elixir.TravelB2B.volly;
 
 import com.android.volley.Request;
 import com.app.elixir.TravelB2B.pojos.pojoPackage;
+import com.app.elixir.TravelB2B.pojos.transportPojo;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
@@ -382,11 +383,12 @@ public class WebService {
     }*/
 
 
-    public static void getAcceptOffer(VolleyIntialization vollyInit, String userId, String reqId, OnVolleyHandler vollyHanlder) throws JSONException {
+    public static void getAcceptOffer(VolleyIntialization vollyInit, String resid, String reqid, String userid, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.ACCEPTOFFERAPI;
         Map<String, String> params = new HashMap<>();
-        params.put(CV.USER_ID, userId);
-        params.put(CV.REQ_ID, reqId);
+        params.put(CV.USER_ID, userid);
+        params.put(CV.REQ_ID, reqid);
+        params.put("response_id", resid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
@@ -497,7 +499,7 @@ public class WebService {
     }
 
 
-    public static void getTransport(VolleyIntialization vollyInit, ArrayList<pojoPackage> pojoPackages, OnVolleyHandler vollyHanlder) throws JSONException {
+    public static void getTransport(VolleyIntialization vollyInit, ArrayList<pojoPackage> pojoPackages, ArrayList<transportPojo> transportPojos, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.SENDREQAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.category_id, "2");
@@ -524,24 +526,13 @@ public class WebService {
         params.put("t_final_country_id", pojoPackages.get(0).getPickup_country_id());
         params.put("t_final_country_name", "");
         params.put(CV.comment, pojoPackages.get(0).getComment());
-       /* params.put(CV.hh_room1, "");
-        params.put(CV.hh_room2, "");
-        params.put(CV.hh_child_with_bed, "");
-        params.put(CV.hh_child_without_bed, "");
-        params.put(CV.hh_hotel_rating, "");
-        params.put(CV.hh_hotel_category, "");
-        params.put(CV.hh_meal_plan, "");
-        params.put(CV.hh_city_name, "");
-        params.put(CV.hh_city_id, "");
-        params.put(CV.hh_state_id, "");
-        params.put(CV.hh_hotel_rating, "");
-        params.put(CV.hh_state_name, "");
-        params.put(CV.hh_country_name, "");
-        params.put(CV.hh_country_id, "");
-        params.put(CV.hh_locality, "");
-        params.put(CV.hh_check_in, "");
-        params.put(CV.hh_check_out, "");
-        params.put(CV.hh_room3, "");*/
+
+
+        for (int i = 0; i < transportPojos.size(); i++) {
+            params.put("stops" + "[" + i + "]", transportPojos.get(i).getStops());
+            params.put("id_trasport_stop_city" + "[" + i + "]", transportPojos.get(i).getId_trasport_stop_city());
+            params.put("state_id_trasport_stop_city" + "[" + i + "]", transportPojos.get(i).getState_id_trasport_stop_city());
+        }
 
 
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
@@ -596,6 +587,23 @@ public class WebService {
             params.put(CV.BUDGETSEARCH, budget);
         }
 
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getHotelPromotion(VolleyIntialization vollyInit, String userId, String hname, String hcategories, String ctariff, String etariff, String website, String cityid, String citycharge, String duration, String charges, String hotelpic, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.ADDPROMOTIONAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userId);
+        params.put(CV.HOTEL_NAME, hname);
+        params.put(CV.HOTEL_CATEGORIES, hcategories);
+        params.put(CV.CHEAP_TARIFF, ctariff);
+        params.put(CV.EXPENSIVE_TARIFF, etariff);
+        params.put(CV.WEBSITE, website);
+        params.put(CV.CITYID, cityid);
+        params.put(CV.CITYCHARGE, citycharge);
+        params.put(CV.DURATION, duration);
+        params.put(CV.CHARGES, charges);
+        params.put(CV.HOTEL_PIC, hotelpic);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 }

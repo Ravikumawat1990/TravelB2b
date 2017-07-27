@@ -47,7 +47,6 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -77,7 +76,6 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -97,7 +95,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="@string/Mobile_No"
+                    android:text="@string/website"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
@@ -106,9 +104,10 @@
                     android:id="@+id/txtMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoLink="phone"
-                    android:gravity="center"
-                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:gravity="left|center_vertical"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
                     android:padding="@dimen/margin_5dp"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -121,7 +120,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -196,6 +196,7 @@
             android:layout_marginLeft="@dimen/margin_10dp"
             android:autoLink="email"
             android:gravity="left"
+            android:visibility="gone"
             android:maxLines="1"
             android:paddingLeft="@dimen/margin_15dp"
             android:textSize="@dimen/font_12sp"

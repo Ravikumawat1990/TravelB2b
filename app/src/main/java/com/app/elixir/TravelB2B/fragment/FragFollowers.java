@@ -93,14 +93,15 @@ public class FragFollowers extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
-                    myFab.hide();
+                    //myFab.hide();
                 } else {
-                    myFab.show();
+                   // myFab.show();
                 }
 
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+        myFab.setVisibility(View.GONE);
 
         mAdapter = new adptfollowers(thisActivity, pojoFollowerses);
 
@@ -135,7 +136,7 @@ public class FragFollowers extends Fragment {
 
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -144,7 +145,7 @@ public class FragFollowers extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     public void showPopup(Context context) {
         new AlertDialog.Builder(context)
@@ -160,11 +161,11 @@ public class FragFollowers extends Fragment {
         }).setIcon(R.drawable.logo3).show();
     }
 
-    @Override
+   /* @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.cartMenu);
         item.setVisible(false);
-    }
+    }*/
 
 
     public void webFollowers(String userId) {
@@ -215,6 +216,7 @@ public class FragFollowers extends Fragment {
                         pojoFollowers.setMobile_number(jsonObject1.optString("mobile_number"));
                         pojoFollowers.setCompany_name(jsonObject1.optString("company_name"));
                         pojoFollowers.setEmail(jsonObject1.optString("email"));
+                        pojoFollowers.setWeb_url(jsonObject1.optString("web_url"));
                         pojoFollowerses.add(pojoFollowers);
 
                     }
@@ -334,5 +336,24 @@ public class FragFollowers extends Fragment {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.cartMenu);
+        MenuItem item1 = menu.findItem(R.id.filter);
+        item.setVisible(false);
+        item1.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                CM.showToast("Pressed", thisActivity);
+                //showFilterPopup();
+                return true;
+        }
+        return false;
     }
 }

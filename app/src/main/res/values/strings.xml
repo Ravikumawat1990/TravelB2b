@@ -341,7 +341,7 @@
 
     <string-array name="MealPlaneArray">
         <item>European Plan</item>
-        <item>Contenental Plan</item>
+        <item>Continental Plan</item>
         <item>Modified American Plan</item>
         <item>AP - American Plan</item>
     </string-array>
@@ -387,5 +387,9 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="website">"Website"</string>
 
+    <string name="tot">"Total Budget\n1000</string>
+
+    <string name="offerACT">"Offer Accepted"</string>
 </resources>

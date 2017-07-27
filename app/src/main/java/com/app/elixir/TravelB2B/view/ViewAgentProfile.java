@@ -109,6 +109,7 @@ public class ViewAgentProfile extends AppCompatActivity {
 
         }
         pojoAdvertArrayList = new ArrayList<>();
+        stringArrayList = new ArrayList<>();
         certifyCatePogoArrayList = new ArrayList<>();
         mAdapter1 = new adptCertificate(ViewAgentProfile.this, stringArrayList);
         recyclerViewAdv.setAdapter(mAdapter1);
@@ -209,7 +210,7 @@ public class ViewAgentProfile extends AppCompatActivity {
                     //JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(0).optString("userprofile"));
 
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("userprofile").toString());
-                    userName.setText(jsonObject1.optString("first_name") + " " + jsonArray.getJSONObject(0).optString("last_name"));
+                    userName.setText(jsonObject1.optString("first_name") + " " + jsonObject1.optString("last_name"));
                     phoneNumber.setText(jsonObject1.optString("mobile_number"));
                     email.setText(jsonObject1.optString("email"));
                     discription.setText(jsonObject1.optString("description1"));

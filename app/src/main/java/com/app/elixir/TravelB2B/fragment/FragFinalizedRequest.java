@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 /**
  * Created by NetSupport on 05-06-2017.
@@ -63,6 +62,7 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 public class FragFinalizedRequest extends Fragment {
 
+    private static final String TAG = "FragFinalizedRequest";
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
     private RecyclerView mRecyclerView;
@@ -111,21 +111,21 @@ public class FragFinalizedRequest extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
-                    myFab.hide();
+                    //myFab.hide();
                 } else {
-                    myFab.show();
+                    //  myFab.show();
                 }
 
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-
+        myFab.hide();
         mAdapter = new adptfinalizedRequest(thisActivity, pojoFinalizeReqArrayList);
 
 
         mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
-            public void onItemClick(String value, String value1, String value2) {
+            public void onItemClick(String value, String value1, String value2, String value3) {
 
                 if (value.equals("detail")) {
 
@@ -178,7 +178,7 @@ public class FragFinalizedRequest extends Fragment {
 
     }
 
-    @Override
+   /* @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.cartMenu);
         item.setVisible(false);
@@ -193,7 +193,7 @@ public class FragFinalizedRequest extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     public void showPopup(Context context) {
         new AlertDialog.Builder(context)
@@ -514,5 +514,24 @@ public class FragFinalizedRequest extends Fragment {
         params.put(CV.STATUS, staus);
         params.put(CV.COMMENT, comment);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.cartMenu);
+        MenuItem item1 = menu.findItem(R.id.filter);
+        item.setVisible(false);
+        item1.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                CM.showToast("Pressed", thisActivity);
+                //showFilterPopup();
+                return true;
+        }
+        return false;
     }
 }

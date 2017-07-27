@@ -15,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +93,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptRespondToRequest(thisActivity, pojoMyResposneArrayList);
 
-
+        setHasOptionsMenu(true);
        /* mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(String value, String value1) {
@@ -144,19 +146,20 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                 showFilterPopup();
             }
         });
-
+        myFab.setVisibility(View.GONE);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
-                    myFab.hide();
+                    // myFab.hide();
                 } else {
-                    myFab.show();
+                    // myFab.show();
                 }
 
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+        myFab.hide();
 
     }
 
@@ -636,7 +639,11 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                         myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
                         myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
                         myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
-                        myResposne.setDestination_city(jsonArray.getJSONObject(i).get("destination_city").toString());
+
+                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
+                        if (jsonObject1 != null) {
+                            myResposne.setDestination_city(jsonObject1.optString("name"));
+                        }
                         myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
                         myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
                         myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
@@ -653,6 +660,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                         myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
                         myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
                         JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
+
                         myResposne.setId(jsonObjectUser.optString("id").toString());
                         myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
                         myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
@@ -680,5 +688,22 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.filter);
+        item.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                showFilterPopup();
+                return true;
+        }
+        return false;
     }
 }

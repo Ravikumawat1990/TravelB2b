@@ -15,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +97,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptMyResponse(thisActivity, pojoMyResposneArrayList);
-
+        setHasOptionsMenu(true);
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -108,7 +110,9 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                     CM.startActivity(intent, thisActivity);
 
                 } else {
-                    CM.startActivity(thisActivity, ViewAgentProfile.class);
+                    Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
+                    intent.putExtra("userId", value1);
+                    CM.startActivity(intent, thisActivity);
                 }
 
 
@@ -139,9 +143,24 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                 showFilterPopup();
             }
         });
+        myFab.setVisibility(View.GONE);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    // myFab.hide();
+                } else {
+                    //  myFab.show();
+                }
+
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
 
-        webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "", "");
+        webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").
+
+                toString(), "", "", "", "", "");
 
 
     }
@@ -600,7 +619,11 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setHotel_rating(jsonObjectReq.optString("hotel_rating").toString());
                         myResposne.setHotel_category(jsonObjectReq.optString("hotel_category").toString());
                         myResposne.setMeal_plan(jsonObjectReq.optString("meal_plan").toString());
-                        myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
+                        JSONObject jsonObject1 = new JSONObject(jsonObjectReq.get("city").toString());
+                        if (jsonObject1 != null) {
+                            myResposne.setDestination_city(jsonObject1.optString("name"));
+                        }
+                        // myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
                         myResposne.setCheck_in(jsonObjectReq.optString("check_in").toString());
                         myResposne.setCheck_out(jsonObjectReq.optString("check_out").toString());
                         myResposne.setTransport_requirement(jsonObjectReq.optString("transport_requirement").toString());
@@ -621,6 +644,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
                         myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
                         myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
+                        myResposne.setId(jsonObjectUser.optString("id").toString());
                         pojoMyResposneArrayList.add(myResposne);
                     }
 
@@ -643,5 +667,27 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.filter).setVisible(true);
+
+    }
+*/
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.filter);
+        item.setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                showFilterPopup();
+                return true;
+        }
+        return false;
     }
 }

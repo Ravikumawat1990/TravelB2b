@@ -68,19 +68,19 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getUser_id(), "");
+                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getUser_id(), "", "");
                     break;
                 case R.id.btnShare:
-                    listener.onItemClick("share", dataSet.get(getAdapterPosition()).getUser_id(), "");
+                    listener.onItemClick("share", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId(), "");
                     break;
                 case R.id.btnAccept:
-                    listener.onItemClick("btnAccept", dataSet.get(getAdapterPosition()).getUser_id(), "");
+                    listener.onItemClick("btnAccept", dataSet.get(getAdapterPosition()).getId(), dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getUser_id());
                     break;
                 case R.id.btnRate:
-                    listener.onItemClick("rate", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId());
+                    listener.onItemClick("rate", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId(), "");
                     break;
                 case R.id.btnBlock:
-                    listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id(), "");
+                    listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id(), "", "");
                     break;
             }
 

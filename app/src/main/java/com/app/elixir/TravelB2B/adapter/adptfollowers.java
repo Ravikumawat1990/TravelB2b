@@ -83,7 +83,8 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
         compName.setText(dataSet.get(position).getCompany_name());
         fname.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         email.setText(dataSet.get(position).getEmail());
-        mobileNo.setText(dataSet.get(position).getMobile_number());
+        mobileNo.setText(dataSet.get(position).getWeb_url());
+        //   mobileNo.setText(dataSet.get(position).getWeb_url());
 
     }
 

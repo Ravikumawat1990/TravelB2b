@@ -11,6 +11,8 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +54,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.tokenautocomplete.TokenCompleteTextView.TAG;
-
 
 /**
  * Created by NetSupport on 02-06-2017.
@@ -61,6 +61,7 @@ import static com.tokenautocomplete.TokenCompleteTextView.TAG;
 
 public class TabHotel extends Fragment implements View.OnClickListener, View.OnTouchListener, MultiSelectionSpinner.OnMultipleItemsSelectedListener {
 
+    private static final String TAG = "TabHotel";
     Activity thisActivity;
     MtplButton btnAddAnother, btnSubmit;
     private LinearLayout parentLinearLayout;
@@ -98,6 +99,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
         View rootView = inflater.inflate(R.layout.tabhotel, container, false);
         thisActivity = getActivity();
         initView(rootView);
+        setHasOptionsMenu(true);
         return rootView;
     }
 
@@ -328,7 +330,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.addanotherdestination, null);
             rowView.setId(i++);
-            MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemove);
+            MtplButton mtplButton = (MtplButton) rowView.findViewById(R.id.btnRemove1);
             edtlocality = (MtplEditText) rowView.findViewById(R.id.locality);
             checkIn1 = (MtplEditText) rowView.findViewById(R.id.edtCheckIn1);
             checkOut1 = (MtplEditText) rowView.findViewById(R.id.edtCheckout1);
@@ -379,7 +381,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             case R.id.btnAddAnother:
                 onAddField(view);
                 break;
-            case R.id.btnRemove:
+            case R.id.btnRemove1:
                 onDelete(view);
                 break;
             case R.id.btnSubmit:
@@ -657,12 +659,12 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
     }
 
 
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
         switch (view.getId()) {
             case R.id.edtCheckIn:
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -737,43 +739,43 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
                         return true;
                     }*/
 
-                            Calendar now = Calendar.getInstance();
-                            Log.i(ContentValues.TAG, "onTouch:" + checkIn.getId());
-                            com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
-                                    now.get(Calendar.YEAR),
-                                    now.get(Calendar.MONTH),
-                                    now.get(Calendar.DAY_OF_MONTH));
-                            try {
+                        Calendar now = Calendar.getInstance();
+                        Log.i(ContentValues.TAG, "onTouch:" + checkIn.getId());
+                        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                                now.get(Calendar.YEAR),
+                                now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+                        try {
 
 
-                                dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
-                                dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
-                                dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
-                                    @Override
-                                    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+                            dpd.setMinDate(DateToCalendar(new Date(System.currentTimeMillis() - 1000)));
+                            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
-                                        Log.i(ContentValues.TAG, "onDateSet: ");
-                                        dayOfMonth1 = dayOfMonth;
-                                        month1 = monthOfYear;
-                                        year1 = year;
+                                    Log.i(ContentValues.TAG, "onDateSet: ");
+                                    dayOfMonth1 = dayOfMonth;
+                                    month1 = monthOfYear;
+                                    year1 = year;
 
-                                        int month = monthOfYear + 1;
-                                        if (checkIn != null) {
+                                    int month = monthOfYear + 1;
+                                    if (checkIn != null) {
 
 
-                                            checkIn.setText(month + "-" + dayOfMonth + "-" + year);
-                                            checkIn.setSelection(checkIn.getText().length());
-                                        }
-
+                                        checkIn.setText(month + "-" + dayOfMonth + "-" + year);
+                                        checkIn.setSelection(checkIn.getText().length());
                                     }
-                                });
 
-                            } catch (Exception e) {
-                                e.getMessage();
+                                }
+                            });
 
-                            }
+                        } catch (Exception e) {
+                            e.getMessage();
+
                         }
                     }
+                }
                 break;
             case R.id.edtCheckOut:
 
@@ -1425,4 +1427,9 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.filter).setVisible(false);
+
+    }
 }

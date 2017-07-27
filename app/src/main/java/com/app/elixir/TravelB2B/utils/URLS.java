@@ -2,13 +2,18 @@ package com.app.elixir.TravelB2B.utils;
 
 
 public class URLS {
-    public static final String URL = "http://www.travelb2bhub.com/b2b/pages/";
-    // public static final String URL = "http://www.travelb2bhub.com/b2b/";
+   // public static final String URL = "http://www.travelb2bhub.com/b2b/pages/";
 
+     public static final String URL = "http://192.168.3.82/b2b/pages/";
+    //  http://192.168.3.82/b2b/pages/pagesapi/11
 
     public static final String FAQ = URL + "faqapi";
     public static final String PRIVPOLICY = URL + "pagesapi/10";
     public static final String TANDC = URL + "pagesapi/11";
+
+    public static final String PROMOTEHOTEL = URL + "pagesapi/13";
+
+
     public static final String CONTACT_US = URL + "settingapi";
     public static final String MEMBERSHIPS = URL + "membershipsapi";
     public static final String CITY = URL + "citiesapi";
@@ -48,5 +53,5 @@ public class URLS {
     public static final String ADDRESPONSEAPI = URL + "addresponseapi";
     public static final String ADDTESTIMONIALAPI = URL + "addtestimonialapi";
 
-
+    public static final String ADDPROMOTIONAPI = URL + "addpromotionapi";
 }
