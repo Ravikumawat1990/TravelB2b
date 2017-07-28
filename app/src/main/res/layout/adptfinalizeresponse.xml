@@ -47,7 +47,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/appTextColor"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -110,8 +110,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:textColor="@color/colorPrimary"
-
+                    android:textColor="@android:color/holo_orange_dark"
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -150,7 +149,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:textColor="@color/colorPrimary"
+
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -264,7 +263,7 @@
             android:background="@drawable/blue_rect"
             android:paddingLeft="@dimen/margin_10dp"
             android:paddingRight="@dimen/margin_10dp"
-            android:text="DETAIL"
+            android:text="DETAILS"
             android:textColor="@android:color/white"
             android:textSize="@dimen/font_12sp"
             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

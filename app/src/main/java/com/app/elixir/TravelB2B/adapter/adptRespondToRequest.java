@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.adapter;
 
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
@@ -27,7 +28,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
     private ArrayList<pojoMyResposne> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    OnAdapterItemClickListener listener;
 
     public adptRespondToRequest(Context context, ArrayList<pojoMyResposne> data) {
         this.dataSet = data;
@@ -48,6 +49,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
+            reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
@@ -59,6 +61,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             btnShowInterest = (MtplButton) itemView.findViewById(R.id.btnShowInterest);
             btnShowInterest.setOnClickListener(this);
             btnDetail.setOnClickListener(this);
+            reqAgent.setOnClickListener(this);
 
         }
 
@@ -66,18 +69,24 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getUserId(), "detail");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getUserId(), "detail", dataSet.get(getAdapterPosition()).getCategory_id());
                     break;
                 case R.id.btnShowInterest:
                     //getUserId changed with getId
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showInt");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showInt", "");
                     break;
+                case R.id.reqAgent:
+                    //getUserId changed with getId
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showAgent", "");
+                    break;
+
+
             }
 
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnAdapterItemClickListener mItemClickListener) {
 
         this.listener = mItemClickListener;
     }
@@ -121,7 +130,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
-        total.setText("Budget\n" + context.getString(R.string.rsSymbol) + "" + dataSet.get(position).getTotal_budget());
+        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
         int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());

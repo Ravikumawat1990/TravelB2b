@@ -4,6 +4,7 @@ package com.app.elixir.TravelB2B.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -40,7 +41,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
 
     private ArrayList<pojoMyResposne> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    public OnAdapterItemClickListener listener;
 
     public adptMyResponse(Context context, ArrayList<pojoMyResposne> data) {
         this.dataSet = data;
@@ -61,6 +62,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
+            reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
@@ -79,17 +81,17 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getCategory_id());
                     break;
                 case R.id.reqAgent:
-                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getId());
+                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getId(), "");
                     break;
             }
 
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnAdapterItemClickListener mItemClickListener) {
 
         this.listener = mItemClickListener;
     }
@@ -135,7 +137,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         //  total.setSingleLine(false);
-        total.setText("Budget\n" + context.getString(R.string.rsSymbol) + "" + dataSet.get(position).getTotal_budget());
+        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
         int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());

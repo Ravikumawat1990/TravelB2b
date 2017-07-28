@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
@@ -36,13 +37,14 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
 
         private CardView rootView;
         MtplTextView comment, name, description;
-
+        ImageButton mtplButton;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             comment = (MtplTextView) itemView.findViewById(R.id.txtViewComment);
             name = (MtplTextView) itemView.findViewById(R.id.txtName);
             description = (MtplTextView) itemView.findViewById(R.id.txtDescription);
+            mtplButton = (ImageButton) itemView.findViewById(R.id.btnNext);
             // description.setMovementMethod(new ScrollingMovementMethod());
 
         }
@@ -75,6 +77,14 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
         MtplTextView comment = holder.comment;
         MtplTextView name = holder.name;
         MtplTextView description = holder.description;
+        ImageButton imageButton = holder.mtplButton;
+
+        if (dataSet.size() == 1) {
+            imageButton.setVisibility(View.GONE);
+        }
+        if (position == dataSet.size() - 1) {
+            imageButton.setVisibility(View.GONE);
+        }
 
         comment.setText(dataSet.get(position).getComment());
         name.setText(dataSet.get(position).getName());

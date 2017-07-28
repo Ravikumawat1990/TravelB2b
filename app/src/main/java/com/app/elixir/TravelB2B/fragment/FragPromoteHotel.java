@@ -183,7 +183,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                 int position = Integer.parseInt(value1);
 
                 totalAmt += Integer.parseInt(promoAllCity.get(position).getPrice());
-                textTotal.setText("Toatl " + totalAmt);
+                textTotal.setText("Total " + totalAmt);
                 charge = month * totalAmt;
                 editCharge.setText("" + charge);
 
@@ -454,7 +454,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                         promoAllCity.clear();
                         promoSelectedCity.clear();
                         totalAmt = 0;
-                        textTotal.setText("Toatl " + totalAmt);
+                        textTotal.setText("Total " + totalAmt);
                         charge = month * totalAmt;
                         editCharge.setText("" + charge);
 

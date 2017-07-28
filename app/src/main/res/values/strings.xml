@@ -109,7 +109,7 @@
     <string name="title5">Have unrestricted, real time communication with Buyers/Sellers</string>
 
     <string name="description0">India"'"s only COMMISSION FREE, B2B, Tourism Trading Marketplace, CONNECTING : </string>
-    <string name="description01">India"'"s only COMMISSION FREE, B2B, Tourism Trading Market Place</string>
+    <string name="description01">India"'"s only COMMISSION FREE, B2B"\n" Tourism Trading Market Place</string>
 
     <string name="description1">Negotiate with the other party via phone or live chat, right from the beginning of the trade.</string>
     <string name="description2">You will simply place a request with your requirements and multiple interested sellers will contact you, through the App with options/quotations. </string>
@@ -219,13 +219,22 @@
     </string-array>
 
     <string-array name="hotRating">
-        <item>1 star</item>
-        <item>2 star</item>
-        <item>3 star</item>
-        <item>4 star</item>
-        <item>5 star</item>
+        <item>*</item>
+        <item>**</item>
+        <item>***</item>
+        <item>****</item>
+        <item>*****</item>
 
     </string-array>
+
+    <!--  <string-array name="hotRating">
+          <item>1 star</item>
+          <item>2 star</item>
+          <item>3 star</item>
+          <item>4 star</item>
+          <item>5 star</item>
+
+      </string-array>-->
 
     <string-array name="subArray">
         <item>Feedback</item>

@@ -102,6 +102,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         destiCity = (MtplTextView) findViewById(R.id.txtDestCity);
         locality = (MtplTextView) findViewById(R.id.txtLocality);
         hotelCat = (MtplTextView) findViewById(R.id.txtHotelCat);
+        hotelCat.setSelected(true);
         meal = (MtplTextView) findViewById(R.id.txtMeal);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
 
@@ -274,7 +275,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     hotelCat.setText(hotel_categorys);
                     hotelCat.setSelected(true);
 
-                    meal.setText(jsonObject1.optString("meal_plan"));
+                    meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
                     comment.setText(jsonObject1.optString("comment"));
 
                     if (!jsonObject1.optString("pickup_state").toString().equals("") && !jsonObject1.optString("pickup_state").toString().equals("null")) {

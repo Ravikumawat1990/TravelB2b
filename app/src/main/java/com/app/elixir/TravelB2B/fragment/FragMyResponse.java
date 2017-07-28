@@ -29,8 +29,8 @@ import android.widget.TextView;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptMyResponse;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
 import com.app.elixir.TravelB2B.utils.CM;
@@ -99,14 +99,15 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         mAdapter = new adptMyResponse(thisActivity, pojoMyResposneArrayList);
         setHasOptionsMenu(true);
 
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        mAdapter.SetOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
-            public void onItemClick(String key, String value1) {
+            public void onItemClick(String key, String value1, String value2) {
 
                 if (key.equals("detail")) {
 
                     Intent intent = new Intent(thisActivity, ViewMyResdetailView.class);
                     intent.putExtra("refId", value1);
+                    intent.putExtra("reqtype", value2);
                     CM.startActivity(intent, thisActivity);
 
                 } else {

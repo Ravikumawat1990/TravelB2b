@@ -285,7 +285,7 @@
                     android:background="@drawable/blue_rect"
                     android:paddingLeft="@dimen/margin_10dp"
                     android:paddingRight="@dimen/margin_10dp"
-                    android:text="RATE USER"
+                    android:text="Follow"
                     android:textColor="@android:color/white"
 
                     android:textSize="@dimen/font_12sp"

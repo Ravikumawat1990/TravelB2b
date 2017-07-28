@@ -56,7 +56,7 @@ public class ViewAgentProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.edtProfile));
+        toolbar.setTitle(getString(R.string.agntProfile));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
@@ -213,7 +213,7 @@ public class ViewAgentProfile extends AppCompatActivity {
                     userName.setText(jsonObject1.optString("first_name") + " " + jsonObject1.optString("last_name"));
                     phoneNumber.setText(jsonObject1.optString("mobile_number"));
                     email.setText(jsonObject1.optString("email"));
-                    discription.setText(jsonObject1.optString("description1"));
+                    discription.setText(jsonObject1.optString("description"));
 
 
                    /* certifyCatePogo catePogo = new certifyCatePogo();

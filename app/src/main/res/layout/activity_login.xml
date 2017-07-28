@@ -69,7 +69,7 @@
                             android:hint="@string/prompt_email"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:text="npoorvi@elixirinfo.com"
+                            android:text="pradysingh@gmail.com"
                             android:textColorHint="@android:color/black"
 
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -91,7 +91,7 @@
                             android:hint="@string/login_edtpassword"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:text="123456"
+                            android:text="test123"
                             android:textColorHint="@android:color/black"
                             mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
                     </android.support.design.widget.TextInputLayout>

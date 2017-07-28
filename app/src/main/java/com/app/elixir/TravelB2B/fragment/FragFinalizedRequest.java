@@ -36,6 +36,7 @@ import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -149,7 +150,7 @@ public class FragFinalizedRequest extends Fragment {
                     //mohit
                     //rate user
                     //showPopupForTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
-                    showRating(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
+                    showRating(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2, value3);
                 }
 
 
@@ -282,6 +283,8 @@ public class FragFinalizedRequest extends Fragment {
                         pojoMyResponse.setReference_id(jsonArray.getJSONObject(i).optString("reference_id"));
                         pojoMyResponse.setTotal_budget(jsonArray.getJSONObject(i).optString("total_budget"));
                         pojoMyResponse.setRequest_id(jsonArray.getJSONObject(i).optString("id"));
+                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("user"));
+                        pojoMyResponse.setUserName(jsonObject1.optString("first_name") + " " + jsonObject1.optString("last_name"));
                         pojoFinalizeReqArrayList.add(pojoMyResponse);
 
                     }
@@ -404,7 +407,7 @@ public class FragFinalizedRequest extends Fragment {
         alertDialog.show();
     }
 
-    public void showRating(final String userId, final String profileuID) {
+    public void showRating(final String userId, final String profileuID, String userNm) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(thisActivity);
         LayoutInflater inflater = thisActivity.getLayoutInflater();
@@ -414,8 +417,9 @@ public class FragFinalizedRequest extends Fragment {
 
         final EditText edtComment = (EditText) dialogView.findViewById(R.id.edtDis);
         final RatingBar Ratingbar = (RatingBar) dialogView.findViewById(R.id.ratingBar);
+        final MtplTextView userName = (MtplTextView) dialogView.findViewById(R.id.txtUserName);
 
-
+        userName.setText(userNm);
         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

@@ -13,6 +13,15 @@ public class pojoFinalizeReq {
     String children;
     String category_id;
     String id;
+    String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getId() {
         return id;

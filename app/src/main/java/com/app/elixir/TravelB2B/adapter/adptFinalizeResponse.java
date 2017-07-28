@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.adapter;
 
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             txtAgentName = (MtplTextView) itemView.findViewById(R.id.txtAgentName);
+            txtAgentName.setPaintFlags(txtAgentName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtRefId = (MtplTextView) itemView.findViewById(R.id.txtRefId);
             txtTot = (MtplTextView) itemView.findViewById(R.id.txtTot);
             txtQuotPrice = (MtplTextView) itemView.findViewById(R.id.txtQuotPrice);

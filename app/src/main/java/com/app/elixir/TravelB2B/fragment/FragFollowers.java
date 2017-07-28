@@ -95,7 +95,7 @@ public class FragFollowers extends Fragment {
                 if (dy > 0) {
                     //myFab.hide();
                 } else {
-                   // myFab.show();
+                    // myFab.show();
                 }
 
                 super.onScrolled(recyclerView, dx, dy);

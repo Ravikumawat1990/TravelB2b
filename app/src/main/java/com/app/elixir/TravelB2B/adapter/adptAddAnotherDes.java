@@ -63,9 +63,10 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
             destCity = (MtplTextView) itemView.findViewById(R.id.destCity);
             locality = (MtplTextView) itemView.findViewById(R.id.locality);
             txtHotelCat = (MtplTextView) itemView.findViewById(R.id.txtHotelCat);
+            txtHotelCat.setSelected(true);
             txtMeal = (MtplTextView) itemView.findViewById(R.id.txtMeal);
 
-
+            txtMeal.setSelected(true);
             //  btnUnBlockUser.setOnClickListener(this);
 
         }
@@ -127,7 +128,7 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
         txtCheckIn.setText(txtStartDt);
         txtCheckOut.setText(txtEndDt);
         locality.setText(dataSet.get(position).getLocality());
-        txtHotelCat.setText(CM.setHotelCat(dataSet.get(position).getHotel_category()));
+        txtHotelCat.setText(dataSet.get(position).getHotel_category());
         txtMeal.setText(CM.getMealPlane(dataSet.get(position).getMeal_plan()));
 
         if (CM.isInternetAvailable(context)) {

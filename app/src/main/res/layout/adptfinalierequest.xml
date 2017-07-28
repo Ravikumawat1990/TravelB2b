@@ -78,6 +78,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="5dp"
+                    android:textColor="@android:color/holo_orange_dark"
 
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -233,7 +234,7 @@
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"
                 android:singleLine="true"
-                android:text="Detail"
+                android:text="Details"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

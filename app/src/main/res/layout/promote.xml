@@ -25,12 +25,32 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:background="@color/appTextColor" />
+
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:gravity="center"
+            android:text="FORM"
+            android:textColor="@color/appTextColor"
+            android:textSize="20sp"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
             android:background="@color/appTextColor" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5dp">
+            android:layout_marginTop="@dimen/margin_10dp">
 
             <com.app.elixir.TravelB2B.mtplview.MtplEditText
                 android:id="@+id/edtUserName"
@@ -169,7 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="3"
-                android:hint="States"
+                android:hint="State"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"

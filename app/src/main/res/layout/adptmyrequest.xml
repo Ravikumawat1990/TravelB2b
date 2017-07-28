@@ -21,7 +21,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -55,7 +54,7 @@
                         android:maxLines="1"
                         android:paddingBottom="@dimen/margin_2dp"
                         android:paddingTop="@dimen/margin_2dp"
-                        android:text="Ravi kumawat (Agent Name)"
+
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -145,7 +144,7 @@
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/refId"
@@ -188,9 +187,10 @@
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
+
                     android:text="@string/destination"
                     android:textColor="@android:color/black"
                     android:textSize="12sp"
@@ -208,7 +208,7 @@
                 android:paddingBottom="@dimen/margin_2dp"
                 android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
-                android:text="Udaipur,Rajasthan"
+
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -234,7 +234,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/stDate"
@@ -247,10 +247,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="11/05/2015"
+
 
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -281,10 +281,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="11/05/2015"
+
 
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -313,7 +313,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/member"
@@ -327,10 +327,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
-                    android:text="10"
+
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -393,7 +393,7 @@
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/cmt"
@@ -413,7 +413,6 @@
                 android:paddingBottom="@dimen/margin_2dp"
                 android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
-                android:text="Udaipur,Rajasthan"
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

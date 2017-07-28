@@ -117,6 +117,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
         locality = (MtplTextView) findViewById(R.id.txtLocality);
         hotelCat = (MtplTextView) findViewById(R.id.txtHotelCat);
         meal = (MtplTextView) findViewById(R.id.txtMeal);
+        meal.setSelected(true);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
 
 
@@ -369,14 +370,23 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                         addAnother.setDoubleRoom(jsonArray.getJSONObject(i).optString("room2"));
                         addAnother.setTripleRomm(jsonArray.getJSONObject(i).optString("room3"));
                         addAnother.setChild_with_bed(jsonArray.getJSONObject(i).optString("child_with_bed"));
-
-
                         addAnother.setCheckIn(jsonArray.getJSONObject(i).optString("check_in"));
                         addAnother.setCheckOut(jsonArray.getJSONObject(i).optString("check_out"));
                         addAnother.setCity_id(jsonArray.getJSONObject(i).optString("city_id"));
                         addAnother.setState_id(jsonArray.getJSONObject(i).optString("state_id"));
                         addAnother.setLocality(jsonArray.getJSONObject(i).optString("locality"));
-                        addAnother.setHotel_category(CM.setHotelCat(jsonArray.getJSONObject(i).optString("hotel_category")));
+                        String hotel_categorys11 = "";
+                        String[] items2 = jsonArray.getJSONObject(i).optString("hotel_category").split(",");
+                        for (String items3 : items2) {
+                            if (hotel_categorys11.equals("")) {
+                                hotel_categorys11 = CM.setHotelCat(items3);
+                            } else {
+                                hotel_categorys11 = hotel_categorys + "," + CM.setHotelCat(items3);
+                            }
+                            // CM.showToast(item,ViewRespondToRequestDetailView.this);
+                        }
+
+                        addAnother.setHotel_category(hotel_categorys11);
                         addAnother.setMeal_plan(jsonArray.getJSONObject(i).optString("meal_plan"));
                         pojoAddAnotherArrayList.add(addAnother);
                     }

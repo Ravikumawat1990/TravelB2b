@@ -37,6 +37,7 @@ import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoMyRequest;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.view.ViewAgentProfile;
 import com.app.elixir.TravelB2B.view.ViewCheckResponse;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -107,9 +108,13 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
                 if (value.equals("remove")) {
                     showPopup(thisActivity, value1);
-                } else {
+                } else if (value.equals("check")) {
                     Intent intent = new Intent(thisActivity, ViewCheckResponse.class);
                     intent.putExtra("refId", value1);
+                    CM.startActivity(intent, thisActivity);
+                } else if (value1.equals("showAgent")) {
+                    Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
+                    intent.putExtra("userId", value);
                     CM.startActivity(intent, thisActivity);
                 }
             }
@@ -180,7 +185,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
-        }).setIcon(R.drawable.logo1).show();
+        }).setIcon(R.drawable.logonewnew).show();
     }
 
 

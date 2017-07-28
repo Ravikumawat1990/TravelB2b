@@ -66,7 +66,7 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
                     listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId(), "");
                     break;
                 case R.id.btntestimonial:
-                    listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getRequest_id(), "");
+                    listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getUserName());
                     break;
 
 

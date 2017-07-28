@@ -30,12 +30,13 @@ import android.widget.TextView;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptRespondToRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.view.ViewAgentProfile;
 import com.app.elixir.TravelB2B.view.ViewRespondToRequestDetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -108,20 +109,23 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                 }
             }
         });*/
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        mAdapter.SetOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
-            public void onItemClick(String value, String value1) {
+            public void onItemClick(String value, String value1, String value2) {
 
                 if (value1.equals("detail")) {
 
                     Intent intent = new Intent(thisActivity, ViewRespondToRequestDetailView.class);
                     intent.putExtra("refId", value);
+                    intent.putExtra("reqtype", value2);
                     CM.startActivity(intent, thisActivity);
-                } else {
+                } else if (value1.equals("showInt")) {
 
-//mohit
-//show intrest on Request // change adapter onclik parameter
                     ShowInterest(value);
+                } else if (value1.equals("showAgent")) {
+                    Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
+                    intent.putExtra("userId", value);
+                    CM.startActivity(intent, thisActivity);
                 }
             }
         });

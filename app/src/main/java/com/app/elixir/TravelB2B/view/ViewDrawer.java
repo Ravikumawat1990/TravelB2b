@@ -881,6 +881,7 @@ public class ViewDrawer extends AppCompatActivity
 
                     if (!jsonObject1.optString("pancard_pic").toString().equals("") && !jsonObject1.optString("pancard_pic").toString().equals("null")) {
                         icon2.setVisibility(View.VISIBLE);
+                        icon2.setImageResource(R.drawable.pancard);
                         if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
                             if (jsonObject1.optString("role_id").toString().equals("2")) {
                                 i += 16;
@@ -894,7 +895,8 @@ public class ViewDrawer extends AppCompatActivity
                         icon2.setVisibility(View.GONE);
                     }
                     if (!jsonObject1.optString("company_shop_registration_pic").toString().equals("") && !jsonObject1.optString("company_shop_registration_pic").toString().equals("null")) {
-                        icon3.setVisibility(View.VISIBLE);
+                        icon4.setVisibility(View.VISIBLE);
+                        icon4.setImageResource(R.drawable.conreg);
                         if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
                             if (jsonObject1.optString("role_id").toString().equals("2")) {
                                 i += 15;
@@ -905,7 +907,7 @@ public class ViewDrawer extends AppCompatActivity
                             }
                         }
                     } else {
-                        icon3.setVisibility(View.GONE);
+                        icon4.setVisibility(View.GONE);
                     }
                     if (!jsonObject1.optString("company_img_1_pic").toString().equals("") && !jsonObject1.optString("company_img_1_pic").toString().equals("null")) {
                         if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
@@ -918,6 +920,7 @@ public class ViewDrawer extends AppCompatActivity
                     }
                     if (!jsonObject1.optString("id_card_pic").toString().equals("") && !jsonObject1.optString("id_card_pic").toString().equals("null")) {
                         icon3.setVisibility(View.VISIBLE);
+                        icon3.setImageResource(R.drawable.idcard);
                         if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
                             if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
                                 i += 10;
@@ -997,6 +1000,7 @@ public class ViewDrawer extends AppCompatActivity
                     if (!jsonObject1.optString("web_url").toString().equals("") && !jsonObject1.optString("web_url").toString().equals("null")) {
                         i += 3;
                         icon1.setVisibility(View.VISIBLE);
+                        icon1.setImageResource(R.drawable.weburl);
                     } else {
                         icon1.setVisibility(View.GONE);
                     }

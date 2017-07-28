@@ -11,23 +11,24 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
-import com.app.elixir.TravelB2B.pojos.pojoFollowers;
+import com.app.elixir.TravelB2B.utils.CM;
 
 import java.util.ArrayList;
 
 /**
  * Created by Elixir on 08-Aug-2016.
  */
-public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHolder> {
+public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.MyViewHolder> {
 
 
-    private ArrayList<pojoFollowers> dataSet;
+    private ArrayList<pojoAdvert> dataSet;
     Context context;
     public OnItemClickListener listener;
 
-    public adptfollowers(Context context, ArrayList<pojoFollowers> data) {
+    public adptAdvtMyProfile(Context context, ArrayList<pojoAdvert> data) {
         this.dataSet = data;
         this.context = context;
     }
@@ -36,18 +37,16 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView txtName, txtEmail, txtMobile, txtCompName;
+        public MtplTextView reqType, refType, startDate, endDate, total, adult;
         MtplButton btnUnBlockUser;
+        MtplTextView webSite, hotel_Name, charges, hotelType;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            rootView = (CardView) itemView.findViewById(R.id.rootView);
-            txtName = (MtplTextView) itemView.findViewById(R.id.txtName);
-            txtEmail = (MtplTextView) itemView.findViewById(R.id.txtEmail);
-            txtMobile = (MtplTextView) itemView.findViewById(R.id.txtMobile);
-            txtCompName = (MtplTextView) itemView.findViewById(R.id.txtCompName);
-
-
+            webSite = (MtplTextView) itemView.findViewById(R.id.txtWebsite);
+            hotel_Name = (MtplTextView) itemView.findViewById(R.id.txthotel_name);
+            charges = (MtplTextView) itemView.findViewById(R.id.txtCharges);
+            hotelType = (MtplTextView) itemView.findViewById(R.id.txthotel_type);
         }
 
         @Override
@@ -67,7 +66,7 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adptfollower, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adptadvtmyprofile, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
@@ -75,16 +74,14 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView fname = holder.txtName;
-        TextView email = holder.txtEmail;
-        TextView mobileNo = holder.txtMobile;
-        TextView compName = holder.txtCompName;
-
-        compName.setText(dataSet.get(position).getCompany_name());
-        fname.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
-        email.setText(dataSet.get(position).getEmail());
-        mobileNo.setText(dataSet.get(position).getWeb_url());
-
+        TextView webSite = holder.webSite;
+        TextView hotel_Name = holder.hotel_Name;
+        TextView charges = holder.charges;
+        TextView hotelType = holder.hotelType;
+        webSite.setText(dataSet.get(position).getWebsite());
+        hotel_Name.setText(dataSet.get(position).getHotel_name());
+        charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
+        hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));
 
     }
 

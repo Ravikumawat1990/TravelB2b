@@ -78,6 +78,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="5dp"
+                    android:textColor="@android:color/holo_orange_dark"
 
                     android:textSize="@dimen/font_12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -228,12 +229,14 @@
                 android:id="@+id/btnDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/margin_30dp"
+                android:layout_marginBottom="@dimen/margin_2dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="@dimen/margin_2dp"
                 android:background="@drawable/blue_rect"
                 android:paddingLeft="@dimen/margin_10dp"
                 android:paddingRight="@dimen/margin_10dp"
                 android:singleLine="true"
-                android:text="Detail"
+                android:text="Details"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

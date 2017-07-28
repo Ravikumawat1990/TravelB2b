@@ -206,9 +206,9 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
 
         completionView = (AutoCompletionView) findViewById(R.id.searchView);
         completionView.setAdapter(adapter);
-        completionView.setTokenLimit(5);
-        completionView.setDuplicateParentStateEnabled(false);
-
+        // completionView.setTokenLimit(5);
+        completionView.allowDuplicates(false);
+        completionView.setThreshold(3);
         completionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

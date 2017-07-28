@@ -220,7 +220,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.getString("response_object"));
-                    CM.showToast(jsonObject.getString("msg"), ViewLoginActivity.this);
+                    CM.showToast("Logged In Successfully.", ViewLoginActivity.this);
                     CM.setSp(ViewLoginActivity.this, CV.PrefID, String.valueOf(jsonObject1.getInt("id")));
                     CM.setSp(ViewLoginActivity.this, CV.PrefEmail, jsonObject1.optString("email"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefRole_Id, String.valueOf(jsonObject1.getInt("role_id")));

@@ -14,6 +14,7 @@ import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.utils.CM;
 
 import java.util.ArrayList;
 
@@ -79,8 +80,8 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
         TextView hotelType = holder.hotelType;
         webSite.setText(dataSet.get(position).getWebsite());
         hotel_Name.setText(dataSet.get(position).getHotel_name());
-        charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCharges());
-        hotelType.setText(dataSet.get(position).getHotel_type());
+        charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
+        hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));
 
     }
 

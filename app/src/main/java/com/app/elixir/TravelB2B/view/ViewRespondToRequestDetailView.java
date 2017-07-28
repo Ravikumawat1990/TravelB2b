@@ -44,6 +44,8 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
             destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupLocation;
+    String reqId = "", reqType = "";
+    MtplTextView DetailTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
         } catch (IllegalAccessException e) {
         }
 
+
         initView();
 
     }
@@ -90,7 +93,7 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
         btnRateUser = (MtplButton) findViewById(R.id.btnRateUser);
         btnBlockUser.setOnClickListener(this);
         btnRateUser.setOnClickListener(this);
-
+        DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
         refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
@@ -122,7 +125,9 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
         Intent intent = getIntent();
         String referenceId = intent.getStringExtra("refId");
-
+        reqId = intent.getStringExtra("reqtype");
+        reqType = CM.getReqType(reqId);
+        DetailTxt.setText(reqType + " Details");
 
         if (CM.isInternetAvailable(ViewRespondToRequestDetailView.this)) {
             webMyResponseDeatil(CM.getSp(ViewRespondToRequestDetailView.this, CV.PrefID, "").toString(), referenceId);

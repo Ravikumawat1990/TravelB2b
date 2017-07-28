@@ -621,6 +621,10 @@
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:padding="@dimen/margin_5dp"
+                                android:singleLine="true"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:scrollHorizontally="true"
 
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

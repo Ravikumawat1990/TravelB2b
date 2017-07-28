@@ -16,7 +16,7 @@
             android:layout_width="@dimen/margin_40dp"
             android:layout_height="@dimen/margin_40dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo1" />
+            android:src="@drawable/logonewnew" />
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
             android:id="@+id/mtplTextView5"
@@ -27,9 +27,42 @@
             android:paddingLeft="@dimen/margin_15dp"
             android:text="Rate This!"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6"
+            android:gravity="center"
+            android:padding="@dimen/margin_5dp"
+            android:text="User Name:- "
+
+            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/txtUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:gravity="left"
+            android:padding="@dimen/margin_5dp"
+            android:text=""
+            android:textColor="@color/appTextColor"
+            android:textSize="15sp"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+    </LinearLayout>
+
 
     <RatingBar
         android:id="@+id/ratingBar"

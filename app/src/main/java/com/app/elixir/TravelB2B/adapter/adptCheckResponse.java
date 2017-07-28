@@ -53,6 +53,8 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
             btnChat = (MtplButton) itemView.findViewById(R.id.btnChat);
             btnAccept = (MtplButton) itemView.findViewById(R.id.btnAccept);
             btnBlock = (MtplButton) itemView.findViewById(R.id.btnBlock);
+
+            //Follow
             btnRate = (MtplButton) itemView.findViewById(R.id.btnRate);
 
             btnShare.setOnClickListener(this);

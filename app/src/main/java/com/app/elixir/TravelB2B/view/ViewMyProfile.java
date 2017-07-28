@@ -16,7 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.adapter.adptAdvt;
+import com.app.elixir.TravelB2B.adapter.adptAdvtMyProfile;
 import com.app.elixir.TravelB2B.adapter.adptreview;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
@@ -48,7 +48,7 @@ public class ViewMyProfile extends AppCompatActivity {
 
 
     Toolbar toolbar;
-    private adptAdvt mAdapter1;
+    private adptAdvtMyProfile mAdapter1;
     MtplTextView userEmail, userName, userMob;
 
     @Override
@@ -112,7 +112,7 @@ public class ViewMyProfile extends AppCompatActivity {
         pojoTestimonialArrayList = new ArrayList<>();
         pojoAdvertArrayList = new ArrayList<>();
 
-        mAdapter1 = new adptAdvt(ViewMyProfile.this, pojoAdvertArrayList);
+        mAdapter1 = new adptAdvtMyProfile(ViewMyProfile.this, pojoAdvertArrayList);
         mAdapter = new adptreview(ViewMyProfile.this, pojoTestimonialArrayList);
 
 

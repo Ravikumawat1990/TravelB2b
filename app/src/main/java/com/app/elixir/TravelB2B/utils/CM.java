@@ -905,7 +905,7 @@ public class CM {
         return text;
     }
 
-  /*  public static String getHotelRating(String reqId) {
+    public static String getHotelRating(String reqId) {
         String text = "";
         switch (reqId) {
             case "*":
@@ -926,10 +926,10 @@ public class CM {
 
         }
         return text;
-    }*/
+    }
 
 
-    public static String getHotelRating(String reqId) {
+    /*public static String getHotelRating(String reqId) {
         String text = "";
         switch (reqId) {
             case "1 star":
@@ -950,6 +950,6 @@ public class CM {
 
         }
         return text;
-    }
+    }*/
 }
 

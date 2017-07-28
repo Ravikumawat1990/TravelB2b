@@ -43,6 +43,8 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
     String referenceId = "";
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
             destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupLocation;
+    MtplTextView DetailTxt;
+    String reqId = "", reqType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,8 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
-
+        reqId = intent.getStringExtra("reqtype");
+        reqType = CM.getReqType(reqId);
         initView();
 
     }
@@ -92,7 +95,8 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         btnRateUser = (MtplButton) findViewById(R.id.btnRateUser);
         btnBlockUser.setOnClickListener(this);
         btnRateUser.setOnClickListener(this);
-
+        DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
+        DetailTxt.setText(reqType+" Details");
         refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
@@ -303,8 +307,8 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     triplePer.setText(jsonObject1.optString("room3"));
                     child_with_bed.setText(jsonObject1.optString("child_with_bed"));
                     child_without_bed.setText(jsonObject1.optString("child_without_bed"));
-                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
-                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
+                    checkIn.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in").trim().toString()));
+                    checkout.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out").trim().toString()));
                     locality.setText(jsonObject1.optString("locality"));
                     //hotelCat.setText(CM.setHotelCat(jsonObject1.optString("hotel_category")));
 
