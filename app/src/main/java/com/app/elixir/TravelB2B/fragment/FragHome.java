@@ -94,6 +94,7 @@ public class FragHome extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
         menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
     }
 
     @Override

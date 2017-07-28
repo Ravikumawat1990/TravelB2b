@@ -2,7 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myapp="http://schemas.android.com/apk/res-auto">
 
-
+    <item
+        android:id="@+id/noti"
+        android:icon="@drawable/ic_menu_cart"
+        android:title="Add to Cart"
+        myapp:showAsAction="always" />
     <item
         android:id="@+id/filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
@@ -16,5 +20,6 @@
         android:title="drawer"
         android:visible="true"
         myapp:showAsAction="always" />
+
 
 </menu>

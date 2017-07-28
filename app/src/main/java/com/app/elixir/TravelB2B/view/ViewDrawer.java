@@ -1,10 +1,17 @@
 package com.app.elixir.TravelB2B.view;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -50,15 +57,18 @@ import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.utils.BadgeDrawable;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.CustomTypefaceSpan;
+import com.app.elixir.TravelB2B.utils.messageListionerService;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +76,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 
 public class ViewDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter {
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks {
 
     private DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
@@ -79,6 +89,8 @@ public class ViewDrawer extends AppCompatActivity
     TextView txtCount;
     ProgressBar progressBar;
     ImageView icon1, icon2, icon3, icon4;
+    private boolean mBounded;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +107,12 @@ public class ViewDrawer extends AppCompatActivity
         }
         setSupportActionBar(toolbar);
 
+        try {
+            CM.setSp(ViewDrawer.this, "regId", FirebaseInstanceId.getInstance().getToken().toString());
+            Log.e("FCM_ID", FirebaseInstanceId.getInstance().getToken().toString());
+        } catch (Exception e) {
+            e.getMessage();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -434,12 +452,36 @@ public class ViewDrawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.view_drawer, menu);
-        menu.getItem(0).setIcon(R.drawable.ic_filter_list_white_24dp);
+        menu.getItem(1).setIcon(R.drawable.ic_filter_list_white_24dp);
         if (isOpen) {
-            menu.getItem(1).setIcon(R.drawable.userhome);
+            menu.getItem(2).setIcon(R.drawable.userhome);
         } else {
-            menu.getItem(1).setIcon(R.drawable.userhome);
+            menu.getItem(2).setIcon(R.drawable.userhome);
         }
+
+        MenuItem menuItem = menu.findItem(R.id.noti);
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion == 15) {
+            LayerDrawable icon = null;
+            try {
+                menuItem.setIcon(getResources().getDrawable(R.drawable.ic_notifications_white_24dp));
+                BitmapDrawable iconBitmap = (BitmapDrawable) menuItem.getIcon();
+                icon = new LayerDrawable(new Drawable[]{iconBitmap});
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            setBadgeCount(ViewDrawer.this, icon, String.valueOf(5));
+        } else {
+            LayerDrawable icon = null;
+            try {
+                icon = (LayerDrawable) menuItem.getIcon();
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            setBadgeCount(ViewDrawer.this, icon, String.valueOf(5));
+        }
+
+
         return true;
     }
 
@@ -1102,5 +1144,64 @@ public class ViewDrawer extends AppCompatActivity
         } catch (Exception e) {
             CM.showPopupCommonValidation(ViewDrawer.this, e.getMessage(), false);
         }
+    }
+
+    @Override
+    public void ShowConnectionPopup(String status) {
+
+        Log.i(TAG, "ShowConnectionPopup: ");
+
+    }
+
+
+    private messageListionerService myService;
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            messageListionerService.LocalBinder binder = (messageListionerService.LocalBinder) service;
+            myService = binder.getService();
+            mBounded = true;
+            myService.setCallbacks(ViewDrawer.this); // register
+        }
+
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBounded = false;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent mIntent = new Intent(this, messageListionerService.class);
+        bindService(mIntent, serviceConnection, BIND_AUTO_CREATE);
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(serviceConnection);
+        mBounded = false;
+    }
+
+    public static void setBadgeCount(Context context, LayerDrawable icon, String count) {
+
+        BadgeDrawable badge;
+
+        // Reuse drawable if possible
+        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
+        if (reuse != null && reuse instanceof BadgeDrawable) {
+            badge = (BadgeDrawable) reuse;
+        } else {
+            badge = new BadgeDrawable(context);
+        }
+
+        badge.setCount(count);
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.ic_badge, badge);
     }
 }

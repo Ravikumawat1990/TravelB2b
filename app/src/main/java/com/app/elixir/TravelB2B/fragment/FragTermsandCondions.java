@@ -106,6 +106,7 @@ public class FragTermsandCondions extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.noti).setVisible(false);
 
     }
 

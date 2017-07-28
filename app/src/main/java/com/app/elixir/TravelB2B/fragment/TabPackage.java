@@ -1118,11 +1118,13 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                     for (int i1 = 0; i1 < words.size(); i1++) {
 
-                                        Log.i(TAG, "onClick: " + CM.setHotelCatRev(words.get(i1).toString()));
-                                        stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+                                        if (stringBuilder.equals("")) {
+                                            stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+                                        } else {
+                                            stringBuilder.append(",");
+                                            stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
 
-                                        stringBuilder.append(",");
-
+                                        }
                                     }
                                     String stateList = stringBuilder.toString().replace("[", "").replace("]", "")
                                             .replace(", ", ",");
@@ -1173,13 +1175,13 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                             List<String> selectedStrings = spinnerHotelCat1.getSelectedStrings();
                                             StringBuilder stringBuilder1 = new StringBuilder();
-
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder1.append(",");
-
+                                                if (stringBuilder1.equals("")) {
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                } else {
+                                                    stringBuilder1.append(",");
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                }
                                             }
                                             String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
                                                     .replace(", ", ",");
@@ -1209,9 +1211,16 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
-                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder1.append(",");
+                                                // Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                if (stringBuilder1.equals("")) {
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                } else {
+                                                    stringBuilder1.append(",");
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                }
 
                                             }
                                             String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
@@ -1243,8 +1252,14 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder1.append(",");
+                                                if (stringBuilder1.equals("")) {
+
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                } else {
+                                                    stringBuilder1.append(",");
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                }
 
                                             }
                                             String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
@@ -1275,8 +1290,14 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder1.append(",");
+                                                if (stringBuilder1.equals("")) {
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                } else {
+                                                    stringBuilder1.append(",");
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                }
+
 
                                             }
                                             String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
@@ -1307,8 +1328,13 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                stringBuilder1.append(",");
+                                                if (stringBuilder1.equals("")) {
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                } else {
+                                                    stringBuilder1.append(",");
+                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                }
 
                                             }
                                             String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
@@ -1936,9 +1962,9 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                 now.get(Calendar.DAY_OF_MONTH));
 
         try {
-            Calendar now1 = Calendar.getInstance();
-            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
-            dpd.setMinDate(now1);
+            // Calendar now1 = Calendar.getInstance();
+            //  now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+            //  dpd.setMinDate(now1);
 
             dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
 

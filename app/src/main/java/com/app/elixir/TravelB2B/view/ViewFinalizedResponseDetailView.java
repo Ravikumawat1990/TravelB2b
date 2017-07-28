@@ -294,7 +294,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                     refId.setText(jsonObject1.optString("reference_id"));
-                    budget.setText(jsonObject1.optString("total_budget"));
+                    budget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
                     members.setText(jsonObject1.optString("adult"));
                     childres.setText(jsonObject1.optString("children"));
                     singlePer.setText(jsonObject1.optString("room1"));
@@ -310,15 +310,15 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     //  destiCity.setText(jsonObject1.optString("destination_city"));
 
 
-                    if (!jsonObject1.optString("pickup_state").equals("")) {
-                        webState(jsonObject1.optString("pickup_state"), "1");
+                    if (!jsonObject1.optString("state_id").equals("")) {
+                        webState(jsonObject1.optString("state_id"), "1");
                     } else {
 
                     }
 
 
-                    if (!jsonObject1.optString("destination_city").equals("") || !jsonObject1.optString("destination_city").equals("0")) {
-                        webCity(jsonObject1.optString("destination_city"), "1");
+                    if (!jsonObject1.optString("city_id").equals("") || !jsonObject1.optString("city_id").equals("0")) {
+                        webCity(jsonObject1.optString("city_id"), "1");
                     } else {
 
                     }
@@ -450,7 +450,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if (jsonObject.get("response_object").toString() == null) {
+                    if (jsonObject.get("response_object").toString() != null) {
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                         if (type.equals("1")) {
                             destiCity.setText(jsonObject1.optString("name"));

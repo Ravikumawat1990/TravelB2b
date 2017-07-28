@@ -491,21 +491,21 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:maxLines="1"
-
                                 android:padding="@dimen/margin_5dp"
-                                android:text="@string/Destination_State"
+                                android:text="@string/Destination_City"
+
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                             <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                                android:id="@+id/txtDestState"
+
+                                android:id="@+id/txtDestCity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:padding="@dimen/margin_5dp"
-
 
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
@@ -530,21 +530,21 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:maxLines="1"
-
                                 android:padding="@dimen/margin_5dp"
-                                android:text="@string/Destination_City"
+                                android:text="@string/Destination_State"
+
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                             <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                                android:id="@+id/txtDestCity"
+
+                                android:id="@+id/txtDestState"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:padding="@dimen/margin_5dp"
-
                                 android:textSize="@dimen/font_12sp"
 
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

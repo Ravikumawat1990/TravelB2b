@@ -12,6 +12,15 @@ public class pojoMyRequest {
     String p_contact;
     String email;
     String request_id;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     String reference_id;
     String total_budget;

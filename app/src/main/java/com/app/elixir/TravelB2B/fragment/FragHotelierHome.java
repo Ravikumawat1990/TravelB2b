@@ -94,6 +94,7 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.noti).setVisible(false);
 
     }
 

@@ -337,10 +337,10 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (jsonObject1.optString("city_id").equals("") || jsonObject1.optString("city_id").toString().equals("0")) {
-
-                            } else {
+                            if (!jsonObject1.optString("city_id").equals("") || !jsonObject1.optString("city_id").toString().equals("0")) {
                                 webCity(jsonObject1.optString("city_id"), "1");
+                            } else {
+
                             }
                         }
                     }, 100);
@@ -350,10 +350,10 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
                     handler1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("0") || jsonObject1.optString("pickup_city").equals("null")) {
-
-                            } else {
+                            if (!jsonObject1.optString("pickup_city").equals("") || !jsonObject1.optString("pickup_city").toString().equals("0") || !jsonObject1.optString("pickup_city").equals("null")) {
                                 webCity(jsonObject1.optString("pickup_city"), "2");
+                            } else {
+
                             }
                         }
 
@@ -363,10 +363,10 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
                     handler3.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").equals("null")) {
-
+                            if (!jsonObject1.optString("state_id").equals("") || !jsonObject1.optString("state_id").equals("null")) {
+                                webState(jsonObject1.optString("state_id"), "1");
                             } else {
-                                webState(jsonObject1.optString("pickup_state"), "1");
+
                             }
                         }
 
@@ -430,13 +430,16 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+
+                    if (jsonObject.optString("response_object") != null && !jsonObject.optString("response_object").toString().equals("null")) {
+                        JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
 
 
-                    if (type.equals("1")) {
-                        destiCity.setText(jsonObject1.optString("name"));
-                    } else {
-                        pickupCity.setText(jsonObject1.optString("name"));
+                        if (type.equals("1")) {
+                            destiCity.setText(jsonObject1.optString("name"));
+                        } else {
+                            pickupCity.setText(jsonObject1.optString("name"));
+                        }
                     }
 
 

@@ -278,13 +278,13 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
                     comment.setText(jsonObject1.optString("comment"));
 
-                    if (!jsonObject1.optString("pickup_state").toString().equals("") && !jsonObject1.optString("pickup_state").toString().equals("null")) {
-                        webState(jsonObject1.optString("pickup_state"));
+                    if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null")) {
+                        webState(jsonObject1.optString("state_id"));
                     } else {
 
                     }
-                    if (!jsonObject1.optString("destination_city").toString().equals("") && !jsonObject1.optString("destination_city").toString().equals("0")) {
-                        webCity(jsonObject1.optString("destination_city"));
+                    if (!jsonObject1.optString("city_id").toString().equals("") && !jsonObject1.optString("city_id").toString().equals("0")) {
+                        webCity(jsonObject1.optString("city_id"));
                     } else {
                     }
 

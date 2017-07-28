@@ -119,6 +119,6 @@ public class FragPaceRequest extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.findItem(R.id.filter).setVisible(false);
-
+        menu.findItem(R.id.noti).setVisible(false);
     }
 }

@@ -126,7 +126,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 } else if (value.equals("btnAccept")) {
                     showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2, value3);
                 } else if (value.equals("rate")) {
-                    showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+
+                    //   showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+
+
                 } else if (value.equals("block")) {
                     showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2, "");
                 }

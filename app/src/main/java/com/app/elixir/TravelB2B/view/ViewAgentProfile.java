@@ -129,6 +129,7 @@ public class ViewAgentProfile extends AppCompatActivity {
         userName = (MtplTextView) findViewById(R.id.userName);
         phoneNumber = (MtplTextView) findViewById(R.id.phoneNumber);
         email = (MtplTextView) findViewById(R.id.email);
+        email.setSelected(true);
         discription = (MtplTextView) findViewById(R.id.txtDiscription);
     }
 

@@ -156,6 +156,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.filter).setVisible(true);
+        menu.findItem(R.id.noti).setVisible(false);
     }
 
 
@@ -596,6 +597,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                         myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
                         myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
                         myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
+                        myResposne.setId(jsonObjectUser.optString("id").toString());
                         pojoMyResposneArrayList.add(myResposne);
                     }
 

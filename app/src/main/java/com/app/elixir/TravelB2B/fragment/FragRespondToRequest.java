@@ -698,6 +698,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.filter);
+        menu.findItem(R.id.noti).setVisible(false);
         item.setVisible(true);
     }
 

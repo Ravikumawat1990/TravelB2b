@@ -1078,9 +1078,9 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
                                 now.get(Calendar.DAY_OF_MONTH));
 
                         try {
-                            Calendar now1 = Calendar.getInstance();
-                            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
-                            dpd.setMinDate(now1);
+                            //Calendar now1 = Calendar.getInstance();
+                            //     now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+                            // dpd.setMinDate(now1);
 
                             dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
 

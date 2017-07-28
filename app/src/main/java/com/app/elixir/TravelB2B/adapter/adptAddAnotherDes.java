@@ -184,7 +184,7 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if (jsonObject.get("response_object").toString() == null) {
+                    if (jsonObject.get("response_object").toString() != null) {
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
 
                         destState.setText(jsonObject1.optString("name"));

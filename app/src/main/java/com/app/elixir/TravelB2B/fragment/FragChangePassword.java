@@ -142,6 +142,7 @@ public class FragChangePassword extends Fragment implements View.OnClickListener
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.cartMenu);
+        menu.findItem(R.id.noti).setVisible(false);
         item.setVisible(false);
     }
 }

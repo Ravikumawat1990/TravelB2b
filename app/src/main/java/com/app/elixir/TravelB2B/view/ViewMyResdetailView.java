@@ -96,7 +96,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         btnBlockUser.setOnClickListener(this);
         btnRateUser.setOnClickListener(this);
         DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
-        DetailTxt.setText(reqType+" Details");
+        DetailTxt.setText(reqType + " Details");
         refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
@@ -112,6 +112,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         destiCity = (MtplTextView) findViewById(R.id.txtDestCity);
         locality = (MtplTextView) findViewById(R.id.txtLocality);
         hotelCat = (MtplTextView) findViewById(R.id.txtHotelCat);
+        hotelCat.setSelected(true);
         meal = (MtplTextView) findViewById(R.id.txtMeal);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
         vehicle = (MtplTextView) findViewById(R.id.txtVehicle);
@@ -335,20 +336,25 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     pickupLocation.setText(jsonObject1.optString("pickup_locality"));
 
 
-                    if (jsonObject1.optString("destination_city").equals("") || jsonObject1.optString("destination_city").toString().equals("0")) {
-
+                    if (!jsonObject1.optString("city_id").equals("") || !jsonObject1.optString("city_id").toString().equals("0")) {
+                        webCity(jsonObject1.optString("city_id"), "1");
                     } else {
-                        webCity(jsonObject1.optString("destination_city"), "1");
+
                     }
 
-                    if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("0")) {
+                    if (!jsonObject1.optString("pickup_city").equals("") || !jsonObject1.optString("pickup_city").toString().equals("0")) {
                         webCity(jsonObject1.optString("pickup_city"), "2");
                     } else {
 
                     }
 
+                    if (!jsonObject1.optString("state_id").equals("") && !jsonObject1.optString("pickup_state").equals("null")) {
+                        webState(jsonObject1.optString("state_id"), "1");
+                    } else {
+
+                    }
                     if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("null")) {
-                        webState(jsonObject1.optString("pickup_state"), "1");
+                        webState(jsonObject1.optString("pickup_state"), "2");
                     } else {
 
                     }
@@ -482,7 +488,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     if (type.equals("1")) {
                         destiState.setText(jsonObject1.optString("state_name"));
                     } else {
-                        //    finalState.setText(jsonObject1.optString("state_name"));
+                        // txtPickupState.setText(jsonObject1.optString("state_name"));
                     }
                     break;
                 case "202":

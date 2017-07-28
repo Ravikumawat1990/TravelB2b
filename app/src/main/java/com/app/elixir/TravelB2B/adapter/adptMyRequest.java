@@ -79,7 +79,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
                     break;
                 case R.id.reqAgent:
                     //getUserId changed with getId
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getRequest_id(), "showAgent");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showAgent");
                     break;
             }
 

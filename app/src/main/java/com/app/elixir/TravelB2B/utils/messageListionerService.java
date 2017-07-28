@@ -59,7 +59,7 @@ public class messageListionerService extends Service {
                         // TODO
                         try {
                             Log.e("msg", "" + status);
-                            serviceCallbacks.ShowConnectionPopup(status);
+                            serviceCallbacks.ShowConnectionPopup("0");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

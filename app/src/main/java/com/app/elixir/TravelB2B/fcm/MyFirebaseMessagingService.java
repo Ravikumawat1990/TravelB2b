@@ -1,11 +1,20 @@
 package com.app.elixir.TravelB2B.fcm;
 
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.view.ViewDrawer;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -45,61 +54,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         sendNotification(remoteMessage.getNotification().getBody());
 
-        if (remoteMessage.getNotification().getBody().equals("Delivery")) {
-            Intent intent = new Intent("Delivery");
-            // put whatever data you want to send, if any
-            intent.putExtra("message", value.toString());
-            //send broadcast
-            sendBroadcast(intent);
-            sendNotificationDelivery(remoteMessage.getNotification().getBody());
-        } else if (remoteMessage.getNotification().getBody().equals("Customer")) {
-            Intent intent = new Intent("Customer");
-            intent.putExtra("message", value.toString());
-            //send broadcast
-            sendBroadcast(intent);
-            sendNotification(remoteMessage.getNotification().getBody());
-        } else {
-
-        }
-
-    }
-
-
-    private void sendNotificationDelivery(String messageBody) {
-        /*int requestID = (int) System.currentTimeMillis();
-        Intent intent = new Intent(this, ViewDeliveryBoy.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-        notificationBuilder.setSmallIcon(R.drawable.applogo);
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(requestID, notificationBuilder.build());
-        ArrayList<NotiModel> notiModels = new ArrayList<>();
-        NotiModel notiModel = new NotiModel();
-        notiModel.setKey(String.valueOf(requestID));
-        notiModel.setIsViewed("0");
-        notiModels.add(notiModel);
-        tbl_notificationNew.Insert(notiModels);*/
-
 
     }
 
 
     private void sendNotification(String messageBody) {
-      /*  int requestID = (int) System.currentTimeMillis();
-        Intent intent = new Intent(this, ViewSplash.class);
-        ArrayList<NotiModel> notiModels = new ArrayList<>();
-        NotiModel notiModel = new NotiModel();
-        notiModel.setKey(String.valueOf(requestID));
-        notiModel.setIsViewed("0");
-        notiModels.add(notiModel);
-        tbl_notification.Insert(notiModels);
+        int requestID = (int) System.currentTimeMillis();
+        Intent intent = new Intent(this, ViewDrawer.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
@@ -108,12 +69,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
-        notificationBuilder.setSmallIcon(R.drawable.applogo);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.noti);
+        notificationBuilder.setLargeIcon(icon);
+        notificationBuilder.setSmallIcon(getNotificationIcon(notificationBuilder));
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(requestID, notificationBuilder.build());*/
-
-
+        notificationManager.notify(requestID, notificationBuilder.build());
     }
+
+    private int getNotificationIcon(NotificationCompat.Builder notificationBuilder) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int color = 0x008000;
+            notificationBuilder.setColor(color);
+            return R.drawable.noti;
+
+        } else {
+            return R.drawable.notic;
+        }
+    }
+
+
 }

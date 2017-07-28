@@ -407,6 +407,7 @@ public class FragBlockUser extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.cartMenu);
         MenuItem item1 = menu.findItem(R.id.filter);
+        menu.findItem(R.id.noti).setVisible(false);
         item.setVisible(false);
         item1.setVisible(true);
     }
