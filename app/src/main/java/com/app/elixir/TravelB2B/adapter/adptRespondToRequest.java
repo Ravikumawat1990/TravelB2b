@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -44,6 +45,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         MtplButton btnDetail, btnShowInterest;
         TextView total;
         ImageView catImage;
+        RatingBar ratingBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +55,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             txtComment.setSelected(true);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             total = (TextView) itemView.findViewById(R.id.txtTot);
@@ -113,6 +116,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         TextView destination = holder.destination;
         ImageView catImg = holder.catImage;
         MtplTextView reqAgentType = holder.reqAgentType;
+        RatingBar ratingBar = holder.ratingBar;
 
 
         txtComment.setText(dataSet.get(position).getUserComment());
@@ -134,12 +138,10 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
-        /*int totMemb = 0;
-        try {
-            totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
-        } catch (Exception e) {
-            totMemb = 0;
-        }*/
+        if (!dataSet.get(position).getRating().equals("") && !dataSet.get(position).getRating().equals("null")) {
+            int ratte = (int) Math.round(Double.parseDouble(dataSet.get(position).getRating()));
+            ratingBar.setProgress(ratte);
+        }
 
         int totAdult = 0;
         int totChild = 0;

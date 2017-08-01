@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -60,6 +61,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         TextView total;
         LinearLayout layoutUserDeatil;
         MtplTextView txtUserName, useremail, txtUsermobileNp, txtUserwebsite;
+        RatingBar ratingBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +88,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             useremail = (MtplTextView) itemView.findViewById(R.id.txtUserEmail);
             txtUsermobileNp = (MtplTextView) itemView.findViewById(R.id.txtMobileNo);
             txtUserwebsite = (MtplTextView) itemView.findViewById(R.id.txtUserwebsite);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
 
 
             reqAgent.setOnClickListener(this);
@@ -148,6 +151,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         MtplTextView useremail = holder.useremail;
         LinearLayout userDeatil = holder.layoutUserDeatil;
         MtplTextView reqAgentType = holder.reqAgentType;
+        RatingBar ratingBar = holder.ratingBar;
 
         //ImageView imageView = holder.imageView;
 
@@ -168,6 +172,12 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         }
 
 
+
+
+        if (!dataSet.get(position).getRating().equals("") && !dataSet.get(position).getRating().equals("null")) {
+            int ratte = (int) Math.round(Double.parseDouble(dataSet.get(position).getRating()));
+            ratingBar.setProgress(ratte);
+        }
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         //  total.setSingleLine(false);

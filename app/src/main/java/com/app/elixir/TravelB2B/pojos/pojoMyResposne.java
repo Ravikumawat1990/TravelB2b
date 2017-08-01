@@ -18,6 +18,15 @@ public class pojoMyResposne {
     String shareDetail;
     String web_url;
     String chatUserID;
+    String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public String getChatUserID() {
         return chatUserID;

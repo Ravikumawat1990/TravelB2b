@@ -625,7 +625,12 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
                     pojoMyResposneArrayList.clear();
+                    JSONObject jsonArray1 = new JSONObject(jsonObject.optString("citystate").toString());
+                    JSONObject jsonObject1 = new JSONObject(jsonArray1.optString("citystate"));
 
+                    JSONObject jsonObject2 = new JSONObject(jsonObject.optString("rating").toString());
+
+                    JSONObject jsonObject11 = new JSONObject(jsonObject2.optString("rating").toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoMyResposne myResposne = new pojoMyResposne();
@@ -644,10 +649,8 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                         myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
                         myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
 
-                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
-                        if (jsonObject1 != null) {
-                            myResposne.setDestination_city(jsonObject1.optString("name"));
-                        }
+                        myResposne.setDestination_city(jsonObject1.optString(jsonArray.getJSONObject(i).get("id").toString()));
+
                         myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
                         myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
                         myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
@@ -663,7 +666,16 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                         myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
                         myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
                         myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
+
+                        JSONArray jsonArray2 = new JSONArray(jsonObject11.optString(jsonArray.getJSONObject(i).get("id").toString()));
+                        for (int i1 = 0; i1 < jsonArray2.length(); i1++) {
+                            myResposne.setRating(jsonArray2.getJSONObject(i1).optString("average_rating"));
+
+                        }
+
+
                         JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
+
 
                         myResposne.setId(jsonObjectUser.optString("id").toString());
                         myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());

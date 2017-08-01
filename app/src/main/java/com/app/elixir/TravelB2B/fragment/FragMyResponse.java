@@ -77,6 +77,8 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
     private int month1;
     private int year1;
 
+    ArrayList<String> cityStateArrayList;
+
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -137,6 +139,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
     private void initView(View rootView) {
 
         myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        cityStateArrayList = new ArrayList<>();
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showPopup();
@@ -607,6 +610,14 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    //cityStateArrayList
+
+                    JSONObject jsonArray1 = new JSONObject(jsonObject.optString("citystate").toString());
+
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("rating").toString());
+
+                    JSONObject jsonObject11 = new JSONObject(jsonObject1.optString("rating").toString());
+
 
                     pojoMyResposneArrayList.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -632,18 +643,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setHotel_rating(jsonObjectReq.optString("hotel_rating").toString());
                         myResposne.setHotel_category(jsonObjectReq.optString("hotel_category").toString());
                         myResposne.setMeal_plan(jsonObjectReq.optString("meal_plan").toString());
-                        JSONArray jsonArray1 = new JSONArray(jsonArray.getJSONObject(i).get("cities").toString());
-                       /* if (jsonObject1 != null) {
-                            myResposne.setDestination_city(jsonObject1.optString("name"));
-                        }*/
-
-
-                        for (int i1 = 0; i1 < jsonArray1.length(); i1++) {
-
-                            myResposne.setDestination_city(jsonArray1.getJSONObject(i1).optString("name"));
-
-                        }
-                        // myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
+                        myResposne.setDestination_city(jsonArray1.optString(jsonArray.getJSONObject(i).get("id").toString()));
                         myResposne.setCheck_in(jsonObjectReq.optString("check_in").toString());
                         myResposne.setCheck_out(jsonObjectReq.optString("check_out").toString());
                         myResposne.setTransport_requirement(jsonObjectReq.optString("transport_requirement").toString());
@@ -667,6 +667,14 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setId(jsonObjectUser.optString("id").toString());
                         myResposne.setWeb_url(jsonObjectUser.optString("web_url").toString());
                         myResposne.setEmail(jsonObjectUser.optString("email").toString());
+
+
+                        JSONArray jsonArray2 = new JSONArray(jsonObject11.optString(jsonArray.getJSONObject(i).get("id").toString()));
+                        for (int i1 = 0; i1 < jsonArray2.length(); i1++) {
+                            myResposne.setRating(jsonArray2.getJSONObject(i1).optString("average_rating"));
+
+                        }
+
                         pojoMyResposneArrayList.add(myResposne);
                     }
 

@@ -9,12 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -97,6 +99,27 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         btnRateUser.setOnClickListener(this);
         DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
         DetailTxt.setText(reqType + " Details");
+        CardView cardView = (CardView) findViewById(R.id.cardViewReq);
+        MtplTextView mtplTextView = (MtplTextView) findViewById(R.id.transportTile);
+
+        CardView cardPacakge = (CardView) findViewById(R.id.rootView);
+        LinearLayout packageTile = (LinearLayout) findViewById(R.id.packageTile);
+
+
+        if (reqId.equals("2")) {
+            cardView.setVisibility(View.VISIBLE);
+            mtplTextView.setVisibility(View.VISIBLE);
+            cardPacakge.setVisibility(View.GONE);
+            packageTile.setVisibility(View.GONE);
+
+        } else {
+            cardPacakge.setVisibility(View.VISIBLE);
+            packageTile.setVisibility(View.VISIBLE);
+            cardView.setVisibility(View.GONE);
+            mtplTextView.setVisibility(View.GONE);
+
+
+        }
         refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
