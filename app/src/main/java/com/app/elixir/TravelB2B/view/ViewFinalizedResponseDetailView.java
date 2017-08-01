@@ -53,6 +53,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     adptAddAnotherDes mAdapter;
     RecyclerView mRecyclerView;
     MtplTextView trasnStrtDate, trasnEndDate, transPickupState, transPickupCity, transPickupLocat;
+    MtplTextView txtvehicle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
         btnRateUser.setOnClickListener(this);
 
         refId = (MtplTextView) findViewById(R.id.txtRefId);
+        txtvehicle = (MtplTextView) findViewById(R.id.txtvehicle);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
         childres = (MtplTextView) findViewById(R.id.txtChildren);
@@ -361,6 +363,8 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     } else {
 
                     }
+
+                    txtvehicle.setText(CM.setVichel(jsonObject1.optString("transport_requirement").toString()));
 
 
                     JSONArray jsonArray = new JSONArray(jsonObject1.optString("hotels").toString());

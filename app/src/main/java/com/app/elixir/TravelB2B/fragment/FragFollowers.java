@@ -110,7 +110,10 @@ public class FragFollowers extends Fragment {
             @Override
             public void onItemClick(String value, String value1) {
 
-                showPopup(thisActivity);
+                if (value.equals("follow")) {
+                    webUnFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value1);
+                }
+                // showPopup(thisActivity);
 
             }
         });
@@ -206,7 +209,9 @@ public class FragFollowers extends Fragment {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
+
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    pojoFollowerses.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("user"));
@@ -218,7 +223,6 @@ public class FragFollowers extends Fragment {
                         pojoFollowers.setEmail(jsonObject1.optString("email"));
                         pojoFollowers.setWeb_url(jsonObject1.optString("web_url"));
                         pojoFollowers.setBb_userid(jsonArray.getJSONObject(i).optString("id"));
-
                         pojoFollowerses.add(pojoFollowers);
 
                     }
@@ -398,7 +402,7 @@ public class FragFollowers extends Fragment {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if(!jsonObject.optString("response_object").toString().equals("null")) {
+                    if (!jsonObject.optString("response_object").toString().equals("null")) {
                         CM.showToast(getString(R.string.unfollow_success), thisActivity);
                         webFollowers(CM.getSp(thisActivity, CV.PrefID, "").toString());
                     }

@@ -53,7 +53,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType;
         MtplButton btnDetail, btnFollow, btnChat;
         ImageView catImage;
         ImageView imageView;
@@ -64,6 +64,8 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
+            //reqAgentType = (CardView) itemView.findViewById(R.id.reqAgentType);
+            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
@@ -145,6 +147,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         MtplTextView website = holder.txtUserwebsite;
         MtplTextView useremail = holder.useremail;
         LinearLayout userDeatil = holder.layoutUserDeatil;
+        MtplTextView reqAgentType = holder.reqAgentType;
 
         //ImageView imageView = holder.imageView;
 
@@ -169,23 +172,38 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         endDate.setText(txtEndDt);
         //  total.setSingleLine(false);
         total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        int totAdult = 0;
+        int totChild = 0;
         int totMemb = 0;
+
         try {
-            totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
+            totAdult = Integer.parseInt(dataSet.get(position).getAdult());
         } catch (Exception e) {
-            totMemb = 0;
+            totAdult = 0;
         }
+        try {
+            totChild = Integer.parseInt(dataSet.get(position).getChildren());
+        } catch (Exception e) {
+            totChild = 0;
+        }
+        totMemb = totAdult + totChild;
+
         adult.setText(String.valueOf(totMemb));
+
+
         destination.setText(dataSet.get(position).getDestination_city());
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
+            reqAgentType.setText(" ( " + "Package" + " )");
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
+            reqAgentType.setText(" ( " + "Transport" + " )");
         } else {
             catImg.setImageResource(R.drawable.hh);
+            reqAgentType.setText(" ( " + "Hotel" + " )");
         }
 
         TextDrawable drawable = TextDrawable.builder()

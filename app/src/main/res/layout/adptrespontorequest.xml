@@ -46,18 +46,37 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                        android:id="@+id/reqAgent"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left|center_vertical"
-                        android:maxLines="1"
-                        android:paddingBottom="@dimen/margin_2dp"
-                        android:paddingTop="@dimen/margin_2dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp"
-                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+                        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                            android:id="@+id/reqAgent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left|center_vertical"
+                            android:maxLines="1"
+                            android:paddingBottom="@dimen/margin_2dp"
+                            android:paddingTop="@dimen/margin_2dp"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                            android:id="@+id/reqAgentType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="left|center_vertical"
+                            android:maxLines="1"
+                            android:paddingBottom="@dimen/margin_2dp"
+                            android:paddingTop="@dimen/margin_2dp"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp"
+                            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                    </LinearLayout>
+
 
                     <RatingBar
                         android:id="@+id/ratingBar"
@@ -366,11 +385,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
+                android:ellipsize="marquee"
                 android:gravity="left|center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_2dp"
                 android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
+                android:singleLine="true"
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

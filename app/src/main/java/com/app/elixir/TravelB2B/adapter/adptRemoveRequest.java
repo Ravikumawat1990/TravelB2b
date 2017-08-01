@@ -88,8 +88,22 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
         reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
 
         int mebersInt = 0;
+        int adtInt = 0;
         try {
-            mebersInt = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
+            adtInt = Integer.parseInt(dataSet.get(position).getAdult());
+        } catch (Exception e) {
+            adtInt = 0;
+        }
+        int childInt = 0;
+        try {
+            childInt = Integer.parseInt(dataSet.get(position).getChildren());
+        } catch (Exception e) {
+            childInt = 0;
+        }
+
+
+        try {
+            mebersInt = adtInt + childInt;
         } catch (Exception e) {
             mebersInt = 0;
 

@@ -39,7 +39,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, txtRefId;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, txtRefId, reqAgentType;
         MtplButton btnRemoveReq, btnCheckRes;
         ImageView catImage;
         TextView total;
@@ -48,11 +48,13 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
+            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtRefId = (MtplTextView) itemView.findViewById(R.id.txtRefId);
 
 
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
+            txtComment.setSelected(true);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             total = (TextView) itemView.findViewById(R.id.txtTot);
@@ -109,7 +111,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         TextView total = holder.total;
         TextView adult = holder.adult;
         TextView txtRefId = holder.txtRefId;
-
+        MtplTextView reqAgentType = holder.reqAgentType;
 
         TextView destination = holder.destination;
         ImageView catImg = holder.catImage;
@@ -136,23 +138,42 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
-        int totMemb = 0;
+       /* int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
         } catch (Exception e) {
             totMemb = 0;
+        }*/
+        int totAdult = 0;
+        int totChild = 0;
+        int totMemb = 0;
+
+        try {
+            totAdult = Integer.parseInt(dataSet.get(position).getAdult());
+        } catch (Exception e) {
+            totAdult = 0;
         }
+        try {
+            totChild = Integer.parseInt(dataSet.get(position).getChildren());
+        } catch (Exception e) {
+            totChild = 0;
+        }
+        totMemb = totAdult + totChild;
+
+
         adult.setText(String.valueOf(totMemb));
         destination.setText(dataSet.get(position).getDestination_city());
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
-
+            reqAgentType.setText(" ( " + "Package" + " )");
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
+            reqAgentType.setText(" ( " + "Transport" + " )");
         } else {
             catImg.setImageResource(R.drawable.hh);
+            reqAgentType.setText(" ( " + "Hotel" + " )");
         }
     }
 

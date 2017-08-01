@@ -818,6 +818,7 @@
                                     mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
                                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                    android:id="@+id/txtvehicle"
 
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"

@@ -40,7 +40,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType;
         MtplButton btnDetail, btnShowInterest;
         TextView total;
         ImageView catImage;
@@ -49,8 +49,10 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
+            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
+            txtComment.setSelected(true);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             total = (TextView) itemView.findViewById(R.id.txtTot);
@@ -110,10 +112,11 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         TextView adult = holder.adult;
         TextView destination = holder.destination;
         ImageView catImg = holder.catImage;
+        MtplTextView reqAgentType = holder.reqAgentType;
 
-        reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+
         txtComment.setText(dataSet.get(position).getUserComment());
-
+        reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         String txtStartDt = "";
         try {
             txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_in().trim().toString());
@@ -131,23 +134,47 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
-        int totMemb = 0;
+        /*int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
         } catch (Exception e) {
             totMemb = 0;
+        }*/
+
+        int totAdult = 0;
+        int totChild = 0;
+        int totMemb = 0;
+
+        try {
+            totAdult = Integer.parseInt(dataSet.get(position).getAdult());
+        } catch (Exception e) {
+            totAdult = 0;
         }
+        try {
+            totChild = Integer.parseInt(dataSet.get(position).getChildren());
+        } catch (Exception e) {
+            totChild = 0;
+        }
+        totMemb = totAdult + totChild;
+
         adult.setText(String.valueOf(totMemb));
         destination.setText(dataSet.get(position).getDestination_city()); //+ " " + dataSet.get(position).getState_id()
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
+            reqAgentType.setText(" ( " + "Package" + " )");
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
+            reqAgentType.setText(" ( " + "Transport" + " )");
+
+
         } else {
             catImg.setImageResource(R.drawable.hh);
+
+            reqAgentType.setText(" ( " + "Hotel" + " )");
+
         }
     }
 
