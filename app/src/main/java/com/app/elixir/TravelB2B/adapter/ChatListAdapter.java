@@ -77,7 +77,7 @@ public class ChatListAdapter extends BaseAdapter {
             holder1.messageTextView.setText(message.getMessageText());
 
             Date date = new Date(message.getMessageTime());
-            SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+            SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
             String dateText = df2.format(date);
             holder1.timeTextView.setText(dateText);
 
@@ -100,7 +100,12 @@ public class ChatListAdapter extends BaseAdapter {
 
             // holder2.messageTextView.setText(Emoji.replaceEmoji(message.getMessageText(), holder2.messageTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(16)));
             holder2.messageTextView.setText(message.getMessageText());
-            holder2.timeTextView.setText(SIMPLE_DATE_FORMAT.format(message.getMessageTime()));
+
+            Date date = new Date(message.getMessageTime());
+            SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
+            String dateText = df2.format(date);
+
+            holder2.timeTextView.setText(dateText);   //
 
             if (message.getMessageStatus() == Status.DELIVERED) {
                 holder2.messageStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_double_tick));

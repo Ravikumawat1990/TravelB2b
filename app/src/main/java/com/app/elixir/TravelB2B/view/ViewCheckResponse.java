@@ -128,7 +128,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 } else if (value.equals("rate")) {
 
                     //   showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
-
+                    webFollow(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
 
                 } else if (value.equals("block")) {
                     showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2, "");
@@ -539,6 +539,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         checkResposne.setFirst_name(jsonObject3.optString("first_name"));
                         checkResposne.setLast_name(jsonObject3.optString("last_name"));
                         //   checkResposne.setId(jsonObject3.optString("id"));
+                        checkResposne.setFollow_id(jsonObject3.optString("id"));
                         resposneArrayList.add(checkResposne);
 
                     }
@@ -939,4 +940,63 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
         }
     }
+
+    public void webFollow(String userId, String followid) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
+            WebService.getFollow(v, userId, followid, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (ViewCheckResponse.this.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getFollowRes(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        CM.showPopupCommonValidation(ViewCheckResponse.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFollowRes(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    if (!jsonObject.optString("response_object").toString().equals("null")) {
+                        CM.showToast(getString(R.string.follow_success), ViewCheckResponse.this);
+                        webCheckResponse(referenceId);
+                    }
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewCheckResponse.this, e.getMessage(), false);
+        }
+    }
+
 }

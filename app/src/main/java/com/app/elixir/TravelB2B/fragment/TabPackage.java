@@ -361,7 +361,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         });
 
 
-        destiCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*destiCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -377,7 +377,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             destiState.setText(statename);
 
 
-                                          /*  for (int l = 0; l < countryArrayList.size(); l++) {
+                                          *//*  for (int l = 0; l < countryArrayList.size(); l++) {
 
                                                 if (pojoStateArrayList.get(k).getCountry_id().toString().equals(countryArrayList.get(l).getId().toString())) {
 
@@ -387,7 +387,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                                 }
 
 
-                                            }*/
+                                            }*//*
 
 
                                             break;
@@ -429,7 +429,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                 }
             }
-        });
+        });*/
 
 
         trapickupCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -461,7 +461,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         });
 
 
-        trapickupCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      /*  trapickupCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -530,7 +530,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                 }
             }
-        });
+        });*/
 
 
         finalCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -562,7 +562,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         });
 
 
-        finalCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* finalCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -617,7 +617,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                 }
             }
-        });
+        });*/
 
 
         checkIn.setOnTouchListener(this);
@@ -1118,7 +1118,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                     for (int i1 = 0; i1 < words.size(); i1++) {
 
-                                        if (stringBuilder.equals("")) {
+                                        if (words.size() == 1) {
                                             stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
                                         } else {
                                             stringBuilder.append(",");
@@ -1176,7 +1176,9 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             List<String> selectedStrings = spinnerHotelCat1.getSelectedStrings();
                                             StringBuilder stringBuilder1 = new StringBuilder();
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-                                                if (stringBuilder1.equals("")) {
+
+
+                                                if (selectedStrings.size() == 1) {
                                                     stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
                                                 } else {
                                                     stringBuilder1.append(",");
@@ -1213,7 +1215,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
                                                 // Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
 
-                                                if (stringBuilder1.equals("")) {
+                                                if (selectedStrings.size() == 1) {
                                                     stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
 
                                                 } else {
@@ -1252,7 +1254,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (stringBuilder1.equals("")) {
+                                                if (selectedStrings.size() == 1) {
 
                                                     stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
 
@@ -1290,7 +1292,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (stringBuilder1.equals("")) {
+                                                if (selectedStrings.size() == 1) {
                                                     stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
                                                 } else {
                                                     stringBuilder1.append(",");
@@ -1300,9 +1302,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
 
                                             }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
-                                                    .replace(", ", ",");
-
+                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "").replace(", ", ",");
                                             stayReq.setHotlCat(stateList1);
                                             stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane4.getSelectedItem().toString()));
                                             stayReq.setDestiCity(cityId4.getText().toString());
@@ -1328,7 +1328,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                             for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
 
                                                 Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (stringBuilder1.equals("")) {
+                                                if (selectedStrings.size() == 1) {
                                                     stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
 
                                                 } else {
@@ -2093,9 +2093,10 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if (jsonObject.optString("ResponseObject") != null) {
 
-                        CM.showToast(jsonObject.optString("ResponseObject"), thisActivity);
+                    if (jsonObject.optString("response_object") != null) {
+
+                        CM.showToast(jsonObject.optString("response_object"), thisActivity);
 
                     }
 

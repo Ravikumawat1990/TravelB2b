@@ -3,7 +3,6 @@ package com.app.elixir.TravelB2B.view;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -437,6 +436,14 @@ public class ViewDrawer extends AppCompatActivity
                 if (f instanceof FragHome) {
                     bottomNavigation.setVisibility(View.VISIBLE);
                     setTitle(getString(R.string.app_name));
+                    int size = navigationView.getMenu().size();
+                    for (int i = 0; i < size; i++) {
+                        navigationView.getMenu().getItem(i).setChecked(false);
+                    }
+                    int size1 = navigationViewSec.getMenu().size();
+                    for (int i = 0; i < size1; i++) {
+                        navigationViewSec.getMenu().getItem(i).setChecked(false);
+                    }
                 }
 
             } else {
@@ -708,9 +715,27 @@ public class ViewDrawer extends AppCompatActivity
                         if (f instanceof FragHome) {
                             bottomNavigation.setVisibility(View.VISIBLE);
                             setTitle(getString(R.string.app_name));
+                            int size = navigationView.getMenu().size();
+                            for (int i = 0; i < size; i++) {
+                                navigationView.getMenu().getItem(i).setChecked(false);
+                            }
+                            int size1 = navigationViewSec.getMenu().size();
+                            for (int i = 0; i < size1; i++) {
+                                navigationViewSec.getMenu().getItem(i).setChecked(false);
+                            }
+
+
                         } else if (f instanceof FragHotelierHome) {
                             bottomNavigation.setVisibility(View.VISIBLE);
                             setTitle(getString(R.string.app_name));
+                            int size = navigationView.getMenu().size();
+                            for (int i = 0; i < size; i++) {
+                                navigationView.getMenu().getItem(i).setChecked(false);
+                            }
+                            int size1 = navigationViewSec.getMenu().size();
+                            for (int i = 0; i < size1; i++) {
+                                navigationViewSec.getMenu().getItem(i).setChecked(false);
+                            }
                         }
                     } else {
                         showPopup(ViewDrawer.this);
@@ -725,9 +750,25 @@ public class ViewDrawer extends AppCompatActivity
             if (f instanceof FragHome) {
                 bottomNavigation.setVisibility(View.VISIBLE);
                 setTitle(getString(R.string.app_name));
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+                int size1 = navigationViewSec.getMenu().size();
+                for (int i = 0; i < size1; i++) {
+                    navigationViewSec.getMenu().getItem(i).setChecked(false);
+                }
             } else if (f instanceof FragHotelierHome) {
                 bottomNavigation.setVisibility(View.VISIBLE);
                 setTitle(getString(R.string.app_name));
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+                int size1 = navigationViewSec.getMenu().size();
+                for (int i = 0; i < size1; i++) {
+                    navigationViewSec.getMenu().getItem(i).setChecked(false);
+                }
             }
 
 
@@ -1175,8 +1216,8 @@ public class ViewDrawer extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        Intent mIntent = new Intent(this, messageListionerService.class);
-        bindService(mIntent, serviceConnection, BIND_AUTO_CREATE);
+        //Intent mIntent = new Intent(this, messageListionerService.class);
+        // bindService(mIntent, serviceConnection, BIND_AUTO_CREATE);
 
     }
 
@@ -1184,8 +1225,8 @@ public class ViewDrawer extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(serviceConnection);
-        mBounded = false;
+        // unbindService(serviceConnection);
+        //  mBounded = false;
     }
 
     public static void setBadgeCount(Context context, LayerDrawable icon, String count) {

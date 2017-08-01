@@ -96,8 +96,8 @@
                     android:maxLines="4"
                     android:minLines="4"
                     android:padding="5dp"
-                    android:textColorHint="@android:color/darker_gray"
                     android:scrollbars="vertical"
+                    android:textColorHint="@android:color/darker_gray"
                     android:textSize="14sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -142,6 +142,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:inputType="textCapWords|textCapSentences"
+                        android:text="Office-hours"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
@@ -168,7 +170,10 @@
                         android:id="@+id/txtEmailTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:capitalize="sentences"
                         android:gravity="center_vertical"
+                        android:inputType="textCapSentences"
+                        android:text="Email"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
@@ -197,6 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:text="Address"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
@@ -224,7 +230,10 @@
                         android:id="@+id/txtContactUsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:capitalize="sentences"
                         android:gravity="center_vertical"
+                        android:inputType="textCapSentences"
+                        android:text="Phone"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />

@@ -105,7 +105,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         hotelCat.setSelected(true);
         meal = (MtplTextView) findViewById(R.id.txtMeal);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
-
+        comment.setSelected(true);
 
         if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
 

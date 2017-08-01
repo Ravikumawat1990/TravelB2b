@@ -85,11 +85,15 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
         txtEmail = (MtplTextView) rootView.findViewById(R.id.txtEmail);
         txtOffice = (MtplTextView) rootView.findViewById(R.id.txtOfficeHour);
         txtContactUsTitle = (MtplTextView) rootView.findViewById(R.id.txtContactUsTitle);
+
+
         txtAddressTitle = (MtplTextView) rootView.findViewById(R.id.txtAddressTitle);
         txtEmailTitle = (MtplTextView) rootView.findViewById(R.id.txtEmailTitle);
         txtOfficeTitle = (MtplTextView) rootView.findViewById(R.id.txtOfficeHourTitle);
         btnSendMail = (MtplButton) rootView.findViewById(R.id.btnsendMessage);
         edtComment = (MtplEditText) rootView.findViewById(R.id.edtComment);
+
+       // txtOfficeTitle.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
 
@@ -177,16 +181,16 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
                             }
 
 
-                            txtContactUsTitle.setText(pojoContact_us.get(0).getField());
+                          //  txtContactUsTitle.setText(pojoContact_us.get(0).getField());
                             txtContactUs.setText(pojoContact_us.get(0).getValue());
 
-                            txtEmailTitle.setText(pojoContact_us.get(1).getField());
+                          //  txtEmailTitle.setText(pojoContact_us.get(1).getField());
                             txtEmail.setText(pojoContact_us.get(1).getValue());
 
-                            txtAddressTitle.setText(pojoContact_us.get(2).getField());
+                           // txtAddressTitle.setText(pojoContact_us.get(2).getField());
                             txtAddress.setText(CM.fromHtml(pojoContact_us.get(2).getValue()));
 
-                            txtOfficeTitle.setText(pojoContact_us.get(3).getField());
+                         //   txtOfficeTitle.setText(pojoContact_us.get(3).getField());
                             txtOffice.setText(CM.fromHtml(pojoContact_us.get(3).getValue()).toString());
 
 

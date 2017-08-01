@@ -38,6 +38,7 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
         private CardView rootView;
         public MtplTextView txtName, txtEmail, txtMobile, txtCompName;
         MtplButton btnUnBlockUser;
+        MtplButton btnUnFollow;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -46,14 +47,16 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
             txtEmail = (MtplTextView) itemView.findViewById(R.id.txtEmail);
             txtMobile = (MtplTextView) itemView.findViewById(R.id.txtMobile);
             txtCompName = (MtplTextView) itemView.findViewById(R.id.txtCompName);
-
-
+            btnUnFollow = (MtplButton) itemView.findViewById(R.id.btnunfollow);
+            btnUnFollow.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-
+                case R.id.btnunfollow:
+                    listener.onItemClick("follow", dataSet.get(getAdapterPosition()).getBb_userid());
+                    break;
             }
 
         }

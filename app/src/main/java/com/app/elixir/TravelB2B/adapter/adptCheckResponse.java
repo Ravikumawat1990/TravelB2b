@@ -79,7 +79,7 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
                     listener.onItemClick("btnAccept", dataSet.get(getAdapterPosition()).getId(), dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getUser_id());
                     break;
                 case R.id.btnRate:
-                    listener.onItemClick("rate", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId(), "");
+                    listener.onItemClick("rate", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getFollow_id(), "");
                     break;
                 case R.id.btnBlock:
                     listener.onItemClick("block", dataSet.get(getAdapterPosition()).getUser_id(), "", "");

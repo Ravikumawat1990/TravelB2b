@@ -217,6 +217,8 @@ public class FragFollowers extends Fragment {
                         pojoFollowers.setCompany_name(jsonObject1.optString("company_name"));
                         pojoFollowers.setEmail(jsonObject1.optString("email"));
                         pojoFollowers.setWeb_url(jsonObject1.optString("web_url"));
+                        pojoFollowers.setBb_userid(jsonArray.getJSONObject(i).optString("id"));
+
                         pojoFollowerses.add(pojoFollowers);
 
                     }
@@ -356,5 +358,62 @@ public class FragFollowers extends Fragment {
                 return true;
         }
         return false;
+    }
+
+    public void webUnFollow(String userId, String followid) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getUnFollow(v, userId, followid, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getUnFollowRes(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getUnFollowRes(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    if(!jsonObject.optString("response_object").toString().equals("null")) {
+                        CM.showToast(getString(R.string.unfollow_success), thisActivity);
+                        webFollowers(CM.getSp(thisActivity, CV.PrefID, "").toString());
+                    }
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 }

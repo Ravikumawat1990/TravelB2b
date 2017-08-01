@@ -12,6 +12,15 @@ public class pojoFollowers {
     String email;
     String company_name;
     String web_url;
+    String Bb_userid;
+
+    public String getBb_userid() {
+        return Bb_userid;
+    }
+
+    public void setBb_userid(String bb_userid) {
+        Bb_userid = bb_userid;
+    }
 
     public String getWeb_url() {
         return web_url;

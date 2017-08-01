@@ -36,6 +36,7 @@ import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewAgentProfile;
+import com.app.elixir.TravelB2B.view.ViewChat;
 import com.app.elixir.TravelB2B.view.ViewMyResdetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -110,9 +111,16 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                     intent.putExtra("reqtype", value2);
                     CM.startActivity(intent, thisActivity);
 
-                } else {
+                } else if (key.equals("detail")) {
                     Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
                     intent.putExtra("userId", value1);
+                    CM.startActivity(intent, thisActivity);
+                } else if (key.equals("follow")) {
+                    webFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
+                } else if (key.equals("chat")) {
+                    Intent intent = new Intent(thisActivity, ViewChat.class);
+                    intent.putExtra("refId", value1);
+                    intent.putExtra("chatUserId", value2);
                     CM.startActivity(intent, thisActivity);
                 }
 
@@ -542,7 +550,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
 
                     int month = monthOfYear + 1;
                     if (edt != null) {
-                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edt.setText(month + "/" + dayOfMonth + "/" + year);
                     }
 
                 }
@@ -606,8 +614,12 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         pojoMyResposne myResposne = new pojoMyResposne();
                         myResposne.setComment(jsonArray.getJSONObject(i).get("comment").toString());
                         myResposne.setRequest_id(jsonArray.getJSONObject(i).get("request_id").toString());
+                        myResposne.setUserId(jsonArray.getJSONObject(i).get("user_id").toString());
+                        myResposne.setChatStatus(jsonArray.getJSONObject(i).get("status").toString());
+                        myResposne.setShareDetail(jsonArray.getJSONObject(i).get("is_details_shared").toString());
                         JSONObject jsonObjectReq = new JSONObject(jsonArray.getJSONObject(i).get("request").toString());
                         myResposne.setCategory_id(jsonObjectReq.optString("category_id").toString());
+                        myResposne.setChatUserID(jsonObjectReq.optString("user_id").toString());
                         myResposne.setReference_id(jsonObjectReq.optString("reference_id").toString());
                         myResposne.setTotal_budget(jsonObjectReq.optString("total_budget").toString());
                         myResposne.setChildren(jsonObjectReq.optString("children").toString());
@@ -620,9 +632,16 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setHotel_rating(jsonObjectReq.optString("hotel_rating").toString());
                         myResposne.setHotel_category(jsonObjectReq.optString("hotel_category").toString());
                         myResposne.setMeal_plan(jsonObjectReq.optString("meal_plan").toString());
-                        JSONObject jsonObject1 = new JSONObject(jsonObjectReq.get("city").toString());
-                        if (jsonObject1 != null) {
+                        JSONArray jsonArray1 = new JSONArray(jsonArray.getJSONObject(i).get("cities").toString());
+                       /* if (jsonObject1 != null) {
                             myResposne.setDestination_city(jsonObject1.optString("name"));
+                        }*/
+
+
+                        for (int i1 = 0; i1 < jsonArray1.length(); i1++) {
+
+                            myResposne.setDestination_city(jsonArray1.getJSONObject(i1).optString("name"));
+
                         }
                         // myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
                         myResposne.setCheck_in(jsonObjectReq.optString("check_in").toString());
@@ -646,6 +665,8 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                         myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
                         myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
                         myResposne.setId(jsonObjectUser.optString("id").toString());
+                        myResposne.setWeb_url(jsonObjectUser.optString("web_url").toString());
+                        myResposne.setEmail(jsonObjectUser.optString("email").toString());
                         pojoMyResposneArrayList.add(myResposne);
                     }
 
@@ -691,5 +712,64 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                 return true;
         }
         return false;
+    }
+
+
+    public void webFollow(String userId, String followid) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getFollow(v, userId, followid, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getFollowRes(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getFollowRes(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    if (!jsonObject.optString("response_object").toString().equals("null")) {
+                        CM.showToast(getString(R.string.follow_success), thisActivity);
+                        //   webCheckResponse(referenceId);
+                    }
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 }

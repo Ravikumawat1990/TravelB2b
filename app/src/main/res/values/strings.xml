@@ -306,7 +306,7 @@
     <string name="emailIdused">Email id already used</string>
     <string name="loginmsg">Please enter valid email and password</string>
 
-    <string name="registerd">Registered Successfully </string>
+    <string name="registerd">Thank you for registration.Please Verify your email Id.</string>
     <string name="promoteHotel">Promote your hotel "\n"at TravelB2BHub: </string>
 
     <string name="unblockuser">User in Unblocked</string>
@@ -408,4 +408,7 @@
 
     <string name="trmsCond"> I agree to the Privacy Policy &amp; Terms and Conditions</string>
 
+
+    <string name="unfollow_success">"Successfully Unfollowed"</string>
+    <string name="follow_success">"Successfully Followed"</string>
 </resources>

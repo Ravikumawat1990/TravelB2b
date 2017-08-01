@@ -14,6 +14,42 @@ public class pojoMyResposne {
     String request_id;
     String userId;
     String id;
+    String chatStatus;
+    String shareDetail;
+    String web_url;
+    String chatUserID;
+
+    public String getChatUserID() {
+        return chatUserID;
+    }
+
+    public void setChatUserID(String chatUserID) {
+        this.chatUserID = chatUserID;
+    }
+
+    public String getWeb_url() {
+        return web_url;
+    }
+
+    public void setWeb_url(String web_url) {
+        this.web_url = web_url;
+    }
+
+    public String getShareDetail() {
+        return shareDetail;
+    }
+
+    public void setShareDetail(String shareDetail) {
+        this.shareDetail = shareDetail;
+    }
+
+    public String getChatStatus() {
+        return chatStatus;
+    }
+
+    public void setChatStatus(String chatStatus) {
+        this.chatStatus = chatStatus;
+    }
 
     public String getId() {
         return id;

@@ -329,7 +329,10 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     hotelCat.setSelected(true);
                     meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
                     comment.setText(jsonObject1.optString("comment"));
-                    vehicle.setText("");
+                    if (jsonObject1.optString("transport_requirement") != null) {
+                        vehicle.setText(CM.setVichel(jsonObject1.optString("transport_requirement")));
+
+                    }
                     startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
                     enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
 
@@ -342,29 +345,29 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
                     }
 
-                    if (!jsonObject1.optString("pickup_city").equals("") || !jsonObject1.optString("pickup_city").toString().equals("0")) {
+                    if (!jsonObject1.optString("pickup_city").equals("") && !jsonObject1.optString("pickup_city").toString().equals("0") && !jsonObject1.optString("pickup_city").toString().equals("null")) {
                         webCity(jsonObject1.optString("pickup_city"), "2");
                     } else {
 
                     }
 
-                    if (!jsonObject1.optString("state_id").equals("") && !jsonObject1.optString("pickup_state").equals("null")) {
+                    if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null") && !jsonObject1.optString("state_id").toString().equals("0")) {
                         webState(jsonObject1.optString("state_id"), "1");
                     } else {
 
                     }
-                    if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("null")) {
+                    /*if (!jsonObject1.optString("pickup_state").toString().equals("") && !jsonObject1.optString("pickup_state").toString().equals("null") && !jsonObject1.optString("pickup_state").toString().equals("0")) {
                         webState(jsonObject1.optString("pickup_state"), "2");
                     } else {
 
-                    }
+                    }*/
 
 
                     break;
                 case "202":
                     break;
                 case "501":
-                    CM.showToast(jsonObject.optString("msg"), ViewMyResdetailView.this);
+                    //  CM.showToast(jsonObject.optString("msg"), ViewMyResdetailView.this);
 
 
                     break;
@@ -407,6 +410,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         }
     }
 
+    // {"response_code":200,"response_object":null}
     private void getCity(String response, String type) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
@@ -417,13 +421,17 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
 
+                    if (!jsonObject.optString("response_object").toString().equals("null")) {
+                        JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+                        if (jsonObject1 != null) {
+                            if (type.equals("1")) {
+                                destiCity.setText(jsonObject1.optString("name"));
+                            } else {
+                                pickupCity.setText(jsonObject1.optString("name"));
+                            }
+                        }
 
-                    if (type.equals("1")) {
-                        destiCity.setText(jsonObject1.optString("name"));
-                    } else {
-                        pickupCity.setText(jsonObject1.optString("name"));
                     }
 
 
@@ -488,7 +496,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     if (type.equals("1")) {
                         destiState.setText(jsonObject1.optString("state_name"));
                     } else {
-                        // txtPickupState.setText(jsonObject1.optString("state_name"));
+                        //txtPickupState.setText(jsonObject1.optString("state_name"));
                     }
                     break;
                 case "202":

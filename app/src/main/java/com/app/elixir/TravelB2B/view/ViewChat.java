@@ -259,12 +259,20 @@ public class ViewChat extends AppCompatActivity {
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         final ChatMessage message = new ChatMessage();
-                        message.setMessageStatus(Status.SENT);
+
                         message.setMessageText(jsonArray.getJSONObject(i).optString("message"));
-                        message.setUserType(UserType.SELF);
+
+
+                        if (jsonArray.getJSONObject(i).optString("user_id").toString().equals(CM.getSp(ViewChat.this, CV.PrefID, "").toString())) {
+                            message.setUserType(UserType.OTHER);
+                            message.setMessageStatus(Status.SENT);
+                        } else {
+                            message.setUserType(UserType.SELF);
+                        }
+
                         if (jsonArray.getJSONObject(i).optString("read_date_time") != null && !jsonArray.getJSONObject(i).optString("read_date_time").equals("null")) {
-                            String txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonArray.getJSONObject(i).optString("read_date_time"));
-                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                            String txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy HH:mm:ss", jsonArray.getJSONObject(i).optString("read_date_time"));
+                            DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
                             Date date = format.parse(txtStartDt);
                             long millisecond = date.getTime();
                             message.setMessageTime(millisecond);

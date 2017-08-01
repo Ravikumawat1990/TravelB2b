@@ -159,4 +159,6 @@ public class CV {
     public static final String DURATION = "duration";
     public static final String CHARGES = "charges";
     public static final String HOTEL_PIC = "hotel_pic";
+
+    public static final String FOLLOW_ID = "follow_id";
 }

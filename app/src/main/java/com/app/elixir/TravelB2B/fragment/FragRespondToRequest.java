@@ -567,7 +567,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
 
                     int month = monthOfYear + 1;
                     if (edt != null) {
-                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edt.setText(month + "/" + dayOfMonth + "/" + year);
                     }
 
                 }

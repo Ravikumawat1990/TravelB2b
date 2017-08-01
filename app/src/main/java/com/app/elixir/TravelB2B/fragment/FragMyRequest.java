@@ -729,7 +729,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
                     int month = monthOfYear + 1;
                     if (edt != null) {
-                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edt.setText(month + "/" + dayOfMonth + "/" + year);
                     }
 
                 }

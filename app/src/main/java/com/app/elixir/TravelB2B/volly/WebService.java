@@ -442,12 +442,15 @@ public class WebService {
         params.put(CV.p_final_city_name, pojoPackages.get(0).getP_final_city_name());
         params.put(CV.p_final_city_id, pojoPackages.get(0).getP_final_city_id());
         params.put(CV.p_final_state_id, pojoPackages.get(0).getP_final_state_id());
+        params.put("id_package_stop_city", pojoPackages.get(0).getP_final_city_id());  // confuse
+        params.put("state_id_package_stop_city", pojoPackages.get(0).getP_final_state_id()); // confuse
 
         params.put(CV.comment, pojoPackages.get(0).getComment());
 
         for (int i = 0; i < pojoStayReqs.size(); i++) {
             params.put(CV.hh_room1 + "[" + i + "]", pojoStayReqs.get(i).getSingleRoom());
             params.put(CV.hh_room2 + "[" + i + "]", pojoStayReqs.get(i).getDoubleRoom());
+            params.put(CV.hh_room3 + "[" + i + "]", pojoStayReqs.get(i).getTripleRoom());
             params.put(CV.hh_child_with_bed + "[" + i + "]", pojoStayReqs.get(i).getChildwithbed());
             params.put(CV.hh_child_without_bed + "[" + i + "]", pojoStayReqs.get(i).getChildwithouthbed());
             params.put(CV.hh_hotel_rating + "[" + i + "]", pojoStayReqs.get(i).getHotelRating());
@@ -457,8 +460,8 @@ public class WebService {
             params.put(CV.hh_state_id + "[" + i + "]", pojoStayReqs.get(i).getDestiState());
             params.put(CV.hh_country_id + "[" + i + "]", pojoStayReqs.get(i).getDestiCountry());
             params.put(CV.hh_locality + "[" + i + "]", pojoStayReqs.get(i).getLocality());
-            params.put(CV.hh_check_in + "[" + i + "]", pojoStayReqs.get(i).getCheckIn());
-            params.put(CV.hh_check_out + "[" + i + "]", pojoStayReqs.get(i).getCheckOut());
+            params.put(CV.hh_check_in + "[" + i + "]", CM.converDateFormate("dd-mm-yyyy", "dd/mm/yyyy", pojoStayReqs.get(i).getCheckIn()));
+            params.put(CV.hh_check_out + "[" + i + "]", CM.converDateFormate("dd-mm-yyyy", "dd/mm/yyyy", pojoStayReqs.get(i).getCheckOut()));
         }
 
         for (int i = 0; i < pojoTransportReqs.size(); i++) {
@@ -617,6 +620,22 @@ public class WebService {
         String url = URLS.PROMOTIONREPORTSAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.USER_ID, userid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getUnFollow(VolleyIntialization vollyInit, String userid, String followid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.REMOVEBUSINESSBUDDYAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        params.put(CV.FOLLOW_ID, followid);
+        vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
+    }
+
+    public static void getFollow(VolleyIntialization vollyInit, String userid, String followid, OnVolleyHandler vollyHanlder) throws JSONException {
+        String url = URLS.ADDBUSINESSBUDDYAPI;
+        Map<String, String> params = new HashMap<>();
+        params.put(CV.USER_ID, userid);
+        params.put(CV.FOLLOW_ID, followid);
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 }

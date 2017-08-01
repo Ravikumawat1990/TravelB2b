@@ -16,6 +16,15 @@ public class pojoCheckResposne {
     String id;
     String request_id;
     String response_id;
+    String Follow_id;
+
+    public String getFollow_id() {
+        return Follow_id;
+    }
+
+    public void setFollow_id(String follow_id) {
+        Follow_id = follow_id;
+    }
 
     public String getResponse_id() {
         return response_id;
