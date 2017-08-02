@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -45,6 +44,14 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
     String referenceId = "";
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
             destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupLocation;
+    // MtplTextView DetailTxt;
+    //  String reqId = "", reqType = "";
+
+
+    //cards
+    CardView TransCard1, TransCard2, HotelCard;
+    //New Transprot Variables
+    MtplTextView transLable, TransRefId, TranBudget, TransMember, TransChildren, TransVehicle, TransStartdate, TransEnddate, TransPickState, TransPickCity, TransPickLocality, TransFinalState, TransFinalCity;
     MtplTextView DetailTxt;
     String reqId = "", reqType = "";
 
@@ -100,13 +107,13 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
         DetailTxt.setText(reqType + " Details");
         CardView cardView = (CardView) findViewById(R.id.cardViewReq);
-        MtplTextView mtplTextView = (MtplTextView) findViewById(R.id.transportTile);
+        //MtplTextView mtplTextView = (MtplTextView) findViewById(R.id.transportTile);
 
         CardView cardPacakge = (CardView) findViewById(R.id.rootView);
-        LinearLayout packageTile = (LinearLayout) findViewById(R.id.packageTile);
+        ///  LinearLayout packageTile = (LinearLayout) findViewById(R.id.packageTile);
 
 
-        if (reqId.equals("2")) {
+       /* if (reqId.equals("2")) {
             cardView.setVisibility(View.VISIBLE);
             mtplTextView.setVisibility(View.VISIBLE);
             cardPacakge.setVisibility(View.GONE);
@@ -119,7 +126,7 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
             mtplTextView.setVisibility(View.GONE);
 
 
-        }
+        }*/
         refId = (MtplTextView) findViewById(R.id.txtReqId);
         budget = (MtplTextView) findViewById(R.id.txttotBudget);
         members = (MtplTextView) findViewById(R.id.txtMemebers);
@@ -143,6 +150,47 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
         enddate = (MtplTextView) findViewById(R.id.txtendDate);
         pickupCity = (MtplTextView) findViewById(R.id.txtpickupCity);
         pickupLocation = (MtplTextView) findViewById(R.id.txtpickupLocation);
+
+
+        //Hotel Card
+        HotelCard = (CardView) findViewById(R.id.rootView);
+//Transport Cards
+        TransCard1 = (CardView) findViewById(R.id.transportcart);
+        TransCard2 = (CardView) findViewById(R.id.transprotcart2);
+
+//New Transprot Variables
+        TransRefId = (MtplTextView) findViewById(R.id.tranRefid);
+        TranBudget = (MtplTextView) findViewById(R.id.tranT_budget);
+        TransMember = (MtplTextView) findViewById(R.id.tran_member);
+        TransChildren = (MtplTextView) findViewById(R.id.tran_child);
+        TransVehicle = (MtplTextView) findViewById(R.id.tranVehicle);
+        TransStartdate = (MtplTextView) findViewById(R.id.tranSdate);
+        TransEnddate = (MtplTextView) findViewById(R.id.tranEdate);
+        TransPickState = (MtplTextView) findViewById(R.id.tran_Pstate);
+        TransPickCity = (MtplTextView) findViewById(R.id.tran_Pcity);
+        TransPickLocality = (MtplTextView) findViewById(R.id.tran_Plocation);
+        TransFinalState = (MtplTextView) findViewById(R.id.tran_Fcity);
+        TransFinalCity = (MtplTextView) findViewById(R.id.tran_Fstate);
+        transLable = (MtplTextView) findViewById(R.id.trans_lable);
+
+        //Check ResponseType
+        if (reqId.equals("1")) {
+            TransCard2.setVisibility(View.GONE);
+            TransCard1.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.VISIBLE);
+
+        } else if (reqId.equals("2")) {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.GONE);
+            transLable.setVisibility(View.GONE);
+        } else {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.GONE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.GONE);
+        }
 
 
         if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
@@ -379,11 +427,20 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
                     } else {
 
                     }
-                    /*if (!jsonObject1.optString("pickup_state").toString().equals("") && !jsonObject1.optString("pickup_state").toString().equals("null") && !jsonObject1.optString("pickup_state").toString().equals("0")) {
-                        webState(jsonObject1.optString("pickup_state"), "2");
-                    } else {
 
-                    }*/
+
+                    //transport
+                    TransRefId.setText(jsonObject1.optString("reference_id"));
+                    TranBudget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
+                    TransMember.setText(jsonObject1.optString("adult"));
+                    TransChildren.setText(jsonObject1.optString("children"));
+
+
+//transport
+                    TransVehicle.setText("");
+                    TransStartdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    TransEnddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    TransPickLocality.setText(jsonObject1.optString("pickup_locality"));
 
 
                     break;
@@ -447,12 +504,12 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
                     if (!jsonObject.optString("response_object").toString().equals("null")) {
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
-                        if (jsonObject1 != null) {
-                            if (type.equals("1")) {
-                                destiCity.setText(jsonObject1.optString("name"));
-                            } else {
-                                pickupCity.setText(jsonObject1.optString("name"));
-                            }
+                        if (type.equals("1")) {
+                            destiCity.setText(jsonObject1.optString("name"));
+                            TransFinalCity.setText(jsonObject1.optString("name"));
+                        } else {
+                            pickupCity.setText(jsonObject1.optString("name"));
+                            TransPickCity.setText(jsonObject1.optString("name"));
                         }
 
                     }
@@ -518,8 +575,9 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
                     if (type.equals("1")) {
                         destiState.setText(jsonObject1.optString("state_name"));
+                        TransFinalState.setText(jsonObject1.optString("state_name"));
                     } else {
-                        //txtPickupState.setText(jsonObject1.optString("state_name"));
+                        //    finalState.setText(jsonObject1.optString("state_name"));
                     }
                     break;
                 case "202":

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +45,14 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
             destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupLocation;
+    // String reqId = "", reqType = "";
+    //MtplTextView DetailTxt;
+
+    //cards
+    CardView TransCard1, TransCard2, HotelCard;
+    //New Transprot Variables
+    MtplTextView transLable, TransRefId, TranBudget, TransMember, TransChildren, TransVehicle, TransStartdate, TransEnddate, TransPickState, TransPickCity, TransPickLocality, TransFinalState, TransFinalCity;
+
     String reqId = "", reqType = "";
     MtplTextView DetailTxt;
 
@@ -128,6 +137,46 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
         reqId = intent.getStringExtra("reqtype");
         reqType = CM.getReqType(reqId);
         DetailTxt.setText(reqType + " Details");
+
+        //Hotel Card
+        HotelCard = (CardView) findViewById(R.id.rootView);
+//Transport Cards
+        TransCard1 = (CardView) findViewById(R.id.transportcart);
+        TransCard2 = (CardView) findViewById(R.id.transprotcart2);
+
+//New Transprot Variables
+        TransRefId = (MtplTextView) findViewById(R.id.tranRefid);
+        TranBudget = (MtplTextView) findViewById(R.id.tranT_budget);
+        TransMember = (MtplTextView) findViewById(R.id.tran_member);
+        TransChildren = (MtplTextView) findViewById(R.id.tran_child);
+        TransVehicle = (MtplTextView) findViewById(R.id.tranVehicle);
+        TransStartdate = (MtplTextView) findViewById(R.id.tranSdate);
+        TransEnddate = (MtplTextView) findViewById(R.id.tranEdate);
+        TransPickState = (MtplTextView) findViewById(R.id.tran_Pstate);
+        TransPickCity = (MtplTextView) findViewById(R.id.tran_Pcity);
+        TransPickLocality = (MtplTextView) findViewById(R.id.tran_Plocation);
+        TransFinalState = (MtplTextView) findViewById(R.id.tran_Fcity);
+        TransFinalCity = (MtplTextView) findViewById(R.id.tran_Fstate);
+        transLable = (MtplTextView) findViewById(R.id.trans_lable);
+
+//Check ResponseType
+        if (reqId.equals("1")) {
+            TransCard2.setVisibility(View.GONE);
+            TransCard1.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.VISIBLE);
+
+        } else if (reqId.equals("2")) {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.GONE);
+            transLable.setVisibility(View.GONE);
+        } else {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.GONE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.GONE);
+        }
 
         if (CM.isInternetAvailable(ViewRespondToRequestDetailView.this)) {
             webMyResponseDeatil(CM.getSp(ViewRespondToRequestDetailView.this, CV.PrefID, "").toString(), referenceId);
@@ -372,6 +421,17 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
                     }, 300);
 
+                    //transport
+                    TransRefId.setText(jsonObject1.optString("reference_id"));
+                    TranBudget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
+                    TransMember.setText(jsonObject1.optString("adult"));
+                    TransChildren.setText(jsonObject1.optString("children"));
+//transport
+                    TransVehicle.setText("");
+                    TransStartdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    TransEnddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    TransPickLocality.setText(jsonObject1.optString("pickup_locality"));
+
 
                     break;
                 case "202":
@@ -437,8 +497,10 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
                         if (type.equals("1")) {
                             destiCity.setText(jsonObject1.optString("name"));
+                            TransFinalCity.setText(jsonObject1.optString("name"));
                         } else {
                             pickupCity.setText(jsonObject1.optString("name"));
+                            TransPickCity.setText(jsonObject1.optString("name"));
                         }
                     }
 
@@ -503,6 +565,7 @@ public class ViewRespondToRequestDetailView extends AppCompatActivity implements
 
                     if (type.equals("1")) {
                         destiState.setText(jsonObject1.optString("state_name"));
+                        TransFinalCity.setText(jsonObject1.optString("state_name"));
                     } else {
                         //    finalState.setText(jsonObject1.optString("state_name"));
                     }

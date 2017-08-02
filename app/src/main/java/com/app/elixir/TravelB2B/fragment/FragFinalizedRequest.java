@@ -123,7 +123,6 @@ public class FragFinalizedRequest extends Fragment {
         myFab.hide();
         mAdapter = new adptfinalizedRequest(thisActivity, pojoFinalizeReqArrayList);
 
-
         mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
             public void onItemClick(String value, String value1, String value2, String value3) {
@@ -133,8 +132,8 @@ public class FragFinalizedRequest extends Fragment {
 
                     Intent intent = new Intent(thisActivity, ViewFinalizedRequestDetailView.class);
                     intent.putExtra("refId", value1);
+                    intent.putExtra("reqtype", value3);
                     CM.startActivity(intent, thisActivity);
-
 
                 } else if (value.equals("chat")) {
 

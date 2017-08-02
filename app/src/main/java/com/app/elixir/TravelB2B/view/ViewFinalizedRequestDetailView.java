@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -39,8 +40,15 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
     private static final String TAG = "ViewFinalizedRequest";
     Toolbar toolbar;
     String requestId = "";
+
     MtplTextView refId, budget, members, childres, singlePer, doublePer, triplePer, child_with_bed, child_without_bed, checkIn, checkout, destiState,
-            destiCity, locality, hotelCat, meal, comment;
+            destiCity, locality, hotelCat, meal, comment, vehicle, startdate, enddate, pickupCity, pickupState, pickupLocation;
+    //cards
+    CardView TransCard1, TransCard2, HotelCard;
+    //New Transprot Variables
+    MtplTextView transLable, TransRefId, TranBudget, TransMember, TransChildren, TransVehicle, TransStartdate, TransEnddate, TransPickState, TransPickCity, TransPickLocality, TransFinalState, TransFinalCity;
+    MtplTextView DetailTxt;
+    String reqId = "", reqType = "";
 
 
     @Override
@@ -77,9 +85,11 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         } catch (IllegalAccessException e) {
         }
 
+
         Intent intent = getIntent();
         requestId = intent.getStringExtra("refId");
-
+        reqId = intent.getStringExtra("reqtype");
+        reqType = CM.getReqType(reqId);
 
         initView();
 
@@ -106,6 +116,53 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
         meal = (MtplTextView) findViewById(R.id.txtMeal);
         comment = (MtplTextView) findViewById(R.id.txtCmt);
         comment.setSelected(true);
+
+        vehicle = (MtplTextView) findViewById(R.id.txtVehicle);
+        startdate = (MtplTextView) findViewById(R.id.txtStartDate);
+        enddate = (MtplTextView) findViewById(R.id.txtendDate);
+        pickupCity = (MtplTextView) findViewById(R.id.txtpickupCity);
+        pickupState = (MtplTextView) findViewById(R.id.txtpickupState);
+        pickupLocation = (MtplTextView) findViewById(R.id.txtpickupLocation);
+
+//Hotel Card
+        HotelCard = (CardView) findViewById(R.id.rootView);
+//Transport Cards
+        TransCard1 = (CardView) findViewById(R.id.transportcart);
+        TransCard2 = (CardView) findViewById(R.id.transprotcart2);
+
+//New Transprot Variables
+        TransRefId = (MtplTextView) findViewById(R.id.tranRefid);
+        TranBudget = (MtplTextView) findViewById(R.id.tranT_budget);
+        TransMember = (MtplTextView) findViewById(R.id.tran_member);
+        TransChildren = (MtplTextView) findViewById(R.id.tran_child);
+        TransVehicle = (MtplTextView) findViewById(R.id.tranVehicle);
+        TransStartdate = (MtplTextView) findViewById(R.id.tranSdate);
+        TransEnddate = (MtplTextView) findViewById(R.id.tranEdate);
+        TransPickState = (MtplTextView) findViewById(R.id.tran_Pstate);
+        TransPickCity = (MtplTextView) findViewById(R.id.tran_Pcity);
+        TransPickLocality = (MtplTextView) findViewById(R.id.tran_Plocation);
+        TransFinalState = (MtplTextView) findViewById(R.id.tran_Fcity);
+        TransFinalCity = (MtplTextView) findViewById(R.id.tran_Fstate);
+        transLable = (MtplTextView) findViewById(R.id.trans_lable);
+
+//Check ResponseType
+        if (reqId.equals("1")) {
+            TransCard2.setVisibility(View.GONE);
+            TransCard1.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.VISIBLE);
+
+        } else if (reqId.equals("2")) {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.VISIBLE);
+            HotelCard.setVisibility(View.GONE);
+            transLable.setVisibility(View.GONE);
+        } else {
+            TransCard1.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.GONE);
+            HotelCard.setVisibility(View.VISIBLE);
+            transLable.setVisibility(View.GONE);
+        }
 
         if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
 
@@ -288,6 +345,24 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     } else {
                     }
 
+                    //transport
+                    TransRefId.setText(jsonObject1.optString("reference_id"));
+                    TranBudget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
+                    TransMember.setText(jsonObject1.optString("adult"));
+                    TransChildren.setText(jsonObject1.optString("children"));
+
+                    vehicle.setText("");
+                    startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+
+
+//transport
+                    TransVehicle.setText("");
+                    TransStartdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    TransEnddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    TransPickLocality.setText(jsonObject1.optString("pickup_locality"));
+
 
                     break;
                 case "202":
@@ -351,6 +426,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                     destiCity.setText(jsonObject1.optString("name"));
+                    TransFinalState.setText(jsonObject1.optString("name"));
 
                     break;
                 case "202":
@@ -410,6 +486,7 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                     destiState.setText(jsonObject1.optString("state_name"));
+                    TransFinalState.setText(jsonObject1.optString("state_name"));
                     break;
                 case "202":
                     break;

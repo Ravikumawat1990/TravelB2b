@@ -172,8 +172,6 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         }
 
 
-
-
         if (!dataSet.get(position).getRating().equals("") && !dataSet.get(position).getRating().equals("null")) {
             int ratte = (int) Math.round(Double.parseDouble(dataSet.get(position).getRating()));
             ratingBar.setProgress(ratte);
@@ -201,7 +199,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         adult.setText(String.valueOf(totMemb));
 
 
-        destination.setText(dataSet.get(position).getDestination_city());
+        destination.setText(dataSet.get(position).getDestination_city().trim());
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {

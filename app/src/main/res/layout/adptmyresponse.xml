@@ -88,8 +88,8 @@
                 </LinearLayout>
 
                 <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="bottom|right"
                     android:padding="@dimen/margin_5dp">
 
@@ -110,7 +110,7 @@
 
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/white"
-                        android:textSize="9sp"
+                        android:textSize="7sp"
                         android:textStyle="bold" />
                 </FrameLayout>
             </LinearLayout>
@@ -182,7 +182,6 @@
                 android:gravity="left|center_vertical"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_2dp"
-                android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
 
                 android:textSize="12sp"
@@ -225,7 +224,8 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:maxLines="1"
-                    android:padding="@dimen/margin_5dp"
+                    android:paddingBottom="@dimen/margin_2dp"
+                    android:paddingTop="@dimen/margin_2dp"
 
 
                     android:textSize="12sp"
@@ -303,8 +303,8 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:maxLines="1"
-                    android:padding="@dimen/margin_5dp"
-
+                    android:paddingBottom="@dimen/margin_2dp"
+                    android:paddingTop="@dimen/margin_2dp"
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
@@ -388,7 +388,6 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_2dp"
-                android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
                 android:singleLine="true"
                 android:textSize="12sp"
@@ -406,6 +405,7 @@
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_5dp"
                 android:gravity="center"
                 android:text="USER CONTACT DETAIL"
                 android:textColor="@color/appTextColor"
@@ -493,7 +493,6 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="1"
                     android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingLeft="@dimen/font_10dp"
                     android:paddingTop="@dimen/margin_2dp"
                     android:textColor="@color/appTextColor"
                     android:textSize="12sp"
@@ -539,7 +538,6 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="1"
                     android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingLeft="@dimen/font_10dp"
                     android:paddingTop="@dimen/margin_2dp"
                     android:textColor="@color/appTextColor"
                     android:textSize="12sp"
@@ -585,7 +583,6 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:maxLines="1"
                     android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingLeft="@dimen/font_10dp"
                     android:paddingTop="@dimen/margin_2dp"
                     android:textColor="@color/appTextColor"
                     android:textSize="12sp"

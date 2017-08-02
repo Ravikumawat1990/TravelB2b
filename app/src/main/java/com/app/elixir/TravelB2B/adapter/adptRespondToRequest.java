@@ -160,7 +160,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         totMemb = totAdult + totChild;
 
         adult.setText(String.valueOf(totMemb));
-        destination.setText(dataSet.get(position).getDestination_city()); //+ " " + dataSet.get(position).getState_id()
+        destination.setText(dataSet.get(position).getDestination_city().trim()); //+ " " + dataSet.get(position).getState_id()
 
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {

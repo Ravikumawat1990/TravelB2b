@@ -636,15 +636,21 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
                 case "200":
                     if (jsonObject.optString("ResponseObject") != null) {
                         JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
-                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject object = new JSONObject(jsonArray.getJSONObject(0).optString("i"));
+                        object.optString("cityid");
+                        //JSONArray jsonArray = new JSONArray(obj.optString("bracketcityname"));
+                       /* for (int i = 0; i < jsonArray.length(); i++) {
                             pojoCity country = new pojoCity();
-                            country.setId(jsonArray.getJSONObject(i).optString("id"));
-                            country.setPrice(jsonArray.getJSONObject(i).optString("price"));
-                            country.setCategory(jsonArray.getJSONObject(i).optString("category"));
-                            country.setName(jsonArray.getJSONObject(i).optString("name"));
-                            country.setState_id(jsonArray.getJSONObject(i).optString("state_id"));
+                            JSONObject jsonArray1 = new JSONObject(jsonArray.optString("" + i));
+                            //  JSONObject object=new JSONObject(jsonArray1.optString(""))
+                            country.setId(jsonArray1.optString("cityid"));
+                            //country.setPrice(jsonArray1.optString("price"));
+                            //country.setCategory(jsonArray1.optString("category"));
+                            country.setName(jsonArray1.optString("name"));
+                            country.setState_id(jsonArray1.optString("stateid"));
                             pojoCities.add(country);
-                        }
+                        }*/
                     }
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(ViewRegister.this, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     cityAutoComplet.setThreshold(1);

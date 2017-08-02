@@ -2,7 +2,6 @@ package com.app.elixir.TravelB2B.adapter;
 
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,7 +38,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, txtRefId, reqAgentType;
+        public MtplTextView reqType, startDate, endDate, adult, txtComment, destination, txtRefId;
         MtplButton btnRemoveReq, btnCheckRes;
         ImageView catImage;
         TextView total;
@@ -47,9 +46,9 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
-            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
-            reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            // reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
+            // reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
+            //reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtRefId = (MtplTextView) itemView.findViewById(R.id.txtRefId);
 
 
@@ -66,7 +65,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
             btnRemoveReq.setOnClickListener(this);
             btnCheckRes.setOnClickListener(this);
-            reqAgent.setOnClickListener(this);
+            //   reqAgent.setOnClickListener(this);
 
         }
 
@@ -108,14 +107,14 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView reqAgent = holder.reqAgent;
+        //TextView reqAgent = holder.reqAgent;
         TextView txtComment = holder.txtComment;
         TextView startDate = holder.startDate;
         TextView endDate = holder.endDate;
         TextView total = holder.total;
         TextView adult = holder.adult;
         TextView txtRefId = holder.txtRefId;
-        MtplTextView reqAgentType = holder.reqAgentType;
+        //  MtplTextView reqAgentType = holder.reqAgentType;
         MtplButton btnCheckRes = holder.btnCheckRes;
 
         TextView destination = holder.destination;
@@ -123,7 +122,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
 
         txtRefId.setText(dataSet.get(position).getReference_id());
-        reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+        // reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         txtComment.setText(dataSet.get(position).getComment());
 
         String txtStartDt = "";
@@ -167,7 +166,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
 
         adult.setText(String.valueOf(totMemb));
-        destination.setText(dataSet.get(position).getDestination_city());
+        destination.setText(dataSet.get(position).getDestination_city().trim());
 
         if (dataSet.get(position).getCheckResCount().equals("0")) {
             btnCheckRes.setText("NO RESPONSE");
@@ -178,13 +177,13 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
-            reqAgentType.setText(" ( " + "Package" + " )");
+            destination.setText("Package");
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
-            reqAgentType.setText(" ( " + "Transport" + " )");
+            destination.setText("Transport");
         } else {
             catImg.setImageResource(R.drawable.hh);
-            reqAgentType.setText(" ( " + "Hotel" + " )");
+            destination.setText("Hotel");
         }
     }
 

@@ -63,7 +63,7 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
                     listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId(), "");
                     break;
                 case R.id.btnDetail:
-                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId(), "");
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getId(), dataSet.get(getAdapterPosition()).getCategory_id());
                     break;
                 case R.id.btntestimonial:
                     listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getUserName());
