@@ -2,7 +2,7 @@ package com.app.elixir.TravelB2B.utils;
 
 
 public class URLS {
-    //  public static final String URL = "http://www.travelb2bhub.com/b2b/pages/";
+//    public static final String URL = "http://www.travelb2bhub.com/b2b/pages/";
 
     public static final String URL = "http://192.168.3.82/b2b/pages/";
     //  http://192.168.3.82/b2b/pages/pagesapi/11

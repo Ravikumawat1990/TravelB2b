@@ -635,10 +635,22 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     if (jsonObject.optString("ResponseObject") != null) {
-                        JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
+                        JSONObject object = new JSONObject(jsonObject.optString("ResponseObject"));
+                        //    jsonArray.length()
+                        JSONObject object1 = new JSONObject(object.optString("citystatefi"));
+                        int count = jsonObject.optInt("TotalRecord");
+                        for (int i = 1; i <= count; i++) {
+                            pojoCity country = new pojoCity();
+                            JSONObject jsonArray1 = new JSONObject(object1.optString("" + i));
+                            //  JSONObject object=new JSONObject(jsonArray1.optString(""))
+                            country.setId(jsonArray1.optString("cityid"));
+                            //country.setPrice(jsonArray1.optString("price"));
+                            //country.setCategory(jsonArray1.optString("category"));
+                            country.setName(jsonArray1.optString("name"));
+                            country.setState_id(jsonArray1.optString("stateid"));
+                            pojoCities.add(country);
 
-                        JSONObject object = new JSONObject(jsonArray.getJSONObject(0).optString("i"));
-                        object.optString("cityid");
+                        }
                         //JSONArray jsonArray = new JSONArray(obj.optString("bracketcityname"));
                        /* for (int i = 0; i < jsonArray.length(); i++) {
                             pojoCity country = new pojoCity();

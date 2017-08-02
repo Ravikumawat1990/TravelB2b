@@ -46,6 +46,7 @@ public class adptfollowers extends RecyclerView.Adapter<adptfollowers.MyViewHold
             txtName = (MtplTextView) itemView.findViewById(R.id.txtName);
             txtEmail = (MtplTextView) itemView.findViewById(R.id.txtEmail);
             txtMobile = (MtplTextView) itemView.findViewById(R.id.txtMobile);
+            txtMobile.setSelected(true);
             txtCompName = (MtplTextView) itemView.findViewById(R.id.txtCompName);
             btnUnFollow = (MtplButton) itemView.findViewById(R.id.btnunfollow);
             btnUnFollow.setOnClickListener(this);
