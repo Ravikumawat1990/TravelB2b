@@ -13,6 +13,15 @@ public class pojoMyRequest {
     String email;
     String request_id;
     String id;
+    String checkResCount;
+
+    public String getCheckResCount() {
+        return checkResCount;
+    }
+
+    public void setCheckResCount(String checkResCount) {
+        this.checkResCount = checkResCount;
+    }
 
     public String getId() {
         return id;

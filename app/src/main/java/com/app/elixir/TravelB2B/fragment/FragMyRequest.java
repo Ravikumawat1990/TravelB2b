@@ -109,9 +109,13 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 if (value.equals("remove")) {
                     showPopup(thisActivity, value1);
                 } else if (value.equals("check")) {
-                    Intent intent = new Intent(thisActivity, ViewCheckResponse.class);
-                    intent.putExtra("refId", value1);
-                    CM.startActivity(intent, thisActivity);
+
+                    if (value1.equals("noresposne")) {
+                    } else {
+                        Intent intent = new Intent(thisActivity, ViewCheckResponse.class);
+                        intent.putExtra("refId", value1);
+                        CM.startActivity(intent, thisActivity);
+                    }
                 } else if (value1.equals("showAgent")) {
                     Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
                     intent.putExtra("userId", value);
@@ -554,10 +558,16 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
 
+                    JSONObject jsonObject3 = new JSONObject(jsonObject.optString("countarr").toString());
+
+                    JSONObject jsonObject2 = new JSONObject(jsonObject3.optString("responsecount"));
+
                     pojoMyResposneArrayList.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoMyRequest myResposne = new pojoMyRequest();
+
+                        myResposne.setCheckResCount(jsonObject2.optString(jsonArray.getJSONObject(i).get("id").toString()));
                         myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
                         myResposne.setRequest_id(jsonArray.getJSONObject(i).get("id").toString());
                         myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());

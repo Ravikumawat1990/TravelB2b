@@ -77,7 +77,11 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
                     listener.onItemClick("remove", dataSet.get(getAdapterPosition()).getRequest_id());
                     break;
                 case R.id.btnCheckRes:
-                    listener.onItemClick("check", dataSet.get(getAdapterPosition()).getRequest_id());
+                    if (dataSet.get(getAdapterPosition()).getCheckResCount().equals("0")) {
+                        listener.onItemClick("check", "noresposne");
+                    } else {
+                        listener.onItemClick("check", dataSet.get(getAdapterPosition()).getRequest_id());
+                    }
                     break;
                 case R.id.reqAgent:
                     //getUserId changed with getId
@@ -112,6 +116,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         TextView adult = holder.adult;
         TextView txtRefId = holder.txtRefId;
         MtplTextView reqAgentType = holder.reqAgentType;
+        MtplButton btnCheckRes = holder.btnCheckRes;
 
         TextView destination = holder.destination;
         ImageView catImg = holder.catImage;
@@ -164,6 +169,12 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         adult.setText(String.valueOf(totMemb));
         destination.setText(dataSet.get(position).getDestination_city());
 
+        if (dataSet.get(position).getCheckResCount().equals("0")) {
+            btnCheckRes.setText("NO RESPONSE");
+        } else {
+            btnCheckRes.setText("CHECK RESPONSE" + " ( " + dataSet.get(position).getCheckResCount() + " )");
+
+        }
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
