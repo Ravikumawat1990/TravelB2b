@@ -999,9 +999,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="@dimen/margin_10dp"
+                android:visibility="gone"
                 card_view:cardCornerRadius="20dp"
-                card_view:contentPadding="5dp"
-                android:visibility="gone">
+                card_view:contentPadding="5dp">
 
 
                 <LinearLayout
@@ -1122,8 +1122,8 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:maxLines="1"
-                                android:text="@string/children"
                                 android:padding="@dimen/margin_5dp"
+                                android:text="@string/children"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="@dimen/font_12sp"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />

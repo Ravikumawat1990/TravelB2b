@@ -33,13 +33,14 @@
 
     <com.app.elixir.TravelB2B.mtplview.MtplEditText
         android:id="@+id/quote_price"
-        android:layout_width="355dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_15dp"
         android:layout_marginRight="@dimen/margin_15dp"
         android:hint="Quote price"
         android:inputType="number"
-        android:textColorHint="@android:color/darker_gray" />
+        android:textColorHint="@color/colorLightGray"
+        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
 
     <com.app.elixir.TravelB2B.mtplview.MtplEditText

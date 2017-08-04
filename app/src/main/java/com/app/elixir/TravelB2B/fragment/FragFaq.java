@@ -79,6 +79,8 @@ public class FragFaq extends Fragment {
         webView = (WebView) rootView.findViewById(R.id.webView);
         webView.setWebViewClient(new myWebClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
         webView.loadUrl(URLS.FAQ);
         webView.setInitialScale(200);
 

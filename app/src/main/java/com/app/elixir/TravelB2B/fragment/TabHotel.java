@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.AutocompleteAdapter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
@@ -93,6 +94,18 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
     private int dayOfMonth1;
     private int month1;
     private int year1;
+    private OnApiDataChange listener;
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+
+            this.listener = (OnApiDataChange) context;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1176,7 +1189,24 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     if (jsonObject.optString("ResponseObject") != null) {
-                        JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
+                        JSONObject object = new JSONObject(jsonObject.optString("ResponseObject"));
+                        //    jsonArray.length()
+                        JSONObject object1 = new JSONObject(object.optString("citystatefi"));
+                        int count = jsonObject.optInt("TotalRecord");
+                        for (int i = 1; i <= count; i++) {
+                            pojoCity country = new pojoCity();
+                            JSONObject jsonArray1 = new JSONObject(object1.optString("" + i));
+                            //  JSONObject object=new JSONObject(jsonArray1.optString(""))
+                            country.setId(jsonArray1.optString("cityid"));
+                            //country.setPrice(jsonArray1.optString("price"));
+                            //country.setCategory(jsonArray1.optString("category"));
+                            country.setName(jsonArray1.optString("name"));
+                            country.setState_id(jsonArray1.optString("stateid"));
+                            pojoCities.add(country);
+
+                        }
+
+                       /* JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
                         for (int i = 0; i < jsonArray.length(); i++) {
                             pojoCity country = new pojoCity();
                             country.setId(jsonArray.getJSONObject(i).optString("id"));
@@ -1185,7 +1215,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
                             country.setName(jsonArray.getJSONObject(i).optString("name"));
                             country.setState_id(jsonArray.getJSONObject(i).optString("state_id"));
                             pojoCities.add(country);
-                        }
+                        }*/
                     }
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
                     destiCity.setThreshold(3);
@@ -1407,7 +1437,7 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     if (jsonObject.optString("response_object") != null) {
-
+                        listener.onItemClick(true);
                         CM.showToast(jsonObject.optString("response_object"), thisActivity);
 
                     }

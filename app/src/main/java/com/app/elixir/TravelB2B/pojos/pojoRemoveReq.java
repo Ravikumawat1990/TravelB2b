@@ -12,6 +12,43 @@ public class pojoRemoveReq {
     String adult;
     String children;
     String category_id;
+    String check_in;
+    String check_out;
+    String start_date;
+
+    public String getCheck_in() {
+        return check_in;
+    }
+
+    public void setCheck_in(String check_in) {
+        this.check_in = check_in;
+    }
+
+    public String getCheck_out() {
+        return check_out;
+    }
+
+    public void setCheck_out(String check_out) {
+        this.check_out = check_out;
+    }
+
+    public String getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+
+    String end_date;
 
     public String getCategory_id() {
         return category_id;

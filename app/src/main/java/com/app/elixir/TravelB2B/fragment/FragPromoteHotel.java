@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -100,6 +103,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     ArrayList<pojoPromotionCitys> promoAllCity = new ArrayList<pojoPromotionCitys>();
     ArrayList<pojoPromotionCitys> promoSelectedCity = new ArrayList<pojoPromotionCitys>();
     MtplTextView webView;
+    LinearLayout linearLayout;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -111,6 +115,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         }
     }
 
+    ScrollView scroll;
 
     @Nullable
     @Override
@@ -118,7 +123,12 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.promote, container, false);
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle("Promote your hotel");
+        scroll = (ScrollView) rootView.findViewById(R.id.root);
+        //   scroll.scrollTo(0, scroll.getTop());
+        //scroll.fullScroll(View.FOCUS_UP);
 
+
+        //scrollview.pageScroll(View.FOCUS_UP);
         setHasOptionsMenu(true);
         initView(rootView);
 
@@ -126,7 +136,8 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View rootView) {
-
+        webView = (MtplTextView) rootView.findViewById(R.id.webView);
+        sendRequest();
         editUserName = (MtplEditText) rootView.findViewById(R.id.edtUserName);
         editHotelName = (MtplEditText) rootView.findViewById(R.id.edtHotelName);
         editTariffCheapestRoom = (MtplEditText) rootView.findViewById(R.id.edtCheapRoom);
@@ -142,8 +153,9 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         autotxtState = (AutoCompleteTextView) rootView.findViewById(R.id.autotextState);
         allCityListview = (RecyclerView) rootView.findViewById(R.id.allCityList);
         selectedCityListview = (RecyclerView) rootView.findViewById(R.id.selectedCityList);
-        webView = (MtplTextView) rootView.findViewById(R.id.webView);
-        sendRequest();
+
+        linearLayout = (LinearLayout) rootView.findViewById(R.id.layoutTop);
+
 
         editUserName.setText(CM.getSp(thisActivity, CV.Preffirst_name, "").toString() + " " + CM.getSp(thisActivity, CV.Preflast_name, "").toString());
         editUserName.setEnabled(false);
@@ -678,12 +690,8 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                                 JSONObject jsonObject = null;
                                 try {
                                     jsonObject = new JSONObject(response.toString());
-
-                                    //  webView.loadUrl(jsonObject.getString("description").toString());
-                                    //  webView.loadDataWithBaseURL(null, jsonObject.getString("description").toString(), "text/html", "UTF-8", null);
                                     webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
-
-                                    // webView.loadData(jsonObject.getString("description").toString(), "text/html; charset=utf-8", "UTF-8");
+                                    webView.setMovementMethod(ScrollingMovementMethod.getInstance());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

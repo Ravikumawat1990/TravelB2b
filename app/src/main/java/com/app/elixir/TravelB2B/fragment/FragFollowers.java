@@ -111,7 +111,8 @@ public class FragFollowers extends Fragment {
             public void onItemClick(String value, String value1) {
 
                 if (value.equals("follow")) {
-                    webUnFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value1);
+
+                    showPopup(thisActivity, value1);
                 }
                 // showPopup(thisActivity);
 
@@ -350,7 +351,7 @@ public class FragFollowers extends Fragment {
         MenuItem item1 = menu.findItem(R.id.filter);
         menu.findItem(R.id.noti).setVisible(false);
         item.setVisible(false);
-        item1.setVisible(true);
+        item1.setVisible(false); //visibility false
     }
 
     @Override
@@ -419,5 +420,19 @@ public class FragFollowers extends Fragment {
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+    public void showPopup(Context context, final String value1) {
+        new AlertDialog.Builder(context)
+                .setTitle(getString(R.string.app_name))
+                .setMessage("Are you sure want to unfollow this user?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        webUnFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value1);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).setIcon(R.drawable.logonewnew).show();
     }
 }

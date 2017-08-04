@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -57,6 +59,16 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     String referenceId = "";
     MtplTextView refId, budget, members, childres, startdate, enddate, pickupCity, pickupState, pickupLocation, vehicle, finalState, finalCity, comment;
     ArrayList<pojoCheckResposne> resposneArrayList;
+
+    //Filter Variable
+    RelativeLayout edtStartDate;
+    RelativeLayout edtEndDate;
+    RelativeLayout priceRoot;
+    EditText edtRefId;
+    EditText edtPrice;
+    RelativeLayout spinnerRefType;
+    Spinner spinnerBudget;
+    String ref_Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +108,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
-        webCheckResponse(referenceId);
+        webCheckResponse(referenceId, "", "", "", "");
 
         initView();
     }
@@ -158,7 +170,8 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 CM.finishActivity(ViewCheckResponse.this);
                 return true;
             case R.id.filter:
-                showPopup();
+                // showPopup();
+                showFilterPopup();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -349,10 +362,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
-    public void webCheckResponse(String reqId) {
+    public void webCheckResponse(String reqId, String refId, String budget, String price, String name) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
-            WebService.getCheckResposne(v, reqId, new OnVolleyHandler() {
+            WebService.getCheckResposne(v, reqId, refId, budget, price, name, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -522,10 +535,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 case "200":
 
 
-                    pojoCheckResposne checkResposne = new pojoCheckResposne();
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    resposneArrayList.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
-
+                        pojoCheckResposne checkResposne = new pojoCheckResposne();
                         checkResposne.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
                         checkResposne.setId(jsonArray.getJSONObject(i).optString("id"));
                         checkResposne.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
@@ -540,6 +553,8 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         checkResposne.setLast_name(jsonObject3.optString("last_name"));
                         //   checkResposne.setId(jsonObject3.optString("id"));
                         checkResposne.setFollow_id(jsonObject3.optString("id"));
+                        checkResposne.setReference_id(jsonObject2.optString("reference_id"));
+                        ref_Id = jsonObject2.optString("reference_id");
                         resposneArrayList.add(checkResposne);
 
                     }
@@ -896,7 +911,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     CM.showToast(getString(R.string.offerACT), ViewCheckResponse.this);
-                    webCheckResponse(referenceId);
+                    webCheckResponse(referenceId, "", "", "", "");
 
                     break;
                 case "202":
@@ -981,7 +996,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 case "200":
                     if (!jsonObject.optString("response_object").toString().equals("null")) {
                         CM.showToast(getString(R.string.follow_success), ViewCheckResponse.this);
-                        webCheckResponse(referenceId);
+                        webCheckResponse(referenceId, "", "", "", "");
                     }
 
                     break;
@@ -999,4 +1014,65 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         }
     }
 
+
+    public void showFilterPopup() {
+        LayoutInflater inflater1 = (LayoutInflater) ViewCheckResponse.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout1 = inflater1.inflate(R.layout.popup_filter, (ViewGroup) ViewCheckResponse.this.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewCheckResponse.this).setView(layout1);
+        builder.setTitle("Filter By:");
+
+        final SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
+        searchView.setQueryHint("Agent Name");
+        searchView.setVisibility(View.VISIBLE);
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(ViewCheckResponse.this.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logo3);
+
+        spinnerBudget = (Spinner) layout1.findViewById(R.id.spinnerbudget);
+        edtStartDate = (RelativeLayout) layout1.findViewById(R.id.startdateroot);
+        edtStartDate.setVisibility(View.GONE);
+        //  edtStartDate.setOnTouchListener(this);
+        edtEndDate = (RelativeLayout) layout1.findViewById(R.id.enddateroot);
+        edtEndDate.setVisibility(View.GONE);
+        // edtEndDate.setOnTouchListener(this);
+        priceRoot = (RelativeLayout) layout1.findViewById(R.id.priceroot);
+        priceRoot.setVisibility(View.VISIBLE);
+        edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
+        edtRefId.setText(ref_Id);
+        edtRefId.setEnabled(false);
+        // edtPrice = (EditText) layout1.findViewById(R.id.edtprice);
+        spinnerRefType = (RelativeLayout) layout1.findViewById(R.id.typeroot);
+        spinnerRefType.setVisibility(View.GONE);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String pricetv, reqId, budgetv, nameAgent;
+
+                pricetv = edtPrice.getText().toString();
+                // reqId = edtRefId.getText().toString();
+                budgetv = spinnerBudget.getSelectedItem().toString();
+                nameAgent = searchView.getQuery().toString();
+
+                if (budgetv.equals("Select Budget")) {
+                    budgetv = "";
+                }
+                // String reqId, String budget, String price,
+                webCheckResponse(referenceId, ref_Id, budgetv, pricetv, nameAgent);
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }

@@ -145,6 +145,7 @@ public class FragTermsandCondions extends Fragment {
                                     jsonObject = new JSONObject(response.toString());
 
                                     webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
+                                    webView.setMovementMethod(ScrollingMovementMethod.getInstance());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

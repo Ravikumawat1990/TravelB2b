@@ -53,6 +53,7 @@ import com.app.elixir.TravelB2B.fragment.FragRemoveRequest;
 import com.app.elixir.TravelB2B.fragment.FragRespondToRequest;
 import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -75,7 +76,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 
 public class ViewDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks {
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks, OnApiDataChange {
 
     private DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
@@ -1244,5 +1245,15 @@ public class ViewDrawer extends AppCompatActivity
         badge.setCount(count);
         icon.mutate();
         icon.setDrawableByLayerId(R.id.ic_badge, badge);
+    }
+
+    @Override
+    public void onItemClick(boolean isChange) {
+
+        if (isChange) {
+            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, CV.city_id, "").toString());
+
+        }
+
     }
 }

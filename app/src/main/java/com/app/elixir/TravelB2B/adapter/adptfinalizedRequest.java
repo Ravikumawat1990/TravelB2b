@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
@@ -36,8 +38,9 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers;
+        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers, reqAgentType, startDate, endDate;
         MtplButton btnDetail, btnChat, btnTestimonial;
+        ImageView catImage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -46,10 +49,13 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
             txttotBudget = (MtplTextView) itemView.findViewById(R.id.txttotBudget);
             txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType);
             txtMebers = (MtplTextView) itemView.findViewById(R.id.txtMebers);
-
+            catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
+            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
+            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
             btnChat = (MtplButton) itemView.findViewById(R.id.btnChat);
             btnTestimonial = (MtplButton) itemView.findViewById(R.id.btntestimonial);
+            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             btnDetail.setOnClickListener(this);
             btnChat.setOnClickListener(this);
             btnTestimonial.setOnClickListener(this);
@@ -95,10 +101,11 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
         MtplTextView mebers = holder.txtMebers;
         MtplTextView total = holder.txttotBudget;
         MtplTextView reqType = holder.txtRexType;
-
-
+        ImageView catImg = holder.catImage;
+        TextView startDate = holder.startDate;
+        TextView endDate = holder.endDate;
         textViewReqId.setText(dataSet.get(position).getReference_id());
-
+        MtplTextView reqAgentType = holder.reqAgentType;
         int mebersInt = 0;
         try {
             mebersInt = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
@@ -107,12 +114,55 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
 
         }
 
+        String txtStartDt = "";
+        String txtEndDt = "";
+        if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_in().trim().toString());
+            } catch (Exception e) {
+                //  txtStartDt = dataSet.get(position).getCheck_in();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_out().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getCheck_out();
+            }
+        } else {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getStart_date().trim().toString());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getStart_date();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getEnd_date().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getEnd_date();
+            }
+
+        }
+
         mebers.setText(String.valueOf(mebersInt));
 
         reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
+        startDate.setText(txtStartDt);
+        endDate.setText(txtEndDt);
 
+        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        if (dataSet.get(position).getCategory_id().toString().equals("1")) {
+            catImg.setImageResource(R.drawable.pp);
+            reqAgentType.setText(" ( " + "Package" + " )");
 
-        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
+        } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
+            catImg.setImageResource(R.drawable.tt);
+            reqAgentType.setText(" ( " + "Transport" + " )");
+        } else {
+            catImg.setImageResource(R.drawable.hh);
+            reqAgentType.setText(" ( " + "Hotel" + " )");
+        }
 
     }
 

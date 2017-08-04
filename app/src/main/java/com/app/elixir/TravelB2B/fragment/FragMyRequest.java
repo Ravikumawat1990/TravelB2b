@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptMyRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
@@ -76,11 +77,13 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     private int dayOfMonth1;
     private int month1;
     private int year1;
+    private OnApiDataChange listener;
 
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
             this.mListener = (OnFragmentInteractionListener) context;
+            this.listener = (OnApiDataChange) context;
             ((ActionBarTitleSetter) context).setTitle(getString(R.string.MyReq));
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
@@ -437,6 +440,8 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     if (jsonObject.optString("response_object").toString().equals("1")) {
+
+                        listener.onItemClick(true);
                         webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
                     } else {
                         CM.showToast(jsonObject.optString("response_object").toString(), thisActivity);
@@ -472,7 +477,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
         searchText.setTypeface(myCustomFont);
-        builder.setIcon(R.drawable.logo3);
+        builder.setIcon(R.drawable.logonewnew);
 
         spinnerBudget = (Spinner) layout.findViewById(R.id.spinnerbudget);
         edtStartDate = (EditText) layout.findViewById(R.id.edtstartdate1);
@@ -556,64 +561,73 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
 
-                    JSONObject jsonObject3 = new JSONObject(jsonObject.optString("countarr").toString());
+                    if (!jsonObject.optString("response_object").toString().equals("") && jsonObject.optString("response_object") != null) {
 
-                    JSONObject jsonObject2 = new JSONObject(jsonObject3.optString("responsecount"));
+                        JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
 
-                    pojoMyResposneArrayList.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                        if (jsonArray.length() > 0) {
+                            JSONObject jsonObject3 = new JSONObject(jsonObject.optString("countarr").toString());
 
-                        pojoMyRequest myResposne = new pojoMyRequest();
+                            JSONObject jsonObject2 = new JSONObject(jsonObject3.optString("responsecount"));
 
-                        myResposne.setCheckResCount(jsonObject2.optString(jsonArray.getJSONObject(i).get("id").toString()));
-                        myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
-                        myResposne.setRequest_id(jsonArray.getJSONObject(i).get("id").toString());
-                        myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());
-                        myResposne.setTotal_budget(jsonArray.getJSONObject(i).get("total_budget").toString());
-                        myResposne.setChildren(jsonArray.getJSONObject(i).get("children").toString());
-                        myResposne.setAdult(jsonArray.getJSONObject(i).get("adult").toString());
-                        myResposne.setRoom1(jsonArray.getJSONObject(i).get("room1").toString());
-                        myResposne.setRoom2(jsonArray.getJSONObject(i).get("room2").toString());
-                        myResposne.setRoom3(jsonArray.getJSONObject(i).get("room3").toString());
-                        myResposne.setChild_with_bed(jsonArray.getJSONObject(i).get("child_with_bed").toString());
-                        myResposne.setChild_without_bed(jsonArray.getJSONObject(i).get("child_without_bed").toString());
-                        myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
-                        myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
-                        myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
-                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
-                        if (jsonObject1 != null) {
-                            myResposne.setDestination_city(jsonObject1.optString("name"));
+                            pojoMyResposneArrayList.clear();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                pojoMyRequest myResposne = new pojoMyRequest();
+
+                                myResposne.setCheckResCount(jsonObject2.optString(jsonArray.getJSONObject(i).get("id").toString()));
+                                myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
+                                myResposne.setRequest_id(jsonArray.getJSONObject(i).get("id").toString());
+                                myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());
+                                myResposne.setTotal_budget(jsonArray.getJSONObject(i).get("total_budget").toString());
+                                myResposne.setChildren(jsonArray.getJSONObject(i).get("children").toString());
+                                myResposne.setAdult(jsonArray.getJSONObject(i).get("adult").toString());
+                                myResposne.setRoom1(jsonArray.getJSONObject(i).get("room1").toString());
+                                myResposne.setRoom2(jsonArray.getJSONObject(i).get("room2").toString());
+                                myResposne.setRoom3(jsonArray.getJSONObject(i).get("room3").toString());
+                                myResposne.setChild_with_bed(jsonArray.getJSONObject(i).get("child_with_bed").toString());
+                                myResposne.setChild_without_bed(jsonArray.getJSONObject(i).get("child_without_bed").toString());
+                                myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
+                                myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
+                                myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
+                                JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
+                                if (jsonObject1 != null) {
+                                    myResposne.setDestination_city(jsonObject1.optString("name"));
+                                }
+                                myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
+                                myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
+                                myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
+                                myResposne.setPickup_city(jsonArray.getJSONObject(i).get("pickup_city").toString());
+                                myResposne.setPickup_state(jsonArray.getJSONObject(i).get("pickup_state").toString());
+                                myResposne.setPickup_country(jsonArray.getJSONObject(i).get("pickup_country").toString());
+                                myResposne.setPickup_locality(jsonArray.getJSONObject(i).get("pickup_locality").toString());
+                                myResposne.setCity_id(jsonArray.getJSONObject(i).get("city_id").toString());
+                                myResposne.setState_id(jsonArray.getJSONObject(i).get("state_id").toString());
+                                myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
+                                myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
+                                myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
+                                myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
+                                myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
+                                myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
+
+                                JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
+                                myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
+                                myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
+                                myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
+                                myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
+                                myResposne.setId(jsonObjectUser.optString("id").toString());
+                                pojoMyResposneArrayList.add(myResposne);
+                            }
+                            pojoMyResposneArrayList.size();
+                            mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.invalidate();
+                        } else {
+                            pojoMyResposneArrayList.clear();
+                            mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.invalidate();
                         }
-                        myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
-                        myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
-                        myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
-                        myResposne.setPickup_city(jsonArray.getJSONObject(i).get("pickup_city").toString());
-                        myResposne.setPickup_state(jsonArray.getJSONObject(i).get("pickup_state").toString());
-                        myResposne.setPickup_country(jsonArray.getJSONObject(i).get("pickup_country").toString());
-                        myResposne.setPickup_locality(jsonArray.getJSONObject(i).get("pickup_locality").toString());
-                        myResposne.setCity_id(jsonArray.getJSONObject(i).get("city_id").toString());
-                        myResposne.setState_id(jsonArray.getJSONObject(i).get("state_id").toString());
-                        myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
-                        myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
-                        myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
-                        myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
-                        myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
-                        myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
-
-                        JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
-                        myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
-                        myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
-                        myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
-                        myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
-                        myResposne.setId(jsonObjectUser.optString("id").toString());
-                        pojoMyResposneArrayList.add(myResposne);
                     }
-
-                    pojoMyResposneArrayList.size();
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.invalidate();
                     break;
                 case "202":
                     break;

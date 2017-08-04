@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,8 +30,8 @@ import android.widget.TextView;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptFinalizeResponse;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeResposne;
@@ -63,6 +65,15 @@ public class FragFinalizedResponses extends Fragment {
     FloatingActionButton myFab;
     MtplTextView userName, phoneNumber, email, discription;
 
+    //Filter Variable
+    RelativeLayout edtStartDate;
+    RelativeLayout edtEndDate;
+    RelativeLayout priceRoot;
+    EditText edtRefId;
+    EditText edtPrice;
+    RelativeLayout spinnerRefType;
+    Spinner spinnerBudget, spinnerPriceQuot;
+
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -92,6 +103,7 @@ public class FragFinalizedResponses extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         finalizeResposneArrayList = new ArrayList<>();
 
+
         myFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -117,14 +129,16 @@ public class FragFinalizedResponses extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
 
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        mAdapter.SetOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
-            public void onItemClick(String value, String value1) {
+            public void onItemClick(String value, String value1, String value2) {
 
                 if (value.equals("detail")) {
 
                     Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
                     intent.putExtra("refId", value1);
+                    intent.putExtra("reqtype", value2);
+                    intent.putExtra("title", getString(R.string.finalized_response));
                     CM.startActivity(intent, thisActivity);
 
                 } else {
@@ -136,7 +150,7 @@ public class FragFinalizedResponses extends Fragment {
                 }
             }
         });
-        webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString());
+        webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "");
 
     }
 
@@ -184,10 +198,10 @@ public class FragFinalizedResponses extends Fragment {
         item.setVisible(false);
     }*/
 
-    public void webFinalizeResponse(String userId) {
+    public void webFinalizeResponse(String userId, String reqId, String budget, String quotPrice, String name) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getFinalizeResponse(v, userId, new OnVolleyHandler() {
+            WebService.getFinalizeResponse(v, userId, reqId, budget, quotPrice, name, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -223,31 +237,37 @@ public class FragFinalizedResponses extends Fragment {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    finalizeResposneArrayList.clear();
+                    if (jsonArray.length() > 0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
-                        pojoFinalizeResposne pojoMyResponse = new pojoFinalizeResposne();
-                        pojoMyResponse.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
-                        pojoMyResponse.setRequest_id(jsonArray.getJSONObject(i).optString("request_id"));
-                        pojoMyResponse.setComment(jsonArray.getJSONObject(i).optString("comment"));
-                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("request").toString());
-
-
-                        pojoMyResponse.setAdult(jsonObject1.optString("adult"));
-                        pojoMyResponse.setChildren(jsonObject1.optString("children"));
-                        pojoMyResponse.setReference_id(jsonObject1.optString("reference_id"));
-                        pojoMyResponse.setTotal_budget(jsonObject1.optString("total_budget"));
+                            pojoFinalizeResposne pojoMyResponse = new pojoFinalizeResposne();
+                            pojoMyResponse.setQuotation_price(jsonArray.getJSONObject(i).optString("quotation_price"));
+                            pojoMyResponse.setRequest_id(jsonArray.getJSONObject(i).optString("request_id"));
+                            pojoMyResponse.setComment(jsonArray.getJSONObject(i).optString("comment"));
+                            JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("request").toString());
 
 
-                        JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
-                        pojoMyResponse.setId(jsonObject2.optString("id"));
-                        pojoMyResponse.setFirst_name(jsonObject2.optString("first_name"));
-                        pojoMyResponse.setLast_name(jsonObject2.optString("last_name"));
+                            pojoMyResponse.setAdult(jsonObject1.optString("adult"));
+                            pojoMyResponse.setChildren(jsonObject1.optString("children"));
+                            pojoMyResponse.setReference_id(jsonObject1.optString("reference_id"));
+                            pojoMyResponse.setTotal_budget(jsonObject1.optString("total_budget"));
+                            pojoMyResponse.setCategory_id(jsonObject1.optString("category_id"));
 
-                        finalizeResposneArrayList.add(pojoMyResponse);
+                            JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
+                            pojoMyResponse.setId(jsonObject2.optString("id"));
+                            pojoMyResponse.setFirst_name(jsonObject2.optString("first_name"));
+                            pojoMyResponse.setLast_name(jsonObject2.optString("last_name"));
 
+                            finalizeResposneArrayList.add(pojoMyResponse);
+
+                        }
+                        mRecyclerView.setAdapter(mAdapter);
+                        mRecyclerView.invalidate();
+                    } else {
+                        mRecyclerView.setAdapter(mAdapter);
+                        mRecyclerView.invalidate();
                     }
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.invalidate();
                     break;
                 case "202":
                     break;
@@ -271,11 +291,12 @@ public class FragFinalizedResponses extends Fragment {
         builder.setTitle("Filter By:");
         SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
         searchView.setQueryHint("Search by name, email, mobile");
+        searchView.setVisibility(View.VISIBLE);
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
         searchText.setTypeface(myCustomFont);
-        builder.setIcon(R.drawable.logo3);
+        builder.setIcon(R.drawable.logonewnew);
 
         Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
         final String[] cat = getResources().getStringArray(R.array.catArray);
@@ -378,9 +399,71 @@ public class FragFinalizedResponses extends Fragment {
         switch (item.getItemId()) {
             case R.id.filter:
                 CM.showToast("Pressed", thisActivity);
-                //showFilterPopup();
+                showFilterPopup();
                 return true;
         }
         return false;
+    }
+
+    public void showFilterPopup() {
+        LayoutInflater inflater1 = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout1 = inflater1.inflate(R.layout.popup_filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity).setView(layout1);
+        builder.setTitle("Filter By:");
+
+        SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by Agent Name");
+        searchView.setVisibility(View.VISIBLE);
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        final TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logonewnew);
+
+        spinnerBudget = (Spinner) layout1.findViewById(R.id.spinnerbudget);
+        spinnerPriceQuot = (Spinner) layout1.findViewById(R.id.spinnerPriceQuot);
+        edtStartDate = (RelativeLayout) layout1.findViewById(R.id.startdateroot);
+        edtStartDate.setVisibility(View.GONE);
+        edtEndDate = (RelativeLayout) layout1.findViewById(R.id.enddateroot);
+        edtEndDate.setVisibility(View.GONE);
+        priceRoot = (RelativeLayout) layout1.findViewById(R.id.priceroot);
+        priceRoot.setVisibility(View.VISIBLE);
+        edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
+        spinnerRefType = (RelativeLayout) layout1.findViewById(R.id.typeroot);
+        spinnerRefType.setVisibility(View.GONE);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String quotPrice, reqId, budgetv, name;
+
+                name = searchText.getText().toString();
+                quotPrice = spinnerPriceQuot.getSelectedItem().toString();
+                reqId = edtRefId.getText().toString();
+                budgetv = spinnerBudget.getSelectedItem().toString();
+
+
+                if (budgetv.equals("Select Budget")) {
+                    budgetv = "";
+                }
+                if (quotPrice.equals("Select Quoted Price")) {
+                    quotPrice = "";
+                }
+
+                //String userid, String reqId, String budget, String price,
+                webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), reqId, budgetv, quotPrice, name);
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

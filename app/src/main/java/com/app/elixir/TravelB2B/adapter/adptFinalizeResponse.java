@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoFinalizeResposne;
@@ -26,7 +26,7 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
 
     private ArrayList<pojoFinalizeResposne> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    public OnAdapterItemClickListener listener;
 
     public adptFinalizeResponse(Context context, ArrayList<pojoFinalizeResposne> data) {
         this.dataSet = data;
@@ -59,10 +59,10 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getCategory_id());
                     break;
                 case R.id.txtAgentName:
-                    listener.onItemClick("agent", dataSet.get(getAdapterPosition()).getId());
+                    listener.onItemClick("agent", dataSet.get(getAdapterPosition()).getId(), "");
                     break;
 
             }
@@ -70,7 +70,7 @@ public class adptFinalizeResponse extends RecyclerView.Adapter<adptFinalizeRespo
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnAdapterItemClickListener mItemClickListener) {
 
         this.listener = mItemClickListener;
     }

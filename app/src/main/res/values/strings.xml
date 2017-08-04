@@ -384,8 +384,15 @@
         <item>30000-50000</item>
         <item>50000-100000</item>
         <item>100000+</item>
+    </string-array>
 
-
+    <string-array name="coughtedArray">
+        <item>Select Quoted Price</item>
+        <item>0-10000</item>
+        <item>10000-30000</item>
+        <item>30000-50000</item>
+        <item>50000-100000</item>
+        <item>100000+</item>
     </string-array>
 
     <string-array name="ratingArray">

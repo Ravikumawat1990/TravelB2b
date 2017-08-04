@@ -37,7 +37,7 @@ import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewAgentProfile;
 import com.app.elixir.TravelB2B.view.ViewChat;
-import com.app.elixir.TravelB2B.view.ViewMyResdetailView;
+import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -108,17 +108,20 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
 
                 if (key.equals("detail")) {
 
-                    Intent intent = new Intent(thisActivity, ViewMyResdetailView.class);
+                    Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
                     intent.putExtra("refId", value1);
                     intent.putExtra("reqtype", value2);
+                    intent.putExtra("title", getString(R.string.MyResponse));
                     CM.startActivity(intent, thisActivity);
 
-                } else if (key.equals("detail")) {
+                } else if (key.equals("userdetail")) {
                     Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
                     intent.putExtra("userId", value1);
                     CM.startActivity(intent, thisActivity);
                 } else if (key.equals("follow")) {
-                    webFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
+
+                    showPopup(thisActivity, value2);
+
                 } else if (key.equals("chat")) {
                     Intent intent = new Intent(thisActivity, ViewChat.class);
                     intent.putExtra("refId", value1);
@@ -404,7 +407,7 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
         searchText.setTypeface(myCustomFont);
-        builder.setIcon(R.drawable.logo3);
+        builder.setIcon(R.drawable.logonewnew);
 
         spinnerBudget = (Spinner) layout.findViewById(R.id.spinnerbudget);
         edtStartDate = (EditText) layout.findViewById(R.id.edtstartdate1);
@@ -779,5 +782,19 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+    public void showPopup(Context context, final String value) {
+        new AlertDialog.Builder(context)
+                .setTitle(getString(R.string.app_name))
+                .setMessage("Are you sure you want to follow this user?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        webFollow(CM.getSp(thisActivity, CV.PrefID, "").toString(), value);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).setIcon(R.drawable.logo3).show();
     }
 }

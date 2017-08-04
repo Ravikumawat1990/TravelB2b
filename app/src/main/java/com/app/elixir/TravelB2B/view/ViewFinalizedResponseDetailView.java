@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,10 +23,12 @@ import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAddAnotherDes;
+import com.app.elixir.TravelB2B.adapter.adptStop;
 import com.app.elixir.TravelB2B.model.pojoAddAnother;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoStops;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
@@ -51,16 +54,27 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             destiCity, locality, hotelCat, meal, comment;
     ArrayList<pojoAddAnother> pojoAddAnotherArrayList;
     adptAddAnotherDes mAdapter;
-    RecyclerView mRecyclerView;
+    adptStop adptStops;
+    RecyclerView mRecyclerView, mRecyclerViewStop;
     MtplTextView trasnStrtDate, trasnEndDate, transPickupState, transPickupCity, transPickupLocat;
     MtplTextView txtvehicle;
+    String reqId = "";
+    String reqType = "";
+    MtplTextView DetailTxt;
+    MtplTextView addAnotherDes;
+    MtplTextView transLable, TransRefId, TranBudget, TransMember, TransChildren, TransVehicle, TransStartdate, TransEnddate, TransPickState, TransPickCity, TransPickLocality, TransFinalState, TransFinalCity;
+    CardView cardViewRoot;
+    ArrayList<pojoStops> pojoStopses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_finalized_response_detail_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.finalized_response));
+        Intent intent = getIntent();
+        requestId = intent.getStringExtra("refId");
+        String title = intent.getStringExtra("title");
+        toolbar.setTitle(title);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.backicnwht);
@@ -88,8 +102,8 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
         } catch (NoSuchFieldException e) {
         } catch (IllegalAccessException e) {
         }
-        Intent intent = getIntent();
-        requestId = intent.getStringExtra("refId");
+        reqId = intent.getStringExtra("reqtype");
+        reqType = CM.getReqType(reqId);
 
         initView();
 
@@ -101,6 +115,15 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
         btnRateUser = (MtplButton) findViewById(R.id.btnRateUser);
         btnBlockUser.setOnClickListener(this);
         btnRateUser.setOnClickListener(this);
+        DetailTxt = (MtplTextView) findViewById(R.id.detalidtxt);
+        DetailTxt.setText(reqType + " Details");
+
+        CardView cardAddAnother = (CardView) findViewById(R.id.cardAddAnother);
+        CardView cardTransport = (CardView) findViewById(R.id.cardTransport);
+        cardViewRoot = (CardView) findViewById(R.id.rootView);
+        MtplTextView transportTitle = (MtplTextView) findViewById(R.id.titleTransport);
+        addAnotherDes = (MtplTextView) findViewById(R.id.titleAddanother);
+
 
         refId = (MtplTextView) findViewById(R.id.txtRefId);
         txtvehicle = (MtplTextView) findViewById(R.id.txtvehicle);
@@ -131,10 +154,56 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        mRecyclerViewStop = (RecyclerView) findViewById(R.id.stopRecycleViw);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(ViewFinalizedResponseDetailView.this));
+        mRecyclerViewStop.setLayoutManager(new LinearLayoutManager(ViewFinalizedResponseDetailView.this));
         pojoAddAnotherArrayList = new ArrayList<>();
-
+        pojoStopses = new ArrayList<>();
         mAdapter = new adptAddAnotherDes(ViewFinalizedResponseDetailView.this, pojoAddAnotherArrayList);
+
+        adptStops = new adptStop(ViewFinalizedResponseDetailView.this, pojoStopses);
+
+
+        CardView TransCard2 = (CardView) findViewById(R.id.transprotcart2);
+//New Transprot Variables
+        TransRefId = (MtplTextView) findViewById(R.id.tranRefid);
+        TranBudget = (MtplTextView) findViewById(R.id.tranT_budget);
+        TransMember = (MtplTextView) findViewById(R.id.tran_member);
+        TransChildren = (MtplTextView) findViewById(R.id.tran_child);
+        TransVehicle = (MtplTextView) findViewById(R.id.tranVehicle);
+        TransStartdate = (MtplTextView) findViewById(R.id.tranSdate);
+        TransEnddate = (MtplTextView) findViewById(R.id.tranEdate);
+        TransPickState = (MtplTextView) findViewById(R.id.tran_Pstate);
+        TransPickCity = (MtplTextView) findViewById(R.id.tran_Pcity);
+        TransPickLocality = (MtplTextView) findViewById(R.id.tran_Plocation);
+        TransFinalCity = (MtplTextView) findViewById(R.id.tran_Fcity);
+        TransFinalState = (MtplTextView) findViewById(R.id.tran_Fstate);
+        transLable = (MtplTextView) findViewById(R.id.trans_lable);
+
+
+        if (reqType.equals("Package")) {
+            addAnotherDes.setVisibility(View.VISIBLE);
+            cardAddAnother.setVisibility(View.VISIBLE);
+            cardTransport.setVisibility(View.VISIBLE);
+            transportTitle.setVisibility(View.VISIBLE);
+            cardViewRoot.setVisibility(View.VISIBLE);
+            TransCard2.setVisibility(View.GONE);
+        } else if (reqType.equals("Transport")) {
+
+            cardAddAnother.setVisibility(View.GONE);
+            addAnotherDes.setVisibility(View.GONE);
+            transportTitle.setVisibility(View.GONE);
+            cardTransport.setVisibility(View.GONE);
+            cardViewRoot.setVisibility(View.GONE);
+            TransCard2.setVisibility(View.VISIBLE);
+        } else {
+            cardAddAnother.setVisibility(View.GONE);
+            addAnotherDes.setVisibility(View.GONE);
+            transportTitle.setVisibility(View.GONE);
+            cardTransport.setVisibility(View.GONE);
+            cardViewRoot.setVisibility(View.VISIBLE);
+            TransCard2.setVisibility(View.GONE);
+        }
 
         if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
 
@@ -312,14 +381,14 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     //  destiCity.setText(jsonObject1.optString("destination_city"));
 
 
-                    if (!jsonObject1.optString("state_id").equals("")) {
+                    if (!jsonObject1.optString("state_id").equals("") && !jsonObject1.optString("state_id").toString().equals("null") && !jsonObject1.optString("state_id").toString().equals("0")) {
                         webState(jsonObject1.optString("state_id"), "1");
                     } else {
 
                     }
 
 
-                    if (!jsonObject1.optString("city_id").equals("") || !jsonObject1.optString("city_id").equals("0")) {
+                    if (!jsonObject1.optString("city_id").equals("") && !jsonObject1.optString("city_id").equals("0") && !jsonObject1.optString("city_id").equals("null")) {
                         webCity(jsonObject1.optString("city_id"), "1");
                     } else {
 
@@ -353,19 +422,48 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     transPickupLocat.setText(jsonObject1.optString("pickup_locality"));
 
 
-                    if (!jsonObject1.optString("pickup_state").equals("")) {
+                    if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("0") && !jsonObject1.optString("pickup_state").equals("null")) {
                         webState(jsonObject1.optString("pickup_state"), "2");
                     } else {
 
                     }
-                    if (!jsonObject1.optString("pickup_city").equals("") || !jsonObject1.optString("pickup_city").equals("0")) {
+                    if (!jsonObject1.optString("pickup_city").equals("") && !jsonObject1.optString("pickup_city").equals("0") && !jsonObject1.optString("pickup_city").equals("null")) {
                         webCity(jsonObject1.optString("pickup_city"), "2");
                     } else {
 
                     }
 
-                    txtvehicle.setText(CM.setVichel(jsonObject1.optString("transport_requirement").toString()));
+                    if (!jsonObject1.optString("final_city").equals("") && !jsonObject1.optString("final_city").equals("0") && !jsonObject1.optString("final_city").equals("null")) {
+                        webCity(jsonObject1.optString("final_city"), "3");
+                    } else {
 
+                    }
+
+                    if (!jsonObject1.optString("final_state").equals("") && !jsonObject1.optString("final_state").equals("0") && !jsonObject1.optString("final_state").equals("null")) {
+                        webState(jsonObject1.optString("final_state"), "3");
+                    } else {
+
+                    }
+
+
+                    if (!jsonObject1.optString("transport_requirement").toString().equals("null")) {
+                        txtvehicle.setText(CM.setVichel(jsonObject1.optString("transport_requirement").toString()));
+                    }
+
+                    //transport
+                    TransRefId.setText(jsonObject1.optString("reference_id"));
+                    TranBudget.setText(getString(R.string.rsSymbol) + " " + jsonObject1.optString("total_budget"));
+                    TransMember.setText(jsonObject1.optString("adult"));
+                    TransChildren.setText(jsonObject1.optString("children"));
+
+                    if (!jsonObject1.optString("transport_requirement").toString().equals("null")) {
+                        TransVehicle.setText(CM.setVichel(jsonObject1.optString("transport_requirement").toString()));
+                    }
+//transport
+
+                    TransStartdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
+                    TransEnddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
+                    TransPickLocality.setText(jsonObject1.optString("pickup_locality"));
 
                     JSONArray jsonArray = new JSONArray(jsonObject1.optString("hotels").toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -395,6 +493,22 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                         pojoAddAnotherArrayList.add(addAnother);
                     }
 
+                    JSONArray stops = new JSONArray(jsonObject1.optString("request_stops").toString());
+
+                    for (int i = 0; i < stops.length(); i++) {
+                        pojoStops pojo = new pojoStops();
+                        pojo.setCity_id(stops.getJSONObject(i).optString("city_id"));
+                        pojo.setId(stops.getJSONObject(i).optString("id"));
+                        pojo.setLocality(stops.getJSONObject(i).optString("locality"));
+                        pojo.setState_id(stops.getJSONObject(i).optString("state_id"));
+                        pojo.setRequest_id(stops.getJSONObject(i).optString("request_id"));
+                        pojoStopses.add(pojo);
+
+                    }
+
+
+                    mRecyclerViewStop.setAdapter(adptStops);
+                    mRecyclerViewStop.invalidate();
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.invalidate();
                     break;
@@ -458,8 +572,12 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                         if (type.equals("1")) {
                             destiCity.setText(jsonObject1.optString("name"));
-                        } else {
+                        } else if (type.equals("2")) {
                             transPickupCity.setText(jsonObject1.optString("name"));
+                            TransPickCity.setText(jsonObject1.optString("name"));
+                        } else {
+                            TransFinalCity.setText(jsonObject1.optString("name"));
+
                         }
                     }
 
@@ -523,11 +641,14 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     if (jsonObject.optString("response_object") != null) {
                         JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
                         if (type.equals("1")) {
-
                             destiState.setText(jsonObject1.optString("state_name"));
 
-                        } else {
+                        } else if (type.equals("2")) {
                             transPickupState.setText(jsonObject1.optString("state_name"));
+                            TransPickState.setText(jsonObject1.optString("state_name"));
+
+                        } else {
+                            TransFinalState.setText(jsonObject1.optString("state_name"));
 
                         }
                     }

@@ -7,10 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnAdapterItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoRemoveReq;
@@ -26,7 +27,8 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
 
     private ArrayList<pojoRemoveReq> dataSet;
     Context context;
-    public OnItemClickListener listener;
+    // public OnItemClickListener listener;
+    public OnAdapterItemClickListener listener;
 
     public adptRemoveRequest(Context context, ArrayList<pojoRemoveReq> data) {
         this.dataSet = data;
@@ -37,17 +39,22 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers;
+        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers, reqAgentType, startDate, endDate;
         MtplButton btnDetail;
+        ImageView catImage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            txtRefid = (MtplTextView) itemView.findViewById(R.id.txtRefid);
-            txttotBudget = (MtplTextView) itemView.findViewById(R.id.txttotBudget);
-            txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType);
-            txtMebers = (MtplTextView) itemView.findViewById(R.id.txtMebers);
+            txtRefid = (MtplTextView) itemView.findViewById(R.id.txtRefid1);
+            txttotBudget = (MtplTextView) itemView.findViewById(R.id.txttotBudget1);
+            txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType1);
+            txtMebers = (MtplTextView) itemView.findViewById(R.id.txtAdult1);
             btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
+            catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
+            reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
+            startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
+            endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             btnDetail.setOnClickListener(this);
 
         }
@@ -56,14 +63,14 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnDetail:
-                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id());
+                    listener.onItemClick("detail", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getCategory_id());
                     break;
             }
 
         }
     }
 
-    public void SetOnItemClickListener(OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(OnAdapterItemClickListener mItemClickListener) {
         this.listener = mItemClickListener;
     }
 
@@ -78,11 +85,14 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TextView textViewReqId = holder.txtRefid;
-        TextView mebers = holder.txtMebers;
-        TextView total = holder.txttotBudget;
-        TextView reqType = holder.txtRexType;
-
+        MtplTextView textViewReqId = holder.txtRefid;
+        MtplTextView mebers = holder.txtMebers;
+        MtplTextView total = holder.txttotBudget;
+        MtplTextView reqType = holder.txtRexType;
+        ImageView catImg = holder.catImage;
+        MtplTextView reqAgentType = holder.reqAgentType;
+        TextView startDate = holder.startDate;
+        TextView endDate = holder.endDate;
 
         textViewReqId.setText(dataSet.get(position).getReference_id());
         reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
@@ -109,10 +119,56 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
 
         }
 
+        String txtStartDt = "";
+        String txtEndDt = "";
+        if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_in().trim().toString());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getCheck_in();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_out().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getCheck_out();
+            }
+        } else {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getStart_date().trim().toString());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getStart_date();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getEnd_date().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getEnd_date();
+            }
+
+        }
+
+        startDate.setText(txtStartDt);
+        endDate.setText(txtEndDt);
+
+
         mebers.setText(String.valueOf(mebersInt));
 
 
-        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
+        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        if (dataSet.get(position).getCategory_id().toString().equals("1")) {
+            catImg.setImageResource(R.drawable.pp);
+            reqAgentType.setText(" ( " + "Package" + " )");
+
+        } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
+            catImg.setImageResource(R.drawable.tt);
+            reqAgentType.setText(" ( " + "Transport" + " )");
+        } else {
+            catImg.setImageResource(R.drawable.hh);
+            reqAgentType.setText(" ( " + "Hotel" + " )");
+        }
     }
 
     @Override

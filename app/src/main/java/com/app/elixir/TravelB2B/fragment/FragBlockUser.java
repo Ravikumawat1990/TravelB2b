@@ -409,7 +409,7 @@ public class FragBlockUser extends Fragment {
         MenuItem item1 = menu.findItem(R.id.filter);
         menu.findItem(R.id.noti).setVisible(false);
         item.setVisible(false);
-        item1.setVisible(true);
+        item1.setVisible(false);  //visibility false
     }
 
     @Override

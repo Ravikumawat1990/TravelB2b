@@ -797,7 +797,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     if (jsonObject.optString("ResponseObject") != null) {
-                        JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
+                        /*JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
                         for (int i = 0; i < jsonArray.length(); i++) {
                             pojoCity country = new pojoCity();
                             country.setId(jsonArray.getJSONObject(i).optString("id"));
@@ -806,6 +806,21 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                             country.setName(jsonArray.getJSONObject(i).optString("name"));
                             country.setState_id(jsonArray.getJSONObject(i).optString("state_id"));
                             pojoCities.add(country);
+                        }*/
+                        JSONObject object = new JSONObject(jsonObject.optString("ResponseObject"));
+                        JSONObject object1 = new JSONObject(object.optString("citystatefi"));
+                        int count = jsonObject.optInt("TotalRecord");
+                        for (int i = 1; i <= count; i++) {
+                            pojoCity country = new pojoCity();
+                            JSONObject jsonArray1 = new JSONObject(object1.optString("" + i));
+                            //  JSONObject object=new JSONObject(jsonArray1.optString(""))
+                            country.setId(jsonArray1.optString("cityid"));
+                            //country.setPrice(jsonArray1.optString("price"));
+                            //country.setCategory(jsonArray1.optString("category"));
+                            country.setName(jsonArray1.optString("name"));
+                            country.setState_id(jsonArray1.optString("stateid"));
+                            pojoCities.add(country);
+
                         }
                     }
                     AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(ViewEditProfile.this, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);

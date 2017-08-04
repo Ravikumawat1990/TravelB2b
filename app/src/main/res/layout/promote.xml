@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
 
     <LinearLayout
+        android:id="@+id/layoutTop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_15dp"
         android:layout_marginRight="@dimen/margin_15dp"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/margin_10dp">
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:orientation="vertical">
 
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.app.elixir.TravelB2B.mtplview.MtplTextView>
+            android:layout_height="wrap_content">
+
+        </com.app.elixir.TravelB2B.mtplview.MtplTextView>
 
         <View
             android:layout_width="match_parent"

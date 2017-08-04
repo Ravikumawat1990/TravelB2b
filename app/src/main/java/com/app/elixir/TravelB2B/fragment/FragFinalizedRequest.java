@@ -1,6 +1,7 @@
 package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -42,17 +44,19 @@ import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.view.ViewChat;
-import com.app.elixir.TravelB2B.view.ViewFinalizedRequestDetailView;
+import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +65,7 @@ import java.util.Map;
  * Created by NetSupport on 05-06-2017.
  */
 
-public class FragFinalizedRequest extends Fragment {
+public class FragFinalizedRequest extends Fragment implements View.OnTouchListener {
 
     private static final String TAG = "FragFinalizedRequest";
     private OnFragmentInteractionListener mListener;
@@ -72,6 +76,14 @@ public class FragFinalizedRequest extends Fragment {
     CoordinatorLayout layoutrootView;
     ArrayList<pojoFinalizeReq> pojoFinalizeReqArrayList;
     FloatingActionButton myFab;
+    //Filter Variable
+    EditText edtStartDate;
+    EditText edtEndDate;
+    EditText edtRefId;
+    Spinner spinnerRefType, spinnerBudget;
+    private int dayOfMonth1;
+    private int month1;
+    private int year1;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -96,7 +108,7 @@ public class FragFinalizedRequest extends Fragment {
     }
 
     private void initView(View rootView) {
-        layoutrootView = (CoordinatorLayout) rootView.findViewById(R.id.root);
+        layoutrootView = (CoordinatorLayout) rootView.findViewById(R.id.rootview);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         pojoFinalizeReqArrayList = new ArrayList<>();
@@ -130,9 +142,10 @@ public class FragFinalizedRequest extends Fragment {
                 if (value.equals("detail")) {
 
 
-                    Intent intent = new Intent(thisActivity, ViewFinalizedRequestDetailView.class);
+                    Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
                     intent.putExtra("refId", value1);
                     intent.putExtra("reqtype", value3);
+                    intent.putExtra("title", getString(R.string.finalized_requests));
                     CM.startActivity(intent, thisActivity);
 
                 } else if (value.equals("chat")) {
@@ -157,7 +170,8 @@ public class FragFinalizedRequest extends Fragment {
         });
 
         if (CM.isInternetAvailable(thisActivity)) {
-            webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+            //   webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+            webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -233,10 +247,11 @@ public class FragFinalizedRequest extends Fragment {
         dialog.show();
     }
 
-    public void webFinalizeRequest(String userId, String userRole) {
+    //String userid, String reqid, String reqType, String reqId, String budget
+    public void webFinalizeRequest(String userId, String userRole, String reqType, String reqId, String budget, String startDate, String endDate) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getFinalizeReq(v, userId, userRole, new OnVolleyHandler() {
+            WebService.getFinalizeReq(v, userId, userRole, reqType, reqId, budget, startDate, endDate, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -272,8 +287,8 @@ public class FragFinalizedRequest extends Fragment {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    pojoFinalizeReqArrayList.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         pojoFinalizeReq pojoMyResponse = new pojoFinalizeReq();
                         pojoMyResponse.setId(jsonArray.getJSONObject(i).optString("user_id"));
                         pojoMyResponse.setAdult(jsonArray.getJSONObject(i).optString("adult"));
@@ -282,6 +297,10 @@ public class FragFinalizedRequest extends Fragment {
                         pojoMyResponse.setReference_id(jsonArray.getJSONObject(i).optString("reference_id"));
                         pojoMyResponse.setTotal_budget(jsonArray.getJSONObject(i).optString("total_budget"));
                         pojoMyResponse.setRequest_id(jsonArray.getJSONObject(i).optString("id"));
+                        pojoMyResponse.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
+                        pojoMyResponse.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
+                        pojoMyResponse.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
+                        pojoMyResponse.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
                         JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("user"));
                         pojoMyResponse.setUserName(jsonObject1.optString("first_name") + " " + jsonObject1.optString("last_name"));
                         pojoFinalizeReqArrayList.add(pojoMyResponse);
@@ -532,10 +551,187 @@ public class FragFinalizedRequest extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                CM.showToast("Pressed", thisActivity);
-                //showFilterPopup();
+                //CM.showToast("Pressed", thisActivity);
+                showFilterPopup();
                 return true;
         }
         return false;
+    }
+
+    public void showFilterPopup() {
+        LayoutInflater inflater1 = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout1 = inflater1.inflate(R.layout.popup_filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity).setView(layout1);
+        builder.setTitle("Filter By:");
+
+        SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by Name");
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logonewnew);
+
+        spinnerBudget = (Spinner) layout1.findViewById(R.id.spinnerbudget);
+        edtStartDate = (EditText) layout1.findViewById(R.id.edtstartdate1);
+        edtStartDate.setOnTouchListener(this);
+        edtEndDate = (EditText) layout1.findViewById(R.id.edtenddate1);
+        edtEndDate.setOnTouchListener(this);
+        edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
+        spinnerRefType = (Spinner) layout1.findViewById(R.id.spinnerreftype);
+
+
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String reqType, reqId, budgetv, startDate, endDate;
+
+                reqType = spinnerRefType.getSelectedItem().toString();
+                reqId = edtRefId.getText().toString();
+                budgetv = spinnerBudget.getSelectedItem().toString();
+                startDate = edtStartDate.getText().toString();
+                endDate = edtEndDate.getText().toString();
+
+
+                if (reqType.equals("Select Package")) {
+                    reqType = "";
+                }
+                if (budgetv.equals("Select Budget")) {
+                    budgetv = "";
+                }
+                //String userid, String reqid, String reqType, String reqId, String budget
+                webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, budgetv, startDate, endDate);
+
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
+        switch (view.getId()) {
+            case R.id.edtstartdate1:
+
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (motionEvent.getRawX() >= (edtStartDate.getRight() - edtStartDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        checkIn(edtStartDate);
+                        return true;
+                    }
+                }
+
+                break;
+            case R.id.edtenddate1:
+                if (!edtStartDate.getText().toString().equals("")) {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        if (motionEvent.getRawX() >= (edtEndDate.getRight() - edtEndDate.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                            checkOut(edtEndDate);
+                            return true;
+                        }
+                    }
+                } else {
+                    CM.showToast("Select start date first", thisActivity);
+                }
+
+                break;
+        }
+        return false;
+    }
+
+    public void checkIn(final EditText ed) {
+        Calendar now = Calendar.getInstance();
+        Log.i(ContentValues.TAG, "onTouch:" + ed.getId());
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+        try {
+
+
+            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                    Log.i(ContentValues.TAG, "onDateSet: ");
+                    dayOfMonth1 = dayOfMonth;
+                    month1 = monthOfYear;
+                    year1 = year;
+
+                    int month = monthOfYear + 1;
+                    if (edtStartDate != null) {
+
+
+                    /*dayOfMonth1 = dayOfMonth;
+                    month1 = month;
+                    year1 = year;*/
+                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edtStartDate.setSelection(edtStartDate.getText().length());
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.getMessage();
+
+        }
+
+
+    }
+
+    public void checkOut(final EditText edt) {
+
+        Calendar now = Calendar.getInstance();
+        Log.i(ContentValues.TAG, "onTouch:" + edt.getId());
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(null,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+
+        try {
+            Calendar now1 = Calendar.getInstance();
+            now1.set(year1, month1, dayOfMonth1);// you can pass your custom date
+            dpd.setMinDate(now1);
+
+            dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+
+
+            LocalDate monthEnd = new LocalDate().plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+
+            dpd.setOnDateSetListener(new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                    Log.i(ContentValues.TAG, "onDateSet: ");
+
+                    int month = monthOfYear + 1;
+                    if (edt != null) {
+                        edt.setText(month + "/" + dayOfMonth + "/" + year);
+                    }
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.getMessage();
+
+        }
     }
 }

@@ -121,17 +121,37 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
         txtComment.setText(dataSet.get(position).getUserComment());
         reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+
+
         String txtStartDt = "";
-        try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_in().trim().toString());
-        } catch (Exception e) {
-            txtStartDt = dataSet.get(position).getCheck_in();
-        }
         String txtEndDt = "";
-        try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_out().trim().toString());
-        } catch (Exception e) {
-            txtEndDt = dataSet.get(position).getCheck_out();
+        if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_in().trim().toString());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getCheck_in();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_out().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getCheck_out();
+            }
+        } else {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getStart_date().trim().toString());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getStart_date();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getEnd_date().trim().toString());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getEnd_date();
+            }
+
         }
 
 

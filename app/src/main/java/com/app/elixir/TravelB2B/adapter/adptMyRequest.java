@@ -124,18 +124,36 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         txtRefId.setText(dataSet.get(position).getReference_id());
         // reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         txtComment.setText(dataSet.get(position).getComment());
-
         String txtStartDt = "";
-        try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_in());
-        } catch (Exception e) {
-            txtStartDt = dataSet.get(position).getStart_date();
-        }
         String txtEndDt = "";
-        try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd", dataSet.get(position).getCheck_out());
-        } catch (Exception e) {
-            txtEndDt = dataSet.get(position).getEnd_date();
+        if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {
+
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_in());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getCheck_in();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getCheck_out());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getCheck_out();
+            }
+
+        } else {
+
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getStart_date());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getStart_date();
+            }
+
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd/MM/yyyy", dataSet.get(position).getEnd_date());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getEnd_date();
+            }
         }
 
 
