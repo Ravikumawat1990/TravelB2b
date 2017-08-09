@@ -4,9 +4,11 @@ package com.app.elixir.TravelB2B.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -15,6 +17,7 @@ import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,7 @@ public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.My
         public MtplTextView reqType, refType, startDate, endDate, total, adult;
         MtplButton btnUnBlockUser;
         MtplTextView webSite, hotel_Name, charges, hotelType;
+        ImageView imageView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +51,8 @@ public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.My
             hotel_Name = (MtplTextView) itemView.findViewById(R.id.txthotel_name);
             charges = (MtplTextView) itemView.findViewById(R.id.txtCharges);
             hotelType = (MtplTextView) itemView.findViewById(R.id.txthotel_type);
+
+            imageView = (ImageView) itemView.findViewById(R.id.imghotel_pic);
         }
 
         @Override
@@ -82,6 +88,20 @@ public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.My
         hotel_Name.setText(dataSet.get(position).getHotel_name());
         charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
         hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));
+        ImageView imageView = holder.imageView;
+
+        try {
+            // Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonArray.getJSONObject(i).optString("profile_pic"));
+            Picasso.with(context)
+                    .load("http://www.travelb2bhub.com/b2b/img/" + dataSet.get(position).getHotel_pic())  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                    .placeholder(R.drawable.logo1) // optional
+                    .error(R.drawable.logo1)         // optional
+                    .into(imageView);
+
+        } catch (Exception e) {
+
+            Log.i("TAG", "onBindViewHolder: " + e.getMessage());
+        }
 
     }
 

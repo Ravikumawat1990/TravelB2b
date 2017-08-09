@@ -1023,407 +1023,444 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                             if (!checkIn.getText().toString().equals("")) {
 
                                 if (!checkOut.getText().toString().equals("")) {
+                                    if (!transStatrDate.getText().toString().equals("")) {
+                                        if (!transEndDate.getText().toString().equals("")) {
+                                          /*  if (!pickupLocality.getText().toString().equals("")) {*/
 
-                                    JSONObject jsonObject = new JSONObject();
+                                            if (!trapickupCity.getText().toString().equals("")) {
 
+                                                if (!pickupState.getText().toString().equals("")) {
 
-                                    JSONObject jsonObject1 = new JSONObject();
-
-                                    pojoPackage pojoPackage = new pojoPackage();
-                                    //General Req
-                                    JSONObject generalReqObj = new JSONObject();
-                                    JSONArray generalReqArray = new JSONArray();
-                                    JSONObject obj = new JSONObject();
-                                    try {
-                                        obj.put("refId", refId.getText().toString());
-                                        obj.put("totBudget", totBudget.getText().toString());
-                                        obj.put("members", numberPicker.getValue());
-                                        obj.put("childBelow", childBelow.getValue());
-                                        generalReqArray.put(obj);
-                                        generalReqObj.put("General_Req", generalReqArray);
-                                    } catch (Exception e) {
-
-                                    }
+                                                    if (!finalCity.getText().toString().equals("")) {
 
 
-                                    //Stay Req
-
-                                    JSONObject obj1 = new JSONObject();
-                                    JSONObject stayReqReqObj = new JSONObject();
-                                    JSONArray stayReqArray = new JSONArray();
-                                    try {
-
-                                        for (int j = 0; j < 2; j++) {
-                                            obj1.put("singleRoom", singleRoom.getText().toString());
-                                            obj1.put("doubleRoom", doubleRoom.getText().toString());
-                                            obj1.put("tripalRoom", tripalRoom.getText().toString());
-                                            obj1.put("childWithbed", childWithbed.getText().toString());
-                                            obj1.put("childWithoutbed", childWithoutbed.getText().toString());
-                                            obj1.put("HotelRating", spinnerHotelRating.getSelectedItem());
-                                            obj1.put("HotelCat", spinnerHotelCatMain.getSelectedStrings());
-                                            obj1.put("MealPlane", spinnerMealPlane.getSelectedItem());
-                                            obj1.put("destiCity", destiCity.getText().toString());
-                                            obj1.put("destiState", destiState.getText().toString());
-                                            obj1.put("destiCountry", destiCountry.getText().toString());
-                                            obj1.put("destiLocality", destiLocality.getText().toString());
-                                            obj1.put("checkIn", checkIn.getText().toString());
-                                            obj1.put("checkOut", checkOut.getText().toString());
-                                            stayReqArray.put(obj1);
-                                        }
-                                        generalReqObj.put("Stay_Req", stayReqArray);
+                                                        JSONObject jsonObject = new JSONObject();
 
 
-                                    } catch (Exception e) {
+                                                        JSONObject jsonObject1 = new JSONObject();
 
-                                    }
+                                                        pojoPackage pojoPackage = new pojoPackage();
+                                                        //General Req
+                                                        JSONObject generalReqObj = new JSONObject();
+                                                        JSONArray generalReqArray = new JSONArray();
+                                                        JSONObject obj = new JSONObject();
+                                                        try {
+                                                            obj.put("refId", refId.getText().toString());
+                                                            obj.put("totBudget", totBudget.getText().toString());
+                                                            obj.put("members", numberPicker.getValue());
+                                                            obj.put("childBelow", childBelow.getValue());
+                                                            generalReqArray.put(obj);
+                                                            generalReqObj.put("General_Req", generalReqArray);
+                                                        } catch (Exception e) {
 
-
-                                    //Transport Req
-                                    JSONObject transportReqObj = new JSONObject();
-                                    JSONArray transportReqArray = new JSONArray();
-                                    JSONObject obj3 = new JSONObject();
-                                    try {
-                                        obj3.put("transport", spinnerTransport.getSelectedItem());
-                                        obj3.put("StatrDate", transStatrDate.getText().toString());
-                                        obj3.put("EndDate", transEndDate.getText().toString());
-                                        obj3.put("Locality", pickupLocality.getText().toString());
-                                        obj3.put("pickupCity", trapickupCity.getText().toString());
-                                        obj3.put("pickupState", pickupState.getText().toString());
-                                        obj3.put("finalLocality", finalLocality.getText().toString());
-                                        obj3.put("finalCity", finalCity.getText().toString());
-                                        obj3.put("finalState", finalState.getText().toString());
-                                        transportReqArray.put(obj3);
-                                        generalReqObj.put("Transport_Req", transportReqArray);
-                                    } catch (Exception e) {
-
-                                    }
-                                    // JSONObject commentObj = new JSONObject();
-                                    try {
-                                        generalReqObj.put("comt", edtComment.getText().toString());
-                                    } catch (Exception e) {
-
-                                    }
-
-                                    try {
-                                        jsonObject1.put("responsneCode", "200");
-                                        jsonObject1.put("responsneObject", generalReqObj);
-                                    } catch (Exception e) {
-
-                                    }
-                                    ArrayList<pojoPackage> pojoPackages = new ArrayList<>();
+                                                        }
 
 
-                                    pojoPackage aPackage = new pojoPackage();
-                                    aPackage.setCategory_id(CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
-                                    aPackage.setUser_id(CM.getSp(thisActivity, CV.PrefID, "").toString());
-                                    aPackage.setReference_id(refId.getText().toString());
-                                    aPackage.setTotal_budget(totBudget.getText().toString());
-                                    aPackage.setAdult(String.valueOf(numberPicker.getValue()));
-                                    aPackage.setChildren(String.valueOf(childBelow.getValue()));
-                                    aPackage.setRoom1(singleRoom.getText().toString());
-                                    aPackage.setRoom2(doubleRoom.getText().toString());
-                                    aPackage.setRoom3(tripalRoom.getText().toString());
-                                    aPackage.setChild_with_bed(childWithbed.getText().toString());
-                                    aPackage.setChild_without_bed(childWithoutbed.getText().toString());
-                                    aPackage.setHotel_rating(CM.getHotelRating(spinnerHotelRating.getSelectedItem().toString()));
+                                                        //Stay Req
 
-                                    List<String> words = spinnerHotelCatMain.getSelectedStrings();
-                                    StringBuilder stringBuilder = new StringBuilder();
+                                                        JSONObject obj1 = new JSONObject();
+                                                        JSONObject stayReqReqObj = new JSONObject();
+                                                        JSONArray stayReqArray = new JSONArray();
+                                                        try {
 
-                                    for (int i1 = 0; i1 < words.size(); i1++) {
+                                                            for (int j = 0; j < 2; j++) {
+                                                                obj1.put("singleRoom", singleRoom.getText().toString());
+                                                                obj1.put("doubleRoom", doubleRoom.getText().toString());
+                                                                obj1.put("tripalRoom", tripalRoom.getText().toString());
+                                                                obj1.put("childWithbed", childWithbed.getText().toString());
+                                                                obj1.put("childWithoutbed", childWithoutbed.getText().toString());
+                                                                obj1.put("HotelRating", spinnerHotelRating.getSelectedItem());
+                                                                obj1.put("HotelCat", spinnerHotelCatMain.getSelectedStrings());
+                                                                obj1.put("MealPlane", spinnerMealPlane.getSelectedItem());
+                                                                obj1.put("destiCity", destiCity.getText().toString());
+                                                                obj1.put("destiState", destiState.getText().toString());
+                                                                obj1.put("destiCountry", destiCountry.getText().toString());
+                                                                obj1.put("destiLocality", destiLocality.getText().toString());
+                                                                obj1.put("checkIn", checkIn.getText().toString());
+                                                                obj1.put("checkOut", checkOut.getText().toString());
+                                                                stayReqArray.put(obj1);
+                                                            }
+                                                            generalReqObj.put("Stay_Req", stayReqArray);
 
-                                        if (words.size() == 1) {
-                                            stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+
+                                                        } catch (Exception e) {
+
+                                                        }
+
+
+                                                        //Transport Req
+                                                        JSONObject transportReqObj = new JSONObject();
+                                                        JSONArray transportReqArray = new JSONArray();
+                                                        JSONObject obj3 = new JSONObject();
+                                                        try {
+                                                            obj3.put("transport", spinnerTransport.getSelectedItem());
+                                                            obj3.put("StatrDate", transStatrDate.getText().toString());
+                                                            obj3.put("EndDate", transEndDate.getText().toString());
+                                                            obj3.put("Locality", pickupLocality.getText().toString());
+                                                            obj3.put("pickupCity", trapickupCity.getText().toString());
+                                                            obj3.put("pickupState", pickupState.getText().toString());
+                                                            obj3.put("finalLocality", finalLocality.getText().toString());
+                                                            obj3.put("finalCity", finalCity.getText().toString());
+                                                            obj3.put("finalState", finalState.getText().toString());
+                                                            transportReqArray.put(obj3);
+                                                            generalReqObj.put("Transport_Req", transportReqArray);
+                                                        } catch (Exception e) {
+
+                                                        }
+                                                        // JSONObject commentObj = new JSONObject();
+                                                        try {
+                                                            generalReqObj.put("comt", edtComment.getText().toString());
+                                                        } catch (Exception e) {
+
+                                                        }
+
+                                                        try {
+                                                            jsonObject1.put("responsneCode", "200");
+                                                            jsonObject1.put("responsneObject", generalReqObj);
+                                                        } catch (Exception e) {
+
+                                                        }
+                                                        ArrayList<pojoPackage> pojoPackages = new ArrayList<>();
+
+
+                                                        pojoPackage aPackage = new pojoPackage();
+                                                        aPackage.setCategory_id(CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
+                                                        aPackage.setUser_id(CM.getSp(thisActivity, CV.PrefID, "").toString());
+                                                        aPackage.setReference_id(refId.getText().toString());
+                                                        aPackage.setTotal_budget(totBudget.getText().toString());
+                                                        aPackage.setAdult(String.valueOf(numberPicker.getValue()));
+                                                        aPackage.setChildren(String.valueOf(childBelow.getValue()));
+                                                        aPackage.setRoom1(singleRoom.getText().toString());
+                                                        aPackage.setRoom2(doubleRoom.getText().toString());
+                                                        aPackage.setRoom3(tripalRoom.getText().toString());
+                                                        aPackage.setChild_with_bed(childWithbed.getText().toString());
+                                                        aPackage.setChild_without_bed(childWithoutbed.getText().toString());
+                                                        aPackage.setHotel_rating(CM.getHotelRating(spinnerHotelRating.getSelectedItem().toString()));
+
+                                                        List<String> words = spinnerHotelCatMain.getSelectedStrings();
+                                                        StringBuilder stringBuilder = new StringBuilder();
+
+                                                        for (int i1 = 0; i1 < words.size(); i1++) {
+
+                                                            if (words.size() == 1) {
+                                                                stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+                                                            } else {
+                                                                stringBuilder.append(",");
+                                                                stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+
+                                                            }
+                                                        }
+                                                        String stateList = stringBuilder.toString().replace("[", "").replace("]", "")
+                                                                .replace(", ", ",");
+
+                                                        aPackage.setHotel_category(stateList);
+                                                        aPackage.setMeal_plan(CM.getMealPlaneRev(spinnerMealPlane.getSelectedItem().toString()));
+                                                        aPackage.setLocality(destiLocality.getText().toString());
+                                                        aPackage.setCity_name(destiCity.getText().toString());
+                                                        aPackage.setCity_id(cityId);
+                                                        aPackage.setState_id(stateId);
+                                                        aPackage.setState_name(destiState.getText().toString());
+                                                        aPackage.setCountry_name(destiCountry.getText().toString());
+                                                        aPackage.setCountry_id(countryId);
+                                                        aPackage.setCheck_in(checkIn.getText().toString());
+                                                        aPackage.setCheck_out(checkOut.getText().toString());
+                                                        aPackage.setTransport_requirement(CM.setVichelRev(spinnerTransport.getSelectedItem().toString()));
+                                                        aPackage.setStart_date(transStatrDate.getText().toString());
+                                                        aPackage.setEnd_date(transEndDate.getText().toString());
+                                                        aPackage.setPickup_locality(pickupLocality.getText().toString());
+                                                        aPackage.setPickup_city_name(trapickupCity.getText().toString());
+                                                        aPackage.setPickup_city_id(transcityId);
+                                                        aPackage.setPickup_state_id(transstateId);
+                                                        aPackage.setPickup_state_name(pickupState.getText().toString());
+                                                        aPackage.setPickup_country_name(pickupLocality.getText().toString());
+                                                        aPackage.setPickup_country_id(countryId);
+                                                        aPackage.setFinalLocality(finalLocality.getText().toString());
+                                                        aPackage.setP_final_city_name(finalCity.getText().toString());
+                                                        aPackage.setP_final_state_id(finalstateId);
+                                                        aPackage.setP_final_state_name(finalState.getText().toString());
+                                                        aPackage.setP_final_city_id(finalcityId);
+                                                        aPackage.setComment(edtComment.getText().toString());
+                                                        pojoPackages.add(aPackage);
+
+                                                        ArrayList<pojoStayReq> pojoStayReqs = new ArrayList<>();
+                                                        for (int i1 = 0; i1 < stringArrayListStayReq.size(); i1++) {
+                                                            pojoStayReq stayReq = new pojoStayReq();
+
+                                                            if (i1 == 0) {
+
+
+                                                                stayReq.setSingleRoom(singleRoom1.getText().toString());
+                                                                stayReq.setDoubleRoom(doubleRoom1.getText().toString());
+                                                                stayReq.setTripleRoom(tripalRoom1.getText().toString());
+                                                                stayReq.setChildwithbed(childWithbed1.getText().toString());
+                                                                stayReq.setChildwithouthbed(childWithoutbed1.getText().toString());
+                                                                stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating1.getSelectedItem().toString()));
+
+
+                                                                List<String> selectedStrings = spinnerHotelCat1.getSelectedStrings();
+                                                                StringBuilder stringBuilder1 = new StringBuilder();
+                                                                for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+
+                                                                    if (selectedStrings.size() == 1) {
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    } else {
+                                                                        stringBuilder1.append(",");
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    }
+                                                                }
+                                                                String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                                        .replace(", ", ",");
+
+                                                                stayReq.setHotlCat(stateList1);
+                                                                stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane1.getSelectedItem().toString()));
+                                                                stayReq.setDestiCity(cityId1.getText().toString());
+                                                                stayReq.setDestiState(stateId1.getText().toString());
+                                                                stayReq.setDestiCountry(countryId1.getText().toString());
+                                                                stayReq.setLocality(destiLocality1.getText().toString());
+                                                                stayReq.setCheckIn(checkIn1.getText().toString());
+                                                                stayReq.setCheckOut(checkOut1.getText().toString());
+                                                                pojoStayReqs.add(stayReq);
+
+                                                            } else if (i1 == 1) {
+
+                                                                stayReq.setSingleRoom(singleRoom2.getText().toString());
+                                                                stayReq.setDoubleRoom(doubleRoom2.getText().toString());
+                                                                stayReq.setTripleRoom(tripalRoom2.getText().toString());
+                                                                stayReq.setChildwithbed(childWithbed2.getText().toString());
+                                                                stayReq.setChildwithouthbed(childWithoutbed2.getText().toString());
+                                                                stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating2.getSelectedItem().toString()));
+
+
+                                                                List<String> selectedStrings = spinnerHotelCat2.getSelectedStrings();
+                                                                StringBuilder stringBuilder1 = new StringBuilder();
+
+                                                                for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                                    // Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    if (selectedStrings.size() == 1) {
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    } else {
+                                                                        stringBuilder1.append(",");
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    }
+
+                                                                }
+                                                                String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                                        .replace(", ", ",");
+
+
+                                                                stayReq.setHotlCat(stateList1);
+                                                                stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane2.getSelectedItem().toString()));
+                                                                stayReq.setDestiCity(cityId2.getText().toString());
+                                                                stayReq.setDestiState(stateId2.getText().toString());
+                                                                stayReq.setDestiCountry(countryId2.getText().toString());
+                                                                stayReq.setLocality(destiLocality2.getText().toString());
+                                                                stayReq.setCheckIn(checkIn2.getText().toString());
+                                                                stayReq.setCheckOut(checkOut2.getText().toString());
+                                                                pojoStayReqs.add(stayReq);
+
+                                                            } else if (i1 == 2) {
+
+                                                                stayReq.setSingleRoom(singleRoom3.getText().toString());
+                                                                stayReq.setDoubleRoom(doubleRoom3.getText().toString());
+                                                                stayReq.setTripleRoom(tripalRoom3.getText().toString());
+                                                                stayReq.setChildwithbed(childWithbed3.getText().toString());
+                                                                stayReq.setChildwithouthbed(childWithoutbed3.getText().toString());
+                                                                stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating3.getSelectedItem().toString()));
+
+                                                                List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                                                StringBuilder stringBuilder1 = new StringBuilder();
+
+                                                                for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                                    Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    if (selectedStrings.size() == 1) {
+
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    } else {
+                                                                        stringBuilder1.append(",");
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    }
+
+                                                                }
+                                                                String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                                        .replace(", ", ",");
+
+                                                                stayReq.setHotlCat(stateList1);
+                                                                stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane3.getSelectedItem().toString()));
+                                                                stayReq.setDestiCity(cityId3.getText().toString());
+                                                                stayReq.setDestiState(stateId3.getText().toString());
+                                                                stayReq.setDestiCountry(countryId3.getText().toString());
+                                                                stayReq.setLocality(destiLocality3.getText().toString());
+                                                                stayReq.setCheckIn(checkIn3.getText().toString());
+                                                                stayReq.setCheckOut(checkOut3.getText().toString());
+                                                                pojoStayReqs.add(stayReq);
+
+                                                            } else if (i1 == 3) {
+
+                                                                stayReq.setSingleRoom(singleRoom4.getText().toString());
+                                                                stayReq.setDoubleRoom(doubleRoom4.getText().toString());
+                                                                stayReq.setTripleRoom(tripalRoom4.getText().toString());
+                                                                stayReq.setChildwithbed(childWithbed4.getText().toString());
+                                                                stayReq.setChildwithouthbed(childWithoutbed4.getText().toString());
+                                                                stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating4.getSelectedItem().toString()));
+
+                                                                List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                                                StringBuilder stringBuilder1 = new StringBuilder();
+
+                                                                for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                                    Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    if (selectedStrings.size() == 1) {
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    } else {
+                                                                        stringBuilder1.append(",");
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    }
+
+
+                                                                }
+                                                                String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "").replace(", ", ",");
+                                                                stayReq.setHotlCat(stateList1);
+                                                                stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane4.getSelectedItem().toString()));
+                                                                stayReq.setDestiCity(cityId4.getText().toString());
+                                                                stayReq.setDestiState(stateId4.getText().toString());
+                                                                stayReq.setDestiCountry(countryId4.getText().toString());
+                                                                stayReq.setLocality(destiLocality4.getText().toString());
+                                                                stayReq.setCheckIn(checkIn4.getText().toString());
+                                                                stayReq.setCheckOut(checkOut4.getText().toString());
+                                                                pojoStayReqs.add(stayReq);
+
+                                                            } else if (i1 == 4) {
+
+                                                                stayReq.setSingleRoom(singleRoom5.getText().toString());
+                                                                stayReq.setDoubleRoom(doubleRoom5.getText().toString());
+                                                                stayReq.setTripleRoom(tripalRoom5.getText().toString());
+                                                                stayReq.setChildwithbed(childWithbed5.getText().toString());
+                                                                stayReq.setChildwithouthbed(childWithoutbed5.getText().toString());
+                                                                stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating5.getSelectedItem().toString()));
+
+                                                                List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
+                                                                StringBuilder stringBuilder1 = new StringBuilder();
+
+                                                                for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
+
+                                                                    Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    if (selectedStrings.size() == 1) {
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+
+                                                                    } else {
+                                                                        stringBuilder1.append(",");
+                                                                        stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
+                                                                    }
+
+                                                                }
+                                                                String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
+                                                                        .replace(", ", ",");
+
+
+                                                                stayReq.setHotlCat(stateList1);
+                                                                stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane5.getSelectedItem().toString()));
+                                                                stayReq.setDestiCity(cityId5.getText().toString());
+                                                                stayReq.setDestiState(stateId5.getText().toString());
+                                                                stayReq.setDestiCountry(countryId5.getText().toString());
+                                                                stayReq.setLocality(destiLocality5.getText().toString());
+                                                                stayReq.setCheckIn(checkIn5.getText().toString());
+                                                                stayReq.setCheckOut(checkOut5.getText().toString());
+                                                                pojoStayReqs.add(stayReq);
+
+                                                            }
+
+
+                                                        }
+
+
+                                                        ArrayList<pojoTransportReq> pojoTransportReqs = new ArrayList<>();
+
+
+                                                        for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
+
+                                                            pojoTransportReq transportReq = new pojoTransportReq();
+
+
+                                                            if (i1 == 0) {
+
+                                                                transportReq.setLocality(edtStopLocality1.getText().toString());
+                                                                transportReq.setCity(edtStopCityID1.getText().toString());
+                                                                transportReq.setState(edtStopStateID1.getText().toString());
+                                                                pojoTransportReqs.add(transportReq);
+
+                                                            } else if (i1 == 1) {
+
+                                                                transportReq.setLocality(edtStopLocality2.getText().toString());
+                                                                transportReq.setCity(edtStopCityID2.getText().toString());
+                                                                transportReq.setState(edtStopStateID2.getText().toString());
+                                                                pojoTransportReqs.add(transportReq);
+
+                                                            } else if (i1 == 2) {
+
+                                                                transportReq.setLocality(edtStopLocality3.getText().toString());
+                                                                transportReq.setCity(edtStopCityID3.getText().toString());
+                                                                transportReq.setState(edtStopStateID3.getText().toString());
+                                                                pojoTransportReqs.add(transportReq);
+
+
+                                                            } else if (i1 == 3) {
+
+                                                                transportReq.setLocality(edtStopLocality4.getText().toString());
+                                                                transportReq.setCity(edtStopCityID4.getText().toString());
+                                                                transportReq.setState(edtStopStateID4.getText().toString());
+                                                                pojoTransportReqs.add(transportReq);
+
+                                                            } else if (i1 == 4) {
+
+                                                                transportReq.setLocality(edtStopLocality5.getText().toString());
+                                                                transportReq.setCity(edtStopCityID5.getText().toString());
+                                                                transportReq.setState(edtStopStateID5.getText().toString());
+                                                                pojoTransportReqs.add(transportReq);
+
+                                                            }
+
+                                                        }
+                                                        pojoStayReqs.size();
+                                                        pojoTransportReqs.size();
+                                                        webGetPackage(pojoPackages, pojoStayReqs, pojoTransportReqs);
+
+
+                                                        Log.i(TAG, "onClick: " + jsonObject1);
+
+                                                    } else {
+
+                                                        CM.showToast("Please select finale City", thisActivity);
+
+                                                    }
+
+                                                } else {
+                                                    CM.showToast("Please select Pickup State", thisActivity);
+
+                                                }
+                                            } else {
+                                                CM.showToast("Please select Pickup City", thisActivity);
+                                            }
+                                           /* } else {
+                                                CM.showToast("Please select Pickup Locality.", thisActivity);
+
+                                            }*/
                                         } else {
-                                            stringBuilder.append(",");
-                                            stringBuilder.append(CM.setHotelCatRev(words.get(i1).toString()));
+                                            CM.showToast("Please select end date.", thisActivity);
 
                                         }
-                                    }
-                                    String stateList = stringBuilder.toString().replace("[", "").replace("]", "")
-                                            .replace(", ", ",");
-
-                                    aPackage.setHotel_category(stateList);
-                                    aPackage.setMeal_plan(CM.getMealPlaneRev(spinnerMealPlane.getSelectedItem().toString()));
-                                    aPackage.setLocality(destiLocality.getText().toString());
-                                    aPackage.setCity_name(destiCity.getText().toString());
-                                    aPackage.setCity_id(cityId);
-                                    aPackage.setState_id(stateId);
-                                    aPackage.setState_name(destiState.getText().toString());
-                                    aPackage.setCountry_name(destiCountry.getText().toString());
-                                    aPackage.setCountry_id(countryId);
-                                    aPackage.setCheck_in(checkIn.getText().toString());
-                                    aPackage.setCheck_out(checkOut.getText().toString());
-                                    aPackage.setTransport_requirement(CM.setVichelRev(spinnerTransport.getSelectedItem().toString()));
-                                    aPackage.setStart_date(transStatrDate.getText().toString());
-                                    aPackage.setEnd_date(transEndDate.getText().toString());
-                                    aPackage.setPickup_locality(pickupLocality.getText().toString());
-                                    aPackage.setPickup_city_name(trapickupCity.getText().toString());
-                                    aPackage.setPickup_city_id(transcityId);
-                                    aPackage.setPickup_state_id(transstateId);
-                                    aPackage.setPickup_state_name(pickupState.getText().toString());
-                                    aPackage.setPickup_country_name(pickupLocality.getText().toString());
-                                    aPackage.setPickup_country_id(countryId);
-                                    aPackage.setFinalLocality(finalLocality.getText().toString());
-                                    aPackage.setP_final_city_name(finalCity.getText().toString());
-                                    aPackage.setP_final_state_id(finalstateId);
-                                    aPackage.setP_final_state_name(finalState.getText().toString());
-                                    aPackage.setP_final_city_id(finalcityId);
-                                    aPackage.setComment(edtComment.getText().toString());
-                                    pojoPackages.add(aPackage);
-
-                                    ArrayList<pojoStayReq> pojoStayReqs = new ArrayList<>();
-                                    for (int i1 = 0; i1 < stringArrayListStayReq.size(); i1++) {
-                                        pojoStayReq stayReq = new pojoStayReq();
-
-                                        if (i1 == 0) {
-
-
-                                            stayReq.setSingleRoom(singleRoom1.getText().toString());
-                                            stayReq.setDoubleRoom(doubleRoom1.getText().toString());
-                                            stayReq.setTripleRoom(tripalRoom1.getText().toString());
-                                            stayReq.setChildwithbed(childWithbed1.getText().toString());
-                                            stayReq.setChildwithouthbed(childWithoutbed1.getText().toString());
-                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating1.getSelectedItem().toString()));
-
-
-                                            List<String> selectedStrings = spinnerHotelCat1.getSelectedStrings();
-                                            StringBuilder stringBuilder1 = new StringBuilder();
-                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-
-                                                if (selectedStrings.size() == 1) {
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                } else {
-                                                    stringBuilder1.append(",");
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                }
-                                            }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
-                                                    .replace(", ", ",");
-
-                                            stayReq.setHotlCat(stateList1);
-                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane1.getSelectedItem().toString()));
-                                            stayReq.setDestiCity(cityId1.getText().toString());
-                                            stayReq.setDestiState(stateId1.getText().toString());
-                                            stayReq.setDestiCountry(countryId1.getText().toString());
-                                            stayReq.setLocality(destiLocality1.getText().toString());
-                                            stayReq.setCheckIn(checkIn1.getText().toString());
-                                            stayReq.setCheckOut(checkOut1.getText().toString());
-                                            pojoStayReqs.add(stayReq);
-
-                                        } else if (i1 == 1) {
-
-                                            stayReq.setSingleRoom(singleRoom2.getText().toString());
-                                            stayReq.setDoubleRoom(doubleRoom2.getText().toString());
-                                            stayReq.setTripleRoom(tripalRoom2.getText().toString());
-                                            stayReq.setChildwithbed(childWithbed2.getText().toString());
-                                            stayReq.setChildwithouthbed(childWithoutbed2.getText().toString());
-                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating2.getSelectedItem().toString()));
-
-
-                                            List<String> selectedStrings = spinnerHotelCat2.getSelectedStrings();
-                                            StringBuilder stringBuilder1 = new StringBuilder();
-
-                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-                                                // Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                if (selectedStrings.size() == 1) {
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                } else {
-                                                    stringBuilder1.append(",");
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                }
-
-                                            }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
-                                                    .replace(", ", ",");
-
-
-                                            stayReq.setHotlCat(stateList1);
-                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane2.getSelectedItem().toString()));
-                                            stayReq.setDestiCity(cityId2.getText().toString());
-                                            stayReq.setDestiState(stateId2.getText().toString());
-                                            stayReq.setDestiCountry(countryId2.getText().toString());
-                                            stayReq.setLocality(destiLocality2.getText().toString());
-                                            stayReq.setCheckIn(checkIn2.getText().toString());
-                                            stayReq.setCheckOut(checkOut2.getText().toString());
-                                            pojoStayReqs.add(stayReq);
-
-                                        } else if (i1 == 2) {
-
-                                            stayReq.setSingleRoom(singleRoom3.getText().toString());
-                                            stayReq.setDoubleRoom(doubleRoom3.getText().toString());
-                                            stayReq.setTripleRoom(tripalRoom3.getText().toString());
-                                            stayReq.setChildwithbed(childWithbed3.getText().toString());
-                                            stayReq.setChildwithouthbed(childWithoutbed3.getText().toString());
-                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating3.getSelectedItem().toString()));
-
-                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
-                                            StringBuilder stringBuilder1 = new StringBuilder();
-
-                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (selectedStrings.size() == 1) {
-
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                } else {
-                                                    stringBuilder1.append(",");
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                }
-
-                                            }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
-                                                    .replace(", ", ",");
-
-                                            stayReq.setHotlCat(stateList1);
-                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane3.getSelectedItem().toString()));
-                                            stayReq.setDestiCity(cityId3.getText().toString());
-                                            stayReq.setDestiState(stateId3.getText().toString());
-                                            stayReq.setDestiCountry(countryId3.getText().toString());
-                                            stayReq.setLocality(destiLocality3.getText().toString());
-                                            stayReq.setCheckIn(checkIn3.getText().toString());
-                                            stayReq.setCheckOut(checkOut3.getText().toString());
-                                            pojoStayReqs.add(stayReq);
-
-                                        } else if (i1 == 3) {
-
-                                            stayReq.setSingleRoom(singleRoom4.getText().toString());
-                                            stayReq.setDoubleRoom(doubleRoom4.getText().toString());
-                                            stayReq.setTripleRoom(tripalRoom4.getText().toString());
-                                            stayReq.setChildwithbed(childWithbed4.getText().toString());
-                                            stayReq.setChildwithouthbed(childWithoutbed4.getText().toString());
-                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating4.getSelectedItem().toString()));
-
-                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
-                                            StringBuilder stringBuilder1 = new StringBuilder();
-
-                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (selectedStrings.size() == 1) {
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                } else {
-                                                    stringBuilder1.append(",");
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                }
-
-
-                                            }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "").replace(", ", ",");
-                                            stayReq.setHotlCat(stateList1);
-                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane4.getSelectedItem().toString()));
-                                            stayReq.setDestiCity(cityId4.getText().toString());
-                                            stayReq.setDestiState(stateId4.getText().toString());
-                                            stayReq.setDestiCountry(countryId4.getText().toString());
-                                            stayReq.setLocality(destiLocality4.getText().toString());
-                                            stayReq.setCheckIn(checkIn4.getText().toString());
-                                            stayReq.setCheckOut(checkOut4.getText().toString());
-                                            pojoStayReqs.add(stayReq);
-
-                                        } else if (i1 == 4) {
-
-                                            stayReq.setSingleRoom(singleRoom5.getText().toString());
-                                            stayReq.setDoubleRoom(doubleRoom5.getText().toString());
-                                            stayReq.setTripleRoom(tripalRoom5.getText().toString());
-                                            stayReq.setChildwithbed(childWithbed5.getText().toString());
-                                            stayReq.setChildwithouthbed(childWithoutbed5.getText().toString());
-                                            stayReq.setHotelRating(CM.getHotelRating(spinnerHotelRating5.getSelectedItem().toString()));
-
-                                            List<String> selectedStrings = spinnerHotelCat3.getSelectedStrings();
-                                            StringBuilder stringBuilder1 = new StringBuilder();
-
-                                            for (int j1 = 0; j1 < selectedStrings.size(); j1++) {
-
-                                                Log.i(TAG, "onClick: " + CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                if (selectedStrings.size() == 1) {
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-
-                                                } else {
-                                                    stringBuilder1.append(",");
-                                                    stringBuilder1.append(CM.setHotelCatRev(selectedStrings.get(j1).toString()));
-                                                }
-
-                                            }
-                                            String stateList1 = stringBuilder1.toString().replace("[", "").replace("]", "")
-                                                    .replace(", ", ",");
-
-
-                                            stayReq.setHotlCat(stateList1);
-                                            stayReq.setMealPlane(CM.getMealPlaneRev(spinnerMealPlane5.getSelectedItem().toString()));
-                                            stayReq.setDestiCity(cityId5.getText().toString());
-                                            stayReq.setDestiState(stateId5.getText().toString());
-                                            stayReq.setDestiCountry(countryId5.getText().toString());
-                                            stayReq.setLocality(destiLocality5.getText().toString());
-                                            stayReq.setCheckIn(checkIn5.getText().toString());
-                                            stayReq.setCheckOut(checkOut5.getText().toString());
-                                            pojoStayReqs.add(stayReq);
-
-                                        }
-
+                                    } else {
+                                        CM.showToast("Please select Start date.", thisActivity);
 
                                     }
 
-
-                                    ArrayList<pojoTransportReq> pojoTransportReqs = new ArrayList<>();
-
-
-                                    for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
-
-                                        pojoTransportReq transportReq = new pojoTransportReq();
-
-
-                                        if (i1 == 0) {
-
-                                            transportReq.setLocality(edtStopLocality1.getText().toString());
-                                            transportReq.setCity(edtStopCityID1.getText().toString());
-                                            transportReq.setState(edtStopStateID1.getText().toString());
-                                            pojoTransportReqs.add(transportReq);
-
-                                        } else if (i1 == 1) {
-
-                                            transportReq.setLocality(edtStopLocality2.getText().toString());
-                                            transportReq.setCity(edtStopCityID2.getText().toString());
-                                            transportReq.setState(edtStopStateID2.getText().toString());
-                                            pojoTransportReqs.add(transportReq);
-
-                                        } else if (i1 == 2) {
-
-                                            transportReq.setLocality(edtStopLocality3.getText().toString());
-                                            transportReq.setCity(edtStopCityID3.getText().toString());
-                                            transportReq.setState(edtStopStateID3.getText().toString());
-                                            pojoTransportReqs.add(transportReq);
-
-
-                                        } else if (i1 == 3) {
-
-                                            transportReq.setLocality(edtStopLocality4.getText().toString());
-                                            transportReq.setCity(edtStopCityID4.getText().toString());
-                                            transportReq.setState(edtStopStateID4.getText().toString());
-                                            pojoTransportReqs.add(transportReq);
-
-                                        } else if (i1 == 4) {
-
-                                            transportReq.setLocality(edtStopLocality5.getText().toString());
-                                            transportReq.setCity(edtStopCityID5.getText().toString());
-                                            transportReq.setState(edtStopStateID5.getText().toString());
-                                            pojoTransportReqs.add(transportReq);
-
-                                        }
-
-                                    }
-                                    pojoStayReqs.size();
-                                    pojoTransportReqs.size();
-                                    webGetPackage(pojoPackages, pojoStayReqs, pojoTransportReqs);
-
-
-                                    Log.i(TAG, "onClick: " + jsonObject1);
 
                                 } else {
                                     CM.showToast("Please select check-out date.", thisActivity);
@@ -2129,6 +2166,196 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                         listener.onItemClick(true);
 
                         CM.showToast(jsonObject.optString("response_object"), thisActivity);
+
+                        refId.setText("");
+                        totBudget.setText("");
+                        numberPicker.setValue(0);
+                        childBelow.setValue(0);
+                        singleRoom.setText("");
+                        doubleRoom.setText("");
+                        tripalRoom.setText("");
+                        childWithbed.setText("");
+                        childWithoutbed.setText("");
+                        spinnerHotelRating.setSelection(0);
+                        spinnerHotelCatMain.setSelection(0);
+                        spinnerMealPlane.setSelection(0);
+                        destiLocality.setText("");
+                        destiCity.setText("");
+                        destiState.setText("");
+                        destiCountry.setText("");
+                        checkIn.setText("");
+                        checkOut.setText("");
+
+                        spinnerTransport.setSelection(0);
+                        transStatrDate.setText("");
+                        transEndDate.setText("");
+                        pickupLocality.setText("");
+                        trapickupCity.setText("");
+                        pickupState.setText("");
+                        pickupLocality.setText("");
+                        finalLocality.setText("");
+                        finalCity.setText("");
+
+                        finalState.setText("");
+                        edtComment.setText("");
+
+
+                        for (int i1 = 0; i1 < stringArrayListStayReq.size(); i1++) {
+
+                            if (i1 == 0) {
+                                singleRoom1.setText("");
+                                doubleRoom1.setText("");
+                                tripalRoom1.setText("");
+                                childWithbed1.setText("");
+                                childWithoutbed1.setText("");
+                                spinnerHotelRating1.setSelection(0);
+                                spinnerHotelCat1.setSelection(0);
+                                spinnerMealPlane1.setSelection(0);
+
+                                destiCity1.setText("");
+                                destiState1.setText("");
+                                destiCountry1.setText("");
+
+                                cityId1.setText("");
+                                stateId1.setText("");
+                                countryId1.setText("");
+                                destiLocality1.setText("");
+                                checkIn1.setText("");
+                                checkOut1.setText("");
+
+                            } else if (i1 == 1) {
+
+                                singleRoom2.setText("");
+                                doubleRoom2.setText("");
+                                tripalRoom2.setText("");
+                                childWithbed2.setText("");
+                                childWithoutbed2.setText("");
+                                spinnerHotelRating2.setSelection(0);
+                                spinnerHotelCat2.setSelection(0);
+                                spinnerMealPlane2.setSelection(0);
+
+                                destiCity2.setText("");
+                                destiState2.setText("");
+                                destiCountry2.setText("");
+
+
+                                cityId2.setText("");
+                                stateId2.setText("");
+                                countryId2.setText("");
+                                destiLocality2.setText("");
+                                checkIn2.setText("");
+                                checkOut2.setText("");
+
+                            } else if (i1 == 2) {
+
+
+                                singleRoom3.setText("");
+                                doubleRoom3.setText("");
+                                tripalRoom3.setText("");
+                                childWithbed3.setText("");
+                                childWithoutbed3.setText("");
+                                spinnerHotelRating3.setSelection(0);
+                                spinnerHotelCat3.setSelection(0);
+                                spinnerMealPlane3.setSelection(0);
+
+                                destiCity3.setText("");
+                                destiState3.setText("");
+                                destiCountry3.setText("");
+
+                                cityId3.setText("");
+                                stateId3.setText("");
+                                countryId3.setText("");
+                                destiLocality3.setText("");
+                                checkIn3.setText("");
+                                checkOut3.setText("");
+
+                            } else if (i1 == 3) {
+
+                                singleRoom4.setText("");
+                                doubleRoom4.setText("");
+                                tripalRoom4.setText("");
+                                childWithbed4.setText("");
+                                childWithoutbed4.setText("");
+                                spinnerHotelRating4.setSelection(0);
+                                spinnerHotelCat4.setSelection(0);
+                                spinnerMealPlane4.setSelection(0);
+
+                                destiCity4.setText("");
+                                destiState4.setText("");
+                                destiCountry4.setText("");
+
+
+                                cityId4.setText("");
+                                stateId4.setText("");
+                                countryId4.setText("");
+                                destiLocality4.setText("");
+                                checkIn4.setText("");
+                                checkOut4.setText("");
+
+                            } else if (i1 == 4) {
+
+                                singleRoom5.setText("");
+                                doubleRoom5.setText("");
+                                tripalRoom5.setText("");
+                                childWithbed5.setText("");
+                                childWithoutbed5.setText("");
+                                spinnerHotelRating5.setSelection(0);
+                                spinnerHotelCat5.setSelection(0);
+                                spinnerMealPlane5.setSelection(0);
+
+                                destiCity5.setText("");
+                                destiState5.setText("");
+                                destiCountry5.setText("");
+
+                                cityId5.setText("");
+                                stateId5.setText("");
+                                countryId5.setText("");
+                                destiLocality5.setText("");
+                                checkIn5.setText("");
+                                checkOut5.setText("");
+
+
+                            }
+
+                        }
+
+
+                        for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
+
+                            if (i1 == 0) {
+                                edtStopLocality1.setText("");
+                                edtStopCityID1.setText("");
+                                edtStopStateID1.setText("");
+
+
+                            } else if (i1 == 1) {
+
+                                edtStopLocality2.setText("");
+                                edtStopCityID2.setText("");
+                                edtStopStateID2.setText("");
+
+                            } else if (i1 == 2) {
+
+                                edtStopLocality3.setText("");
+                                edtStopCityID3.setText("");
+                                edtStopStateID3.setText("");
+
+                            } else if (i1 == 3) {
+                                edtStopLocality4.setText("");
+                                edtStopCityID4.setText("");
+                                edtStopStateID4.setText("");
+
+                            } else if (i1 == 4) {
+
+                                edtStopLocality5.setText("");
+                                edtStopCityID5.setText("");
+                                edtStopStateID5.setText("");
+
+                            }
+
+
+                        }
+
 
                     }
 

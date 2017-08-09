@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,6 +17,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
     }
 
     lintOptions {
@@ -52,6 +57,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

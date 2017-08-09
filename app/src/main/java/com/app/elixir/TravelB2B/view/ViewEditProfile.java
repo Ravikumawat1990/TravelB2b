@@ -451,31 +451,49 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
     @Override
     public void onFocusChange(View view, boolean b) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+
         switch (view.getId()) {
             case R.id.edtProfilePic:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 1);
+                if (b) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, 1);
+                }
                 break;
             case R.id.edtOfficePic:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 2);
+                if (b) {
+                    Intent photoPickerIntent1 = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent1.setType("image/*");
+                    startActivityForResult(photoPickerIntent1, 2);
+                }
                 break;
             case R.id.edtOfficePic1:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 3);
+                if (b) {
+                    Intent photoPickerIntent2 = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent2.setType("image/*");
+                    startActivityForResult(photoPickerIntent2, 3);
+                }
                 break;
             case R.id.edtPanCard:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 4);
+                if (b) {
+                    Intent photoPickerIntent3 = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent3.setType("image/*");
+                    startActivityForResult(photoPickerIntent3, 4);
+                }
                 break;
             case R.id.edtBusinessCard:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 5);
+                if (b) {
+                    Intent photoPickerIntent4 = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent4.setType("image/*");
+                    startActivityForResult(photoPickerIntent4, 5);
+                }
                 break;
             case R.id.edtCompReg:
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 6);
+                if (b) {
+                    Intent photoPickerIntent5 = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent5.setType("image/*");
+                    startActivityForResult(photoPickerIntent5, 6);
+                }
                 break;
         }
     }
@@ -605,9 +623,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     }
                     break;
                 case 7:
-
                     if (photoUri != null) {
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -625,7 +641,6 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     break;
                 case 8:
                     if (photoUri != null) {
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -723,7 +738,6 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                     Bitmap currentImage = MediaStore.Images.Media.getBitmap(ViewEditProfile.this.getContentResolver(), photoUri);
                                     imageufta.setImageBitmap(CM.getResizedBitmap(currentImage, 200, 200));
                                     boolUftaa = true;
-
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

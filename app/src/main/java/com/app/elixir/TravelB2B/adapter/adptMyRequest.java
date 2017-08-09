@@ -123,7 +123,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         txtRefId.setText(dataSet.get(position).getReference_id());
         // reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
-        txtComment.setText(dataSet.get(position).getComment());
+        txtComment.setText(dataSet.get(position).getUserComment());
         String txtStartDt = "";
         String txtEndDt = "";
         if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {

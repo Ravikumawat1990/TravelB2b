@@ -67,8 +67,9 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     EditText edtRefId;
     EditText edtPrice;
     RelativeLayout spinnerRefType;
-    Spinner spinnerBudget;
+    Spinner spinnerBudget, spinnerPriceQuot;
     String ref_Id;
+    boolean aBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         toolbar.setTitle(getString(R.string.checkResp));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+        aBoolean = false;
 
         toolbar.setNavigationIcon(R.drawable.backicnwht);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -108,7 +110,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
-        webCheckResponse(referenceId, "", "", "", "");
+        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
 
         initView();
     }
@@ -172,6 +174,19 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             case R.id.filter:
                 // showPopup();
                 showFilterPopup();
+                return true;
+            case R.id.sort:
+
+
+                if (aBoolean) {
+                    webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                    aBoolean = false;
+                } else {
+                    webCheckResponse(referenceId, "", "", "", "", CV.DESC, "");
+                    aBoolean = true;
+
+                }
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -361,11 +376,11 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         alertDialog.show();
     }
 
-
-    public void webCheckResponse(String reqId, String refId, String budget, String price, String name) {
+    // budgetv, pricetv, nameAgent, CV.ASC, quotPrice
+    public void webCheckResponse(String reqId, String refId, String budget, String price, String name, String order, String quotPrice) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
-            WebService.getCheckResposne(v, reqId, refId, budget, price, name, new OnVolleyHandler() {
+            WebService.getCheckResposne(v, reqId, refId, budget, price, name, order, quotPrice, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -911,7 +926,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     CM.showToast(getString(R.string.offerACT), ViewCheckResponse.this);
-                    webCheckResponse(referenceId, "", "", "", "");
+                    webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
 
                     break;
                 case "202":
@@ -996,7 +1011,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 case "200":
                     if (!jsonObject.optString("response_object").toString().equals("null")) {
                         CM.showToast(getString(R.string.follow_success), ViewCheckResponse.this);
-                        webCheckResponse(referenceId, "", "", "", "");
+                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
                     }
 
                     break;
@@ -1032,6 +1047,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         builder.setIcon(R.drawable.logo3);
 
         spinnerBudget = (Spinner) layout1.findViewById(R.id.spinnerbudget);
+        spinnerPriceQuot = (Spinner) layout1.findViewById(R.id.spinnerPriceQuot);
         edtStartDate = (RelativeLayout) layout1.findViewById(R.id.startdateroot);
         edtStartDate.setVisibility(View.GONE);
         //  edtStartDate.setOnTouchListener(this);
@@ -1051,9 +1067,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String pricetv, reqId, budgetv, nameAgent;
+                String quotPrice, reqId, budgetv, name, pricetv, nameAgent;
 
-                pricetv = edtPrice.getText().toString();
+                quotPrice = spinnerPriceQuot.getSelectedItem().toString();
+                //   pricetv = edtPrice.getText().toString();
                 // reqId = edtRefId.getText().toString();
                 budgetv = spinnerBudget.getSelectedItem().toString();
                 nameAgent = searchView.getQuery().toString();
@@ -1061,8 +1078,11 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 if (budgetv.equals("Select Budget")) {
                     budgetv = "";
                 }
+                if (quotPrice.equals("Select Quoted Price")) {
+                    quotPrice = "";
+                }
                 // String reqId, String budget, String price,
-                webCheckResponse(referenceId, ref_Id, budgetv, pricetv, nameAgent);
+                webCheckResponse(referenceId, ref_Id, budgetv, "", nameAgent, CV.ASC, quotPrice);
             }
         });
         builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {

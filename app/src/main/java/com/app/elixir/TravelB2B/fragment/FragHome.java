@@ -167,10 +167,9 @@ public class FragHome extends Fragment {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    // JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
                     JSONArray jsonArray1 = new JSONArray(jsonObject.optString("advertisement").toString());
                     for (int i = 0; i < jsonArray1.length(); i++) {
-
                         pojoAdvert pojoAdverts = new pojoAdvert();
                         pojoAdverts.setId(jsonArray1.getJSONObject(i).getString("id"));
                         pojoAdverts.setUser_id(jsonArray1.getJSONObject(i).getString("user_id"));

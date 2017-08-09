@@ -149,7 +149,7 @@ public class ViewIntroActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void run() {
                         CM.startActivity(ViewIntroActivity.this, ViewLoginActivity.class);
-                        finish();
+
 
                     }
                 });

@@ -479,46 +479,72 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
 
 
                                         if (password.getText().toString().equals(confPassword.getText().toString())) {
-
-
                                             if (!contact.getText().toString().equals("")) {
-
                                                 if (contact.getText().toString().length() == 10) {
-                                                    if (checkTC.isChecked()) {
+                                                    if (!address.getText().toString().equals("")) {
+                                                        if (!cityAutoComplet.getText().toString().equals("")) {
+                                                            if (!state.getText().toString().equals("")) {
+                                                                if (!pinCode.getText().toString().equals("")) {
+                                                                    if (!country.getText().toString().equals("")) {
 
 
-                                                        List<Person> selectedCity = completionView.getObjects();
-                                                        ArrayList<String> strings = new ArrayList<>();
-                                                        for (int i = 0; i < selectedCity.size(); i++) {
-                                                            strings.add(selectedCity.get(i).getEmail());
-                                                        }
+                                                                        if (checkTC.isChecked()) {
 
-                                                        Log.i(TAG, "onClick: " + strings.toString());
-                                                        String catId = "";
+                                                                            List<Person> selectedCity = completionView.getObjects();
+                                                                            ArrayList<String> strings = new ArrayList<>();
+                                                                            for (int i = 0; i < selectedCity.size(); i++) {
+                                                                                strings.add(selectedCity.get(i).getEmail());
+                                                                            }
 
-                                                        if (spinner.getSelectedItem().toString().equals("Travel Agent")) {
+                                                                            Log.i(TAG, "onClick: " + strings.toString());
+                                                                            String catId = "";
 
-                                                            catId = "1";
+                                                                            if (spinner.getSelectedItem().toString().equals("Travel Agent")) {
 
-                                                        } else if (spinner.getSelectedItem().toString().equals("Event Planner")) {
+                                                                                catId = "1";
 
-                                                            catId = "2";
+                                                                            } else if (spinner.getSelectedItem().toString().equals("Event Planner")) {
 
+                                                                                catId = "2";
+
+                                                                            } else {
+                                                                                catId = "3";
+
+                                                                            }
+
+                                                                            String stateList = strings.toString().replace("[", "").replace("]", "")
+                                                                                    .replace(", ", ",");
+
+                                                                            webSubmit(catId, compName.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), confPassword.getText().toString()
+                                                                                    , contact.getText().toString(), address.getText().toString(), locality.getText().toString(), cityId, stateId
+                                                                                    , pinCode.getText().toString(), countryId, stateList, "1");
+
+
+
+                                                                        } else {
+                                                                            CM.showToast(getString(R.string.tandc), ViewRegister.this);
+                                                                        }
+
+
+                                                                    } else {
+                                                                        CM.showToast("Please enter Country", ViewRegister.this);
+                                                                    }
+                                                                } else {
+                                                                    CM.showToast("Please enter pincode", ViewRegister.this);
+                                                                }
+                                                            } else {
+                                                                CM.showToast("Please select State.", ViewRegister.this);
+                                                            }
                                                         } else {
-                                                            catId = "3";
-
+                                                            CM.showToast("Please select city.", ViewRegister.this);
                                                         }
 
-                                                        String stateList = strings.toString().replace("[", "").replace("]", "")
-                                                                .replace(", ", ",");
-
-                                                        webSubmit(catId, compName.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), confPassword.getText().toString()
-                                                                , contact.getText().toString(), address.getText().toString(), locality.getText().toString(), cityId, stateId
-                                                                , pinCode.getText().toString(), countryId, stateList, "1");
 
                                                     } else {
-                                                        CM.showToast(getString(R.string.tandc), ViewRegister.this);
+                                                        CM.showToast("Please enter address. ", ViewRegister.this);
                                                     }
+
+
                                                 } else {
                                                     CM.showToast(getString(R.string.entvpno), ViewRegister.this);
                                                 }

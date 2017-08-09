@@ -29,6 +29,7 @@ import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewMyProfile extends AppCompatActivity {
 
@@ -46,7 +49,7 @@ public class ViewMyProfile extends AppCompatActivity {
     ArrayList<pojoTestimonial> pojoTestimonialArrayList;
     ArrayList<pojoAdvert> pojoAdvertArrayList;
 
-
+    CircleImageView circleImageViewProfile;
     Toolbar toolbar;
     private adptAdvtMyProfile mAdapter1;
     MtplTextView userEmail, userName, userMob;
@@ -123,7 +126,20 @@ public class ViewMyProfile extends AppCompatActivity {
         userEmail.setText(CM.getSp(ViewMyProfile.this, CV.PrefEmail, "").toString());
         userName.setText(CM.getSp(ViewMyProfile.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewMyProfile.this, CV.Preflast_name, "").toString());
         userMob.setText(CM.getSp(ViewMyProfile.this, CV.PrefMobile_number, "").toString());
+        circleImageViewProfile = (CircleImageView) findViewById(R.id.imageViewProfilePic);
 
+        try {
+            // Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonArray.getJSONObject(i).optString("profile_pic"));
+            Picasso.with(ViewMyProfile.this)
+                    .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + CM.getSp(ViewMyProfile.this, CV.PROFILE_PIC, "").toString())  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                    .placeholder(R.drawable.logonewnew) // optional
+                    .error(R.drawable.logonewnew)         // optional
+                    .into(circleImageViewProfile);
+
+        } catch (Exception e) {
+
+            Log.i("TAG", "onBindViewHolder: " + e.getMessage());
+        }
 
         webTestimonial(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
     }
@@ -197,6 +213,7 @@ public class ViewMyProfile extends AppCompatActivity {
                         pojoTestimonial.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
                         pojoTestimonial.setAuthor_id(jsonArray.getJSONObject(i).optString("author_id"));
                         pojoTestimonialArrayList.add(pojoTestimonial);
+
 
                     }
                     JSONArray jsonArray1 = new JSONArray(jsonObject.optString("advertisement").toString());

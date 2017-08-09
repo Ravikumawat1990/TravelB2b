@@ -122,6 +122,7 @@ public class FragFaq extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.filter).setVisible(false);
 
     }
 
@@ -155,4 +156,6 @@ public class FragFaq extends Fragment {
             }
         }).setIcon(R.drawable.logo3).show();
     }
+
+
 }

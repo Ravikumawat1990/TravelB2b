@@ -118,6 +118,38 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         thisActivity = getActivity();
         initView(rootView);
         setHasOptionsMenu(true);
+
+
+        if (!transStatrDate.getText().toString().equals("")) {
+            if (!transEndDate.getText().toString().equals("")) {
+                if (!pickupLocality.getText().toString().equals("")) {
+                    if (!trapickupCity.getText().toString().equals("")) {
+
+                        if (!pickupState.getText().toString().equals("")) {
+
+                            if (!finalCity.getText().toString().equals("")) {
+
+                            } else {
+
+                            }
+
+                        } else {
+
+                        }
+                    } else {
+
+                    }
+                } else {
+
+                }
+            } else {
+
+            }
+        } else {
+
+        }
+
+
         return rootView;
     }
 
@@ -1626,6 +1658,60 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     if (jsonObject.optString("response_object") != null) {
                         listener.onItemClick(true);
                         CM.showToast(jsonObject.optString("response_object"), thisActivity);
+
+
+                        refId.setText("");
+                        totBudget.setText("");
+                        numberPicker.setValue(0);
+                        childBelow.setValue(0);
+                        spinnerTransport.setSelection(0);
+                        transStatrDate.setText("");
+                        transEndDate.setText("");
+                        pickupLocality.setText("");
+                        trapickupCity.setText("");
+                        pickupState.setText("");
+                        pickupLocality.setText("");
+                        finalLocality.setText("");
+                        finalCity.setText("");
+                        finalState.setText("");
+                        edtComment.setText("");
+
+
+                        for (int i1 = 0; i1 < stringArrayList.size(); i1++) {
+
+                            if (i1 == 0) {
+                                edtStopLocality1.setText("");
+                                edtStopCityID1.setText("");
+                                edtStopStateID1.setText("");
+
+
+                            } else if (i1 == 1) {
+
+                                edtStopLocality2.setText("");
+                                edtStopCityID2.setText("");
+                                edtStopStateID2.setText("");
+
+                            } else if (i1 == 2) {
+
+                                edtStopLocality3.setText("");
+                                edtStopCityID3.setText("");
+                                edtStopStateID3.setText("");
+
+                            } else if (i1 == 3) {
+                                edtStopLocality4.setText("");
+                                edtStopCityID4.setText("");
+                                edtStopStateID4.setText("");
+
+                            } else if (i1 == 4) {
+
+                                edtStopLocality5.setText("");
+                                edtStopCityID5.setText("");
+                                edtStopStateID5.setText("");
+
+                            }
+
+
+                        }
 
                     }
 

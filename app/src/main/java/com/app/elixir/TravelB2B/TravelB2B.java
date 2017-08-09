@@ -14,9 +14,6 @@ import com.app.elixir.TravelB2B.volly.VolleySingleton;
 import java.io.IOException;
 
 
-/**
- * Created by Jaimin on 15/12/2015.
- */
 public class TravelB2B extends Application {
 
     //initialize font typeface
@@ -55,12 +52,10 @@ public class TravelB2B extends Application {
         mContext = getApplicationContext();
         volley = new VolleySingleton(mContext);
 
-        dbHelper = new DbHelper(this);
+        DbHelper dbHelper = new DbHelper(mContext);
         try {
             dbHelper.createDataBase();
             sqLiteDatabase = dbHelper.openDataBase();
-            // Log.i("sqldb", "sqldb" + sqLiteDatabase.isOpen());
-            // Copy asset folder file into database class
             CM.copyDataBase(mContext);
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,12 +132,16 @@ public class TravelB2B extends Application {
 
     }
 
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-
     }
+
+
+
+
 
     public static TravelB2B getInstance() {
         return Instance;

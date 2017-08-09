@@ -132,7 +132,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
             }
         });
 
-        webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "");
+        webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "",CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
 
 
         initView(rootView);
@@ -446,7 +446,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                 if (rating.equals("Select Rating")) {
                     rating = "";
                 }
-                webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, nameAgent, rating);
+                webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, nameAgent, rating, CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
                 //webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(),reqType,reqId,startDate,endDate,budgetv);
 
             }
@@ -587,10 +587,10 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
         return cal;
     }
 
-    public void webResponseToReq(String userId, String userRole, String reqType, String reqId, String startDate, String endDate, String budget, String agentName, String rating) {
+    public void webResponseToReq(String userId, String userRole, String reqType, String reqId, String startDate, String endDate, String budget, String agentName, String rating, String cityId) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getMyResponseToReq(v, userId, userRole, reqType, reqId, startDate, endDate, budget, agentName, rating, new OnVolleyHandler() {
+            WebService.getMyResponseToReq(v, userId, userRole, reqType, reqId, startDate, endDate, budget, agentName, rating, cityId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {

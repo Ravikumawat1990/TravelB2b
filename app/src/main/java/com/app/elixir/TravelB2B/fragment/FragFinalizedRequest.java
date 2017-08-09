@@ -104,10 +104,13 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.finalized_requests));
         setHasOptionsMenu(true);
         initView(rootView);
+
         return rootView;
     }
 
     private void initView(View rootView) {
+
+
         layoutrootView = (CoordinatorLayout) rootView.findViewById(R.id.rootview);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
@@ -184,11 +187,14 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     public void onResume() {
         super.onResume();
         mListener.showDrawerToggle(false);
+
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
 
     }
 
@@ -734,4 +740,6 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
         }
     }
+
+
 }

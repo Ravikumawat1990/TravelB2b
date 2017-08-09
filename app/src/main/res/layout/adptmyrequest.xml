@@ -434,7 +434,6 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
                 android:paddingBottom="@dimen/margin_2dp"
-                android:paddingLeft="@dimen/font_10dp"
                 android:paddingTop="@dimen/margin_2dp"
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />

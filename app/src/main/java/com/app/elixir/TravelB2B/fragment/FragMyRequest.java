@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -101,6 +102,12 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
 
+        DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
+        defaultItemAnimator.setAddDuration(1000);
+        defaultItemAnimator.setRemoveDuration(1000);
+
+        mRecyclerView.setItemAnimator(defaultItemAnimator);
+
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptMyRequest(thisActivity, pojoMyResposneArrayList);
 
@@ -185,7 +192,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     public void showPopup(Context context, final String requestId) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure want to remove this request?")
+                .setMessage("Are you sure you want to remove this request?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         webRemoveRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), requestId);
@@ -586,6 +593,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                                 myResposne.setRoom1(jsonArray.getJSONObject(i).get("room1").toString());
                                 myResposne.setRoom2(jsonArray.getJSONObject(i).get("room2").toString());
                                 myResposne.setRoom3(jsonArray.getJSONObject(i).get("room3").toString());
+                                myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
                                 myResposne.setChild_with_bed(jsonArray.getJSONObject(i).get("child_with_bed").toString());
                                 myResposne.setChild_without_bed(jsonArray.getJSONObject(i).get("child_without_bed").toString());
                                 myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
@@ -607,7 +615,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                                 myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
                                 myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
                                 myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
-                                myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
+                                //  myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
                                 myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
                                 myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
 

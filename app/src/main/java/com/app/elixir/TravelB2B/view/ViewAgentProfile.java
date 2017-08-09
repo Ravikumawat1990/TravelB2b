@@ -30,6 +30,7 @@ import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewAgentProfile extends AppCompatActivity {
     private static final String TAG = "ViewAgentProfile";
@@ -50,6 +53,7 @@ public class ViewAgentProfile extends AppCompatActivity {
     ArrayList<certifyCatePogo> certifyCatePogoArrayList;
     ArrayList<String> stringArrayList;
     adptCertificate mAdapter1;
+    CircleImageView circularTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +119,7 @@ public class ViewAgentProfile extends AppCompatActivity {
         recyclerViewAdv.setAdapter(mAdapter1);
         pojoTestimonialArrayList = new ArrayList<>();
         mAdapter = new adptreview(ViewAgentProfile.this, pojoTestimonialArrayList);
+        circularTextView = (CircleImageView) findViewById(R.id.imageView);
 
 
         initView();
@@ -215,6 +220,19 @@ public class ViewAgentProfile extends AppCompatActivity {
                     phoneNumber.setText(jsonObject1.optString("mobile_number"));
                     email.setText(jsonObject1.optString("email"));
                     discription.setText(jsonObject1.optString("description"));
+
+                    try {
+                        // Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonArray.getJSONObject(i).optString("profile_pic"));
+                        Picasso.with(ViewAgentProfile.this)
+                                .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + jsonObject1.optString("id") + "/" + jsonObject1.optString("profile_pic"))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                                .placeholder(R.drawable.logonewnew) // optional
+                                .error(R.drawable.logonewnew)         // optional
+                                .into(circularTextView);
+
+                    } catch (Exception e) {
+
+                        Log.i("TAG", "onBindViewHolder: " + e.getMessage());
+                    }
 
 
                    /* certifyCatePogo catePogo = new certifyCatePogo();

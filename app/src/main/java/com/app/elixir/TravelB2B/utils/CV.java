@@ -160,5 +160,12 @@ public class CV {
     public static final String CHARGES = "charges";
     public static final String HOTEL_PIC = "hotel_pic";
 
+    public static final String PROFILE_PIC = "profile_pic";
+
+    public static final String SORT = "sort";
+    public static final String ORDER = "order";
+    public static final String ASC = "ASC";
+    public static final String DESC = "DESC";
+
     public static final String FOLLOW_ID = "follow_id";
 }

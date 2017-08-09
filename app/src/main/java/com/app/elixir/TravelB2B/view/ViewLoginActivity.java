@@ -230,6 +230,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                     CM.setSp(ViewLoginActivity.this, CV.PrefPreference, jsonObject1.optString("preference"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefState_id, jsonObject1.optString("state_id"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefCity_id, jsonObject1.optString("city_id"));
+                    CM.setSp(ViewLoginActivity.this, CV.PROFILE_PIC, jsonObject1.optString("profile_pic"));
 
 
                     CM.setSp(ViewLoginActivity.this, CV.PrefIsLogin, "1");
@@ -294,14 +295,11 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     CM.showToast(jsonObject.optString("msg"), ViewLoginActivity.this);
-
                     break;
                 case "202":
                     break;
                 case "501":
                     CM.showToast(jsonObject.optString("msg"), ViewLoginActivity.this);
-
-                    finish();
                     break;
                 default:
                     break;

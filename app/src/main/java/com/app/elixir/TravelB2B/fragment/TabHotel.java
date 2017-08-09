@@ -1440,6 +1440,26 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
                         listener.onItemClick(true);
                         CM.showToast(jsonObject.optString("response_object"), thisActivity);
 
+                        refId.setText("");
+                        totBudget.setText("");
+                        numberPicker.setValue(0);
+                        childBelow.setValue(0);
+                        singleRoom.setText("");
+                        doubleRoom.setText("");
+                        tripalRoom.setText("");
+                        childWithbed.setText("");
+                        childWithoutbed.setText("");
+                        spinnerHotelRating.setSelection(0);
+                        spinnerHotelCatMain.setSelection(0);
+                        spinnerMealPlane.setSelection(0);
+                        destiLocality.setText("");
+                        destiCity.setText("");
+                        destiState.setText("");
+                        destiCountry.setText("");
+                        checkIn.setText("");
+                        checkOut.setText("");
+                        edtComment.setText("");
+
                     }
 
                     break;

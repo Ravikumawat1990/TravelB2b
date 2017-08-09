@@ -222,11 +222,16 @@ public class WebService {
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
-    public static void getMyResponseToReq(VolleyIntialization vollyInit, String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget, String agentName, String rating, OnVolleyHandler vollyHanlder) throws JSONException {
+    public static void getMyResponseToReq(VolleyIntialization vollyInit, String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget, String agentName, String rating, String cityId, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.RESPONDTOREQUESTAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.USER_ID, userid);
         params.put(CV.PrefRole_Id, roleId);
+
+        if (roleId.equals("3")) {
+            params.put(CV.city_id, cityId);
+        }
+
         if (!reqType.isEmpty()) {
             params.put(CV.REQ_TYPESEARCH, reqType);
         } else {
@@ -803,22 +808,54 @@ public class WebService {
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 
-    public static void getCheckResposne(VolleyIntialization vollyInit, String reqid, String refid, String budget, String price, String agentName, OnVolleyHandler vollyHanlder) throws JSONException {
+    // reqId, refId, budget, price, name, order, quotPrice,
+    public static void getCheckResposne(VolleyIntialization vollyInit, String reqid, String refid, String budget, String price, String agentName, String order, String quotPrice, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.CHECKRESPONSESAPI;
         Map<String, String> params = new HashMap<>();
         params.put(CV.REQ_ID, reqid);
         if (!price.isEmpty()) {
             params.put(CV.REFIDSEARCH, refid);
         }
-        if (!price.isEmpty()) {
+        /*if (!price.isEmpty()) {
             params.put(CV.REQ_TYPESEARCH, price);
-        }
+        }*/
         if (!budget.isEmpty()) {
             params.put(CV.BUDGETSEARCH, budget);
         }
         if (!agentName.isEmpty()) {
             params.put(CV.AGENTNAMESEARCH, agentName);
         }
+
+
+        if (!quotPrice.isEmpty()) {
+            if (quotPrice.equals("100000+")) {
+                params.put("quotesearch", "100000-1000000000000"); //CV.QUOTATION_PRICE
+            } else {
+                params.put("quotesearch", quotPrice);
+            }
+
+        } else {
+            params.put("quotesearch", "");
+        }
+
+        if (!agentName.isEmpty()) {
+            params.put("agentname", agentName);  //CV.AGENTNAMESEARCH
+        } else {
+            params.put("agentname", "");
+        }
+
+
+        params.put(CV.SORT, "quotationprice");
+
+
+        if (!order.isEmpty()) {
+            params.put(CV.ORDER, order);
+        }
+
+       /* sort = quotationprice
+        order= ASC
+        order = DESC*/
+
         vollyInit.vollyStringRequestCall(url, Request.Method.POST, params, vollyHanlder);
     }
 }

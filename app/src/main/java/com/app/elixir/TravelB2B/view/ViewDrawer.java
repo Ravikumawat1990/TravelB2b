@@ -55,6 +55,7 @@ import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
+import com.app.elixir.TravelB2B.model.Model_Profile;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.utils.BadgeDrawable;
@@ -69,11 +70,14 @@ import com.app.elixir.TravelB2B.volly.WebServiceTag;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+
+import static com.app.elixir.TravelB2B.utils.CV.city_id;
 
 public class ViewDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks, OnApiDataChange {
@@ -91,6 +95,7 @@ public class ViewDrawer extends AppCompatActivity
     ImageView icon1, icon2, icon3, icon4;
     private boolean mBounded;
     private int count = 0;
+    ImageView imgUserProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +239,7 @@ public class ViewDrawer extends AppCompatActivity
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         if (CM.isInternetAvailable(ViewDrawer.this)) {
-            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, CV.city_id, "").toString());
+            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, city_id, "").toString());
 
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
@@ -399,6 +404,9 @@ public class ViewDrawer extends AppCompatActivity
         icon3 = (ImageView) headerLayout.findViewById(R.id.icon3);
         icon4 = (ImageView) headerLayout.findViewById(R.id.icon4);
 
+        imgUserProfile = (ImageView) headerLayout.findViewById(R.id.imgUserProfile);
+
+
         txtCount = (TextView) headerLayout.findViewById(R.id.totRating);
         progressBar = (ProgressBar) headerLayout.findViewById(R.id.progressRating);
 
@@ -418,6 +426,7 @@ public class ViewDrawer extends AppCompatActivity
                 toString());
 
         webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
+        getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         setFragment(0);
     }
 
@@ -478,7 +487,7 @@ public class ViewDrawer extends AppCompatActivity
             } catch (Exception e) {
                 e.getMessage();
             }
-            setBadgeCount(ViewDrawer.this, icon, String.valueOf(5));
+            setBadgeCount(ViewDrawer.this, icon, String.valueOf(0));
         } else {
             LayerDrawable icon = null;
             try {
@@ -486,7 +495,7 @@ public class ViewDrawer extends AppCompatActivity
             } catch (Exception e) {
                 e.getMessage();
             }
-            setBadgeCount(ViewDrawer.this, icon, String.valueOf(5));
+            setBadgeCount(ViewDrawer.this, icon, String.valueOf(0));
         }
 
 
@@ -576,14 +585,14 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 1:
                 fragment = new FragFinalizedRequest();
-                ft.replace(R.id.container, fragment).addToBackStack(FragHome.class.getName());
+                ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 2:
                 fragment = new FragFinalizedResponses();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -591,9 +600,9 @@ public class ViewDrawer extends AppCompatActivity
             case 3:
                 fragment = new FragFollowers();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
 
                 fm.popBackStack();
@@ -602,23 +611,23 @@ public class ViewDrawer extends AppCompatActivity
                 break;
             case 4:
                 fragment = new FragBlockUser();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 fm.popBackStack();
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 5:
                 fragment = new FragRemoveRequest();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 6:
                 fragment = new FragPromoteHotel();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -626,9 +635,9 @@ public class ViewDrawer extends AppCompatActivity
             case 7:
                 fragment = new FragContactUs();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
 
                 ft.commit();
@@ -637,9 +646,9 @@ public class ViewDrawer extends AppCompatActivity
             case 8:
                 fragment = new FragFaq();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -668,9 +677,9 @@ public class ViewDrawer extends AppCompatActivity
             case 14:
                 fragment = new FragTermsandCondions();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
@@ -678,16 +687,16 @@ public class ViewDrawer extends AppCompatActivity
             case 15:
                 fragment = new FragPrivacyPolicys();
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("3")) {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 } else {
-                    ft.replace(R.id.container, fragment).addToBackStack("FragHome");
+                    ft.add(R.id.container, fragment).addToBackStack("FragHome");
                 }
                 ft.commit();
                 bottomNavigation.setVisibility(View.GONE);
                 break;
             case 16:
                 fragment = new FragPromotionReports();
-                ft.replace(R.id.container, fragment).addToBackStack("FragHotelierHome");
+                ft.add(R.id.container, fragment).addToBackStack("FragHotelierHome");
                 ft.commit();
                 // bottomNavigation.setVisibility(View.GONE);
                 break;
@@ -960,16 +969,17 @@ public class ViewDrawer extends AppCompatActivity
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
+                    Model_Profile model_main = CM.JsonParse(new Model_Profile(), jsonObject.getString("response_object"));
 
                     int i = 0;
 
-                    if (!jsonObject1.optString("pancard_pic").toString().equals("") && !jsonObject1.optString("pancard_pic").toString().equals("null")) {
+                    if (model_main.pancard_pic != null && !model_main.pancard_pic.equals("")) {
                         icon2.setVisibility(View.VISIBLE);
                         icon2.setImageResource(R.drawable.pancard);
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2")) {
+                        if (!model_main.role_id.toString().equals("null") && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2")) {
                                 i += 16;
-                            } else if (jsonObject1.optString("role_id").toString().equals("3")) {
+                            } else if (model_main.role_id.toString().equals("3")) {
                                 i += 10;
                             } else {
                                 i += 5;
@@ -978,13 +988,13 @@ public class ViewDrawer extends AppCompatActivity
                     } else {
                         icon2.setVisibility(View.GONE);
                     }
-                    if (!jsonObject1.optString("company_shop_registration_pic").toString().equals("") && !jsonObject1.optString("company_shop_registration_pic").toString().equals("null")) {
+                    if (model_main.company_shop_registration_pic != null && !model_main.company_shop_registration_pic.toString().equals("")) {
                         icon4.setVisibility(View.VISIBLE);
                         icon4.setImageResource(R.drawable.conreg);
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2")) {
                                 i += 15;
-                            } else if (jsonObject1.optString("role_id").toString().equals("3")) {
+                            } else if (model_main.role_id.toString().equals("3")) {
                                 i += 10;
                             } else {
                                 i += 5;
@@ -993,20 +1003,20 @@ public class ViewDrawer extends AppCompatActivity
                     } else {
                         icon4.setVisibility(View.GONE);
                     }
-                    if (!jsonObject1.optString("company_img_1_pic").toString().equals("") && !jsonObject1.optString("company_img_1_pic").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.company_img_1_pic != null && !model_main.company_img_1_pic.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 10;
                             } else {
                                 i += 5;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("id_card_pic").toString().equals("") && !jsonObject1.optString("id_card_pic").toString().equals("null")) {
+                    if (model_main.id_card_pic != null && !model_main.id_card_pic.toString().equals("")) {
                         icon3.setVisibility(View.VISIBLE);
                         icon3.setImageResource(R.drawable.idcard);
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 10;
                             } else {
                                 i += 5;
@@ -1015,94 +1025,111 @@ public class ViewDrawer extends AppCompatActivity
                     } else {
                         icon3.setVisibility(View.GONE);
                     }
-                    if (!jsonObject1.optString("profile_pic").toString().equals("") && !jsonObject1.optString("profile_pic").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+
+                    try {
+
+
+                        Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + model_main.profile_pic);
+                        Picasso.with(ViewDrawer.this)
+                                .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + jsonObject1.optString("profile_pic"))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                                .placeholder(R.drawable.logo1) // optional
+                                .error(R.drawable.logo1)         // optional
+                                .into(imgUserProfile);
+
+                    } catch (Exception e) {
+
+                        Log.i("TAG", "onBindViewHolder: " + e.getMessage());
+                    }
+
+
+                    if (model_main.profile_pic != null && !model_main.profile_pic.equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 10;
                             } else {
                                 i += 5;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("first_name").toString().equals("") && !jsonObject1.optString("first_name").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.first_name != null && !model_main.first_name.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 3;
                             } else {
                                 i += 2;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("company_name").toString().equals("") && !jsonObject1.optString("company_name").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.company_name != null && !model_main.company_name.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 3;
                             } else {
                                 i += 2;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("email").toString().equals("") && !jsonObject1.optString("email").toString().equals("null")) {
+                    if (model_main.email != null && !model_main.email.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("mobile_number").toString().equals("") && !jsonObject1.optString("mobile_number").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.mobile_number != null && !model_main.mobile_number.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 4;
                             } else {
                                 i += 5;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("p_contact").toString().equals("") && !jsonObject1.optString("p_contact").toString().equals("null")) {
+                    if (model_main.p_contact != null && !model_main.p_contact.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("address").toString().equals("") && !jsonObject1.optString("address").toString().equals("null")) {
+                    if (model_main.address != null && !model_main.address.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("locality").toString().equals("") && !jsonObject1.optString("locality").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.locality != null && !model_main.locality.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("3")) {
                                 i += 3;
                             } else {
                                 i += 2;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("city_id").toString().equals("") && !jsonObject1.optString("city_id").toString().equals("null")) {
+                    if (model_main.city_id != null && !model_main.city_id.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null")) {
+                    if (model_main.state_id != null && !model_main.state_id.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("country_id").toString().equals("") && !jsonObject1.optString("country_id").toString().equals("null")) {
+                    if (model_main.country_id != null && !model_main.country_id.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("pincode").toString().equals("") && !jsonObject1.optString("pincode").toString().equals("null")) {
+                    if (model_main.pincode != null && !model_main.pincode.toString().equals("")) {
                         i += 3;
                     }
-                    if (!jsonObject1.optString("web_url").toString().equals("") && !jsonObject1.optString("web_url").toString().equals("null")) {
+                    if (model_main.web_url != null && !model_main.web_url.toString().equals("")) {
                         i += 3;
                         icon1.setVisibility(View.VISIBLE);
                         icon1.setImageResource(R.drawable.weburl);
                     } else {
                         icon1.setVisibility(View.GONE);
                     }
-                    if (!jsonObject1.optString("description").toString().equals("") && !jsonObject1.optString("description").toString().equals("null")) {
-                        if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                            if (jsonObject1.optString("role_id").toString().equals("2") || jsonObject1.optString("role_id").toString().equals("3")) {
+                    if (model_main.description != null && !model_main.description.toString().equals("")) {
+                        if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                            if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 3;
                             } else {
                                 i += 2;
                             }
                         }
                     }
-                    if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                        if (jsonObject1.optString("role_id").toString().equals("3")) {
-                            if (!jsonObject1.optString("hotel_rating").toString().equals("") && !jsonObject1.optString("hotel_rating").toString().equals("null")) {
+                    if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                        if (model_main.role_id.toString().equals("3")) {
+                            if (model_main.hotel_rating != null && !model_main.hotel_rating.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("hotel_categories").toString().equals("") && !jsonObject1.optString("hotel_categories").toString().equals("null")) {
+                            if (model_main.hotel_categories != null && !model_main.hotel_categories.toString().equals("")) {
                                 i += 5;
                             }
                         } else {
@@ -1110,31 +1137,31 @@ public class ViewDrawer extends AppCompatActivity
                         }
                     }
 
-                    if (!jsonObject1.optString("role_id").toString().equals("") && !jsonObject1.optString("role_id").toString().equals("null")) {
-                        if (jsonObject1.optString("role_id").toString().equals("1")) {
+                    if (model_main.role_id != null && !model_main.role_id.toString().equals("")) {
+                        if (model_main.role_id.toString().equals("1")) {
 
-                            if (!jsonObject1.optString("iata_pic").toString().equals("") && !jsonObject1.optString("iata_pic").toString().equals("null")) {
+                            if (model_main.iata_pic != null && !model_main.iata_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("tafi_pic").toString().equals("") && !jsonObject1.optString("tafi_pic").toString().equals("null")) {
+                            if (model_main.tafi_pic != null && !model_main.tafi_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("taai_pic").toString().equals("") && !jsonObject1.optString("taai_pic").toString().equals("null")) {
+                            if (model_main.taai_pic != null && !model_main.taai_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("iato_pic").toString().equals("") && !jsonObject1.optString("iato_pic").toString().equals("null")) {
+                            if (model_main.iato_pic != null && !model_main.iato_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("adyoi_pic").toString().equals("") && !jsonObject1.optString("adyoi_pic").toString().equals("null")) {
+                            if (model_main.adyoi_pic != null && !model_main.adyoi_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("iso9001_pic").toString().equals("") && !jsonObject1.optString("iso9001_pic").toString().equals("null")) {
+                            if (model_main.iso9001_pic != null && !model_main.iso9001_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("uftaa_pic").toString().equals("") && !jsonObject1.optString("uftaa_pic").toString().equals("null")) {
+                            if (model_main.uftaa_pic != null && !model_main.uftaa_pic.toString().equals("")) {
                                 i += 5;
                             }
-                            if (!jsonObject1.optString("adtoi_pic").toString().equals("") && !jsonObject1.optString("adtoi_pic").toString().equals("null")) {
+                            if (model_main.adtoi_pic != null && !model_main.adtoi_pic.toString().equals("")) {
                                 i += 5;
                             }
 
@@ -1148,31 +1175,6 @@ public class ViewDrawer extends AppCompatActivity
                     progressBar.setProgress(i);
 
 
-                  /*  jsonObject1.optString("company_shop_registration_pic");
-                    jsonObject1.optString("company_img_1_pic");
-                    jsonObject1.optString("id_card_pic");
-                    jsonObject1.optString("profile_pic");
-                    jsonObject1.optString("first_name");
-                    jsonObject1.optString("company_name");
-
-                    jsonObject1.optString("email");
-                    jsonObject1.optString("mobile_number");
-                    jsonObject1.optString("p_contact");
-                    jsonObject1.optString("address");
-                    jsonObject1.optString("locality");
-                    jsonObject1.optString("city_id");
-
-                    jsonObject1.optString("state_id");
-                    jsonObject1.optString("country_id");
-                    jsonObject1.optString("pincode");
-                    jsonObject1.optString("web_url");
-                    jsonObject1.optString("description");
-                    jsonObject1.optString("hotel_rating");
-
-                    jsonObject1.optString("hotel_categories");
-                    jsonObject1.optString("iata_pic");*/
-
-
                     break;
                 case "202":
                     break;
@@ -1183,9 +1185,13 @@ public class ViewDrawer extends AppCompatActivity
 
 
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e)
+
+        {
             CM.showPopupCommonValidation(ViewDrawer.this, e.getMessage(), false);
         }
+
     }
 
     @Override
@@ -1251,9 +1257,70 @@ public class ViewDrawer extends AppCompatActivity
     public void onItemClick(boolean isChange) {
 
         if (isChange) {
-            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, CV.city_id, "").toString());
+            getCounter(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefState_id, "").toString(), CM.getSp(ViewDrawer.this, CV.PrefPreference, "").toString(), CM.getSp(ViewDrawer.this, city_id, "").toString());
 
         }
+
+    }
+
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener() {
+            public void onBackStackChanged() {
+                FragmentManager manager = getSupportFragmentManager();
+
+                if (manager != null) {
+                    final Fragment f = getSupportFragmentManager().findFragmentById(R.id.container);
+                    if (f instanceof FragHome) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+                        setTitle(getString(R.string.app_name));
+                        int size = navigationView.getMenu().size();
+                        for (int i = 0; i < size; i++) {
+                            navigationView.getMenu().getItem(i).setChecked(false);
+                        }
+                        int size1 = navigationViewSec.getMenu().size();
+                        for (int i = 0; i < size1; i++) {
+                            navigationViewSec.getMenu().getItem(i).setChecked(false);
+                        }
+
+
+                    } else if (f instanceof FragHotelierHome) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+                        setTitle(getString(R.string.app_name));
+                        int size = navigationView.getMenu().size();
+                        for (int i = 0; i < size; i++) {
+                            navigationView.getMenu().getItem(i).setChecked(false);
+                        }
+                        int size1 = navigationViewSec.getMenu().size();
+                        for (int i = 0; i < size1; i++) {
+                            navigationViewSec.getMenu().getItem(i).setChecked(false);
+                        }
+                    } else if (f instanceof FragPaceRequest) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+
+                    } else if (f instanceof FragMyRequest) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+
+                    } else if (f instanceof FragRespondToRequest) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+
+                    } else if (f instanceof FragMyResponse) {
+                        bottomNavigation.setVisibility(View.VISIBLE);
+
+                    } else {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    }
+                }
+            }
+        };
+
+        return result;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 }

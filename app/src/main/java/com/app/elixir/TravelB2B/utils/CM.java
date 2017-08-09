@@ -43,7 +43,12 @@ import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.TravelB2B;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonReader;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -348,18 +353,18 @@ public class CM {
         return message;
     }
 
-//    public static <T> T JsonParse(T t, String response)
-//            throws JsonSyntaxException, IOException, XmlPullParserException {
-//        InputStream in = new ByteArrayInputStream(response.getBytes());
-//        JsonReader reader;
-//        reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-//        GsonBuilder b = new GsonBuilder();
-//        b.registerTypeAdapter(boolean.class, new BooleanSerializer());
-//        Gson gson = b.create();
-//        t = (T) gson.fromJson(reader, t.getClass());
-//        reader.close();
-//        return t;
-//    }
+    public static <T> T JsonParse(T t, String response)
+            throws JsonSyntaxException, IOException, XmlPullParserException {
+        InputStream in = new ByteArrayInputStream(response.getBytes());
+        JsonReader reader;
+        reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+        GsonBuilder b = new GsonBuilder();
+        b.registerTypeAdapter(boolean.class, new BooleanSerializer());
+        Gson gson = b.create();
+        t = (T) gson.fromJson(reader, t.getClass());
+        reader.close();
+        return t;
+    }
 
     /**
      * Json Response using key value
@@ -404,12 +409,12 @@ public class CM {
 
         InputStream myInput = new FileInputStream(new File("/data/data/"
                 + mActivity.getPackageName() + "/databases/"
-                + "sample.sqlite"));
+                + "b2b.sqlite"));
         File files = new File(Environment.getExternalStorageDirectory()
                 + "/files/");
         files.mkdirs();
         String outFileName = Environment.getExternalStorageDirectory()
-                + "/files/sample.sqlite";
+                + "/files/b2b.sqlite";
         OutputStream myOutput = new FileOutputStream(outFileName);
         byte[] buffer = new byte[1024];
         int bufferLength;
