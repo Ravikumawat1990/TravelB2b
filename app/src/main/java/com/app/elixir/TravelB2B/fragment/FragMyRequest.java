@@ -111,7 +111,13 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptMyRequest(thisActivity, pojoMyResposneArrayList);
 
-        webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+        if (CM.isInternetAvailable(thisActivity)) {
+            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
+
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(String value, String value1) {
@@ -203,109 +209,6 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         }).setIcon(R.drawable.logonewnew).show();
     }
 
-
-   /* public void webMyRequest(String userId, String userRole) {
-        try {
-            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getMyReq(v, userId, userRole, new OnVolleyHandler() {
-                @Override
-                public void onVollySuccess(String response) {
-                    if (thisActivity.isFinishing()) {
-                        return;
-                    }
-                    MtplLog.i("WebCalls", response);
-                    Log.e(TAG, response);
-                    getMyRequest(response);
-
-                }
-
-                @Override
-                public void onVollyError(String error) {
-                    MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(thisActivity)) {
-                        CM.showPopupCommonValidation(thisActivity, error, false);
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getMyRequest(String response) {
-        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
-        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
-            return;
-        }
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            switch (jsonObject.optString("response_code")) {
-                case "200":
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-
-                    pojoMyResposneArrayList.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        pojoMyRequest myResposne = new pojoMyRequest();
-                        myResposne.setCategory_id(jsonArray.getJSONObject(i).get("category_id").toString());
-                        myResposne.setRequest_id(jsonArray.getJSONObject(i).get("id").toString());
-                        myResposne.setReference_id(jsonArray.getJSONObject(i).get("reference_id").toString());
-                        myResposne.setTotal_budget(jsonArray.getJSONObject(i).get("total_budget").toString());
-                        myResposne.setChildren(jsonArray.getJSONObject(i).get("children").toString());
-                        myResposne.setAdult(jsonArray.getJSONObject(i).get("adult").toString());
-                        myResposne.setRoom1(jsonArray.getJSONObject(i).get("room1").toString());
-                        myResposne.setRoom2(jsonArray.getJSONObject(i).get("room2").toString());
-                        myResposne.setRoom3(jsonArray.getJSONObject(i).get("room3").toString());
-                        myResposne.setChild_with_bed(jsonArray.getJSONObject(i).get("child_with_bed").toString());
-                        myResposne.setChild_without_bed(jsonArray.getJSONObject(i).get("child_without_bed").toString());
-                        myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
-                        myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
-                        myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
-                        myResposne.setDestination_city(jsonArray.getJSONObject(i).get("destination_city").toString());
-                        myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
-                        myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
-                        myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
-                        myResposne.setPickup_city(jsonArray.getJSONObject(i).get("pickup_city").toString());
-                        myResposne.setPickup_state(jsonArray.getJSONObject(i).get("pickup_state").toString());
-                        myResposne.setPickup_country(jsonArray.getJSONObject(i).get("pickup_country").toString());
-                        myResposne.setPickup_locality(jsonArray.getJSONObject(i).get("pickup_locality").toString());
-                        myResposne.setCity_id(jsonArray.getJSONObject(i).get("city_id").toString());
-                        myResposne.setState_id(jsonArray.getJSONObject(i).get("state_id").toString());
-                        myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
-                        myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
-                        myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
-                        myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
-                        myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
-                        myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
-                        JSONObject jsonObjectUser = new JSONObject(jsonArray.getJSONObject(i).get("user").toString());
-                        myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
-                        myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
-                        myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
-                        myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
-                        pojoMyResposneArrayList.add(myResposne);
-                    }
-
-                    pojoMyResposneArrayList.size();
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.invalidate();
-                    break;
-                case "202":
-                    break;
-                case "501":
-                    CM.showToast(jsonObject.optString("msg"), thisActivity);
-
-
-                    break;
-                default:
-                    break;
-
-
-            }
-        } catch (Exception e) {
-            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
-        }
-    }*/
 
     public void showFilter() {
         LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -449,7 +352,14 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                     if (jsonObject.optString("response_object").toString().equals("1")) {
 
                         listener.onItemClick(true);
-                        webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+
+                        if (CM.isInternetAvailable(thisActivity)) {
+                            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                        }
+
+
                     } else {
                         CM.showToast(jsonObject.optString("response_object").toString(), thisActivity);
                     }

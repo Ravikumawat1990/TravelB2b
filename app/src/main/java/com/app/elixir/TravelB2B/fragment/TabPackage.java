@@ -645,9 +645,15 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
 
         strings = new ArrayList<>();
-        webCallCity();
-        webCallState();
-        webCallCountry();
+
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webCallCity();
+            webCallState();
+            webCallCountry();
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
 
     }
 
@@ -1430,7 +1436,12 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                                                         }
                                                         pojoStayReqs.size();
                                                         pojoTransportReqs.size();
-                                                        webGetPackage(pojoPackages, pojoStayReqs, pojoTransportReqs);
+
+                                                        if (CM.isInternetAvailable(thisActivity)) {
+                                                            webGetPackage(pojoPackages, pojoStayReqs, pojoTransportReqs);
+                                                        } else {
+                                                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                                                        }
 
 
                                                         Log.i(TAG, "onClick: " + jsonObject1);

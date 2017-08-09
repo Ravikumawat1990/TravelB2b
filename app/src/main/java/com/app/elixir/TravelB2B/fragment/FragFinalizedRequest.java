@@ -173,7 +173,6 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         });
 
         if (CM.isInternetAvailable(thisActivity)) {
-            //   webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString());
             webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);

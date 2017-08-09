@@ -411,19 +411,38 @@ public class ViewMyResdetailView extends AppCompatActivity implements View.OnCli
 
 
                     if (!jsonObject1.optString("city_id").equals("") || !jsonObject1.optString("city_id").toString().equals("0")) {
-                        webCity(jsonObject1.optString("city_id"), "1");
+
+                        if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                            webCity(jsonObject1.optString("city_id"), "1");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyResdetailView.this);
+                        }
+
+
                     } else {
 
                     }
 
                     if (!jsonObject1.optString("pickup_city").equals("") && !jsonObject1.optString("pickup_city").toString().equals("0") && !jsonObject1.optString("pickup_city").toString().equals("null")) {
-                        webCity(jsonObject1.optString("pickup_city"), "2");
+
+                        if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                            webCity(jsonObject1.optString("pickup_city"), "2");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyResdetailView.this);
+                        }
+
                     } else {
 
                     }
 
                     if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null") && !jsonObject1.optString("state_id").toString().equals("0")) {
-                        webState(jsonObject1.optString("state_id"), "1");
+
+
+                        if (CM.isInternetAvailable(ViewMyResdetailView.this)) {
+                            webState(jsonObject1.optString("state_id"), "1");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyResdetailView.this);
+                        }
                     } else {
 
                     }

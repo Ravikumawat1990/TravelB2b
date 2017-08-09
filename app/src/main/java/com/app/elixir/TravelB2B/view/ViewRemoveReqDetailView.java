@@ -197,13 +197,24 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
                         if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").toString().equals("null") || jsonObject1.optString("pickup_state") == null) {
 
                         } else {
-                            webState(jsonObject1.optString("pickup_city"), "1");
+
+
+                            if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                                webState(jsonObject1.optString("pickup_city"), "1");
+                            } else {
+                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRemoveReqDetailView.this);
+                            }
                         }
 
                         if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").toString().equals("null") || jsonObject1.optString("pickup_city") == null) {
 
                         } else {
-                            webCity(jsonObject1.optString("pickup_state"), "1");
+
+                            if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                                webCity(jsonObject1.optString("pickup_state"), "1");
+                            } else {
+                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRemoveReqDetailView.this);
+                            }
 
                         }
 
@@ -211,13 +222,25 @@ public class ViewRemoveReqDetailView extends AppCompatActivity implements View.O
                         if (jsonObject1.optString("final_city").equals("") || jsonObject1.optString("final_city").toString().equals("null") || jsonObject1.optString("final_city") == null) {
 
                         } else {
-                            webCity(jsonObject1.optString("final_city"), "2");
+
+
+                            if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                                webCity(jsonObject1.optString("final_city"), "2");
+                            } else {
+                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRemoveReqDetailView.this);
+                            }
                         }
 
                         if (jsonObject1.optString("final_state").equals("") || jsonObject1.optString("final_state").toString().equals("null") || jsonObject1.optString("final_state") == null) {
 
                         } else {
-                            webState(jsonObject1.optString("final_state"), "2");
+
+
+                            if (CM.isInternetAvailable(ViewRemoveReqDetailView.this)) {
+                                webState(jsonObject1.optString("final_state"), "2");
+                            } else {
+                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRemoveReqDetailView.this);
+                            }
                         }
 
 

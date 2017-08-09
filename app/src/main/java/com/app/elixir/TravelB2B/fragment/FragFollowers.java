@@ -114,7 +114,7 @@ public class FragFollowers extends Fragment {
 
                     showPopup(thisActivity, value1);
                 }
-                // showPopup(thisActivity);
+
 
             }
         });
@@ -139,37 +139,6 @@ public class FragFollowers extends Fragment {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
 
     }
-
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-    public void showPopup(Context context) {
-        new AlertDialog.Builder(context)
-                .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure you want to unblock this user?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //finish();
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).setIcon(R.drawable.logo3).show();
-    }
-
-   /* @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        item.setVisible(false);
-    }*/
 
 
     public void webFollowers(String userId) {
@@ -358,8 +327,8 @@ public class FragFollowers extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                CM.showToast("Pressed", thisActivity);
-                //showFilterPopup();
+
+
                 return true;
         }
         return false;

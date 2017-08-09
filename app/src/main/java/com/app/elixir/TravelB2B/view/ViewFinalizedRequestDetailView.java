@@ -336,12 +336,24 @@ public class ViewFinalizedRequestDetailView extends AppCompatActivity implements
                     comment.setText(jsonObject1.optString("comment"));
 
                     if (!jsonObject1.optString("state_id").toString().equals("") && !jsonObject1.optString("state_id").toString().equals("null")) {
-                        webState(jsonObject1.optString("state_id"));
+
+                        if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
+                            webState(jsonObject1.optString("state_id"));
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedRequestDetailView.this);
+                        }
+
                     } else {
 
                     }
                     if (!jsonObject1.optString("city_id").toString().equals("") && !jsonObject1.optString("city_id").toString().equals("0")) {
-                        webCity(jsonObject1.optString("city_id"));
+
+
+                        if (CM.isInternetAvailable(ViewFinalizedRequestDetailView.this)) {
+                            webCity(jsonObject1.optString("city_id"));
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedRequestDetailView.this);
+                        }
                     } else {
                     }
 

@@ -382,14 +382,28 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
 
                     if (!jsonObject1.optString("state_id").equals("") && !jsonObject1.optString("state_id").toString().equals("null") && !jsonObject1.optString("state_id").toString().equals("0")) {
-                        webState(jsonObject1.optString("state_id"), "1");
+
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webState(jsonObject1.optString("state_id"), "1");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
                     } else {
 
                     }
 
 
                     if (!jsonObject1.optString("city_id").equals("") && !jsonObject1.optString("city_id").equals("0") && !jsonObject1.optString("city_id").equals("null")) {
-                        webCity(jsonObject1.optString("city_id"), "1");
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webCity(jsonObject1.optString("city_id"), "1");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
+
                     } else {
 
                     }
@@ -423,24 +437,52 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
 
                     if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("0") && !jsonObject1.optString("pickup_state").equals("null")) {
-                        webState(jsonObject1.optString("pickup_state"), "2");
+
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webState(jsonObject1.optString("pickup_state"), "2");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
+
                     } else {
 
                     }
                     if (!jsonObject1.optString("pickup_city").equals("") && !jsonObject1.optString("pickup_city").equals("0") && !jsonObject1.optString("pickup_city").equals("null")) {
-                        webCity(jsonObject1.optString("pickup_city"), "2");
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webCity(jsonObject1.optString("pickup_city"), "2");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
+
                     } else {
 
                     }
 
                     if (!jsonObject1.optString("final_city").equals("") && !jsonObject1.optString("final_city").equals("0") && !jsonObject1.optString("final_city").equals("null")) {
-                        webCity(jsonObject1.optString("final_city"), "3");
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webCity(jsonObject1.optString("final_city"), "3");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
+
                     } else {
 
                     }
 
                     if (!jsonObject1.optString("final_state").equals("") && !jsonObject1.optString("final_state").equals("0") && !jsonObject1.optString("final_state").equals("null")) {
-                        webState(jsonObject1.optString("final_state"), "3");
+
+                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                            webState(jsonObject1.optString("final_state"), "3");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                        }
+
                     } else {
 
                     }

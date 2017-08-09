@@ -2,15 +2,12 @@ package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,16 +21,6 @@ import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
-import com.app.elixir.TravelB2B.mtplview.MtplLog;
-import com.app.elixir.TravelB2B.utils.CM;
-import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
-import com.app.elixir.TravelB2B.volly.VolleyIntialization;
-import com.app.elixir.TravelB2B.volly.WebService;
-import com.app.elixir.TravelB2B.volly.WebServiceTag;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -70,7 +57,7 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.hotelierhome, container, false);
         thisActivity = getActivity();
-        //  setHasOptionsMenu(true);
+
 
         initView(rootView);
         return rootView;
@@ -109,19 +96,6 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void showPopup(Context context) {
-        new AlertDialog.Builder(context)
-                .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure you want to unblock this user?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //finish();
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).setIcon(R.drawable.logo3).show();
-    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -130,100 +104,15 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
     }
 
 
-    public void webTestimonial(String userId) {
-        try {
-            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getTestimonial(v, userId, new OnVolleyHandler() {
-                @Override
-                public void onVollySuccess(String response) {
-                    if (thisActivity.isFinishing()) {
-                        return;
-                    }
-                    MtplLog.i("WebCalls", response);
-                    Log.e(TAG, response);
-                    getResponseForTestimonial(response);
-
-                }
-
-                @Override
-                public void onVollyError(String error) {
-                    MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(thisActivity)) {
-                        CM.showPopupCommonValidation(thisActivity, error, false);
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getResponseForTestimonial(String response) {
-        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
-        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
-            return;
-        }
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            switch (jsonObject.optString("response_code")) {
-                case "200":
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-                    JSONArray jsonArray1 = new JSONArray(jsonObject.optString("advertisement").toString());
-                    for (int i = 0; i < jsonArray1.length(); i++) {
-
-                        pojoAdvert pojoAdverts = new pojoAdvert();
-                        pojoAdverts.setId(jsonArray1.getJSONObject(i).getString("id"));
-                        pojoAdverts.setUser_id(jsonArray1.getJSONObject(i).getString("user_id"));
-                        pojoAdverts.setHotel_name(jsonArray1.getJSONObject(i).getString("hotel_name"));
-                        pojoAdverts.setHotel_type(jsonArray1.getJSONObject(i).getString("hotel_type"));
-                        pojoAdverts.setCheap_tariff(jsonArray1.getJSONObject(i).getString("cheap_tariff"));
-                        pojoAdverts.setExpensive_tariff(jsonArray1.getJSONObject(i).getString("expensive_tariff"));
-                        pojoAdverts.setWebsite(jsonArray1.getJSONObject(i).getString("website"));
-                        pojoAdverts.setCities(jsonArray1.getJSONObject(i).getString("cities"));
-                        pojoAdverts.setCharges(jsonArray1.getJSONObject(i).getString("charges"));
-                        pojoAdverts.setDuration(jsonArray1.getJSONObject(i).getString("duration"));
-                        pojoAdverts.setStatus(jsonArray1.getJSONObject(i).getString("status"));
-                        pojoAdverts.setHotel_pic(jsonArray1.getJSONObject(i).getString("hotel_pic"));
-                        pojoAdverts.setPayment_status(jsonArray1.getJSONObject(i).getString("payment_status"));
-                        pojoAdverts.setCitycharge(jsonArray1.getJSONObject(i).getString("citycharge"));
-                        pojoAdverts.setExpiry_date(jsonArray1.getJSONObject(i).optString("expiry_date"));
-                        pojoAdverts.setCount(jsonArray1.getJSONObject(i).getString("count"));
-                        pojoAdvertArrayList.add(pojoAdverts);
-                    }
-                    pojoAdvertArrayList.size();
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.invalidate();
-                    break;
-                case "202":
-                    break;
-                case "501":
-                    CM.showToast(jsonObject.optString("msg"), thisActivity);
-
-
-                    break;
-                default:
-                    break;
-
-
-            }
-        } catch (Exception e) {
-            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
-        }
-    }
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btntellmemore:
-
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 FragPromoteHotel fragFoodItem2 = new FragPromoteHotel();
                 transaction.setCustomAnimations(0, R.anim.push_in_from_top);
                 transaction.add(R.id.container, fragFoodItem2).addToBackStack("FragHotelierHome");
                 transaction.commit();
-
                 break;
         }
     }

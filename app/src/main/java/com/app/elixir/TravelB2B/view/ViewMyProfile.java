@@ -53,6 +53,7 @@ public class ViewMyProfile extends AppCompatActivity {
     Toolbar toolbar;
     private adptAdvtMyProfile mAdapter1;
     MtplTextView userEmail, userName, userMob;
+    MtplTextView txtDis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class ViewMyProfile extends AppCompatActivity {
         userEmail = (MtplTextView) findViewById(R.id.txtUserEmail);
         userName = (MtplTextView) findViewById(R.id.txtUserName);
         userMob = (MtplTextView) findViewById(R.id.userPNo);
+        txtDis = (MtplTextView) findViewById(R.id.txtViewDis);
 
         userEmail.setText(CM.getSp(ViewMyProfile.this, CV.PrefEmail, "").toString());
         userName.setText(CM.getSp(ViewMyProfile.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewMyProfile.this, CV.Preflast_name, "").toString());
@@ -141,7 +143,12 @@ public class ViewMyProfile extends AppCompatActivity {
             Log.i("TAG", "onBindViewHolder: " + e.getMessage());
         }
 
-        webTestimonial(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
+        if (CM.isInternetAvailable(ViewMyProfile.this)) {
+            webTestimonial(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyProfile.this);
+        }
+
     }
 
     @Override
@@ -201,6 +208,9 @@ public class ViewMyProfile extends AppCompatActivity {
                 case "200":
                     // CM.showToast(jsonObject.optString("response_object"), ViewAgentProfile.this);
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+
+                    txtDis.setText(jsonObject.optString("description1").toString());
+
                     // pojoAdverts
                     for (int i = 0; i < jsonArray.length(); i++) {
 

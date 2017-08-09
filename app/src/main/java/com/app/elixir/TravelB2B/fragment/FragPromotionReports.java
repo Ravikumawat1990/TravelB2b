@@ -81,16 +81,6 @@ public class FragPromotionReports extends Fragment {
 
         mAdapter = new adptPromoReports(thisActivity, pojoReports);
 
-/*
-        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(String value, String value1) {
-
-                showPopup(thisActivity);
-
-            }
-        });
-*/
 
         if (CM.isInternetAvailable(thisActivity)) {
             webPromoReport(CM.getSp(thisActivity, CV.PrefID, "").toString());

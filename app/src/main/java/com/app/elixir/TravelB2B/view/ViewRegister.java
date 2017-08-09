@@ -341,9 +341,13 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
             }
         });
 
-        webCallCity();
-        webCallState();
-        webCallCountry();
+        if (CM.isInternetAvailable(ViewRegister.this)) {
+            webCallCity();
+            webCallState();
+            webCallCountry();
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRegister.this);
+        }
 
 
         initView();
@@ -515,10 +519,14 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
                                                                             String stateList = strings.toString().replace("[", "").replace("]", "")
                                                                                     .replace(", ", ",");
 
-                                                                            webSubmit(catId, compName.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), confPassword.getText().toString()
-                                                                                    , contact.getText().toString(), address.getText().toString(), locality.getText().toString(), cityId, stateId
-                                                                                    , pinCode.getText().toString(), countryId, stateList, "1");
+                                                                            if (CM.isInternetAvailable(ViewRegister.this)) {
+                                                                                webSubmit(catId, compName.getText().toString(), firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), password.getText().toString(), confPassword.getText().toString()
+                                                                                        , contact.getText().toString(), address.getText().toString(), locality.getText().toString(), cityId, stateId
+                                                                                        , pinCode.getText().toString(), countryId, stateList, "1");
 
+                                                                            } else {
+                                                                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewRegister.this);
+                                                                            }
 
 
                                                                         } else {

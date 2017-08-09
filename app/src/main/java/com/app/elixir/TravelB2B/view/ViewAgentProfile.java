@@ -126,7 +126,13 @@ public class ViewAgentProfile extends AppCompatActivity {
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
 
-        webTestimonial(userId);
+        if (CM.isInternetAvailable(ViewAgentProfile.this)) {
+            webTestimonial(userId);
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewAgentProfile.this);
+        }
+
+
     }
 
     private void initView() {

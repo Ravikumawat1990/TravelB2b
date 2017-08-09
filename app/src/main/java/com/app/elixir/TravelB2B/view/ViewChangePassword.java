@@ -80,10 +80,7 @@ public class ViewChangePassword extends AppCompatActivity implements View.OnClic
 
     public void init() {
         edtemail = (EditText) findViewById(R.id.edtemail);
-
         edtemail.setText(CM.getSp(ViewChangePassword.this, CV.PrefEmail, "").toString());
-
-
         edtemail.setSelection(edtemail.getText().length());
         edtoldPass = (EditText) findViewById(R.id.edtoldPass);
         edtNewPass = (EditText) findViewById(R.id.edtNewPass);
@@ -99,7 +96,14 @@ public class ViewChangePassword extends AppCompatActivity implements View.OnClic
                 CM.showToast(valid, ViewChangePassword.this);
             } else {
                 if (CM.isEmailValid(edtemail.getText().toString())) {
-                    webChangePassword(edtoldPass.getText().toString(), edtNewPass.getText().toString(), CM.getSp(ViewChangePassword.this, CV.PrefID, "").toString());
+
+
+                    if (CM.isInternetAvailable(ViewChangePassword.this)) {
+                        webChangePassword(edtoldPass.getText().toString(), edtNewPass.getText().toString(), CM.getSp(ViewChangePassword.this, CV.PrefID, "").toString());
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewChangePassword.this);
+                    }
+
                 } else {
                     CM.showToast(getString(R.string.entvemail), ViewChangePassword.this);
                 }

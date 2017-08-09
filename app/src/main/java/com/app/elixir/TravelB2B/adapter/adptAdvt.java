@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.adapter;
 
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,15 +51,19 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
             super(itemView);
             webSite = (MtplTextView) itemView.findViewById(R.id.txtWebsite);
             imageView = (ImageView) itemView.findViewById(R.id.imghotel_pic);
+            webSite.setPaintFlags(webSite.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             hotel_Name = (MtplTextView) itemView.findViewById(R.id.txthotel_name);
             charges = (MtplTextView) itemView.findViewById(R.id.txtCharges);
             hotelType = (MtplTextView) itemView.findViewById(R.id.txthotel_type);
+            webSite.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-
+                case R.id.txtWebsite:
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getWebsite(), "");
+                    break;
             }
 
         }
@@ -85,7 +90,7 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
         TextView charges = holder.charges;
         TextView hotelType = holder.hotelType;
         ImageView imageView1 = holder.imageView;
-        webSite.setText(dataSet.get(position).getWebsite());
+        //webSite.setText(dataSet.get(position).getWebsite());
         hotel_Name.setText(dataSet.get(position).getHotel_name());
         charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
         hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));

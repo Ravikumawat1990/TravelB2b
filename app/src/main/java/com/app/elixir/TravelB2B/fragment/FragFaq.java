@@ -2,12 +2,10 @@ package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -143,19 +141,7 @@ public class FragFaq extends Fragment {
         item.setVisible(false);
     }
 
-    public void showPopup(Context context) {
-        new AlertDialog.Builder(context)
-                .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure you want to unblock this user?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //finish();
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).setIcon(R.drawable.logo3).show();
-    }
+
 
 
 }

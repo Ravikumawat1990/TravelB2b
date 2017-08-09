@@ -1,8 +1,11 @@
 package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,11 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvt;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.utils.CM;
@@ -79,7 +84,30 @@ public class FragHome extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         pojoAdvertArrayList = new ArrayList<>();
         mAdapter = new adptAdvt(thisActivity, pojoAdvertArrayList);
-        webTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString());
+
+        mAdapter.SetOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(String item, String item1) {
+                try {
+                    if (!item.startsWith("http://") && !item.startsWith("https://"))
+                        item = "http://" + item;
+
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item));
+                    startActivity(myIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(thisActivity, "No application can handle this request."
+                            + "Please install a webbrowser", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
 
     }
 

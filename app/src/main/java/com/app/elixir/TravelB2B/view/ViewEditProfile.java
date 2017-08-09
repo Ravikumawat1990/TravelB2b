@@ -341,7 +341,11 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             }
         });
 
-        webUserProfile(CM.getSp(ViewEditProfile.this, CV.PrefID, "").toString());
+        if (CM.isInternetAvailable(ViewEditProfile.this)) {
+            webUserProfile(CM.getSp(ViewEditProfile.this, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewEditProfile.this);
+        }
 
 
     }
@@ -1074,9 +1078,10 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    if (jsonObject.optString("ResponseObject") != null) {
+                    if (jsonObject.optString("response_object") != null) {
 
-                        CM.showToast(jsonObject.optString("ResponseObject").toString(), ViewEditProfile.this);
+                        CM.showToast(jsonObject.optString("response_object").toString(), ViewEditProfile.this);
+                        finish();
 
                     }
 
@@ -1275,7 +1280,13 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
 
 
                                                                                 params.put("description", edtDis.getText().toString());
-                                                                                webSubmit(params);
+
+
+                                                                                if (CM.isInternetAvailable(ViewEditProfile.this)) {
+                                                                                    webSubmit(params);
+                                                                                } else {
+                                                                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewEditProfile.this);
+                                                                                }
 
 
                                                                             } else {
@@ -1451,7 +1462,13 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                                                             } else {
                                                                                 params.put("company_shop_registration", "");
                                                                             }
-                                                                            webSubmit(params);
+
+
+                                                                            if (CM.isInternetAvailable(ViewEditProfile.this)) {
+                                                                                webSubmit(params);
+                                                                            } else {
+                                                                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewEditProfile.this);
+                                                                            }
 
 
                                                                         } else {
@@ -1740,9 +1757,14 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                     }
 
 
-                    webCallCity();
-                    webCallState();
-                    webCallCountry();
+                    if (CM.isInternetAvailable(ViewEditProfile.this)) {
+                        webCallCity();
+                        webCallState();
+                        webCallCountry();
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewEditProfile.this);
+                    }
+
 
                     break;
                 case "202":

@@ -93,36 +93,19 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
 
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptRespondToRequest(thisActivity, pojoMyResposneArrayList);
-
         setHasOptionsMenu(true);
-       /* mAdapter.SetOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(String value, String value1) {
 
-                if (value1.equals("detail")) {
-
-                    Intent intent = new Intent(thisActivity, ViewRespondToRequestDetailView.class);
-                    intent.putExtra("refId", value);
-                    CM.startActivity(intent, thisActivity);
-                } else {
-                    ShowInterest();
-                }
-            }
-        });*/
         mAdapter.SetOnItemClickListener(new OnAdapterItemClickListener() {
             @Override
             public void onItemClick(String value, String value1, String value2) {
 
                 if (value1.equals("detail")) {
-
                     Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
                     intent.putExtra("refId", value);
                     intent.putExtra("reqtype", value2);
                     intent.putExtra("title", getString(R.string.respondToReq));
-
                     CM.startActivity(intent, thisActivity);
                 } else if (value1.equals("showInt")) {
-
                     ShowInterest(value);
                 } else if (value1.equals("showAgent")) {
                     Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
@@ -132,7 +115,12 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
             }
         });
 
-        webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "",CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "", CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
 
 
         initView(rootView);
@@ -168,34 +156,6 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
         myFab.hide();
 
     }
-
-
-   /* public void ShowInterest() {
-
-        LayoutInflater factory = LayoutInflater.from(thisActivity);
-        final View textEntryView = factory.inflate(R.layout.showinterest, null);
-        final EditText input1 = (EditText) textEntryView.findViewById(R.id.quote_price);
-        final EditText input2 = (EditText) textEntryView.findViewById(R.id.comment);
-        final AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
-
-        alert.setView(textEntryView)
-                .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Log.i("AlertDialog", "TextEntry 1 Entered " + input1.getText().toString());
-                                Log.i("AlertDialog", "TextEntry 2 Entered " + input2.getText().toString());
-                    *//* User clicked OK so do some stuff *//*
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                            }
-                        });
-        alert.show();
-    }*/
-
 
     @Override
     public void onResume() {
@@ -315,7 +275,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
         final AlertDialog.Builder alert = new AlertDialog.Builder(thisActivity);
 
         alert.setView(textEntryView)
-                .setPositiveButton("Save",
+                .setPositiveButton("Submit",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String QutPrice, Comment;
@@ -446,8 +406,14 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
                 if (rating.equals("Select Rating")) {
                     rating = "";
                 }
-                webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, nameAgent, rating, CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
-                //webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(),reqType,reqId,startDate,endDate,budgetv);
+
+
+                if (CM.isInternetAvailable(thisActivity)) {
+                    webResponseToReq(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, nameAgent, rating, CM.getSp(thisActivity, CV.PrefCity_id, "").toString());
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                }
+
 
             }
         });

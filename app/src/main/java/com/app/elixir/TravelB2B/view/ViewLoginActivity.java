@@ -1,6 +1,7 @@
 package com.app.elixir.TravelB2B.view;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -132,7 +133,13 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
 
                 if (!edtEmail.getText().toString().equals("")) {
                     if (!editPassword.getText().toString().equals("")) {
-                        webLogin(edtEmail.getText().toString(), editPassword.getText().toString());
+                        if (CM.isInternetAvailable(ViewLoginActivity.this)) {
+                            webLogin(edtEmail.getText().toString(), editPassword.getText().toString());
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewLoginActivity.this);
+                        }
+
+
                     } else {
                         CM.showToast(getString(R.string.entvpass), ViewLoginActivity.this);
                     }
@@ -169,7 +176,12 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
             public void onClick(View view) {
                 if (!edtemail.getText().toString().equals("") && CM.isEmailValid(edtemail.getText().toString())) {
                     dialog.dismiss();
-                    webForgotPassword();
+
+                    if (CM.isInternetAvailable(ViewLoginActivity.this)) {
+                        webForgotPassword();
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewLoginActivity.this);
+                    }
 
                 } else {
                     CM.showToast(getString(R.string.entvemail), ViewLoginActivity.this);
@@ -234,8 +246,14 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
 
 
                     CM.setSp(ViewLoginActivity.this, CV.PrefIsLogin, "1");
-                    CM.startActivity(ViewLoginActivity.this, ViewDrawer.class);
+                    Intent intent = new Intent(ViewLoginActivity.this, ViewDrawer.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_in_from_left, R.anim.push_out_to_right);
                     finish();
+                    // CM.startActivity(ViewLoginActivity.this, ViewDrawer.class);
+
+
                     break;
                 case "202":
                     break;

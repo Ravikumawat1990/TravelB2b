@@ -173,9 +173,11 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         });
 
 
-        webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").
-
-                toString(), "", "", "", "", "");
+        if (CM.isInternetAvailable(thisActivity)) {
+            webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "", "");
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
 
 
     }
@@ -185,112 +187,6 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         super.onResume();
         mListener.showDrawerToggle(true);
     }
-
-   /* public void webMyResponse(String userId) {
-        try {
-            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getMyResponse(v, userId, new OnVolleyHandler() {
-                @Override
-                public void onVollySuccess(String response) {
-                    if (thisActivity.isFinishing()) {
-                        return;
-                    }
-                    MtplLog.i("WebCalls", response);
-                    Log.e(TAG, response);
-                    getMyResponse(response);
-
-                }
-
-                @Override
-                public void onVollyError(String error) {
-                    MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(thisActivity)) {
-                        CM.showPopupCommonValidation(thisActivity, error, false);
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getMyResponse(String response) {
-        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
-        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
-            return;
-        }
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            switch (jsonObject.optString("response_code")) {
-                case "200":
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        pojoMyResposne myResposne = new pojoMyResposne();
-                        myResposne.setComment(jsonArray.getJSONObject(i).get("comment").toString());
-                        myResposne.setRequest_id(jsonArray.getJSONObject(i).get("request_id").toString());
-                        JSONObject jsonObjectReq = new JSONObject(jsonArray.getJSONObject(i).get("request").toString());
-                        myResposne.setCategory_id(jsonObjectReq.optString("category_id").toString());
-                        myResposne.setReference_id(jsonObjectReq.optString("reference_id").toString());
-                        myResposne.setTotal_budget(jsonObjectReq.optString("total_budget").toString());
-                        myResposne.setChildren(jsonObjectReq.optString("children").toString());
-                        myResposne.setAdult(jsonObjectReq.optString("adult").toString());
-                        myResposne.setRoom1(jsonObjectReq.optString("room1").toString());
-                        myResposne.setRoom2(jsonObjectReq.optString("room2").toString());
-                        myResposne.setRoom3(jsonObjectReq.optString("room3").toString());
-                        myResposne.setChild_with_bed(jsonObjectReq.optString("child_with_bed").toString());
-                        myResposne.setChild_without_bed(jsonObjectReq.optString("child_without_bed").toString());
-                        myResposne.setHotel_rating(jsonObjectReq.optString("hotel_rating").toString());
-                        myResposne.setHotel_category(jsonObjectReq.optString("hotel_category").toString());
-                        myResposne.setMeal_plan(jsonObjectReq.optString("meal_plan").toString());
-                        myResposne.setDestination_city(jsonObjectReq.optString("destination_city").toString());
-                        myResposne.setCheck_in(jsonObjectReq.optString("check_in").toString());
-                        myResposne.setCheck_out(jsonObjectReq.optString("check_out").toString());
-                        myResposne.setTransport_requirement(jsonObjectReq.optString("transport_requirement").toString());
-                        myResposne.setPickup_city(jsonObjectReq.optString("pickup_city").toString());
-                        myResposne.setPickup_state(jsonObjectReq.optString("pickup_state").toString());
-                        myResposne.setPickup_country(jsonObjectReq.optString("pickup_country").toString());
-                        myResposne.setPickup_locality(jsonObjectReq.optString("pickup_locality").toString());
-                        myResposne.setCity_id(jsonObjectReq.optString("city_id").toString());
-                        myResposne.setState_id(jsonObjectReq.optString("state_id").toString());
-
-                        myResposne.setFinal_city(jsonObjectReq.optString("final_city").toString());
-                        myResposne.setFinal_state(jsonObjectReq.optString("final_state").toString());
-                        myResposne.setFinal_country(jsonObjectReq.optString("final_country").toString());
-                        myResposne.setUserComment(jsonObjectReq.optString("comment").toString());
-                        myResposne.setStart_date(jsonObjectReq.optString("start_date").toString());
-                        myResposne.setEnd_date(jsonObjectReq.optString("end_date").toString());
-                        JSONObject jsonObjectUser = new JSONObject(jsonObjectReq.get("user").toString());
-                        myResposne.setFirst_name(jsonObjectUser.optString("first_name").toString());
-                        myResposne.setLast_name(jsonObjectUser.optString("last_name").toString());
-                        myResposne.setMobile_number(jsonObjectUser.optString("mobile_number").toString());
-                        myResposne.setP_contact(jsonObjectUser.optString("p_contact").toString());
-                        pojoMyResposneArrayList.add(myResposne);
-                    }
-
-                    pojoMyResposneArrayList.size();
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.invalidate();
-                    break;
-                case "202":
-                    break;
-                case "501":
-                    CM.showToast(jsonObject.optString("msg"), thisActivity);
-
-
-                    break;
-                default:
-                    break;
-
-
-            }
-        } catch (Exception e) {
-            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
-        }
-    }*/
 
 
     public void showPopup() {
@@ -434,7 +330,13 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                 if (budgetv.equals("Select Budget")) {
                     budgetv = "";
                 }
-                webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv);
+
+                if (CM.isInternetAvailable(thisActivity)) {
+                    webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv);
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                }
+
 
             }
         });
@@ -702,12 +604,6 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
         }
     }
 
-    /*@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.findItem(R.id.filter).setVisible(true);
-
-    }
-*/
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.filter);
@@ -795,6 +691,6 @@ public class FragMyResponse extends Fragment implements View.OnTouchListener {
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
-        }).setIcon(R.drawable.logo3).show();
+        }).setIcon(R.drawable.logonewnew).show();
     }
 }

@@ -1,6 +1,7 @@
 package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -58,6 +60,7 @@ import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.utils.Utility;
 import com.app.elixir.TravelB2B.view.Popup_Hotel_Promote_preview;
+import com.app.elixir.TravelB2B.volly.MtplProgressDialog;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -104,6 +107,8 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     ArrayList<pojoPromotionCitys> promoSelectedCity = new ArrayList<pojoPromotionCitys>();
     MtplTextView webView;
     LinearLayout linearLayout;
+    String userName, hotelName, hotelType, hotelcheaproom, hotelexpensiveroom, hotelwebsite, state, city, duration, chargeString;
+    private MtplProgressDialog mtplDialog;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -124,11 +129,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle("Promote your hotel");
         scroll = (ScrollView) rootView.findViewById(R.id.root);
-        //   scroll.scrollTo(0, scroll.getTop());
-        //scroll.fullScroll(View.FOCUS_UP);
 
-
-        //scrollview.pageScroll(View.FOCUS_UP);
         setHasOptionsMenu(true);
         initView(rootView);
 
@@ -137,7 +138,14 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
     private void initView(View rootView) {
         webView = (MtplTextView) rootView.findViewById(R.id.webView);
-        sendRequest();
+
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            sendRequest();
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
         editUserName = (MtplEditText) rootView.findViewById(R.id.edtUserName);
         editHotelName = (MtplEditText) rootView.findViewById(R.id.edtHotelName);
         editTariffCheapestRoom = (MtplEditText) rootView.findViewById(R.id.edtCheapRoom);
@@ -558,7 +566,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     }
 
     void getPreview() {
-        String userName, hotelName, hotelType, hotelcheaproom, hotelexpensiveroom, hotelwebsite, state, city, duration, charge;
+
 
         userName = editUserName.getText().toString();
         hotelName = editHotelName.getText().toString();
@@ -568,7 +576,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         hotelwebsite = editHotelWebsite.getText().toString();
         state = autotxtState.getText().toString();
         duration = editDuration.getText().toString();
-        charge = editCharge.getText().toString();
+        chargeString = editCharge.getText().toString();
         if (!userName.matches("")) {
             if (!hotelName.matches("")) {
                 if (!hotelType.matches("")) {
@@ -581,47 +589,15 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
                                             //Check Image Selected
                                             if (PromoPic != null) {
-                                                //encode Image to byteArray
-                                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                                PromoPic.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                                byte[] byteArray = stream.toByteArray();
-                                                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                                                CM.setSp(thisActivity, "img", encodedImage);
-                                                Intent intent = new Intent(thisActivity, Popup_Hotel_Promote_preview.class);
-                                                Bundle bundle = new Bundle();
 
-                                                bundle.putString("username", userName);
-                                                bundle.putString("userid", CM.getSp(thisActivity, CV.PrefID, "").toString());
-                                                bundle.putString("promppic", "");
-                                                bundle.putString("hname", hotelName);
-                                                bundle.putString("htype", hotelType);
-                                                bundle.putString("ctarrifroom", hotelcheaproom);
-                                                bundle.putString("etarrifroom", hotelexpensiveroom);
-                                                bundle.putString("hwebsite", hotelwebsite);
-                                                bundle.putString("hsatate", state);
-                                                String citys = "";
-                                                String cityids = "";
-                                                String cityprices = "";
-                                                for (int i = 0; i < promoSelectedCity.size(); i++) {
-                                                    if (citys.equals("")) {
-                                                        citys = promoSelectedCity.get(i).getLabel();
-                                                        //cityids=promoSelectedCity.get(i).
-                                                        cityprices = promoSelectedCity.get(i).getPrice();
-                                                    } else {
-                                                        citys = citys + "," + promoSelectedCity.get(i).getLabel();
-                                                        cityprices = cityprices + "," + promoSelectedCity.get(i).getPrice();
+                                                thisActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        new TestAsync().execute();
                                                     }
-                                                }
-                                                bundle.putString("hcity", citys);
-                                                bundle.putString("hcityprice", cityprices);
-                                                bundle.putString("hcityid", cityids);
-                                                bundle.putString("hduration", duration);
-                                                bundle.putString("hcharge", charge);
-                                                intent.putExtras(bundle);
+                                                });
 
-
-                                                CM.startActivity(intent, thisActivity);
                                             } else {
                                                 CM.showToast("Select Image", thisActivity);
                                             }
@@ -711,4 +687,101 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         RequestQueue requestQueue = Volley.newRequestQueue(thisActivity);
         requestQueue.add(stringRequest);
     }
+
+
+    class TestAsync extends AsyncTask<Void, Integer, String> {
+        String TAG = getClass().getSimpleName();
+        protected ProgressDialog progressDialog;
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+           /* progressDialog = new ProgressDialog(thisActivity);
+            progressDialog.setMessage("loading");
+            progressDialog.show();*/
+            Log.d(TAG + " PreExceute", "On pre Exceute......");
+            showMtplDialog(thisActivity);
+        }
+
+        protected String doInBackground(Void... arg0) {
+            Log.d(TAG + " DoINBackGround", "On doInBackground...");
+            /* for (int i = 0; i < 10; i++) {
+                Integer in = new Integer(i);
+                publishProgress(i);
+            }*/
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            PromoPic.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            return encodedImage;
+        }
+
+        protected void onProgressUpdate(Integer... a) {
+            super.onProgressUpdate(a);
+            Log.d(TAG + " onProgressUpdate", "You are in progress update ... " + a[0]);
+        }
+
+        protected void onPostExecute(String encodedImage) {
+            super.onPostExecute(encodedImage);
+            Log.d(TAG + " onPostExecute", "" + encodedImage);
+            /*if (progressDialog != null) {
+                progressDialog.dismiss();
+            }*/
+
+            dismissMtplDialog(thisActivity);
+            if (encodedImage != null && !encodedImage.equals("")) {
+                CM.setSp(thisActivity, "img", encodedImage);
+                Intent intent = new Intent(thisActivity, Popup_Hotel_Promote_preview.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("username", userName);
+                bundle.putString("userid", CM.getSp(thisActivity, CV.PrefID, "").toString());
+                bundle.putString("promppic", "");
+                bundle.putString("hname", hotelName);
+                bundle.putString("htype", hotelType);
+                bundle.putString("ctarrifroom", hotelcheaproom);
+                bundle.putString("etarrifroom", hotelexpensiveroom);
+                bundle.putString("hwebsite", hotelwebsite);
+                bundle.putString("hsatate", state);
+                String citys = "";
+                String cityids = "";
+                String cityprices = "";
+                for (int i = 0; i < promoSelectedCity.size(); i++) {
+                    if (citys.equals("")) {
+                        citys = promoSelectedCity.get(i).getLabel();
+                        //cityids=promoSelectedCity.get(i).
+                        cityprices = promoSelectedCity.get(i).getPrice();
+                    } else {
+                        citys = citys + "," + promoSelectedCity.get(i).getLabel();
+                        cityprices = cityprices + "," + promoSelectedCity.get(i).getPrice();
+                    }
+                }
+                bundle.putString("hcity", citys);
+                bundle.putString("hcityprice", cityprices);
+                bundle.putString("hcityid", cityids);
+                bundle.putString("hduration", duration);
+                bundle.putString("hcharge", chargeString);
+                intent.putExtras(bundle);
+                //  progressDoalog.dismiss();
+                CM.startActivity(intent, thisActivity);
+            }
+        }
+    }
+
+    public void showMtplDialog(Activity mActivity) {
+        if (mActivity.isFinishing()) {
+            return;
+        }
+        if (mtplDialog == null)
+            mtplDialog = new MtplProgressDialog(mActivity, "", false);
+        if (!mtplDialog.isShowing())
+            mtplDialog.show();
+    }
+
+
+    private void dismissMtplDialog(Activity activity) {
+
+        if (mtplDialog != null && mtplDialog.isShowing())
+            mtplDialog.dismiss();
+    }
+
 }

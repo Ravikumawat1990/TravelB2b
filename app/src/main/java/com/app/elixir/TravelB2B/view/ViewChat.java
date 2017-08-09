@@ -72,9 +72,12 @@ public class ViewChat extends AppCompatActivity {
         Intent intent = getIntent();
         requestId = intent.getStringExtra("refId");
         chatUserId = intent.getStringExtra("chatUserId");
+        if (CM.isInternetAvailable(ViewChat.this)) {
+            webgetChatHistory(requestId, chatUserId, CM.getSp(ViewChat.this, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewChat.this);
+        }
 
-
-        webgetChatHistory(requestId, chatUserId, CM.getSp(ViewChat.this, CV.PrefID, "").toString());
 
         initView();
 
@@ -126,7 +129,13 @@ public class ViewChat extends AppCompatActivity {
         public void onClick(View v) {
 
             if (v == enterChatView1) {
-                sendMessage(chatEditText1.getText().toString(), UserType.OTHER);
+
+                if (CM.isInternetAvailable(ViewChat.this)) {
+                    sendMessage(chatEditText1.getText().toString(), UserType.OTHER);
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewChat.this);
+                }
+
             }
 
             chatEditText1.setText("");

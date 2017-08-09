@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 public class ViewRegisterAs extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -90,17 +89,7 @@ public class ViewRegisterAs extends AppCompatActivity implements View.OnClickLis
 
         progressBar = (ImageView) findViewById(R.id.dialogProgressBar);
         progressBar.setVisibility(View.GONE);
-       /* Animation a = AnimationUtils.loadAnimation(ViewRegisterAs.this, R.anim.scale);
-        a.setDuration(1000);
-        progressBar.startAnimation(a);
-        a.setInterpolator(new Interpolator() {
-            private final int frameCount = 8;
 
-            @Override
-            public float getInterpolation(float input) {
-                return (float) Math.floor(input * frameCount) / frameCount;
-            }
-        });*/
 
         initView();
     }

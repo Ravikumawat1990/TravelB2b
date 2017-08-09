@@ -421,11 +421,9 @@ public class ViewDrawer extends AppCompatActivity
         {
 
         }
-        navHeaderEamil.setText(CM.getSp(ViewDrawer.this, CV.PrefEmail, "").
+        navHeaderEamil.setText(CM.getSp(ViewDrawer.this, CV.PrefEmail, "").toString());
 
-                toString());
 
-        webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
         getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         setFragment(0);
     }
@@ -796,7 +794,7 @@ public class ViewDrawer extends AppCompatActivity
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
-        }).setIcon(R.drawable.logo3).show();
+        }).setIcon(R.drawable.logonewnew).show();
     }
 
     /**
@@ -842,7 +840,7 @@ public class ViewDrawer extends AppCompatActivity
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
-        }).setIcon(R.drawable.logo1).show();
+        }).setIcon(R.drawable.logonewnew).show();
     }
 
     @Override
@@ -853,7 +851,7 @@ public class ViewDrawer extends AppCompatActivity
 
     public void getCounter(String userId, String rolId, String statID, String preference, String cityId) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, false, false);
             WebService.getCounter(v, userId, rolId, statID, preference, cityId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
@@ -890,9 +888,12 @@ public class ViewDrawer extends AppCompatActivity
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
-
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
+                    }
                     if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
-
 
                         bottomNavigation.setNotification(jsonObject1.optInt("placereq"), 0);
                         bottomNavigation.setNotification(jsonObject1.optInt("myRequestCount"), 1);
@@ -916,8 +917,18 @@ public class ViewDrawer extends AppCompatActivity
 
                     break;
                 case "202":
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
+                    }
                     break;
                 case "402":
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        webUserProfile(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewDrawer.this);
+                    }
                     break;
                 default:
                     break;
@@ -932,7 +943,7 @@ public class ViewDrawer extends AppCompatActivity
 
     public void webUserProfile(String userId) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, false, false);
             WebService.getUserProfile(v, userId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {

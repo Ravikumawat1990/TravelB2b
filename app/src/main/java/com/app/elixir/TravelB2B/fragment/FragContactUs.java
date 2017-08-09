@@ -93,7 +93,6 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
         btnSendMail = (MtplButton) rootView.findViewById(R.id.btnsendMessage);
         edtComment = (MtplEditText) rootView.findViewById(R.id.edtComment);
 
-        // txtOfficeTitle.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
 
@@ -127,7 +126,13 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
         spinner.setAdapter(langAdapter);
         btnSendMail.setOnClickListener(this);
 
-        callApi();
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            callApi();
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
     }
 
 
@@ -224,29 +229,35 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
 
                 if (!edtComment.getText().toString().equals("")) {
 
+                    if (CM.isInternetAvailable(thisActivity)) {
 
-                    BackgroundMail.newBuilder(thisActivity)
-                            .withUsername(getString(R.string.emailId))
-                            .withPassword(getString(R.string.password))
-                            .withMailto("jnaina@elixirinfo.com")
-                            .withType(BackgroundMail.TYPE_PLAIN)
-                            .withSubject(spinner.getSelectedItem().toString())
-                            .withBody(edtComment.getText().toString())
-                            .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-                                @Override
-                                public void onSuccess() {
+                        BackgroundMail.newBuilder(thisActivity)
+                                .withUsername(getString(R.string.emailId))
+                                .withPassword(getString(R.string.password))
+                                .withMailto("jnaina@elixirinfo.com")
+                                .withType(BackgroundMail.TYPE_PLAIN)
+                                .withSubject(spinner.getSelectedItem().toString())
+                                .withBody(edtComment.getText().toString())
+                                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                                    @Override
+                                    public void onSuccess() {
 
-                                    CM.showToast("Success", thisActivity);
-                                }
-                            })
-                            .withOnFailCallback(new BackgroundMail.OnFailCallback() {
-                                @Override
-                                public void onFail() {
-                                    CM.showToast("Failed", thisActivity);
+                                        CM.showToast("Success", thisActivity);
+                                    }
+                                })
+                                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                                    @Override
+                                    public void onFail() {
+                                        CM.showToast("Failed", thisActivity);
 
-                                }
-                            })
-                            .send();
+                                    }
+                                })
+                                .send();
+
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                    }
+
 
                 } else {
 

@@ -110,7 +110,12 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
-        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+        if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+        }
+
 
         initView();
     }
@@ -136,16 +141,40 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     CM.startActivity(intent, ViewCheckResponse.this);
 
                 } else if (value.equals("share")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value, value1, value2, "");
+
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        showPopup(ViewCheckResponse.this, "Are you sure you want to share your details,with this user?", value, value1, value2, "");
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
+
                 } else if (value.equals("btnAccept")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2, value3);
+
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        showPopup(ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2, value3);
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
+
                 } else if (value.equals("rate")) {
 
-                    //   showRating(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
-                    webFollow(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        webFollow(CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString(), value2);
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
+
 
                 } else if (value.equals("block")) {
-                    showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2, "");
+
+
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        showPopup(ViewCheckResponse.this, "Are you sure you want to  block this user?", value, value1, value2, "");
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
+
+
                 }
             }
         });
@@ -172,17 +201,25 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 CM.finishActivity(ViewCheckResponse.this);
                 return true;
             case R.id.filter:
-                // showPopup();
+
                 showFilterPopup();
                 return true;
             case R.id.sort:
 
 
                 if (aBoolean) {
-                    webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
                     aBoolean = false;
                 } else {
-                    webCheckResponse(referenceId, "", "", "", "", CV.DESC, "");
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        webCheckResponse(referenceId, "", "", "", "", CV.DESC, "");
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
                     aBoolean = true;
 
                 }
@@ -193,7 +230,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void showPopup() {
+   /* public void showPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.filter, (ViewGroup) findViewById(R.id.root));
         AlertDialog.Builder builder = new AlertDialog.Builder(ViewCheckResponse.this)
@@ -218,10 +255,9 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
+    }*/
 
-
-    public void ShowRatingDialog() {
+    /*public void ShowRatingDialog() {
 
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final RatingBar rating = new RatingBar(this);
@@ -256,7 +292,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
 
     }
-
+*/
 
     public void showPopup(Context context, String msg, final String typeNew, final String blockId, final String value2, final String value3) {
         new AlertDialog.Builder(context)
@@ -349,32 +385,6 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         alertDialog.show();
     }
 
-    public void showRating() {
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.rating, null);
-        dialogBuilder.setView(dialogView);
-        // dialogBuilder.setTitle("Rate This!");
-        //   dialogBuilder.setIcon(R.drawable.logo1);
-
-
-        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-
-            }
-        });
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
 
     // budgetv, pricetv, nameAgent, CV.ASC, quotPrice
     public void webCheckResponse(String reqId, String refId, String budget, String price, String name, String order, String quotPrice) {
@@ -455,12 +465,6 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
                     enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
                     pickupLocation.setText(jsonObject1.optString("pickup_locality"));
-                    //pickupCity.setText(jsonObject1.optString("pickup_city"));
-                    //pickupState.setText(jsonObject1.optString("pickup_state"));
-
-                    //finalCity.setText(jsonObject1.optString("final_city"));
-                    //finalState.setText(jsonObject1.optString("final_state"));
-
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -469,7 +473,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                             if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").equals("0") || jsonObject1.optString("pickup_state").toString().equals("null")) {
 
                             } else {
-                                webState(jsonObject1.optString("pickup_state"), "1");
+
+                                if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                                    webState(jsonObject1.optString("pickup_state"), "1");
+                                } else {
+                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                                }
+
                             }
 
                         }
@@ -482,7 +492,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                             if (jsonObject1.optString("final_state").equals("") || jsonObject1.optString("final_state").equals("0") || jsonObject1.optString("final_state").toString().equals("null")) {
 
                             } else {
-                                webState(jsonObject1.optString("final_state"), "2");
+                                if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                                    webState(jsonObject1.optString("final_state"), "2");
+                                } else {
+                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                                }
+
+
                             }
 
 
@@ -498,7 +514,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                             if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").equals("0") || jsonObject1.optString("pickup_city").toString().equals("null")) {
 
                             } else {
-                                webCity(jsonObject1.optString("pickup_city"), "1");
+                                if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                                    webCity(jsonObject1.optString("pickup_city"), "1");
+                                } else {
+                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                                }
+
+
                             }
 
                         }
@@ -512,7 +534,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                             if (jsonObject1.optString("final_city").equals("") || jsonObject1.optString("final_city").equals("0") || jsonObject1.optString("final_city").toString().equals("null")) {
 
                             } else {
-                                webCity(jsonObject1.optString("final_city"), "2");
+
+                                if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                                    webCity(jsonObject1.optString("final_city"), "2");
+                                } else {
+                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                                }
+
                             }
 
                         }
@@ -566,7 +594,6 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         JSONObject jsonObject3 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
                         checkResposne.setFirst_name(jsonObject3.optString("first_name"));
                         checkResposne.setLast_name(jsonObject3.optString("last_name"));
-                        //   checkResposne.setId(jsonObject3.optString("id"));
                         checkResposne.setFollow_id(jsonObject3.optString("id"));
                         checkResposne.setReference_id(jsonObject2.optString("reference_id"));
                         ref_Id = jsonObject2.optString("reference_id");
@@ -635,9 +662,6 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     jsonObject.optString("response_object").toString();
-
-                    // mRecyclerView.setAdapter(mAdapter);
-                    //  mRecyclerView.invalidate();
                     break;
                 case "202":
                     break;
@@ -864,7 +888,14 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 if (!Comment.matches("")) {
                     if (Rating > 0) {
 
-                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+
+                        if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                            webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                        }
+
+
                     } else {
                         CM.showToast("select Rating", ViewCheckResponse.this);
                     }
@@ -926,7 +957,12 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     CM.showToast(getString(R.string.offerACT), ViewCheckResponse.this);
-                    webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                    if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                    } else {
+                        CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                    }
+
 
                     break;
                 case "202":
@@ -1011,7 +1047,13 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 case "200":
                     if (!jsonObject.optString("response_object").toString().equals("null")) {
                         CM.showToast(getString(R.string.follow_success), ViewCheckResponse.this);
-                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+
+                        if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                        } else {
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                        }
+
                     }
 
                     break;
@@ -1081,8 +1123,14 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 if (quotPrice.equals("Select Quoted Price")) {
                     quotPrice = "";
                 }
-                // String reqId, String budget, String price,
-                webCheckResponse(referenceId, ref_Id, budgetv, "", nameAgent, CV.ASC, quotPrice);
+
+                if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                    webCheckResponse(referenceId, ref_Id, budgetv, "", nameAgent, CV.ASC, quotPrice);
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                }
+
+
             }
         });
         builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {

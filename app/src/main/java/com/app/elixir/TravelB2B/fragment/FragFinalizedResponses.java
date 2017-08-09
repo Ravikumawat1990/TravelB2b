@@ -150,7 +150,13 @@ public class FragFinalizedResponses extends Fragment {
                 }
             }
         });
-        webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "");
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "");
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
 
     }
 
@@ -167,18 +173,8 @@ public class FragFinalizedResponses extends Fragment {
         //menu.findItem(R.id.filter).setVisible(false);
     }
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
 
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
-
-    public void showPopup(Context context) {
+    /*public void showPopup(Context context) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
                 .setMessage("Are you sure you want to unblock this user?")
@@ -189,8 +185,8 @@ public class FragFinalizedResponses extends Fragment {
                 }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
-        }).setIcon(R.drawable.logo3).show();
-    }
+        }).setIcon(R.drawable.logonewnew).show();
+    }*/
 
    /* @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -452,8 +448,11 @@ public class FragFinalizedResponses extends Fragment {
                     quotPrice = "";
                 }
 
-                //String userid, String reqId, String budget, String price,
-                webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), reqId, budgetv, quotPrice, name);
+                if (CM.isInternetAvailable(thisActivity)) {
+                    webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), reqId, budgetv, quotPrice, name);
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                }
             }
         });
         builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {

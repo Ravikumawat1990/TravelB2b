@@ -75,9 +75,17 @@ public class FragBlockUser extends Fragment {
         View rootView = inflater.inflate(R.layout.blockuser, container, false);
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.blocked_users));
-        getBlockUser(CM.getSp(thisActivity, CV.PrefID, "").toString());
         setHasOptionsMenu(true);
+
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            getBlockUser(CM.getSp(thisActivity, CV.PrefID, "").toString());
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
         initView(rootView);
+
+
         return rootView;
     }
 

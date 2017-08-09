@@ -105,8 +105,13 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
         switch (v.getId()) {
 
             case R.id.buttonPromote:
+                if (CM.isInternetAvailable(Popup_Hotel_Promote_preview.this)) {
+                    webCallHotelPromotion(userId, hotelName, hotelType, tarrifCheap, tarrifExpensive, hotelWebsite, hotelcityids, hcityprice, hotelDuration, hotelCharge, hotelImage);
+                } else {
+                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), Popup_Hotel_Promote_preview.this);
+                }
 
-                webCallHotelPromotion(userId, hotelName, hotelType, tarrifCheap, tarrifExpensive, hotelWebsite, hotelcityids, hcityprice, hotelDuration, hotelCharge, hotelImage);
+
                 break;
 
 

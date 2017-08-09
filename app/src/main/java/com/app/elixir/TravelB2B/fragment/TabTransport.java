@@ -120,36 +120,6 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         setHasOptionsMenu(true);
 
 
-        if (!transStatrDate.getText().toString().equals("")) {
-            if (!transEndDate.getText().toString().equals("")) {
-                if (!pickupLocality.getText().toString().equals("")) {
-                    if (!trapickupCity.getText().toString().equals("")) {
-
-                        if (!pickupState.getText().toString().equals("")) {
-
-                            if (!finalCity.getText().toString().equals("")) {
-
-                            } else {
-
-                            }
-
-                        } else {
-
-                        }
-                    } else {
-
-                    }
-                } else {
-
-                }
-            } else {
-
-            }
-        } else {
-
-        }
-
-
         return rootView;
     }
 
@@ -380,9 +350,16 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
         transStatrDate.setOnTouchListener(this);
         transEndDate.setOnTouchListener(this);
         btnAddStop.setOnClickListener(this);
-        webCallCity();
-        webCallState();
-        webCallCountry();
+
+
+        if (CM.isInternetAvailable(thisActivity)) {
+            webCallCity();
+            webCallState();
+            webCallCountry();
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
+
     }
 
     public void onAddField(View v) {
@@ -697,7 +674,12 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                                                 }
                                                 transportPojos.size();
 
-                                                webGetTransport(pojoPackages, transportPojos);
+
+                                                if (CM.isInternetAvailable(thisActivity)) {
+                                                    webGetTransport(pojoPackages, transportPojos);
+                                                } else {
+                                                    CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+                                                }
 
 
                                                 Log.i(TAG, "onClick: " + jsonObject1);
