@@ -2,11 +2,9 @@ package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +74,7 @@ public class FragPrivacyPolicys extends Fragment {
             }
         });*/
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
         initView(rootView);
         return rootView;
     }
@@ -120,23 +118,13 @@ public class FragPrivacyPolicys extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        item.setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+
     }
 
-    public void showPopup(Context context) {
-        new AlertDialog.Builder(context)
-                .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure you want to unblock this user?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //finish();
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).setIcon(R.drawable.logo3).show();
-    }
 
     private void sendRequest() {
 

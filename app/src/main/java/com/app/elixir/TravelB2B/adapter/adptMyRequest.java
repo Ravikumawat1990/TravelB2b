@@ -39,7 +39,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         private CardView rootView;
         public MtplTextView reqType, startDate, endDate, adult, txtComment, destination, txtRefId;
-        MtplButton btnRemoveReq, btnCheckRes;
+        MtplButton btnRemoveReq, btnCheckRes, btnDetail;
         ImageView catImage;
         TextView total;
 
@@ -62,9 +62,12 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             btnRemoveReq = (MtplButton) itemView.findViewById(R.id.btnRemoveReq);
             btnCheckRes = (MtplButton) itemView.findViewById(R.id.btnCheckRes);
+            btnDetail = (MtplButton) itemView.findViewById(R.id.btnDetail);
+
 
             btnRemoveReq.setOnClickListener(this);
             btnCheckRes.setOnClickListener(this);
+            btnDetail.setOnClickListener(this);
             //   reqAgent.setOnClickListener(this);
 
         }
@@ -86,6 +89,12 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
                     //getUserId changed with getId
                     listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showAgent");
                     break;
+                case R.id.btnDetail:
+                    //getUserId changed with getId
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getCategory_id());
+                    break;
+
+
             }
 
         }

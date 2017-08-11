@@ -78,7 +78,9 @@
                 android:autoLink="web"
                 android:gravity="center_vertical"
                 android:padding="@dimen/margin_5dp"
-
+                android:text=">>View More"
+                android:textColor="@color/appTextColor"
+                android:textStyle="bold"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 
 

@@ -12,8 +12,8 @@
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="1dp"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -53,7 +53,6 @@
                         android:id="@+id/imageView"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
-                        android:src="@drawable/hugh"
                         app:civ_border_color="#FF000000" />
 
 
@@ -80,6 +79,15 @@
                             android:ellipsize="none"
                             android:text="Testing profile Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
                             android:visibility="gone" />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5dp"
+                            android:numStars="5"
+                            android:stepSize="1.0" />
 
 
                     </LinearLayout>

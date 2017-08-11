@@ -37,7 +37,7 @@ import com.app.elixir.TravelB2B.pojos.pojoMyResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewAgentProfile;
-import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
+import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -100,7 +100,7 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
             public void onItemClick(String value, String value1, String value2) {
 
                 if (value1.equals("detail")) {
-                    Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
+                    Intent intent = new Intent(thisActivity, ViewCommonDeatilView.class);
                     intent.putExtra("refId", value);
                     intent.putExtra("reqtype", value2);
                     intent.putExtra("title", getString(R.string.respondToReq));
@@ -687,9 +687,9 @@ public class FragRespondToRequest extends Fragment implements View.OnTouchListen
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.filter);
         menu.findItem(R.id.noti).setVisible(false);
-        item.setVisible(true);
+        menu.findItem(R.id.sort).setVisible(true);
+        menu.findItem(R.id.filter).setVisible(true);
     }
 
     @Override

@@ -70,6 +70,8 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     Spinner spinnerBudget, spinnerPriceQuot;
     String ref_Id;
     boolean aBoolean = false;
+    MtplTextView room1, room2, room3;
+    MtplTextView childWithbed, childWithoutbed, meal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -354,10 +356,20 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         pickupCity = (MtplTextView) dialogView.findViewById(R.id.txtpickupCity);
         pickupState = (MtplTextView) dialogView.findViewById(R.id.pickupState);
         pickupLocation = (MtplTextView) dialogView.findViewById(R.id.txtpickupLocation);
-        vehicle = (MtplTextView) dialogView.findViewById(R.id.txtVehicle);
+        //vehicle = (MtplTextView) dialogView.findViewById(R.id.txtVehicle);
         finalState = (MtplTextView) dialogView.findViewById(R.id.txtDestState);
         finalCity = (MtplTextView) dialogView.findViewById(R.id.txtDestCity);
         comment = (MtplTextView) dialogView.findViewById(R.id.txtCmt);
+
+
+        room1 = (MtplTextView) dialogView.findViewById(R.id.txtSingle);
+        room2 = (MtplTextView) dialogView.findViewById(R.id.txtDouble);
+        room3 = (MtplTextView) dialogView.findViewById(R.id.txtTriple);
+
+
+        childWithbed = (MtplTextView) dialogView.findViewById(R.id.txtChildWithbed);
+        childWithoutbed = (MtplTextView) dialogView.findViewById(R.id.txtChildWithoutbed);
+        meal = (MtplTextView) dialogView.findViewById(R.id.txtMeal);
 
 
         if (CM.isInternetAvailable(ViewCheckResponse.this)) {
@@ -461,21 +473,34 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     members.setText(jsonObject1.optString("adult"));
                     childres.setText(jsonObject1.optString("children"));
                     comment.setText(jsonObject1.optString("comment"));
-                    vehicle.setText("");
-                    startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("start_date")));
-                    enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("end_date")));
-                    pickupLocation.setText(jsonObject1.optString("pickup_locality"));
+                    // vehicle.setText("");
+                    startdate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_in")));
+                    enddate.setText(CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", jsonObject1.optString("check_out")));
+                    pickupLocation.setText(jsonObject1.optString("locality"));
+
+                    //   MtplTextView room1, room2, room3;
+                    // MtplTextView childWithbed, childWithoutbed, meal;
+
+
+                    room1.setText(jsonObject1.optString("room1"));
+                    room2.setText(jsonObject1.optString("room2"));
+                    room3.setText(jsonObject1.optString("room3"));
+                    childWithbed.setText(jsonObject1.optString("child_with_bed"));
+                    childWithoutbed.setText(jsonObject1.optString("child_without_bed"));
+                    meal.setText(CM.getMealPlane(jsonObject1.optString("meal_plan")));
+
+
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
 
-                            if (jsonObject1.optString("pickup_state").equals("") || jsonObject1.optString("pickup_state").equals("0") || jsonObject1.optString("pickup_state").toString().equals("null")) {
+                            if (jsonObject1.optString("state_id").equals("") || jsonObject1.optString("state_id").equals("0") || jsonObject1.optString("state_id").toString().equals("null")) {
 
                             } else {
 
                                 if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                                    webState(jsonObject1.optString("pickup_state"), "1");
+                                    webState(jsonObject1.optString("state_id"), "1");
                                 } else {
                                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                                 }
@@ -511,11 +536,11 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         @Override
                         public void run() {
 
-                            if (jsonObject1.optString("pickup_city").equals("") || jsonObject1.optString("pickup_city").equals("0") || jsonObject1.optString("pickup_city").toString().equals("null")) {
+                            if (jsonObject1.optString("city_id").equals("") || jsonObject1.optString("city_id").equals("0") || jsonObject1.optString("city_id").toString().equals("null")) {
 
                             } else {
                                 if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                                    webCity(jsonObject1.optString("pickup_city"), "1");
+                                    webCity(jsonObject1.optString("city_id"), "1");
                                 } else {
                                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                                 }

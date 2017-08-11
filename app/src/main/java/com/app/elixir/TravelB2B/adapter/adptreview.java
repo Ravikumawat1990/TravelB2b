@@ -100,8 +100,8 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
             // Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonArray.getJSONObject(i).optString("profile_pic"));
             Picasso.with(context)
                     .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + dataSet.get(position).getAuthor_id() + "/" + dataSet.get(position).getProfile_pic())  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
-                    .placeholder(R.drawable.logonewnew) // optional
-                    .error(R.drawable.logonewnew)         // optional
+                    .placeholder(R.drawable.ic_person_black_24dp) // optional
+                    .error(R.drawable.ic_person_black_24dp)         // optional
                     .into(imageView);
 
         } catch (Exception e) {

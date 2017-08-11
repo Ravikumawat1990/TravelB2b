@@ -44,7 +44,7 @@ import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.view.ViewChat;
-import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
+import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -145,7 +145,7 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
                 if (value.equals("detail")) {
 
 
-                    Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
+                    Intent intent = new Intent(thisActivity, ViewCommonDeatilView.class);
                     intent.putExtra("refId", value1);
                     intent.putExtra("reqtype", value3);
                     intent.putExtra("title", getString(R.string.finalized_requests));
@@ -545,11 +545,12 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        MenuItem item1 = menu.findItem(R.id.filter);
+
         menu.findItem(R.id.noti).setVisible(false);
-        item.setVisible(false);
-        item1.setVisible(true);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(true);
+        menu.findItem(R.id.filter).setVisible(true);
+
     }
 
     @Override

@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10dp"
         android:gravity="center"
+        android:visibility="gone"
         android:text="RESPONSES FOR: VEHICLE (LUXURY CAR) \n START DATE (27/04/2017)    END DATE (28/04/2017) CITY"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="@dimen/font_12sp"

@@ -884,6 +884,9 @@ public class CM {
             case "4":
                 text = "AP - American Plan";
                 break;
+            default:
+                text = "";
+                break;
 
         }
         return text;

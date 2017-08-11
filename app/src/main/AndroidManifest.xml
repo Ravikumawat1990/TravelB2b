@@ -55,7 +55,7 @@
             android:name=".view.ViewRemoveReqDetailView"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.ViewFinalizedResponseDetailView"
+            android:name=".view.ViewCommonDeatilView"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.ViewFinalizedRequestDetailView"

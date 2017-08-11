@@ -467,11 +467,19 @@ public class ViewDrawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.view_drawer, menu);
-        menu.getItem(1).setIcon(R.drawable.ic_filter_list_white_24dp);
+        //menu.getItem(1).setIcon(R.drawable.ic_filter_list_white_24dp);
+        menu.findItem(R.id.filter).setIcon(R.drawable.ic_filter_list_white_24dp);
+        menu.findItem(R.id.filter).setVisible(false);
+        // menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+
         if (isOpen) {
-            menu.getItem(2).setIcon(R.drawable.userhome);
+            //menu.getItem(2).setIcon(R.drawable.userhome);
+            menu.findItem(R.id.cartMenu).setIcon(R.drawable.userhome);
+
         } else {
-            menu.getItem(2).setIcon(R.drawable.userhome);
+            //  menu.getItem(2).setIcon(R.drawable.userhome);
+            menu.findItem(R.id.cartMenu).setIcon(R.drawable.userhome);
         }
 
         MenuItem menuItem = menu.findItem(R.id.noti);
@@ -1043,8 +1051,8 @@ public class ViewDrawer extends AppCompatActivity
                         Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + model_main.profile_pic);
                         Picasso.with(ViewDrawer.this)
                                 .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + jsonObject1.optString("profile_pic"))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
-                                .placeholder(R.drawable.logo1) // optional
-                                .error(R.drawable.logo1)         // optional
+                                .placeholder(R.drawable.ic_person_black_24dp) // optional
+                                .error(R.drawable.ic_person_black_24dp)        // optional
                                 .into(imgUserProfile);
 
                     } catch (Exception e) {

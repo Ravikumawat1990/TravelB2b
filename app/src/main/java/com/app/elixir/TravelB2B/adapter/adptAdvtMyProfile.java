@@ -53,11 +53,15 @@ public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.My
             hotelType = (MtplTextView) itemView.findViewById(R.id.txthotel_type);
 
             imageView = (ImageView) itemView.findViewById(R.id.imghotel_pic);
+            webSite.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+                case R.id.txtWebsite:
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getWebsite(), "view");
+                    break;
 
             }
 
@@ -84,7 +88,7 @@ public class adptAdvtMyProfile extends RecyclerView.Adapter<adptAdvtMyProfile.My
         TextView hotel_Name = holder.hotel_Name;
         TextView charges = holder.charges;
         TextView hotelType = holder.hotelType;
-        webSite.setText(dataSet.get(position).getWebsite());
+        //webSite.setText(dataSet.get(position).getWebsite());
         hotel_Name.setText(dataSet.get(position).getHotel_name());
         charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
         hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));

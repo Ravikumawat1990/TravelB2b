@@ -816,11 +816,16 @@ public class WebService {
         if (!price.isEmpty()) {
             params.put(CV.REFIDSEARCH, refid);
         }
-        /*if (!price.isEmpty()) {
-            params.put(CV.REQ_TYPESEARCH, price);
-        }*/
+
         if (!budget.isEmpty()) {
-            params.put(CV.BUDGETSEARCH, budget);
+            if (budget.equals("100000+")) {
+                params.put(CV.BUDGETSEARCH, "100000-1000000000000");
+            } else {
+                params.put(CV.BUDGETSEARCH, budget);
+            }
+
+        } else {
+            params.put(CV.BUDGETSEARCH, "");
         }
         if (!agentName.isEmpty()) {
             params.put(CV.AGENTNAMESEARCH, agentName);

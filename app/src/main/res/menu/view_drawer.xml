@@ -7,6 +7,12 @@
         android:icon="@drawable/ic_menu_cart"
         android:title="Add to Cart"
         myapp:showAsAction="always" />
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/ic_swap_vert_white_24dp"
+        android:title="filter"
+        myapp:showAsAction="always" />
     <item
         android:id="@+id/filter"
         android:icon="@drawable/ic_filter_list_white_24dp"

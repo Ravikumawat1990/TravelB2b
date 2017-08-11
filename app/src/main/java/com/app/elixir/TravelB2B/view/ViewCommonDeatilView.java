@@ -43,7 +43,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class ViewFinalizedResponseDetailView extends AppCompatActivity implements View.OnClickListener {
+public class ViewCommonDeatilView extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ViewFinalizedResponse";
     private MtplButton btnBlockUser;
@@ -82,7 +82,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             @Override
             public void onClick(View v) {
 
-                CM.finishActivity(ViewFinalizedResponseDetailView.this);
+                CM.finishActivity(ViewCommonDeatilView.this);
 
             }
         });
@@ -155,13 +155,13 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         mRecyclerViewStop = (RecyclerView) findViewById(R.id.stopRecycleViw);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(ViewFinalizedResponseDetailView.this));
-        mRecyclerViewStop.setLayoutManager(new LinearLayoutManager(ViewFinalizedResponseDetailView.this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(ViewCommonDeatilView.this));
+        mRecyclerViewStop.setLayoutManager(new LinearLayoutManager(ViewCommonDeatilView.this));
         pojoAddAnotherArrayList = new ArrayList<>();
         pojoStopses = new ArrayList<>();
-        mAdapter = new adptAddAnotherDes(ViewFinalizedResponseDetailView.this, pojoAddAnotherArrayList);
+        mAdapter = new adptAddAnotherDes(ViewCommonDeatilView.this, pojoAddAnotherArrayList);
 
-        adptStops = new adptStop(ViewFinalizedResponseDetailView.this, pojoStopses);
+        adptStops = new adptStop(ViewCommonDeatilView.this, pojoStopses);
 
 
         CardView TransCard2 = (CardView) findViewById(R.id.transprotcart2);
@@ -205,13 +205,13 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
             TransCard2.setVisibility(View.GONE);
         }
 
-        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
 
-            webFinalizeResponseDeatil(CM.getSp(ViewFinalizedResponseDetailView.this, CV.PrefID, "").toString(), requestId);
+            webFinalizeResponseDeatil(CM.getSp(ViewCommonDeatilView.this, CV.PrefID, "").toString(), requestId);
 
         } else {
 
-            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
         }
 
 
@@ -221,14 +221,14 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        CM.finishActivity(ViewFinalizedResponseDetailView.this);
+        CM.finishActivity(ViewCommonDeatilView.this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                CM.finishActivity(ViewFinalizedResponseDetailView.this);
+                CM.finishActivity(ViewCommonDeatilView.this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -276,7 +276,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnBlockUser:
-                showPopup(ViewFinalizedResponseDetailView.this);
+                showPopup(ViewCommonDeatilView.this);
                 break;
             case R.id.btnRateUser:
                 showDetail();
@@ -327,7 +327,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
     public void webFinalizeResponseDeatil(String userId, String reqId) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewFinalizedResponseDetailView.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewCommonDeatilView.this, true, true);
             WebService.getDetail(v, userId, reqId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
@@ -343,8 +343,8 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 @Override
                 public void onVollyError(String error) {
                     MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
-                        CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, error, false);
+                    if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
+                        CM.showPopupCommonValidation(ViewCommonDeatilView.this, error, false);
                     }
                 }
             });
@@ -356,7 +356,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     private void getFinalizeResponse(String response) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
             return;
         }
         try {
@@ -384,10 +384,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     if (!jsonObject1.optString("state_id").equals("") && !jsonObject1.optString("state_id").toString().equals("null") && !jsonObject1.optString("state_id").toString().equals("0")) {
 
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webState(jsonObject1.optString("state_id"), "1");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
                     } else {
@@ -397,10 +397,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
                     if (!jsonObject1.optString("city_id").equals("") && !jsonObject1.optString("city_id").equals("0") && !jsonObject1.optString("city_id").equals("null")) {
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webCity(jsonObject1.optString("city_id"), "1");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
 
@@ -439,10 +439,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     if (!jsonObject1.optString("pickup_state").equals("") && !jsonObject1.optString("pickup_state").equals("0") && !jsonObject1.optString("pickup_state").equals("null")) {
 
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webState(jsonObject1.optString("pickup_state"), "2");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
 
@@ -451,10 +451,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                     }
                     if (!jsonObject1.optString("pickup_city").equals("") && !jsonObject1.optString("pickup_city").equals("0") && !jsonObject1.optString("pickup_city").equals("null")) {
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webCity(jsonObject1.optString("pickup_city"), "2");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
 
@@ -464,10 +464,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
                     if (!jsonObject1.optString("final_city").equals("") && !jsonObject1.optString("final_city").equals("0") && !jsonObject1.optString("final_city").equals("null")) {
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webCity(jsonObject1.optString("final_city"), "3");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
 
@@ -477,10 +477,10 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
                     if (!jsonObject1.optString("final_state").equals("") && !jsonObject1.optString("final_state").equals("0") && !jsonObject1.optString("final_state").equals("null")) {
 
-                        if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
+                        if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
                             webState(jsonObject1.optString("final_state"), "3");
                         } else {
-                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewFinalizedResponseDetailView.this);
+                            CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCommonDeatilView.this);
                         }
 
                     } else {
@@ -557,7 +557,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 case "202":
                     break;
                 case "501":
-                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedResponseDetailView.this);
+                    CM.showToast(jsonObject.optString("msg"), ViewCommonDeatilView.this);
 
 
                     break;
@@ -567,14 +567,14 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
             }
         } catch (Exception e) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, e.getMessage(), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, e.getMessage(), false);
         }
     }
 
 
     public void webCity(String cityId, final String type) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewFinalizedResponseDetailView.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewCommonDeatilView.this, true, true);
             WebService.getCityApi(v, cityId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
@@ -590,8 +590,8 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 @Override
                 public void onVollyError(String error) {
                     MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
-                        CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, error, false);
+                    if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
+                        CM.showPopupCommonValidation(ViewCommonDeatilView.this, error, false);
                     }
                 }
             });
@@ -603,7 +603,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     private void getCity(String response, String type) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
             return;
         }
         try {
@@ -627,7 +627,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 case "202":
                     break;
                 case "501":
-                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedResponseDetailView.this);
+                    CM.showToast(jsonObject.optString("msg"), ViewCommonDeatilView.this);
 
 
                     break;
@@ -637,13 +637,13 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
             }
         } catch (Exception e) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, e.getMessage(), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, e.getMessage(), false);
         }
     }
 
     public void webState(String stateId, final String type) {
         try {
-            VolleyIntialization v = new VolleyIntialization(ViewFinalizedResponseDetailView.this, true, true);
+            VolleyIntialization v = new VolleyIntialization(ViewCommonDeatilView.this, true, true);
             WebService.getStateApi(v, stateId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
@@ -659,8 +659,8 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 @Override
                 public void onVollyError(String error) {
                     MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(ViewFinalizedResponseDetailView.this)) {
-                        CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, error, false);
+                    if (CM.isInternetAvailable(ViewCommonDeatilView.this)) {
+                        CM.showPopupCommonValidation(ViewCommonDeatilView.this, error, false);
                     }
                 }
             });
@@ -672,7 +672,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
     private void getState(String response, String type) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
             return;
         }
         try {
@@ -700,7 +700,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
                 case "202":
                     break;
                 case "501":
-                    CM.showToast(jsonObject.optString("msg"), ViewFinalizedResponseDetailView.this);
+                    CM.showToast(jsonObject.optString("msg"), ViewCommonDeatilView.this);
 
 
                     break;
@@ -710,7 +710,7 @@ public class ViewFinalizedResponseDetailView extends AppCompatActivity implement
 
             }
         } catch (Exception e) {
-            CM.showPopupCommonValidation(ViewFinalizedResponseDetailView.this, e.getMessage(), false);
+            CM.showPopupCommonValidation(ViewCommonDeatilView.this, e.getMessage(), false);
         }
     }
 

@@ -163,7 +163,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
         try {
 
             this.listener = (OnApiDataChange) context;
-            ((ActionBarTitleSetter) context).setTitle(getString(R.string.MyReq));
+            ((ActionBarTitleSetter) context).setTitle(getString(R.string.placeReq));
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
         }

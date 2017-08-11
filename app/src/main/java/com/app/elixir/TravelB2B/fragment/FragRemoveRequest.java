@@ -37,7 +37,7 @@ import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.pojos.pojoRemoveReq;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
-import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
+import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -132,7 +132,7 @@ public class FragRemoveRequest extends Fragment implements View.OnTouchListener 
             @Override
             public void onItemClick(String value, String value1, String value2) {
 
-                Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
+                Intent intent = new Intent(thisActivity, ViewCommonDeatilView.class);
                 intent.putExtra("refId", value1);
                 intent.putExtra("reqtype", value2);
                 intent.putExtra("title", getString(R.string.removed_requests));
@@ -372,17 +372,17 @@ public class FragRemoveRequest extends Fragment implements View.OnTouchListener 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        MenuItem item1 = menu.findItem(R.id.filter);
-        item.setVisible(false);
-        item1.setVisible(true);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(true);
+        menu.findItem(R.id.filter).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                //CM.showToast("Pressed", thisActivity);
+
                 showFilterPopup();
                 return true;
         }

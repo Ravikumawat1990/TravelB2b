@@ -38,7 +38,7 @@ import com.app.elixir.TravelB2B.pojos.pojoFinalizeResposne;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewAgentProfile;
-import com.app.elixir.TravelB2B.view.ViewFinalizedResponseDetailView;
+import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -135,7 +135,7 @@ public class FragFinalizedResponses extends Fragment {
 
                 if (value.equals("detail")) {
 
-                    Intent intent = new Intent(thisActivity, ViewFinalizedResponseDetailView.class);
+                    Intent intent = new Intent(thisActivity, ViewCommonDeatilView.class);
                     intent.putExtra("refId", value1);
                     intent.putExtra("reqtype", value2);
                     intent.putExtra("title", getString(R.string.finalized_response));
@@ -169,8 +169,10 @@ public class FragFinalizedResponses extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
-        //menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(true);
+        menu.findItem(R.id.filter).setVisible(true);
     }
 
 

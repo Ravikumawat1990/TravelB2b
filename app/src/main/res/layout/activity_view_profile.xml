@@ -39,7 +39,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -52,13 +52,12 @@
                             android:id="@+id/imageView"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
-                            android:src="@drawable/hugh"
                             app:civ_border_color="#FF000000" />
 
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:orientation="vertical">
@@ -92,6 +91,115 @@
                                 android:padding="@dimen/margin_5dp"
                                 android:textColor="@android:color/darker_gray"
                                 mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                card_view:cardCornerRadius="4dp"
+                                card_view:cardElevation="4dp"
+                                card_view:cardUseCompatPadding="true">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:id="@+id/mtplTextView14"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="left"
+                                        android:maxLines="1"
+                                        android:padding="@dimen/margin_5dp"
+                                        android:text="Certificates"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textStyle="bold"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/margin_5dp">
+
+                                        <ImageView
+                                            android:id="@+id/icon1"
+                                            android:layout_width="@dimen/margin_24dp"
+                                            android:layout_height="@dimen/margin_24dp"
+                                            android:layout_margin="1dp"
+                                            android:tint="@color/appTextColor" />
+
+                                        <ImageView
+                                            android:id="@+id/icon2"
+                                            android:layout_width="@dimen/margin_24dp"
+                                            android:layout_height="@dimen/margin_24dp"
+                                            android:layout_margin="1dp"
+                                            android:tint="@color/appTextColor" />
+
+                                        <ImageView
+                                            android:id="@+id/icon3"
+                                            android:layout_width="@dimen/margin_24dp"
+                                            android:layout_height="@dimen/margin_24dp"
+                                            android:layout_margin="1dp"
+                                            android:tint="@color/appTextColor" />
+
+                                        <ImageView
+                                            android:id="@+id/icon4"
+                                            android:layout_width="@dimen/margin_24dp"
+                                            android:layout_height="@dimen/margin_24dp"
+                                            android:layout_margin="1dp"
+                                            android:tint="@color/appTextColor" />
+
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                card_view:cardCornerRadius="4dp"
+                                card_view:cardElevation="4dp"
+                                card_view:cardUseCompatPadding="true">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="left"
+                                        android:maxLines="1"
+                                        android:padding="@dimen/margin_5dp"
+                                        android:text="Profile Completeness"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textStyle="bold"
+                                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                                    <TextView
+                                        android:id="@+id/totRating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="1dp"
+                                        android:padding="@dimen/margin_2dp" />
+
+
+                                    <ProgressBar
+                                        android:id="@+id/ProgressBar"
+                                        style="?android:attr/progressBarStyleHorizontal"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:indeterminate="false"
+                                        android:padding="@dimen/margin_5dp"
+                                        android:maxHeight="10dip"
+                                        android:minHeight="10dip"
+                                        android:progressDrawable="@drawable/download_progress_style" />
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -143,8 +251,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/margin_10dp">
+                    android:padding="@dimen/margin_10dp" android:orientation="vertical">
 
                     <com.app.elixir.TravelB2B.mtplview.MtplTextView
                         android:layout_width="match_parent"
@@ -167,6 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_5dp"
                 card_view:cardCornerRadius="4dp"
+                android:id="@+id/cardReview"
                 card_view:cardElevation="4dp"
                 card_view:cardUseCompatPadding="true">
 

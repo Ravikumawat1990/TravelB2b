@@ -1,10 +1,14 @@
 package com.app.elixir.TravelB2B.view;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +18,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvtMyProfile;
 import com.app.elixir.TravelB2B.adapter.adptreview;
+import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
@@ -119,6 +125,23 @@ public class ViewMyProfile extends AppCompatActivity {
         mAdapter1 = new adptAdvtMyProfile(ViewMyProfile.this, pojoAdvertArrayList);
         mAdapter = new adptreview(ViewMyProfile.this, pojoTestimonialArrayList);
 
+        mAdapter1.SetOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(String item, String item1) {
+                try {
+                    if (!item1.startsWith("http://") && !item1.startsWith("https://"))
+                        item1 = "http://" + item1;
+
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item1));
+                    startActivity(myIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(ViewMyProfile.this, "No application can handle this request."
+                            + "Please install a webbrowser", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         userEmail = (MtplTextView) findViewById(R.id.txtUserEmail);
         userName = (MtplTextView) findViewById(R.id.txtUserName);
@@ -134,8 +157,8 @@ public class ViewMyProfile extends AppCompatActivity {
             // Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonArray.getJSONObject(i).optString("profile_pic"));
             Picasso.with(ViewMyProfile.this)
                     .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + CM.getSp(ViewMyProfile.this, CV.PROFILE_PIC, "").toString())  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
-                    .placeholder(R.drawable.logonewnew) // optional
-                    .error(R.drawable.logonewnew)         // optional
+                    .placeholder(R.drawable.ic_person_black_24dp) // optional
+                    .error(R.drawable.ic_person_black_24dp)         // optional
                     .into(circleImageViewProfile);
 
         } catch (Exception e) {
@@ -143,8 +166,18 @@ public class ViewMyProfile extends AppCompatActivity {
             Log.i("TAG", "onBindViewHolder: " + e.getMessage());
         }
 
+        CardView cardViewAdv = (CardView) findViewById(R.id.cardViewAdv);
+
+        if (CM.getSp(ViewMyProfile.this, CV.PrefRole_Id, "").equals("2")) {
+            cardViewAdv.setVisibility(View.GONE);
+        } else {
+            cardViewAdv.setVisibility(View.VISIBLE);
+        }
+
         if (CM.isInternetAvailable(ViewMyProfile.this)) {
             webTestimonial(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
+
+
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewMyProfile.this);
         }
@@ -210,7 +243,7 @@ public class ViewMyProfile extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
 
                     txtDis.setText(jsonObject.optString("description1").toString());
-
+                    //webUserProfile(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
                     // pojoAdverts
                     for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -274,4 +307,6 @@ public class ViewMyProfile extends AppCompatActivity {
             CM.showPopupCommonValidation(ViewMyProfile.this, e.getMessage(), false);
         }
     }
+
+
 }

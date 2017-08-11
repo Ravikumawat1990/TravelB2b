@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,11 +37,13 @@ import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoMyRequest;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.view.ViewAgentProfile;
 import com.app.elixir.TravelB2B.view.ViewCheckResponse;
+import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -111,12 +114,6 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         pojoMyResposneArrayList = new ArrayList<>();
         mAdapter = new adptMyRequest(thisActivity, pojoMyResposneArrayList);
 
-        if (CM.isInternetAvailable(thisActivity)) {
-            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
-        } else {
-            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
-        }
-
 
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -136,6 +133,12 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                     Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
                     intent.putExtra("userId", value);
                     CM.startActivity(intent, thisActivity);
+                } else {
+                    Intent intent = new Intent(thisActivity, ViewCommonDeatilView.class);
+                    intent.putExtra("refId", value);
+                    intent.putExtra("reqtype", value1);
+                    intent.putExtra("title", getString(R.string.MyReq));
+                    CM.startActivity(intent, thisActivity);
                 }
             }
         });
@@ -143,6 +146,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         initView(rootView);
         return rootView;
     }
+
 
     private void initView(View rootView) {
 
@@ -169,6 +173,11 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     public void onResume() {
         super.onResume();
         mListener.showDrawerToggle(true);
+        if (CM.isInternetAvailable(thisActivity)) {
+            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+        } else {
+            CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
+        }
     }
 
 
@@ -691,8 +700,9 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.filter);
-        item.setVisible(true);
+
+        menu.findItem(R.id.sort).setVisible(true);
+        menu.findItem(R.id.filter).setVisible(true);
     }
 
     @Override
@@ -703,5 +713,108 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 return true;
         }
         return false;
+    }
+
+    public void showRating(final String userId, final String profileuID, String userNm) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(thisActivity);
+        LayoutInflater inflater = thisActivity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.rating, null);
+        dialogBuilder.setView(dialogView);
+
+
+        final EditText edtComment = (EditText) dialogView.findViewById(R.id.edtDis);
+        final RatingBar Ratingbar = (RatingBar) dialogView.findViewById(R.id.ratingBar);
+        final MtplTextView userName = (MtplTextView) dialogView.findViewById(R.id.txtUserName);
+
+        userName.setText(userNm);
+        dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String Comment;
+                float Rating;
+
+                Comment = edtComment.getText().toString();
+                Rating = Ratingbar.getRating();
+
+
+                if (!Comment.matches("")) {
+                    if (Rating > 0) {
+                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+                    } else {
+                        CM.showToast("select Rating", thisActivity);
+                    }
+                } else {
+                    CM.showToast("Enter Comment", thisActivity);
+                }
+
+            }
+        });
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+            }
+        });
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+    public void webReview(String id, String profileuID, String rating, String status, String comment, String userName) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getReview(v, id, profileuID, rating, status, comment, userName, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getReview(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getReview(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+                    CM.showToast((getString(R.string.review_submit)), thisActivity);
+
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
+        }
     }
 }

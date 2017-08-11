@@ -480,6 +480,22 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+            <com.app.elixir.TravelB2B.mtplview.MtplButton
+                android:id="@+id/btnDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_30dp"
+                android:layout_gravity="right"
+                android:layout_marginBottom="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/blue_rect"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:paddingRight="@dimen/margin_10dp"
+                android:text="Deatil"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
         </LinearLayout>
 
     </LinearLayout>

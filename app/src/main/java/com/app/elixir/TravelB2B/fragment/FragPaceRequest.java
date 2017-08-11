@@ -120,5 +120,6 @@ public class FragPaceRequest extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.findItem(R.id.filter).setVisible(false);
         menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
     }
 }
