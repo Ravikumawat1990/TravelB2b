@@ -46,8 +46,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewAgentProfile extends AppCompatActivity {
     private static final String TAG = "ViewAgentProfile";
-    adptreview mAdapter;
 
+    //region VARIABLES
+    adptreview mAdapter;
     RecyclerView recycleViewTestimonial, recyclerViewAdv;
     ArrayList<pojoTestimonial> pojoTestimonialArrayList;
     Toolbar toolbar;
@@ -60,6 +61,8 @@ public class ViewAgentProfile extends AppCompatActivity {
     String userId = "";
     ImageView icon1, icon2, icon3, icon4;
     TextView txtCount;
+   //endregion
+
     ProgressBar progressBar;
     CardView cardViewReview;
 
@@ -71,6 +74,8 @@ public class ViewAgentProfile extends AppCompatActivity {
         toolbar.setTitle(getString(R.string.agntProfile));
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+        //String rAVI kUMAWAT;
+
 
         toolbar.setNavigationIcon(R.drawable.backicnwht);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

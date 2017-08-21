@@ -161,7 +161,6 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-
             this.listener = (OnApiDataChange) context;
             ((ActionBarTitleSetter) context).setTitle(getString(R.string.placeReq));
         } catch (ClassCastException e) {
@@ -648,9 +647,23 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
 
 
         if (CM.isInternetAvailable(thisActivity)) {
-            webCallCity();
-            webCallState();
-            webCallCountry();
+
+
+            if (CM.getSp(thisActivity, "citydata", "").toString().equals("")) {
+                webCallCity();
+                webCallState();
+                webCallCountry();
+            } else {
+                getResponseForCity(CM.getSp(thisActivity, "citydata", "").toString());
+                getResponseForState(CM.getSp(thisActivity, "statedata", "").toString());
+                getResponseForCountry(CM.getSp(thisActivity, "countrydata", "").toString());
+
+              /*  webCallCity();
+                webCallState();
+                webCallCountry();*/
+            }
+
+
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -1713,6 +1726,8 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             return;
         }
         try {
+            CM.setSp(thisActivity, "citydata", "");
+            CM.setSp(thisActivity, "citydata", response);
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
@@ -1753,7 +1768,7 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
                     finalCity.setAdapter(adptCountry1);
                     finalCity.setThreshold(3);
 
-                  /*  pojoCity cityPojo = new pojoCity();
+                  /*pojoCity cityPojo = new pojoCity();
                     cityPojo.setId(cityId);
                     int indexCity = pojoCities.indexOf(cityPojo);
                     Log.i(TAG, "getResponseForCity: " + indexCity);
@@ -1811,6 +1826,11 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             return;
         }
         try {
+
+            CM.setSp(thisActivity, "statedata", "");
+            CM.setSp(thisActivity, "statedata", response);
+
+
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
@@ -1890,6 +1910,8 @@ public class TabPackage extends Fragment implements View.OnClickListener, View.O
             return;
         }
         try {
+            CM.setSp(thisActivity, "countrydata", "");
+            CM.setSp(thisActivity, "countrydata", response);
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":

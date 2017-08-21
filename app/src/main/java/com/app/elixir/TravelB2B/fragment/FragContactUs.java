@@ -148,6 +148,7 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
         menu.findItem(R.id.filter).setVisible(false);
         menu.findItem(R.id.noti).setVisible(false);
         menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
 
     }
 
@@ -164,8 +165,11 @@ public class FragContactUs extends Fragment implements View.OnClickListener {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        item.setVisible(false);
+        getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
     }
 
     public void callApi() {

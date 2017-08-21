@@ -333,9 +333,26 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
 
 
         if (CM.isInternetAvailable(thisActivity)) {
-            webCallCity();
+          /*  webCallCity();
             webCallState();
-            webCallCountry();
+            webCallCountry();*/
+
+
+            if (CM.getSp(thisActivity, "citydata", "").toString().equals("")) {
+                webCallCity();
+                webCallState();
+                webCallCountry();
+            } else {
+                getResponseForCity(CM.getSp(thisActivity, "citydata", "").toString());
+                getResponseForState(CM.getSp(thisActivity, "statedata", "").toString());
+                getResponseForCountry(CM.getSp(thisActivity, "countrydata", "").toString());
+
+              /*  webCallCity();
+                webCallState();
+                webCallCountry();*/
+            }
+
+
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -1197,6 +1214,10 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             return;
         }
         try {
+            CM.setSp(thisActivity, "citydata", "");
+            CM.setSp(thisActivity, "citydata", response);
+
+
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
@@ -1295,6 +1316,11 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             return;
         }
         try {
+
+            CM.setSp(thisActivity, "statedata", "");
+            CM.setSp(thisActivity, "statedata", response);
+
+
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
@@ -1374,6 +1400,11 @@ public class TabHotel extends Fragment implements View.OnClickListener, View.OnT
             return;
         }
         try {
+
+            CM.setSp(thisActivity, "countrydata", "");
+            CM.setSp(thisActivity, "countrydata", response);
+
+
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":

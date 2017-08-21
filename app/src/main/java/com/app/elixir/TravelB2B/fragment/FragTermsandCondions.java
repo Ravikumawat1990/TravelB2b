@@ -105,11 +105,11 @@ public class FragTermsandCondions extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-       // getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
         menu.findItem(R.id.filter).setVisible(false);
         menu.findItem(R.id.noti).setVisible(false);
         menu.findItem(R.id.sort).setVisible(false);
-
+        menu.findItem(R.id.cartMenu).setVisible(false);
     }
 
     @Override
@@ -125,8 +125,10 @@ public class FragTermsandCondions extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        item.setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
     }
 
     private void sendRequest() {

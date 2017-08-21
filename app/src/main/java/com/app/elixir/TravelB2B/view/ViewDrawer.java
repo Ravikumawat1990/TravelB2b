@@ -1,8 +1,11 @@
 package com.app.elixir.TravelB2B.view;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -55,6 +58,7 @@ import com.app.elixir.TravelB2B.fragment.FragTermsandCondions;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
+import com.app.elixir.TravelB2B.interfaceimpl.pushNotificationString;
 import com.app.elixir.TravelB2B.model.Model_Profile;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -80,7 +84,7 @@ import java.lang.reflect.Field;
 import static com.app.elixir.TravelB2B.utils.CV.city_id;
 
 public class ViewDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks, OnApiDataChange {
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener, ActionBarTitleSetter, messageListionerService.ServiceCallbacks, OnApiDataChange, pushNotificationString {
 
     private DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
@@ -96,6 +100,7 @@ public class ViewDrawer extends AppCompatActivity
     private boolean mBounded;
     private int count = 0;
     ImageView imgUserProfile;
+    LayerDrawable icon = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -485,7 +490,7 @@ public class ViewDrawer extends AppCompatActivity
         MenuItem menuItem = menu.findItem(R.id.noti);
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion == 15) {
-            LayerDrawable icon = null;
+
             try {
                 menuItem.setIcon(getResources().getDrawable(R.drawable.ic_notifications_white_24dp));
                 BitmapDrawable iconBitmap = (BitmapDrawable) menuItem.getIcon();
@@ -840,6 +845,10 @@ public class ViewDrawer extends AppCompatActivity
                         CM.setSp(ViewDrawer.this, CV.PrefIsLogin, "0");
                         CM.setSp(ViewDrawer.this, CV.PrefRole_Id, "0");
 
+                        CM.setSp(ViewDrawer.this, "statedata", "");
+                        CM.setSp(ViewDrawer.this, "citydata", "");
+                        CM.setSp(ViewDrawer.this, "countrydata", "");
+
                         CM.startActivity(ViewDrawer.this, ViewIntroActivity.class);
                         finish();
 
@@ -854,6 +863,7 @@ public class ViewDrawer extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(ReceivefromService);
     }
 
 
@@ -1213,6 +1223,7 @@ public class ViewDrawer extends AppCompatActivity
 
     }
 
+
     @Override
     public void ShowConnectionPopup(String status) {
 
@@ -1327,6 +1338,7 @@ public class ViewDrawer extends AppCompatActivity
                         bottomNavigation.setVisibility(View.VISIBLE);
 
                     } else {
+                        setTitle(getString(R.string.app_name));
                         bottomNavigation.setVisibility(View.GONE);
 
                     }
@@ -1340,6 +1352,26 @@ public class ViewDrawer extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("INTENT_FILTER");
+        registerReceiver(ReceivefromService, filter);
+
 
     }
+
+
+    @Override
+    public void setNoti(String title) {
+
+    }
+
+    private BroadcastReceiver ReceivefromService = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            setBadgeCount(ViewDrawer.this, icon, intent.getStringExtra("extra"));
+        }
+    };
+
+
 }

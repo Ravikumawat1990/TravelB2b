@@ -14,6 +14,7 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.interfaceimpl.pushNotificationString;
 import com.app.elixir.TravelB2B.view.ViewDrawer;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -28,6 +29,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     private static final String TAG1 = "logout";
     Context context;
+    pushNotificationString notificationString;
+    int count = 0;
+    public static final String INTENT_FILTER = "INTENT_FILTER";
 
     @Override
     public void onStart(Intent intent, int startId) {
@@ -53,6 +57,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         sendNotification(remoteMessage.getNotification().getBody());
+        Intent intent = new Intent(INTENT_FILTER);
+
+        count++;
+        intent.putExtra("extra", "" + count);
+        sendBroadcast(intent);
+        //  notificationString.setNoti("" + count);
 
 
     }

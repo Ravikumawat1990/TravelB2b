@@ -47,7 +47,6 @@ import java.util.ArrayList;
 /**
  * Created by NetSupport on 05-06-2017.
  */
-
 public class FragBlockUser extends Fragment {
 
     private static final String TAG = "FragBlockUser";
@@ -317,7 +316,7 @@ public class FragBlockUser extends Fragment {
                 .setView(layout);
         builder.setTitle("Filter By:");
         SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
-        searchView.setQueryHint("Search by name, email, mobile");
+        searchView.setQueryHint(getString(R.string.searchhint));
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));

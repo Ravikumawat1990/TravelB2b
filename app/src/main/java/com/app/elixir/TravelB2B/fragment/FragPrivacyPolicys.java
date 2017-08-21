@@ -74,7 +74,7 @@ public class FragPrivacyPolicys extends Fragment {
             }
         });*/
 
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
         initView(rootView);
         return rootView;
     }
@@ -101,7 +101,10 @@ public class FragPrivacyPolicys extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.filter).setVisible(false);
         menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
 
     }
 

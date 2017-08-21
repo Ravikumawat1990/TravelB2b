@@ -418,6 +418,7 @@
 
     <string name="unfollow_success">"Successfully Unfollowed"</string>
     <string name="follow_success">"Successfully Followed"</string>
+    <string name="searchhint">Search by name, email, mobile</string>
 
 
 </resources>
