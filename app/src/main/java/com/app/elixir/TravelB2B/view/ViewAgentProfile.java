@@ -76,7 +76,6 @@ public class ViewAgentProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //String rAVI kUMAWAT;
 
-
         toolbar.setNavigationIcon(R.drawable.backicnwht);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

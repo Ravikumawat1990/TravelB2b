@@ -84,6 +84,14 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     private int dayOfMonth1;
     private int month1;
     private int year1;
+    ;
+    AlertDialog alertDialog;
+
+    CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "Request Type"};
+    AlertDialog levelDialog;
+    Boolean wantToCloseDialog1 = false;
+
+    Boolean wantToCloseDialog = false;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -446,23 +454,7 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
-                String Comment;
-                float Rating;
-
-                Comment = edtComment.getText().toString();
-                Rating = Ratingbar.getRating();
-
-
-                if (!Comment.matches("")) {
-                    if (Rating > 0) {
-                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
-                    } else {
-                        CM.showToast("select Rating", thisActivity);
-                    }
-                } else {
-                    CM.showToast("Enter Comment", thisActivity);
-                }
+                wantToCloseDialog = true;
 
             }
         });
@@ -473,8 +465,39 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
             }
         });
-        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog = dialogBuilder.create();
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                // if (wantToCloseDialog)
+                //
+
+                String Comment;
+                float Rating;
+
+                Comment = edtComment.getText().toString();
+                Rating = Ratingbar.getRating();
+
+
+                if (!Comment.matches("")) {
+                    if (Rating > 0) {
+
+                        alertDialog.dismiss();
+                        webReview(userId, profileuID, "" + Rating, "0", Comment, "");
+                    } else {
+                        CM.showToast("select Rating", thisActivity);
+                    }
+                } else {
+                    CM.showToast("Enter Comment", thisActivity);
+                }
+
+                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+            }
+        });
     }
 
     public void webReview(String id, String profileuID, String rating, String status, String comment, String userName) {
@@ -557,9 +580,11 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                //CM.showToast("Pressed", thisActivity);
                 showFilterPopup();
-                return true;
+                break;
+            case R.id.sort:
+                showDialogSort();
+                break;
         }
         return false;
     }
@@ -741,5 +766,81 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         }
     }
 
+
+    public void showDialogSort() {
+
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity,
+                R.style.MyDialogTheme);
+        builder.setTitle("Sorting");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+
+                switch (item) {
+                    case 0:
+                        wantToCloseDialog1 = true;
+                        break;
+                    case 1:
+                        wantToCloseDialog1 = true;
+                        break;
+                    case 2:
+                        wantToCloseDialog1 = true;
+
+                        break;
+                    case 3:
+                        wantToCloseDialog1 = true;
+                        break;
+                    case 4:
+                        wantToCloseDialog1 = true;
+                        break;
+                    default:
+                        wantToCloseDialog1 = false;
+                        break;
+
+
+                }
+                //levelDialog.dismiss();
+
+            }
+        });
+
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        levelDialog = builder.create();
+        levelDialog.show();
+        levelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                if (wantToCloseDialog1)
+                    levelDialog.dismiss();
+                wantToCloseDialog1 = false;
+                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+            }
+        });
+
+
+    }
 
 }

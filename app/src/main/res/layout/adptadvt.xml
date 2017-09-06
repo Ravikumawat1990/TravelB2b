@@ -49,6 +49,7 @@
                         android:layout_height="match_parent"
                         android:padding="@dimen/font_5dp"
                         android:text="Rs. 200-500"
+
                         android:textColor="@color/appBackColor"
                         mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
 

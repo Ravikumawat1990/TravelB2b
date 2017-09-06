@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvt;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
+import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.pojoAdvert;
@@ -39,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -55,12 +57,14 @@ public class FragHome extends Fragment {
     adptAdvt mAdapter;
     private StaggeredGridLayoutManager mStaggeredLayoutManager;
     ArrayList<pojoAdvert> pojoAdvertArrayList;
+    private OnApiDataChange listener;
 
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
             this.mListener = (OnFragmentInteractionListener) context;
             ((ActionBarTitleSetter) context).setTitle("Home");
+            this.listener = (OnApiDataChange) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -73,6 +77,11 @@ public class FragHome extends Fragment {
         View rootView = inflater.inflate(R.layout.home, container, false);
         thisActivity = getActivity();
         initView(rootView);
+
+
+        //
+
+
         return rootView;
     }
 
@@ -85,6 +94,7 @@ public class FragHome extends Fragment {
         pojoAdvertArrayList = new ArrayList<>();
         mAdapter = new adptAdvt(thisActivity, pojoAdvertArrayList);
 
+        listener.onItemClick(true);
         mAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(String item, String item1) {
@@ -226,8 +236,6 @@ public class FragHome extends Fragment {
                     break;
                 case "501":
                     CM.showToast(jsonObject.optString("msg"), thisActivity);
-
-
                     break;
                 default:
                     break;

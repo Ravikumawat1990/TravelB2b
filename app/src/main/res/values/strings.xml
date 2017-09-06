@@ -21,6 +21,7 @@
     <string name="fontface_DroidSerif_Italic">DroidSerif-Italic.ttf</string>
     <string name="fontface_DroidSerif_Regular">DroidSerif-Regular.ttf</string>
 
+
     <string name="notification_error_ssl_cert_invalid">NOTIFICATION_ERROR_SSL_CERT_INVALID</string>
     <!-- Common String  -->
     <string name="common_ok">OK</string>
@@ -44,7 +45,7 @@
     <string name="myProfile">My Profile</string>
 
 
-    <string name="wpDisc">A Wedding Planner Event Organizer,or their representative.</string>
+    <string name="wpDisc">A Wedding Planner, Event Organizer,or their representative.</string>
     <string name="hotDisc">A Hotel owner or their manager.</string>
     <string name="teDisc">Travel Agent,DMC or Tour Operator etc.</string>
 
@@ -67,7 +68,7 @@
     <string name="entvpass">Please enter valid password</string>
     <string name="entcpass">Please enter confirm password</string>
     <string name="pwdnotmatch">Password and confirm password does"'"t match </string>
-    <string name="entpno">Please enter phone number</string>
+    <string name="entpno">Please enter contact number</string>
     <string name="entvpno">Please enter valid phone number</string>
     <string name="entlocality">Please enter locality</string>
     <string name="tandc">Please Agree  Terms and Conditions</string>
@@ -113,7 +114,7 @@
 
     <string name="description1">Negotiate with the other party via phone or live chat, right from the beginning of the trade.</string>
     <string name="description2">You will simply place a request with your requirements and multiple interested sellers will contact you, through the App with options/quotations. </string>
-    <string name="description3">Directly connect with a large network of Buyers (Travel Agent, and Event Planners) or Sellers (Hoteliers, DMCs, Tour Operators, Travel Agents etc.) </string>
+    <string name="description3">Directly connect with a large network of Buyers (Travel Agent and Event Planners) or Sellers (Hoteliers, DMCs, Tour Operators, Travel Agents etc.) </string>
     <string name="description4">You won"'"t pay us any commission despite the value of your deal. Our nominal membership fee will leave you surprised.</string>
     <string name="description5">You will simply place a request with your requirements, and multiple interested sellers will contact you, through the App with options/quotations. </string>
     <string name="title_activity_login">Sign in</string>
@@ -419,6 +420,10 @@
     <string name="unfollow_success">"Successfully Unfollowed"</string>
     <string name="follow_success">"Successfully Followed"</string>
     <string name="searchhint">Search by name, email, mobile</string>
+    <string name="pickup_city">Pickup City</string>
+    <string name="destination_city">Destination City</string>
+    <string name="chat_with">Chat With</string>
+    <string name="shared_details">Shared Details</string>
 
 
 </resources>

@@ -110,7 +110,7 @@ public class WebService {
     }
 
 
-    public static void getFP(VolleyIntialization vollyInit, OnVolleyHandler vollyHanlder) throws JSONException {
+    public static void getFP(VolleyIntialization vollyInit, String email, OnVolleyHandler vollyHanlder) throws JSONException {
         String url = URLS.FORGOTPASSWORD;
         Map<String, String> params = new HashMap<>();
         params.put(CV.email, email);
@@ -327,11 +327,22 @@ public class WebService {
         } else {
             params.put(CV.REFIDSEARCH, "");
         }
-        if (!budget.isEmpty()) {
+       /* if (!budget.isEmpty()) {
             params.put(CV.BUDGETSEARCH, budget);
         } else {
             params.put(CV.BUDGETSEARCH, "");
+        }*/
+        if (!budget.isEmpty()) {
+            if (budget.equals("100000+")) {
+                params.put(CV.BUDGETSEARCH, "100000-1000000000000");
+            } else {
+                params.put(CV.BUDGETSEARCH, budget);
+            }
+        } else {
+            params.put(CV.BUDGETSEARCH, "");
         }
+
+
         if (!startDate.isEmpty()) {
             params.put(CV.STARTDATESEARCH, startDate);
         } else {

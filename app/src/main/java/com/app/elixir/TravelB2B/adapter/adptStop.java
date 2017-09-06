@@ -95,10 +95,16 @@ public class adptStop extends RecyclerView.Adapter<adptStop.MyViewHolder> {
 
 
         if (CM.isInternetAvailable(context)) {
-            webCity(dataSet.get(position).getCity_id(), txtstopCity);
+            if (!dataSet.get(position).getCity_id().equals("")) {
+                webCity(dataSet.get(position).getCity_id(), txtstopCity);
+            }
+
         }
         if (CM.isInternetAvailable(context)) {
-            webState(dataSet.get(position).getState_id(), txtstopState);
+            if (!dataSet.get(position).getState_id().equals("")) {
+                webState(dataSet.get(position).getState_id(), txtstopState);
+            }
+
         }
     }
 

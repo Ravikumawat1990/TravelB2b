@@ -178,7 +178,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                     dialog.dismiss();
 
                     if (CM.isInternetAvailable(ViewLoginActivity.this)) {
-                        webForgotPassword();
+                        webForgotPassword(edtemail.getText().toString());
                     } else {
                         CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewLoginActivity.this);
                     }
@@ -274,10 +274,10 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
     }
 
 
-    public void webForgotPassword() {
+    public void webForgotPassword(String email) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewLoginActivity.this, true, true);
-            WebService.getFP(v, new OnVolleyHandler() {
+            WebService.getFP(v, email, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {

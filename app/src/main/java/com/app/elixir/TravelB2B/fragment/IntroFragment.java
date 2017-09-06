@@ -86,7 +86,12 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
             case 0:
                 layoutResId = R.layout.intro_fragment_layout_1;
                 if (CM.isInternetAvailable(thisActivity)) {
-                    webCounter();
+                    try {
+                        webCounter();
+                    } catch (Exception e) {
+
+                    }
+
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
                 }

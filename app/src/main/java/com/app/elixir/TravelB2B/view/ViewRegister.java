@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.app.elixir.TravelB2B.model.Person;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
+import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.payu.PayMentGateWay;
 import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
@@ -111,6 +114,13 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
         }
 
 
+        //I agree to the Privacy Policy &amp; Terms and Conditions
+        String value = "<html>I agree to the <a href=\"http://www.travelb2bhub.com/b2b/pages/privacypolicy\">Privacy Policy</a> & <a href=\"http://www.travelb2bhub.com/b2b/pages/termsandconditions\">Terms and Conditions</a> .</html>";
+        MtplTextView mtplTextView = (MtplTextView) findViewById(R.id.edttemscond);
+        mtplTextView.setText(Html.fromHtml(value));
+        mtplTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+
         initView();
         Intent intent = getIntent();
         TextInputLayout textInputLayout = (TextInputLayout) findViewById(R.id.edtCompNametxt);
@@ -148,7 +158,14 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
         langAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(langAdapter);
         Log.i(TAG, "onCreate: " + langAdapter.getPosition(catName));
-        spinner.setSelection(langAdapter.getPosition(catName));
+        if (catName.toString().equals("Hoteliers")) {
+            spinner.setSelection(2);
+        } else if (catName.equals("Travel Agents")) {
+            spinner.setSelection(0);
+        } else {
+            spinner.setSelection(1);
+
+        }
 
 
         if (catName != null) {
@@ -268,7 +285,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
         });
 
 
-        cityAutoComplet.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* cityAutoComplet.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -339,7 +356,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
 
                 }
             }
-        });
+        });*/
 
         if (CM.isInternetAvailable(ViewRegister.this)) {
             webCallCity();

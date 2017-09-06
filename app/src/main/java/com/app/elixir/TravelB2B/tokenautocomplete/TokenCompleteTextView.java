@@ -1018,7 +1018,12 @@ public abstract class TokenCompleteTextView<T> extends android.support.v7.widget
         }
 
         //Add 1 to the end because we put a " " at the end of the spans when adding them
-        text.delete(text.getSpanStart(span), text.getSpanEnd(span) + 1);
+        try {
+            text.delete(text.getSpanStart(span), text.getSpanEnd(span) + 1);
+
+        } catch (Exception e) {
+
+        }
 
         if (allowCollapse && !isFocused()) {
             updateCountSpan();

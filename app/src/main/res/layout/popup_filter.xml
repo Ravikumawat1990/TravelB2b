@@ -8,309 +8,490 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_5dp"
-        android:layout_marginRight="@dimen/margin_5dp"
-        android:layout_marginTop="@dimen/margin_15dp"
-        android:focusable="false"
-        android:iconifiedByDefault="false"
-        android:visibility="gone"
-        app:queryHint="Search by Name"></SearchView>
 
-    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-        android:id="@+id/txtreftype"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:gravity="left"
-        android:text="Reference Type"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <RelativeLayout
-        android:id="@+id/typeroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_15dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:id="@+id/spinnerreftype"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:entries="@array/refTypeArray"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
-
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:tint="@color/colorLightGray" />
-
-    </RelativeLayout>
-
-    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-        android:id="@+id/txtrefid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:gravity="left"
-        android:text="ReferenceId"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:id="@+id/refroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edtrefid1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:drawableTint="@color/colorLightGray"
-            android:hint="@string/refId"
-            android:inputType="number"
-            android:paddingLeft="@dimen/margin_10dp"
-            android:spinnerMode="dropdown"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:tint="@color/colorLightGray"
-            android:visibility="gone" />
-
-    </RelativeLayout>
-
-    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:gravity="left"
-        android:text="Budget"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone" />
+            android:orientation="vertical">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5dp"
+                android:layout_marginRight="@dimen/margin_5dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:focusable="false"
+                android:iconifiedByDefault="false"
+                android:visibility="visible"
+                app:queryHint="Search by Name"></SearchView>
 
-        <Spinner
-            android:id="@+id/spinnerbudget"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:entries="@array/budgetArray"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txtreftype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:gravity="left"
+                android:text="Reference Type"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:tint="@color/colorLightGray" />
+            <RelativeLayout
+                android:id="@+id/typeroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
 
-    </RelativeLayout>
+                <Spinner
+                    android:id="@+id/spinnerreftype"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:entries="@array/refTypeArray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
 
-    <RelativeLayout
-        android:id="@+id/ratingroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal"
-        android:visibility="gone">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray" />
 
-        <Spinner
-            android:id="@+id/spinnerRating"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:entries="@array/ratingArray"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
+            </RelativeLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:tint="@color/colorLightGray" />
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txtrefid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:gravity="left"
+                android:text="ReferenceId"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/refroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
 
-    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:gravity="left"
-        android:text="Start Date"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone" />
+                <EditText
+                    android:id="@+id/edtrefid1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="@string/refId"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="15sp" />
 
-    <RelativeLayout
-        android:id="@+id/startdateroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
 
-        <EditText
-            android:id="@+id/edtstartdate1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:drawableRight="@drawable/ic_date_range_black_24dp"
-            android:drawableTint="@color/colorLightGray"
-            android:hint="Start date"
-            android:paddingLeft="@dimen/margin_10dp"
-            android:paddingRight="@dimen/margin_5dp"
-            android:textSize="15sp" />
+            </RelativeLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_date_range_black_24dp"
-            android:tint="@color/colorLightGray"
-            android:visibility="gone" />
-
-    </RelativeLayout>
-
-    <com.app.elixir.TravelB2B.mtplview.MtplTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:gravity="left"
-        android:text="EndDate"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone" />
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:gravity="left"
+                android:text="Budget"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
 
 
-    <RelativeLayout
-        android:id="@+id/enddateroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edtenddate1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:drawableRight="@drawable/ic_date_range_black_24dp"
-            android:drawableTint="@color/colorLightGray"
-            android:hint="End date"
-            android:paddingLeft="@dimen/margin_10dp"
-            android:paddingRight="@dimen/margin_5dp"
-            android:textSize="15sp" />
+                <Spinner
+                    android:id="@+id/spinnerbudget"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:entries="@array/budgetArray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:tint="@color/colorLightGray"
-            android:visibility="gone" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/priceroot"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40dp"
-        android:layout_marginLeft="@dimen/margin_10dp"
-        android:layout_marginRight="@dimen/margin_10dp"
-        android:layout_marginTop="@dimen/margin_5dp"
-        android:background="@drawable/spinner_border"
-        android:orientation="horizontal"
-        android:visibility="gone">
+            <RelativeLayout
+                android:id="@+id/ratingroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-        <Spinner
-            android:id="@+id/spinnerPriceQuot"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:entries="@array/coughtedArray"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
+                <Spinner
+                    android:id="@+id/spinnerRating"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:entries="@array/ratingArray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_drop_down_black_24dp"
-            android:tint="@color/colorLightGray" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:gravity="left"
+                android:text="Start Date"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/startdateroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtstartdate1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@drawable/ic_date_range_black_24dp"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="Start date"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:paddingRight="@dimen/margin_5dp"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_date_range_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:gravity="left"
+                android:text="EndDate"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone" />
+
+
+            <RelativeLayout
+                android:id="@+id/enddateroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtenddate1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@drawable/ic_date_range_black_24dp"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="End date"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:paddingRight="@dimen/margin_5dp"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/priceroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <Spinner
+                    android:id="@+id/spinnerPriceQuot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:entries="@array/coughtedArray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray" />
+
+            </RelativeLayout>
+
+            <!-- new -->
+
+            <RelativeLayout
+                android:id="@+id/pcityroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtpcity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="@string/pickup_city"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dcityroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtdcity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="@string/destination_city"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/memberroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtmember"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="@string/member"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/chatwithroot"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:background="@drawable/spinner_border"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtchat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableTint="@color/colorLightGray"
+                    android:hint="@string/chat_with"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/margin_10dp"
+                    android:spinnerMode="dropdown"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:tint="@color/colorLightGray"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+            <CheckBox
+                android:id="@+id/followimgcheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:orientation="horizontal"
+                android:text="@string/followers" />
+
+            <CheckBox
+                android:id="@+id/sdetailcheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15dp"
+                android:orientation="horizontal"
+                android:text="@string/shared_details" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -353,25 +354,42 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
 
 
         if (CM.isInternetAvailable(thisActivity)) {
-           /* webCallCity();
-            webCallState();
-            webCallCountry();*/
+            webCallCity();
+            // webCallState();
+            /// webCallCountry();*/
 
 
-            if (CM.getSp(thisActivity, "citydata", "").toString().equals("")) {
+           /* if (CM.getSp(thisActivity, "citydata", "").toString().equals("")) {
                 webCallCity();
-                webCallState();
-                webCallCountry();
             } else {
-                getResponseForCity(CM.getSp(thisActivity, "citydata", "").toString());
-                getResponseForState(CM.getSp(thisActivity, "statedata", "").toString());
-                getResponseForCountry(CM.getSp(thisActivity, "countrydata", "").toString());
 
-              /*  webCallCity();
-                webCallState();
-                webCallCountry();*/
-            }
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getResponseForCity(CM.getSp(thisActivity, "citydata", "").toString());
+                    }
+                }, 100);
 
+                final Handler handler1 = new Handler();
+                handler1.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getResponseForState(CM.getSp(thisActivity, "statedata", "").toString());
+                    }
+                }, 150);
+
+
+                final Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getResponseForCountry(CM.getSp(thisActivity, "countrydata", "").toString());
+                    }
+                }, 200);
+
+
+            }*/
 
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
@@ -1452,6 +1470,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     int indexCity = pojoCities.indexOf(cityPojo);
                     Log.i(TAG, "getResponseForCity: " + indexCity);
                     destiCity.setText(pojoCities.get(indexCity).getName());*/
+                    webCallState();
 
 
                     break;
@@ -1536,7 +1555,7 @@ public class TabTransport extends Fragment implements View.OnClickListener, View
                     statePojo.setId(stateId);
                     int indexState = pojoStateArrayList.indexOf(statePojo);
                     destiState.setText(pojoStateArrayList.get(indexState).getState_name());*/
-
+                    webCallCountry();
 
                     break;
                 case "202":

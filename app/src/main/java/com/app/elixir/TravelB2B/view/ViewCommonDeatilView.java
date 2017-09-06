@@ -539,10 +539,23 @@ public class ViewCommonDeatilView extends AppCompatActivity implements View.OnCl
 
                     for (int i = 0; i < stops.length(); i++) {
                         pojoStops pojo = new pojoStops();
-                        pojo.setCity_id(stops.getJSONObject(i).optString("city_id"));
+
+                        if (stops.getJSONObject(i).optString("city_id") != null && !stops.getJSONObject(i).optString("city_id").toString().equals("null") && !stops.getJSONObject(i).optString("city_id").toString().equals("")) {
+                            pojo.setCity_id(stops.getJSONObject(i).optString("city_id"));
+                        } else {
+                            pojo.setCity_id("");
+                        }
+
+
                         pojo.setId(stops.getJSONObject(i).optString("id"));
                         pojo.setLocality(stops.getJSONObject(i).optString("locality"));
-                        pojo.setState_id(stops.getJSONObject(i).optString("state_id"));
+
+                        if (stops.getJSONObject(i).optString("state_id") != null && !stops.getJSONObject(i).optString("state_id").toString().equals("null") && !stops.getJSONObject(i).optString("state_id").toString().equals("")) {
+                            pojo.setState_id(stops.getJSONObject(i).optString("state_id"));
+                        } else {
+                            pojo.setState_id("");
+                        }
+
                         pojo.setRequest_id(stops.getJSONObject(i).optString("request_id"));
                         pojoStopses.add(pojo);
 

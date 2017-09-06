@@ -29,6 +29,7 @@ import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptMyRequest;
@@ -70,7 +71,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
     adptMyRequest mAdapter;
     private RecyclerView mRecyclerView;
-
+    Boolean wantToCloseDialog = false;
     ArrayList<pojoMyRequest> pojoMyResposneArrayList;
     FloatingActionButton myFab;
     EditText edtStartDate;
@@ -78,6 +79,9 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     EditText edtRefId;
     Spinner spinnerRefType, spinnerBudget;
 
+    AlertDialog alertDialog1;
+    CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "No. of Responses (Low To High)", "No. of Responses (High To Low)", "Request Type"};
+    AlertDialog levelDialog;
     private int dayOfMonth1;
     private int month1;
     private int year1;
@@ -710,7 +714,11 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         switch (item.getItemId()) {
             case R.id.filter:
                 showFilterPopup();
-                return true;
+                break;
+            case R.id.sort:
+                showDialogSort();
+                break;
+
         }
         return false;
     }
@@ -816,5 +824,82 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         } catch (Exception e) {
             CM.showPopupCommonValidation(thisActivity, e.getMessage(), false);
         }
+    }
+
+
+    public void showDialogSort() {
+
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity,
+                R.style.MyDialogTheme);
+        builder.setTitle("Sorting");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+
+                switch (item) {
+                    case 0:
+                        wantToCloseDialog = true;
+                        break;
+                    case 1:
+                        wantToCloseDialog = true;
+                        break;
+                    case 2:
+                        wantToCloseDialog = true;
+
+                        break;
+                    case 3:
+                        wantToCloseDialog = true;
+                        break;
+                    case 4:
+                        wantToCloseDialog = true;
+                        break;
+                    default:
+                        wantToCloseDialog = false;
+                        break;
+
+
+                }
+                //levelDialog.dismiss();
+
+            }
+        });
+
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        levelDialog = builder.create();
+        levelDialog.show();
+        levelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                if (wantToCloseDialog)
+                    levelDialog.dismiss();
+                wantToCloseDialog = false;
+                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+            }
+        });
+
+
     }
 }

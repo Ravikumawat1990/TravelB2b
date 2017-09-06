@@ -2,11 +2,14 @@ package com.app.elixir.TravelB2B.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -35,6 +39,7 @@ public class FragPaceRequest extends Fragment {
     private ViewPager viewPager;
     Activity thisActivity;
     PagerAdapter adapter;
+    private FragmentTabHost mTabHost;
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -46,23 +51,67 @@ public class FragPaceRequest extends Fragment {
         }
     }
 
+    //Mandatory Constructor
+    public FragPaceRequest() {
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_placerequest, container, false);
+        final View rootView = inflater.inflate(R.layout.frag_placerequest, container, false);
         thisActivity = getActivity();
         ((ActionBarTitleSetter) thisActivity).setTitle(getString(R.string.placeReq));
         setHasOptionsMenu(true);
         Log.i(TAG, "onTabSelected: ");
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
+
+        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
+
+        mTabHost.addTab(mTabHost.newTabSpec("fragmentb").setIndicator("PACKAGE"),
+                TabPackage.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("fragmentc").setIndicator("HOTEL"),
+                TabHotel.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("fragmentd").setIndicator("TRANSPORT"),
+                TabTransport.class, null);
+        setTabColor(mTabHost);
+
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                setTabColor(mTabHost);
+
+                for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+                    // mTabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FF0000")); // unselected
+                    TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+                    tv.setTextColor(Color.parseColor("#ffffff"));
+                }
+
+                // mTabHost.getTabWidget().getChildAt(mTabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#0000FF")); // selected
+                TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+                tv.setTextColor(Color.parseColor("#ffffff"));
+
+            }
+        });
+
+
+
+       /* tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("PACKAGE"));
         tabLayout.addTab(tabLayout.newTab().setText("HOTEL"));
         tabLayout.addTab(tabLayout.newTab().setText("TRANSPORT"));
-
         changeTabsFont();
         viewPager = (ViewPager) rootView.findViewById(R.id.pager);
+
+
         adapter = new PagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -80,8 +129,21 @@ public class FragPaceRequest extends Fragment {
 
             }
         });
+        viewPager.setOffscreenPageLimit(3);
+
 
         viewPager.setCurrentItem(0);
+
+       *//* final Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, 100);*//*
+*/
+
         return rootView;
     }
 
@@ -114,6 +176,27 @@ public class FragPaceRequest extends Fragment {
                 }
             }
         }
+    }
+
+
+    public void setTabColor(TabHost tabhost) {
+
+        for (int i = 0; i < tabhost.getTabWidget().getChildCount(); i++) {
+            tabhost.getTabWidget().getChildAt(i)
+                    .setBackgroundResource(R.color.appTextColor); // unselected
+            TextView tv = (TextView) tabhost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#ffffff"));
+            Typeface font = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+            tv.setTypeface(font);
+        }
+        tabhost.getTabWidget().setCurrentTab(0);
+        tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab())
+                .setBackgroundResource(R.color.orange); // selected
+        TextView tv = (TextView) tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab())
+                .findViewById(android.R.id.title); // selected
+        tv.setTextColor(Color.parseColor("#ffffff"));
+        Typeface font = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        tv.setTypeface(font);
     }
 
     @Override

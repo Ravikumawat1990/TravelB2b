@@ -83,4 +83,23 @@
     <declare-styleable name="Themes">
         <attr name="NumberPickerLayout" format="reference" />
     </declare-styleable>
+
+    <style name="RadioDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--item RadioButton or CheckBox color-->
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@android:color/black</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <!--item text color-->
+        <item name="textColorAlertDialogListItem">@android:color/black</item>
+        <!--buttons color-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <!--dialog background-->
+        <!--<item name="android:windowBackground">@drawable/background_dialog</item>-->
+    </style>
 </resources>

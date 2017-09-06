@@ -6,7 +6,8 @@
     android:id="@+id/rootScroolView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_marginTop="@dimen/margin_60dp"
+   >
 
 
     <LinearLayout
@@ -20,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_15dp"
             android:layout_marginRight="@dimen/margin_15dp"
-            android:layout_marginTop="@dimen/margin_10dp"
             app:expDuration="300"
+            android:layout_marginTop="@dimen/margin_10dp"
             app:expExpandScrollTogether="false"
             app:expWithParentScroll="true">
 

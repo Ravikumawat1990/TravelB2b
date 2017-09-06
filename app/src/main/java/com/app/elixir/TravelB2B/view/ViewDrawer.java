@@ -327,6 +327,7 @@ public class ViewDrawer extends AppCompatActivity
                 if (CM.getSp(ViewDrawer.this, CV.PrefRole_Id, "").toString().equals("1")) {
                     switch (position) {
                         case 0:
+
                             fragment = new FragPaceRequest();
                             fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null);
                             // fragmentTransaction.setCustomAnimations(0, R.anim.push_in_from_top);
@@ -1336,6 +1337,39 @@ public class ViewDrawer extends AppCompatActivity
 
                     } else if (f instanceof FragMyResponse) {
                         bottomNavigation.setVisibility(View.VISIBLE);
+
+                    } else if (f instanceof FragContactUs) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragFaq) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragPrivacyPolicys) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragTermsandCondions) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragFinalizedRequest) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragFinalizedResponses) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragRemoveRequest) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragFollowers) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragBlockUser) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragRemoveRequest) {
+                        bottomNavigation.setVisibility(View.GONE);
+
+                    } else if (f instanceof FragPromoteHotel) {
+                        bottomNavigation.setVisibility(View.GONE);
 
                     } else {
                         setTitle(getString(R.string.app_name));

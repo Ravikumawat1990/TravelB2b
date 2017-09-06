@@ -140,9 +140,6 @@ public class TravelB2B extends Application {
     }
 
 
-
-
-
     public static TravelB2B getInstance() {
         return Instance;
     }

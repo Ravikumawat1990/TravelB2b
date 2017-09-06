@@ -45,7 +45,7 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         try {
             this.mListener = (OnFragmentInteractionListener) context;
-            ((ActionBarTitleSetter) context).setTitle("Home");
+            ((ActionBarTitleSetter) context).setTitle("Promote your hotel");
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -57,7 +57,7 @@ public class FragHotelierHome extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.hotelierhome, container, false);
         thisActivity = getActivity();
-
+        ((ActionBarTitleSetter) thisActivity).setTitle("Promote your hotel");
 
         initView(rootView);
         return rootView;

@@ -74,6 +74,10 @@ public class FragFinalizedResponses extends Fragment {
     RelativeLayout spinnerRefType;
     Spinner spinnerBudget, spinnerPriceQuot;
 
+    CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High)", "Quotation Price (Low To High)", "Quotation Price (High To Low)", "Agent Name (A To Z)", "Agent Name (Z To A)"};
+    AlertDialog levelDialog;
+    Boolean wantToCloseDialog = false;
+
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -396,9 +400,11 @@ public class FragFinalizedResponses extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                CM.showToast("Pressed", thisActivity);
                 showFilterPopup();
-                return true;
+                break;
+            case R.id.sort:
+                showDialogSort();
+                break;
         }
         return false;
     }
@@ -467,4 +473,81 @@ public class FragFinalizedResponses extends Fragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    public void showDialogSort() {
+
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity,
+                R.style.MyDialogTheme);
+        builder.setTitle("Sorting");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+
+                switch (item) {
+                    case 0:
+                        wantToCloseDialog = true;
+                        break;
+                    case 1:
+                        wantToCloseDialog = true;
+                        break;
+                    case 2:
+                        wantToCloseDialog = true;
+
+                        break;
+                    case 3:
+                        wantToCloseDialog = true;
+                        break;
+                    case 4:
+                        wantToCloseDialog = true;
+                        break;
+                    default:
+                        wantToCloseDialog = false;
+                        break;
+
+
+                }
+                //levelDialog.dismiss();
+
+            }
+        });
+
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        levelDialog = builder.create();
+        levelDialog.show();
+        levelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                if (wantToCloseDialog)
+                    levelDialog.dismiss();
+                wantToCloseDialog = false;
+                //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+            }
+        });
+
+
+    }
+
 }

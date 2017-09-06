@@ -492,6 +492,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                             promoAllCity.add(pojocity);
                         }
                         allCityAdapter.notifyDataSetChanged();
+                        selectedCityAdapter.notifyDataSetChanged();
 
                     }
 
@@ -666,8 +667,12 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                                 JSONObject jsonObject = null;
                                 try {
                                     jsonObject = new JSONObject(response.toString());
-                                    webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
-                                    webView.setMovementMethod(ScrollingMovementMethod.getInstance());
+                                    if (jsonObject.getString("description").toString() != null && !jsonObject.getString("description").toString().equals("null")) {
+                                        webView.setText(CM.fromHtml(jsonObject.getString("description").toString()));
+                                        webView.setMovementMethod(ScrollingMovementMethod.getInstance());
+                                    } else {
+                                        webView.setVisibility(View.GONE);
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

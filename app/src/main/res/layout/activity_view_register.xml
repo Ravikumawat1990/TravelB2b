@@ -290,7 +290,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Pincode*"
-                            android:inputType="textPostalAddress"
+                            android:inputType="number"
+                            android:maxEms="6"
                             android:maxLines="1"
                             android:singleLine="true"
                             android:textSize="@dimen/font_12sp"
@@ -366,6 +367,7 @@
                             android:layout_height="wrap_content" />
 
                         <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                            android:id="@+id/edttemscond"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
