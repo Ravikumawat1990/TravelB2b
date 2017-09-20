@@ -18,6 +18,15 @@ public class pojoFinalizeReq {
     String check_out;
     String start_date;
     String end_date;
+    String quotation_price;
+
+    public String getQuotation_price() {
+        return quotation_price;
+    }
+
+    public void setQuotation_price(String quotation_price) {
+        this.quotation_price = quotation_price;
+    }
 
     public String getCheck_in() {
         return check_in;

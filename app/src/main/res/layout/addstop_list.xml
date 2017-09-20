@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:mtplview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_view_response_detail_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context="com.app.elixir.TravelB2B.view.ViewMyResdetailView">
+
+    <!--Destination Req Tilte-->
+    <LinearLayout
+        android:id="@+id/Stop_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="3dp"
+        android:background="@android:color/holo_orange_dark"
+        android:orientation="vertical">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/Stop_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Destination 1"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+    </LinearLayout>
+
+    <!--Destination Req Card-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/dest_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:contentPadding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:text="@string/Stop_Locality"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:id="@+id/txtslocality"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:text="@string/Stop_City"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:id="@+id/txtscity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:text="@string/Stop_State"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+
+                    <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                        android:id="@+id/txtsstate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="@dimen/margin_5dp"
+                        android:textSize="@dimen/font_12sp"
+                        mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

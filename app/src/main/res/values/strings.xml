@@ -101,7 +101,13 @@
 
     <string name="response_comment">Response Comment</string>
     <string name="quoted_price">Quoted Price</string>
+    <string name="promote_response">"Hotel Promotion successfull"</string>
 
+    <string name="view">"Views"</string>
+    <string name="sr_no">"Sr No."</string>
+    <string name="cities">"Cities"</string>
+    <string name="duration">"Duration"</string>
+    <string name="pdate">"Date of Promortion"</string>
 
     <string name="title1">No need to use Whatsapp groups to fulfill your clients requests</string>
     <string name="title2">Buy/Sell Travel Packages, Hotel Rooms or Transportation</string>
@@ -424,6 +430,23 @@
     <string name="destination_city">Destination City</string>
     <string name="chat_with">Chat With</string>
     <string name="shared_details">Shared Details</string>
+    <string name="quotation_price">Quotation Price</string>
+    <string name="r_u_sure_u_to_exit">Are you sure you want to unblock this user?</string>
+    <string name="follow_user">Are you sure you want to follow this user?</string>
+    <string name="title_activity_view_noti_fication">ViewNotiFication</string>
 
 
+    <!-- <string name="Vehicle">"Vehicle"</string>
+     <string name="Pickup_State">"Pickup State"</string>
+     <string name="Pickup_City">"Pickup City"</string>
+     <string name="Pickup_Locality">"Pickup Locality"</string>-->
+    <string name="Stop_State">"Stop State"</string>
+    <string name="Stop_City">"Stop City"</string>
+    <string name="Stop_Locality">"Stop Locality"</string>
+    <string name="Destination_State1">"Final State"</string>
+    <string name="Destination_City1">"Final City"</string>
+    <string name="Destination_Locality1">"Final Locality"</string>
+    <string name="adult1">"Adult"</string>
+    <string name="child_b_6">"Children below 6"</string>
+    <string name="Hotel_Rating">"Hotel Rating"</string>
 </resources>

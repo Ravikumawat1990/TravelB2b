@@ -19,6 +19,33 @@ public class pojoMyResposne {
     String web_url;
     String chatUserID;
     String rating;
+    String quotation_price;
+    String company_name;
+    String isBusinessBuddy;
+
+    public String getIsBusinessBuddy() {
+        return isBusinessBuddy;
+    }
+
+    public void setIsBusinessBuddy(String isBusinessBuddy) {
+        this.isBusinessBuddy = isBusinessBuddy;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
+
+    public String getQuotation_price() {
+        return quotation_price;
+    }
+
+    public void setQuotation_price(String quotation_price) {
+        this.quotation_price = quotation_price;
+    }
 
     public String getRating() {
         return rating;

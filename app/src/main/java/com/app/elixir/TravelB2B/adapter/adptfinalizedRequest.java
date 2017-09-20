@@ -2,6 +2,7 @@ package com.app.elixir.TravelB2B.adapter;
 
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,16 +39,21 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers, reqAgentType, startDate, endDate;
+        public MtplTextView txtRefid, txttotBudget, txtRexType, txtMebers, reqAgentType, startDate, endDate, txtQuotPrice;
         MtplButton btnDetail, btnChat, btnTestimonial;
         ImageView catImage;
+        MtplTextView txt_AgentName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             txtRefid = (MtplTextView) itemView.findViewById(R.id.txtRefid);
+            txt_AgentName = (MtplTextView) itemView.findViewById(R.id.txt_AgentName);
+            txt_AgentName.setPaintFlags(txt_AgentName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txttotBudget = (MtplTextView) itemView.findViewById(R.id.txttotBudget);
-            txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType);
+            //  txtRexType = (MtplTextView) itemView.findViewById(R.id.txtRexType);
+            txtQuotPrice = (MtplTextView) itemView.findViewById(R.id.txtQuotPrice);
+
             txtMebers = (MtplTextView) itemView.findViewById(R.id.txtMebers);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
@@ -58,6 +64,7 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
             reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             btnDetail.setOnClickListener(this);
             btnChat.setOnClickListener(this);
+            txt_AgentName.setOnClickListener(this);
             btnTestimonial.setOnClickListener(this);
 
         }
@@ -73,6 +80,9 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
                     break;
                 case R.id.btntestimonial:
                     listener.onItemClick("testi", dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getRequest_id(), dataSet.get(getAdapterPosition()).getUserName());
+                    break;
+                case R.id.txt_AgentName:
+                    listener.onItemClick("userdetail", dataSet.get(getAdapterPosition()).getId(), "", "");
                     break;
 
 
@@ -104,6 +114,8 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
         ImageView catImg = holder.catImage;
         TextView startDate = holder.startDate;
         TextView endDate = holder.endDate;
+        TextView txtQuotPrice = holder.txtQuotPrice;
+        MtplTextView txt_AgentName = holder.txt_AgentName;
         textViewReqId.setText(dataSet.get(position).getReference_id());
         MtplTextView reqAgentType = holder.reqAgentType;
         int mebersInt = 0;
@@ -114,6 +126,8 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
 
         }
 
+        txt_AgentName.setText(dataSet.get(position).getUserName());
+        txtQuotPrice.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getQuotation_price());
         String txtStartDt = "";
         String txtEndDt = "";
         if (dataSet.get(position).getCategory_id().equals("1") || dataSet.get(position).getCategory_id().equals("3")) {
@@ -147,11 +161,11 @@ public class adptfinalizedRequest extends RecyclerView.Adapter<adptfinalizedRequ
 
         mebers.setText(String.valueOf(mebersInt));
 
-        reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
+        // reqType.setText(CM.getReqType(dataSet.get(position).getCategory_id()));
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
 
-        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
             reqAgentType.setText(" ( " + "Package" + " )");

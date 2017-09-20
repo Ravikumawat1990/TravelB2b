@@ -19,10 +19,14 @@ public class CV {
 
     //Local Security Key
     public static final String API_KEY = "d1ceb97e-098d-44cf-b95a-f56fe9ec6c43";
-    public static String ACCESS_TOKEN = "";
     public static String DEVICE_TOKEN = "120";
     public static String UDID = "";
-
+    /*public static final String CHATWITH = "chatwith";
+    public static final String MEMBERS = "members";
+    public static final String FOLLOWSEARCH = "followsearch";
+    public static final String SHARED_DETAILS = "shared_details";
+    public static final String PICKUP_CITY = "pickup_city";
+    public static final String DESTINATION_CITY = "destination_city";*/
 
     public static final String cAppStoreCode = "r-1";
     public static String cAPIKey = "a";
@@ -60,6 +64,8 @@ public class CV {
     public static final String country_id = "country_id";
     public static final String preference = "preference";
     public static final String term_n_cond = "term_n_cond";
+    public static final String DEVICEID = "device_id";
+
     public static final String USER_ID = "user_id";
     public static final String OLD_PASSWORD = "old_password";
     public static final String REQ_ID = "request_id";
@@ -69,7 +75,7 @@ public class CV {
     public static final String BlockUser_Id = "blockuser_id";
     public static final String Chat_User_Id = "chat_user_id";
     public static final String Message = "message";
-
+    public static final String CITY_ID = "city_id";
 
     public static final String PrefID = "id";
     public static final String PrefEmail = "email";
@@ -149,6 +155,13 @@ public class CV {
     public static final String RATINGFILTER = "ratingfilter";
 
 
+    public static final String REQUESTTYPE = "requesttype";
+    public static final String TOTALBUDGETLH = "totalbudgetlh";
+    public static final String TOTALBUDGETHL = "totalbudgethl";
+    public static final String AGENTAZ = "agentaz";
+    public static final String agentza = "agentza";
+
+
     public static final String HOTEL_NAME = "hotel_name";
     public static final String HOTEL_CATEGORIES = "hotel_categories";
     public static final String CHEAP_TARIFF = "cheap_tariff";
@@ -161,11 +174,22 @@ public class CV {
     public static final String HOTEL_PIC = "hotel_pic";
 
     public static final String PROFILE_PIC = "profile_pic";
+    public static final String ACCESS_TOKEN = "access_token";
 
     public static final String SORT = "sort";
     public static final String ORDER = "order";
     public static final String ASC = "ASC";
     public static final String DESC = "DESC";
-
+    public static final String QUOTESEARCH = "quotesearch";
     public static final String FOLLOW_ID = "follow_id";
+
+    public static final String CHATWITH = "chatwith";
+    public static final String MEMBERS = "members";
+    public static final String FOLLOWSEARCH = "followsearch";
+    public static final String SHARED_DETAILS = "shared_details";
+    public static final String PICKUP_CITY = "pickup_city";
+    public static final String DESTINATION_CITY = "destination_city";
+
+    public static final String HOTEL_LOC = "hotel_location";
+    public static final String PROMOTION_ID = "promotion_id";
 }

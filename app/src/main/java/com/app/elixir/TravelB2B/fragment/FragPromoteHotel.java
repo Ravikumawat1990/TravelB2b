@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,14 +17,12 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +30,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -43,18 +44,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.elixir.TravelB2B.R;
-import com.app.elixir.TravelB2B.adapter.AutoCompleteStateAdapter;
-import com.app.elixir.TravelB2B.adapter.adptPromortioncitySelected;
-import com.app.elixir.TravelB2B.adapter.adptPromotionCityAll;
+import com.app.elixir.TravelB2B.adapter.AutoCompletionView;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
-import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.model.Person;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplEditText;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
-import com.app.elixir.TravelB2B.pojos.pojoPromotionCitys;
-import com.app.elixir.TravelB2B.pojos.pojoState;
+import com.app.elixir.TravelB2B.pojos.pojoPromoCities;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
@@ -71,10 +69,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.EmptyStackException;
 
 
 /**
@@ -85,7 +83,7 @@ import java.util.Comparator;
 public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
     public String TAG = "Promote Hotel";
-
+    private ArrayAdapter<Person> adapter;
     private int SELECT_FILE = 1;
     private OnFragmentInteractionListener mListener;
     private Activity thisActivity;
@@ -94,20 +92,18 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     Bitmap PromoPic = null;
     MtplTextView textTotal, editUploadPhoto;
     MtplButton btnCart, btnPreview;
-    AutoCompleteTextView autotxtState;
-    RecyclerView allCityListview, selectedCityListview;
-
-    adptPromotionCityAll allCityAdapter;
-    adptPromortioncitySelected selectedCityAdapter;
-    ArrayList<pojoState> pojoStateArrayList;
-
+    AutoCompletionView promoteCity;
+    MtplEditText autotxtState;
+    ArrayList<String> hotelCateArray;
+    ArrayList<Person> pojoStateArrayList;
+    ArrayList<pojoPromoCities> seletedCityList;
     int totalAmt = 0, charge = 0, month = 1;
-    String stateId;
-    ArrayList<pojoPromotionCitys> promoAllCity = new ArrayList<pojoPromotionCitys>();
-    ArrayList<pojoPromotionCitys> promoSelectedCity = new ArrayList<pojoPromotionCitys>();
+    String cityId = "", cityName = "", cityprices = "";
+    String CheckCityResponse = "";
+
     MtplTextView webView;
     LinearLayout linearLayout;
-    String userName, hotelName, hotelType, hotelcheaproom, hotelexpensiveroom, hotelwebsite, state, city, duration, chargeString;
+    String userName, hotelName, hotelType, hotelCateId, hotelcheaproom, hotelexpensiveroom, hotelwebsite, location, city, duration, chargeString;
     private MtplProgressDialog mtplDialog;
 
     public void onAttach(Context context) {
@@ -155,13 +151,11 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         editCharge = (MtplEditText) rootView.findViewById(R.id.edtCharge);
         editUploadPhoto = (MtplTextView) rootView.findViewById(R.id.edtPromoPic);
         spinnerHotelType = (Spinner) rootView.findViewById(R.id.spinnerHotel);
-        textTotal = (MtplTextView) rootView.findViewById(R.id.txtTotal);
+        textTotal = (MtplTextView) rootView.findViewById(R.id.txtTotal1);
         btnCart = (MtplButton) rootView.findViewById(R.id.btnCart);
         btnPreview = (MtplButton) rootView.findViewById(R.id.btnPriview);
-        autotxtState = (AutoCompleteTextView) rootView.findViewById(R.id.autotextState);
-        allCityListview = (RecyclerView) rootView.findViewById(R.id.allCityList);
-        selectedCityListview = (RecyclerView) rootView.findViewById(R.id.selectedCityList);
-
+        autotxtState = (MtplEditText) rootView.findViewById(R.id.autotextState);
+        promoteCity = (AutoCompletionView) rootView.findViewById(R.id.citypromote);
         linearLayout = (LinearLayout) rootView.findViewById(R.id.layoutTop);
 
 
@@ -172,100 +166,110 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
         btnPreview.setOnClickListener(this);
         pojoStateArrayList = new ArrayList<>();
+        seletedCityList = new ArrayList<>();
 
         thisActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                webCallState();
+                webCallcities();
 
             }
         });
 
-        //All citys
-        allCityAdapter = new adptPromotionCityAll(promoAllCity);
-        StaggeredGridLayoutManager mStaggeredLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        allCityListview.setLayoutManager(mStaggeredLayoutManager);
-        allCityListview.setItemAnimator(new DefaultItemAnimator());
-        allCityListview.setAdapter(allCityAdapter);
+        hotelCateArray = new ArrayList<>();
+        hotelCateArray = CM.getHotelCate(CM.getSp(thisActivity, "hotelCate", "").toString());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(thisActivity, android.R.layout.simple_spinner_item, hotelCateArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerHotelType.setAdapter(adapter);
 
-        //selected citys
-        //All citys
-        selectedCityAdapter = new adptPromortioncitySelected(promoSelectedCity);
-        StaggeredGridLayoutManager mStaggeredLayoutManager1 = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        selectedCityListview.setLayoutManager(mStaggeredLayoutManager1);
-        selectedCityListview.setItemAnimator(new DefaultItemAnimator());
-        selectedCityListview.setAdapter(selectedCityAdapter);
-
-        allCityAdapter.SetOnItemClickListener(new OnItemClickListener() {
+        spinnerHotelType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(String value, String value1) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                int position = Integer.parseInt(value1);
-
-                totalAmt += Integer.parseInt(promoAllCity.get(position).getPrice());
-                textTotal.setText("Total " + totalAmt);
-                charge = month * totalAmt;
-                editCharge.setText("" + charge);
-
-                promoSelectedCity.add(promoAllCity.get(position));
-                promoAllCity.remove(position);
-
-                Collections.sort(promoAllCity, new Comparator<pojoPromotionCitys>() {
-                    public int compare(pojoPromotionCitys list1, pojoPromotionCitys list2) {
-                        return list1.getLabel().compareToIgnoreCase(list2.getLabel());
-                    }
-                });
-                Collections.sort(promoSelectedCity, new Comparator<pojoPromotionCitys>() {
-                    public int compare(pojoPromotionCitys list1, pojoPromotionCitys list2) {
-                        return list1.getLabel().compareToIgnoreCase(list2.getLabel());
-                    }
-                });
-                allCityAdapter.notifyDataSetChanged();
-                selectedCityAdapter.notifyDataSetChanged();
-
+                int k = i + 1;
+                hotelCateId = "" + k;
             }
-        });
 
-        selectedCityAdapter.SetOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(String value, String value1) {
-
-                int position = Integer.parseInt(value1);
-
-                totalAmt -= Integer.parseInt(promoSelectedCity.get(position).getPrice());
-                textTotal.setText("Total " + totalAmt);
-                charge = month * totalAmt;
-                editCharge.setText("" + charge);
-
-                promoAllCity.add(promoSelectedCity.get(position));
-                promoSelectedCity.remove(position);
-
-                Collections.sort(promoAllCity, new Comparator<pojoPromotionCitys>() {
-                    public int compare(pojoPromotionCitys list1, pojoPromotionCitys list2) {
-                        return list1.getLabel().compareToIgnoreCase(list2.getLabel());
-                    }
-                });
-
-                Collections.sort(promoSelectedCity, new Comparator<pojoPromotionCitys>() {
-                    public int compare(pojoPromotionCitys list1, pojoPromotionCitys list2) {
-                        return list1.getLabel().compareToIgnoreCase(list2.getLabel());
-                    }
-                });
-                selectedCityAdapter.notifyDataSetChanged();
-                allCityAdapter.notifyDataSetChanged();
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
-
-        autotxtState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        promoteCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                stateId = pojoStateArrayList.get(i).getId();
-                webCallCity(stateId);
+
+                Person personArrayList = (Person) adapterView.getAdapter().getItem(i);
+                personArrayList.getName();
+                personArrayList.getEmail();
+
+                String lable = personArrayList.getName().substring(0, personArrayList.getName().indexOf(" "));
+                String id = personArrayList.getEmail().substring(0, personArrayList.getEmail().indexOf("@"));
+                String price = personArrayList.getEmail().substring(personArrayList.getEmail().lastIndexOf("@") + 1);
+
+                boolean bool = true;
+                for (int j = 0; j < seletedCityList.size(); j++) {
+                    if (id.equalsIgnoreCase(seletedCityList.get(j).getValue())) {
+                        bool = false;
+                        break;
+                    } else {
+                        bool = true;
+                    }
+                }
+                if (bool) {
+
+                    webCallCheckCity(CM.getSp(thisActivity, CV.PrefID, "").toString(), id, "" + month, id, lable, price);
+
+                }
+
             }
         });
+
+
+        promoteCity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (promoteCity.getObjects().size() < seletedCityList.size()) {
+                    for (int j = 0; j < seletedCityList.size(); j++) {
+                        boolean bool = false;
+                        for (int k = 0; k < promoteCity.getObjects().size(); k++) {
+                            String id = promoteCity.getObjects().get(k).getEmail().substring(0, promoteCity.getObjects().get(k).getEmail().indexOf("@"));
+                            if (!seletedCityList.get(j).getValue().equalsIgnoreCase(id)) {
+                                bool = false;
+                            } else {
+                                bool = true;
+                                break;
+                            }
+                        }
+
+                        if (!bool) {
+
+                            totalAmt = totalAmt - Integer.parseInt(seletedCityList.get(j).getPrice());
+                            textTotal.setText("Total :" + totalAmt);
+                            charge = month * totalAmt;
+                            editCharge.setText("" + charge);
+                            seletedCityList.remove(j);
+                        }
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         editUploadPhoto.setOnClickListener(this);
 
@@ -323,6 +327,10 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
         menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+
 
     }
 
@@ -339,8 +347,12 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        item.setVisible(false);
+        //  MenuItem item = menu.findItem(R.id.cartMenu);
+        // item.setVisible(false);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
     }
 
     public void showPopup(Context context) {
@@ -357,11 +369,10 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         }).setIcon(R.drawable.logo3).show();
     }
 
-
-    public void webCallState() {
+    public void webCallcities() {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getState(v, new OnVolleyHandler() {
+            WebService.getPromocities(v, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -369,7 +380,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                     }
                     MtplLog.i("WebCalls", response);
                     Log.e(TAG, response);
-                    getResponseForState(response);
+                    getResponseForCities(response);
 
                 }
 
@@ -386,7 +397,37 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void getResponseForState(String response) {
+
+    public void webCallCheckCity(String paramuserId, String paramcityId, String paramduration, final String id, final String lable, final String price) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
+            WebService.getCheckCity(v, paramuserId, paramcityId, paramduration, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (thisActivity.isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getResponseForCheckCities(response, id, lable, price);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(thisActivity)) {
+                        CM.showPopupCommonValidation(thisActivity, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void getResponseForCheckCities(String response, String id, String lable, String price) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
             CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
@@ -397,24 +438,21 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
             switch (jsonObject.optString("response_code")) {
                 case "200":
 
-                    if (jsonObject.optString("ResponseObject") != null) {
-                        JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
-                        promoSelectedCity.clear();
-                        promoAllCity.clear();
-                        totalAmt = 0;
+                    if (jsonObject.optString("response_object").equals("Success")) {
+                        CheckCityResponse = "Success";
+                        pojoPromoCities pojo = new pojoPromoCities();
+                        pojo.setLable(lable);
+                        pojo.setValue(id);
+                        pojo.setPrice(price);
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            pojoState pojoState = new pojoState();
-                            pojoState.setId(jsonArray.getJSONObject(i).optString("id"));
-                            pojoState.setCountry_id(jsonArray.getJSONObject(i).optString("country_id"));
-                            pojoState.setState_name(jsonArray.getJSONObject(i).optString("state_name"));
-                            pojoStateArrayList.add(pojoState);
-                        }
+                        totalAmt = totalAmt + Integer.parseInt(price);
+                        charge = month * totalAmt;
+                        editCharge.setText("" + charge);
+                        textTotal.setText("Total :" + totalAmt);
+                        seletedCityList.add(pojo);
+
+
                     }
-
-                    AutoCompleteStateAdapter adptState1 = new AutoCompleteStateAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoStateArrayList);
-                    autotxtState.setThreshold(3);
-                    autotxtState.setAdapter(adptState1);
 
                     break;
                 case "202":
@@ -430,35 +468,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void webCallCity(String stateId) {
-        try {
-            VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getPromotionCity(v, stateId, new OnVolleyHandler() {
-                @Override
-                public void onVollySuccess(String response) {
-                    if (thisActivity.isFinishing()) {
-                        return;
-                    }
-                    MtplLog.i("WebCalls", response);
-                    Log.e(TAG, response);
-                    getResponseForCity(response);
-
-                }
-
-                @Override
-                public void onVollyError(String error) {
-                    MtplLog.i("WebCalls", error);
-                    if (CM.isInternetAvailable(thisActivity)) {
-                        CM.showPopupCommonValidation(thisActivity, error, false);
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void getResponseForCity(String response) {
+    private void getResponseForCities(String response) {
         String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
         if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
             CM.showPopupCommonValidation(thisActivity, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
@@ -469,32 +479,49 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
             switch (jsonObject.optString("response_code")) {
                 case "200":
 
-                    //Got citys
-                    if (jsonObject.optString("ResponseObject") != null) {
-                        JSONArray jsonArray = new JSONArray(jsonObject.optString("ResponseObject"));
-                        promoAllCity.clear();
-                        promoSelectedCity.clear();
+                    if (jsonObject.optString("response_object") != null) {
+                        JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object"));
                         totalAmt = 0;
-                        textTotal.setText("Total " + totalAmt);
-                        charge = month * totalAmt;
-                        editCharge.setText("" + charge);
-
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            pojoPromotionCitys pojocity = new pojoPromotionCitys();
-                            pojocity.setLabel(jsonArray.getJSONObject(i).optString("label"));
-                            pojocity.setUsercount(jsonArray.getJSONObject(i).optString("usercount"));
-                            pojocity.setValue(jsonArray.getJSONObject(i).optString("value"));
-                            pojocity.setPrice(jsonArray.getJSONObject(i).optString("price"));
-                            pojocity.setState_id(jsonArray.getJSONObject(i).optString("state_id"));
-                            pojocity.setState_name(jsonArray.getJSONObject(i).optString("state_name"));
-                            pojocity.setCountry_id(jsonArray.getJSONObject(i).optString("country_id"));
-                            pojocity.setCountry_name(jsonArray.getJSONObject(i).optString("country_name"));
-                            promoAllCity.add(pojocity);
-                        }
-                        allCityAdapter.notifyDataSetChanged();
-                        selectedCityAdapter.notifyDataSetChanged();
 
+                            String lable, id;
+                            lable = jsonArray.getJSONObject(i).optString("label").toString() + " (" + jsonArray.getJSONObject(i).optString("state_name").toString() + ") (" + jsonArray.getJSONObject(i).optString("usercount").toString() + ")";
+                            id = jsonArray.getJSONObject(i).optString("value") + "@" + jsonArray.getJSONObject(i).optString("price");
+                            Person pojo = new Person(lable, id);
+                            pojoStateArrayList.add(pojo);
+                        }
                     }
+
+                    adapter = new ArrayAdapter<Person>(thisActivity, android.R.layout.simple_list_item_1, pojoStateArrayList) {
+
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getView(position, convertView, parent);
+
+                            Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                            ((TextView) v).setTypeface(externalFont);
+
+                            return v;
+                        }
+
+
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            View v = super.getDropDownView(position, convertView, parent);
+
+                            Typeface externalFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                            ((TextView) v).setTypeface(externalFont);
+                            ((TextView) v).setTextColor(Color.WHITE);
+                            v.setBackgroundColor(Color.parseColor("#1295a2"));
+
+                            return v;
+                        }
+                    };
+
+                    Typeface face = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_regular));
+                    promoteCity.setTypeface(face);
+                    promoteCity.setAdapter(adapter);
+                    promoteCity.invalidate();
+                    //promoteCity.setTokenLimit(5);
+                    promoteCity.allowDuplicates(false);
 
 
                     break;
@@ -575,7 +602,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         hotelcheaproom = editTariffCheapestRoom.getText().toString();
         hotelexpensiveroom = editTariffExpensiveRoom.getText().toString();
         hotelwebsite = editHotelWebsite.getText().toString();
-        state = autotxtState.getText().toString();
+        location = autotxtState.getText().toString();
         duration = editDuration.getText().toString();
         chargeString = editCharge.getText().toString();
         if (!userName.matches("")) {
@@ -584,10 +611,25 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                     if (!hotelcheaproom.matches("")) {
                         if (!hotelexpensiveroom.matches("")) {
                             if (!hotelwebsite.matches("")) {
-                                if (!state.matches("")) {
-                                    if (promoSelectedCity.size() > 0) {
-                                        if (!duration.matches("")) {
+                                if (!location.matches("")) {
+                                    if (seletedCityList.size() > 0) { //change with array city id price
+                                        cityId = "";
+                                        cityprices = "";
+                                        cityName = "";
+                                        for (int i = 0; i < seletedCityList.size(); i++) {
+                                            if (cityId.equals("")) {
+                                                cityId = seletedCityList.get(i).getValue();
+                                                cityprices = seletedCityList.get(i).getPrice();
+                                                cityName = seletedCityList.get(i).getLable();
+                                            } else {
+                                                cityId = cityId + "," + seletedCityList.get(i).getValue();
+                                                cityprices = cityprices + "," + seletedCityList.get(i).getPrice();
+                                                cityName = cityName + "," + seletedCityList.get(i).getLable();
+                                            }
+                                        }
 
+
+                                        if (!duration.matches("")) {
                                             //Check Image Selected
                                             if (PromoPic != null) {
 
@@ -610,7 +652,7 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                                         CM.showToast("Select City", thisActivity);
                                     }
                                 } else {
-                                    CM.showToast("Enter State", thisActivity);
+                                    CM.showToast("Enter location", thisActivity);
                                 }
                             } else {
                                 CM.showToast("Enter Hotel Website", thisActivity);
@@ -645,7 +687,6 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             encodedImage = "";
         }
-
 
         return encodedImage;
     }
@@ -709,10 +750,6 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
 
         protected String doInBackground(Void... arg0) {
             Log.d(TAG + " DoINBackGround", "On doInBackground...");
-            /* for (int i = 0; i < 10; i++) {
-                Integer in = new Integer(i);
-                publishProgress(i);
-            }*/
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             PromoPic.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
@@ -728,9 +765,6 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
         protected void onPostExecute(String encodedImage) {
             super.onPostExecute(encodedImage);
             Log.d(TAG + " onPostExecute", "" + encodedImage);
-            /*if (progressDialog != null) {
-                progressDialog.dismiss();
-            }*/
 
             dismissMtplDialog(thisActivity);
             if (encodedImage != null && !encodedImage.equals("")) {
@@ -746,25 +780,15 @@ public class FragPromoteHotel extends Fragment implements View.OnClickListener {
                 bundle.putString("ctarrifroom", hotelcheaproom);
                 bundle.putString("etarrifroom", hotelexpensiveroom);
                 bundle.putString("hwebsite", hotelwebsite);
-                bundle.putString("hsatate", state);
-                String citys = "";
-                String cityids = "";
-                String cityprices = "";
-                for (int i = 0; i < promoSelectedCity.size(); i++) {
-                    if (citys.equals("")) {
-                        citys = promoSelectedCity.get(i).getLabel();
-                        //cityids=promoSelectedCity.get(i).
-                        cityprices = promoSelectedCity.get(i).getPrice();
-                    } else {
-                        citys = citys + "," + promoSelectedCity.get(i).getLabel();
-                        cityprices = cityprices + "," + promoSelectedCity.get(i).getPrice();
-                    }
-                }
-                bundle.putString("hcity", citys);
+                bundle.putString("hlocation", location);
+                //change city id price
+                bundle.putString("hcity", cityName);
                 bundle.putString("hcityprice", cityprices);
-                bundle.putString("hcityid", cityids);
+                bundle.putString("hcityid", cityId);
                 bundle.putString("hduration", duration);
                 bundle.putString("hcharge", chargeString);
+                bundle.putString("hcateId", hotelCateId);
+
                 intent.putExtras(bundle);
                 //  progressDoalog.dismiss();
                 CM.startActivity(intent, thisActivity);

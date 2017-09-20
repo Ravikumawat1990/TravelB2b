@@ -23,15 +23,20 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.adapter.AutocompleteAdapter;
 import com.app.elixir.TravelB2B.adapter.adptMyRequest;
 import com.app.elixir.TravelB2B.interfaceimpl.ActionBarTitleSetter;
 import com.app.elixir.TravelB2B.interfaceimpl.OnApiDataChange;
@@ -39,6 +44,7 @@ import com.app.elixir.TravelB2B.interfaceimpl.OnFragmentInteractionListener;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoMyRequest;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
@@ -58,6 +64,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by NetSupport on 01-06-2017.
@@ -86,6 +93,22 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
     private int month1;
     private int year1;
     private OnApiDataChange listener;
+    String sortItemPos = "0";
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 5;
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    private LinearLayoutManager mLayoutManager;
+
+
+    //new filter fields
+    AutoCompleteTextView spinnerPCity, spinnerDCity, spinnerChatWid;
+    RelativeLayout spinnerQuotedprice;
+    EditText edtMembers;
+    CheckBox checkboxFollow, checkboxShareDetail;
+    String pickupCityId, destCityId;
+    private ArrayList<pojoCity> pojoCities;
+
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -107,7 +130,8 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         setHasOptionsMenu(true);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
+        mLayoutManager = new LinearLayoutManager(thisActivity);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setAddDuration(1000);
@@ -147,8 +171,32 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
             }
         });
 
+        pojoCities = new ArrayList<>();
+        parseJsonCity();
+
         initView(rootView);
         return rootView;
+    }
+
+    private void parseJsonCity() {
+        String json = CM.getSp(thisActivity, "cities", "").toString();
+        // ArrayList<pojoCity> pojoCities= CM.getSp(thisActivity, "cities", "").toString();
+
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                pojoCity country = new pojoCity();
+                country.setId(jsonArray.getJSONObject(i).getString("id"));
+                country.setName(jsonArray.getJSONObject(i).getString("name"));
+                country.setState_id(jsonArray.getJSONObject(i).getString("state_id"));
+                pojoCities.add(country);
+            }
+            Log.i(TAG, "parseJsonCity: " + pojoCities.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -178,7 +226,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         super.onResume();
         mListener.showDrawerToggle(true);
         if (CM.isInternetAvailable(thisActivity)) {
-            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -367,7 +415,7 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                         listener.onItemClick(true);
 
                         if (CM.isInternetAvailable(thisActivity)) {
-                            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+                            webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "", "", "");
                         } else {
                             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
                         }
@@ -401,10 +449,10 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 .setView(layout);
         builder.setTitle("Filter By:");
 
-        SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
+        final SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
         searchView.setQueryHint("Search by Name");
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView searchText = (TextView) searchView.findViewById(id);
+        final TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
         searchText.setTypeface(myCustomFont);
         builder.setIcon(R.drawable.logonewnew);
@@ -417,29 +465,79 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         edtRefId = (EditText) layout.findViewById(R.id.edtrefid1);
         spinnerRefType = (Spinner) layout.findViewById(R.id.spinnerreftype);
 
+        //new
+        spinnerPCity = (AutoCompleteTextView) layout.findViewById(R.id.pcityspinner);
+        spinnerDCity = (AutoCompleteTextView) layout.findViewById(R.id.dcityspinner);
+        edtMembers = (EditText) layout.findViewById(R.id.edtmember);
+        checkboxFollow = (CheckBox) layout.findViewById(R.id.followimgcheckbox);
+        checkboxShareDetail = (CheckBox) layout.findViewById(R.id.sdetailcheckbox);
+        spinnerChatWid = (AutoCompleteTextView) layout.findViewById(R.id.chatwidspinner);
+        spinnerQuotedprice = (RelativeLayout) layout.findViewById(R.id.priceroot);
 
-// String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget,
+
+        //
+        //hide show new fields
+        spinnerPCity.setVisibility(View.VISIBLE);
+        spinnerDCity.setVisibility(View.VISIBLE);
+        edtMembers.setVisibility(View.VISIBLE);
+        spinnerChatWid.setVisibility(View.GONE);
+        checkboxFollow.setVisibility(View.GONE);
+        checkboxShareDetail.setVisibility(View.GONE);
+        spinnerQuotedprice.setVisibility(View.GONE);
+
+        AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
+        spinnerPCity.setThreshold(3);
+        spinnerPCity.setAdapter(adptCountry1);
+        spinnerDCity.setThreshold(3);
+        spinnerDCity.setAdapter(adptCountry1);
+
+        pickupCityId = "";
+        destCityId = "";
+
+        spinnerPCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                pickupCityId = pojoCities.get(i).getId();
+
+            }
+        });
+
+        spinnerDCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                destCityId = pojoCities.get(i).getId();
+            }
+        });
+
+        // String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget,
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String reqType, reqId, startDate, endDate, budgetv;
+                //new
+                String member;
 
                 reqType = spinnerRefType.getSelectedItem().toString();
-
-
                 reqId = edtRefId.getText().toString();
                 startDate = edtStartDate.getText().toString();
                 endDate = edtEndDate.getText().toString();
                 budgetv = spinnerBudget.getSelectedItem().toString();
+
+                //new
+                member = edtMembers.getText().toString();
+
+
                 if (reqType.equals("Select Package")) {
                     reqType = "";
                 }
                 if (budgetv.equals("Select Budget")) {
                     budgetv = "";
                 }
-                // webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), reqType, reqId, startDate, endDate, budgetv);
-                webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv);
 
+                //   webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, pickupCityId, destCityId, member, "");
+
+                //String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget, String pcity, String dcity, String member
+                webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, pickupCityId, destCityId, member, "");
             }
         });
         builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
@@ -453,10 +551,117 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
         alertDialog.show();
     }
 
-    public void webMyRequest(String userId, String userRole, String reqType, String reqId, String startDate, String endDate, String budget) {
+    /*public void showFilterPopup() {
+        LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.popup_filter, (ViewGroup) thisActivity.findViewById(R.id.root));
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity)
+                .setView(layout);
+        builder.setTitle("Filter By:");
+
+        final SearchView searchView = (SearchView) layout.findViewById(R.id.searchView);
+        searchView.setQueryHint("Search by Name");
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        final TextView searchText = (TextView) searchView.findViewById(id);
+        Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
+        searchText.setTypeface(myCustomFont);
+        builder.setIcon(R.drawable.logonewnew);
+
+        spinnerBudget = (Spinner) layout.findViewById(R.id.spinnerbudget);
+        edtStartDate = (EditText) layout.findViewById(R.id.edtstartdate1);
+        edtStartDate.setOnTouchListener(this);
+        edtEndDate = (EditText) layout.findViewById(R.id.edtenddate1);
+        edtEndDate.setOnTouchListener(this);
+        edtRefId = (EditText) layout.findViewById(R.id.edtrefid1);
+        spinnerRefType = (Spinner) layout.findViewById(R.id.spinnerreftype);
+
+        //new
+        spinnerPCity = (AutoCompleteTextView) layout.findViewById(R.id.pcityspinner);
+        spinnerDCity = (AutoCompleteTextView) layout.findViewById(R.id.dcityspinner);
+        edtMembers = (EditText) layout.findViewById(R.id.edtmember);
+        checkboxFollow = (CheckBox) layout.findViewById(R.id.followimgcheckbox);
+        checkboxShareDetail = (CheckBox) layout.findViewById(R.id.sdetailcheckbox);
+        spinnerChatWid = (AutoCompleteTextView) layout.findViewById(R.id.chatwidspinner);
+        spinnerQuotedprice = (RelativeLayout) layout.findViewById(R.id.priceroot);
+
+
+        //
+        //hide show new fields
+        spinnerPCity.setVisibility(View.VISIBLE);
+        spinnerDCity.setVisibility(View.VISIBLE);
+        edtMembers.setVisibility(View.VISIBLE);
+        spinnerChatWid.setVisibility(View.GONE);
+        checkboxFollow.setVisibility(View.GONE);
+        checkboxShareDetail.setVisibility(View.GONE);
+        spinnerQuotedprice.setVisibility(View.GONE);
+
+        AutocompleteAdapter adptCountry1 = new AutocompleteAdapter(thisActivity, R.layout.conntylayout, R.id.textViewSpinner, pojoCities);
+        spinnerPCity.setThreshold(3);
+        spinnerPCity.setAdapter(adptCountry1);
+        spinnerDCity.setThreshold(3);
+        spinnerDCity.setAdapter(adptCountry1);
+
+        spinnerPCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                pickupCityId = pojoCities.get(i).getId();
+
+            }
+        });
+
+        spinnerDCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                destCityId = pojoCities.get(i).getId();
+            }
+        });
+
+        // String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget,
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String reqType, reqId, startDate, endDate, budgetv;
+                //new
+                String member;
+
+                reqType = spinnerRefType.getSelectedItem().toString();
+                reqId = edtRefId.getText().toString();
+                startDate = edtStartDate.getText().toString();
+                endDate = edtEndDate.getText().toString();
+                budgetv = spinnerBudget.getSelectedItem().toString();
+
+                //new
+                member = edtMembers.getText().toString();
+
+
+                if (reqType.equals("Select Package")) {
+                    reqType = "";
+                }
+                if (budgetv.equals("Select Budget")) {
+                    budgetv = "";
+                }
+
+
+                //String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget, String pcity, String dcity, String member
+                webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, startDate, endDate, budgetv, pickupCityId, destCityId, member, "");
+
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }*/
+
+
+    public void webMyRequest(String userid, String roleId, String reqType, String reqId, String startDate, String endDate, String budget, String pcity, String dcity, String member, String sort) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getMyReq(v, userId, userRole, reqType, reqId, startDate, endDate, budget, new OnVolleyHandler() {
+            WebService.getMyReq(v, userid, roleId, reqType, reqId, startDate, endDate, budget, pcity, dcity, member, sort, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -500,6 +705,8 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                             JSONObject jsonObject3 = new JSONObject(jsonObject.optString("countarr").toString());
 
                             JSONObject jsonObject2 = new JSONObject(jsonObject3.optString("responsecount"));
+                            JSONObject jsonArray1 = new JSONObject(jsonObject.optString("citystate").toString());
+                            JSONObject jsonObject1 = new JSONObject(jsonArray1.optString("citystate"));
 
                             pojoMyResposneArrayList.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -522,10 +729,17 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                                 myResposne.setHotel_rating(jsonArray.getJSONObject(i).get("hotel_rating").toString());
                                 myResposne.setHotel_category(jsonArray.getJSONObject(i).get("hotel_category").toString());
                                 myResposne.setMeal_plan(jsonArray.getJSONObject(i).get("meal_plan").toString());
-                                JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
+
+
+                                //  JSONObject jsonArray2 = new JSONObject(jsonArray.getJSONObject(i).getInt("id"));
+
+
+                                /* JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).get("city").toString());
                                 if (jsonObject1 != null) {
                                     myResposne.setDestination_city(jsonObject1.optString("name"));
-                                }
+                                }*/
+                                myResposne.setDestination_city(jsonObject1.optString(jsonArray.getJSONObject(i).get("id").toString()));
+
                                 myResposne.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
                                 myResposne.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
                                 myResposne.setTransport_requirement(jsonArray.getJSONObject(i).get("transport_requirement").toString());
@@ -538,7 +752,6 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                                 myResposne.setFinal_city(jsonArray.getJSONObject(i).get("final_city").toString());
                                 myResposne.setFinal_state(jsonArray.getJSONObject(i).get("final_state").toString());
                                 myResposne.setFinal_country(jsonArray.getJSONObject(i).get("final_country").toString());
-                                //  myResposne.setUserComment(jsonArray.getJSONObject(i).get("comment").toString());
                                 myResposne.setStart_date(jsonArray.getJSONObject(i).get("start_date").toString());
                                 myResposne.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
 
@@ -552,7 +765,16 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                             }
                             pojoMyResposneArrayList.size();
                             mRecyclerView.setAdapter(mAdapter);
-                            mRecyclerView.invalidate();
+                           /* int totalItems = 100;
+                            int currentPage = 0;
+                            int pageSize = 10;
+                            int numPages = (int) Math.ceil((float) totalItems / pageSize);
+
+                            ArrayList<pojoMyRequest> items = new ArrayList<pojoMyRequest>(pojoMyResposneArrayList);
+
+                            List<pojoMyRequest> page = items.subList(currentPage, pageSize);*/
+
+                            // mRecyclerView.invalidate();
                         } else {
                             pojoMyResposneArrayList.clear();
                             mRecyclerView.setAdapter(mAdapter);
@@ -640,7 +862,8 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                     /*dayOfMonth1 = dayOfMonth;
                     month1 = month;
                     year1 = year;*/
-                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        //edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edtStartDate.setText(dayOfMonth + "/" + month + "/" + year);
                         edtStartDate.setSelection(edtStartDate.getText().length());
                     }
 
@@ -684,7 +907,8 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
 
                     int month = monthOfYear + 1;
                     if (edt != null) {
-                        edt.setText(month + "/" + dayOfMonth + "/" + year);
+                        //edt.setText(month + "/" + dayOfMonth + "/" + year);
+                        edt.setText(dayOfMonth + "/" + month + "/" + year);
                     }
 
                 }
@@ -835,25 +1059,30 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
                 R.style.MyDialogTheme);
         builder.setTitle("Sorting");
 
+
         builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
 
 
                 switch (item) {
                     case 0:
+                        sortItemPos = "0";
                         wantToCloseDialog = true;
                         break;
                     case 1:
+                        sortItemPos = "1";
                         wantToCloseDialog = true;
                         break;
                     case 2:
+                        sortItemPos = "2";
                         wantToCloseDialog = true;
-
                         break;
                     case 3:
+                        sortItemPos = "3";
                         wantToCloseDialog = true;
                         break;
                     case 4:
+                        sortItemPos = "4";
                         wantToCloseDialog = true;
                         break;
                     default:
@@ -893,13 +1122,49 @@ public class FragMyRequest extends Fragment implements View.OnTouchListener {
             public void onClick(View v) {
 
                 //Do stuff, possibly set wantToCloseDialog to true then...
-                if (wantToCloseDialog)
+                if (wantToCloseDialog) {
                     levelDialog.dismiss();
-                wantToCloseDialog = false;
+
+                    webMyRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "", "", setSort(sortItemPos));
+                    wantToCloseDialog = false;
+
+                }
+
+
                 //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
             }
         });
 
 
     }
+    //CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "No. of Responses (Low To High)", "No. of Responses (High To Low)", "Request Type"};
+
+    /*requesttype
+            totalbudgetlh
+    totalbudgethl*/
+
+    public String setSort(String pos) {
+        String sortItem = "";
+        switch (pos) {
+            case "0":
+                sortItem = "totalbudgethl";
+                break;
+            case "1":
+                sortItem = "totalbudgetlh";
+                break;
+            case "2":
+                sortItem = "totalbudgetlh";
+                break;
+            case "3":
+                sortItem = "totalbudgethl";
+                break;
+            case "4":
+                sortItem = "requesttype";
+                break;
+        }
+
+        return sortItem;
+    }
+
+
 }

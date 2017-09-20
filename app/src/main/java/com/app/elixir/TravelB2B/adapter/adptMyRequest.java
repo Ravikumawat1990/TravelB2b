@@ -38,7 +38,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, startDate, endDate, adult, txtComment, destination, txtRefId;
+        public MtplTextView reqType, startDate, endDate, adult, txtComment, requestType, txtRefId, citytxtView, txtDestination;
         MtplButton btnRemoveReq, btnCheckRes, btnDetail;
         ImageView catImage;
         TextView total;
@@ -46,19 +46,16 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
-            // reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
-            // reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
-            //reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtRefId = (MtplTextView) itemView.findViewById(R.id.txtRefId);
-
-
+            citytxtView = (MtplTextView) itemView.findViewById(R.id.citytxtView);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
             txtComment.setSelected(true);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
             endDate = (MtplTextView) itemView.findViewById(R.id.txEndDate);
             total = (TextView) itemView.findViewById(R.id.txtTot);
             adult = (MtplTextView) itemView.findViewById(R.id.txtAdult);
-            destination = (MtplTextView) itemView.findViewById(R.id.txtDestination);
+            requestType = (MtplTextView) itemView.findViewById(R.id.txtDestination);
+            txtDestination = (MtplTextView) itemView.findViewById(R.id.txtDestination1);
             catImage = (ImageView) itemView.findViewById(R.id.imageViewCat);
             btnRemoveReq = (MtplButton) itemView.findViewById(R.id.btnRemoveReq);
             btnCheckRes = (MtplButton) itemView.findViewById(R.id.btnCheckRes);
@@ -83,6 +80,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
                         listener.onItemClick("check", "noresposne");
                     } else {
                         listener.onItemClick("check", dataSet.get(getAdapterPosition()).getRequest_id());
+                        CM.setSp(context, "deatilreqtype", dataSet.get(getAdapterPosition()).getCategory_id());
                     }
                     break;
                 case R.id.reqAgent:
@@ -123,10 +121,12 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
         TextView total = holder.total;
         TextView adult = holder.adult;
         TextView txtRefId = holder.txtRefId;
+        TextView citytxtView = holder.citytxtView;
+        TextView txtDestination = holder.txtDestination;
         //  MtplTextView reqAgentType = holder.reqAgentType;
         MtplButton btnCheckRes = holder.btnCheckRes;
 
-        TextView destination = holder.destination;
+        TextView requestType = holder.requestType;
         ImageView catImg = holder.catImage;
 
 
@@ -168,7 +168,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
-        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
        /* int totMemb = 0;
         try {
             totMemb = Integer.parseInt(dataSet.get(position).getAdult()) + Integer.parseInt(dataSet.get(position).getChildren());
@@ -193,7 +193,7 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
 
         adult.setText(String.valueOf(totMemb));
-        destination.setText(dataSet.get(position).getDestination_city().trim());
+        txtDestination.setText(dataSet.get(position).getDestination_city().trim());
 
         if (dataSet.get(position).getCheckResCount().equals("0")) {
             btnCheckRes.setText("NO RESPONSE");
@@ -204,13 +204,16 @@ public class adptMyRequest extends RecyclerView.Adapter<adptMyRequest.MyViewHold
 
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
-            destination.setText("Package");
+            requestType.setText("Package");
+            citytxtView.setText(context.getString(R.string.destination_city));
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
-            destination.setText("Transport");
+            requestType.setText("Transport");
+            citytxtView.setText(context.getString(R.string.pickup_city));
         } else {
             catImg.setImageResource(R.drawable.hh);
-            destination.setText("Hotel");
+            requestType.setText("Hotel");
+            citytxtView.setText(context.getString(R.string.destination_city));
         }
     }
 

@@ -17,6 +17,17 @@ public class pojoAddAnother {
     String locality;
     String checkIn;
     String checkOut;
+    String  rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+
 
 
     public String getCheckIn() {

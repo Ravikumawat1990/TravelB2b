@@ -114,7 +114,6 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:entries="@array/hotCatArray"
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
 
@@ -187,12 +186,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_5dp">
 
-            <AutoCompleteTextView
+            <com.app.elixir.TravelB2B.mtplview.MtplEditText
                 android:id="@+id/autotextState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:completionThreshold="3"
-                android:hint="State"
+                android:hint="Hotel location(city,state)"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
@@ -201,81 +199,32 @@
         </android.support.design.widget.TextInputLayout>
 
         <com.app.elixir.TravelB2B.mtplview.MtplTextView
-            android:id="@+id/txtCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_5dp"
-            android:layout_marginTop="@dimen/margin_5dp"
-            android:gravity="center"
-            android:text="City"
-            android:textSize="@dimen/font_12sp"
-            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-        <com.app.elixir.TravelB2B.mtplview.MtplTextView
-            android:id="@+id/txtTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="@dimen/margin_5dp"
-            android:layout_marginTop="@dimen/margin_5dp"
-            android:background="@drawable/blue_rect"
-            android:gravity="center_vertical"
-            android:padding="@dimen/margin_5dp"
-            android:text="Total 0"
-            android:textColor="@color/appBackColor"
-            android:textSize="@dimen/font_12sp"
-            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
-
-
-        <LinearLayout
+            android:id="@+id/txtTotal1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_2dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:gravity="right"
+            android:text="Total 0"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="15sp"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/margin_200dp"
-                android:layout_weight=".8"
-                android:background="@android:color/darker_gray">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/allCityList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white" />
-
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="0dp"
+            <com.app.elixir.TravelB2B.adapter.AutoCompletionView
+                android:id="@+id/citypromote"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight=".4"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_compare_arrows_black_24dp"
-                android:tint="@android:color/darker_gray" />
+                android:hint="City"
+                android:paddingLeft="@dimen/margin_5dp"
+                android:textSize="12sp"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="@dimen/margin_200dp"
-                android:layout_weight=".8"
-                android:background="@android:color/darker_gray">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/selectedCityList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_2dp"
-                    android:background="@android:color/white" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

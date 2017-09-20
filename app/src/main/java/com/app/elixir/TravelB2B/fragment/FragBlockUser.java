@@ -171,7 +171,7 @@ public class FragBlockUser extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        getUnBlockUser(value1);
+                        getUnBlockUser(value1, CM.getSp(thisActivity, CV.PrefID, "").toString());
 
 
                     }
@@ -182,10 +182,10 @@ public class FragBlockUser extends Fragment {
     }
 
 
-    public void getUnBlockUser(String userId) {
+    public void getUnBlockUser(String blockUserId, String userId) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getUnBloackUser(v, userId, new OnVolleyHandler() {
+            WebService.getUnBloackUser(v, userId, blockUserId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {

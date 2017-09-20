@@ -41,6 +41,7 @@ import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,6 +91,14 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
 
+        try {
+            CM.setSp(ViewRegister.this, "regId", FirebaseInstanceId.getInstance().getToken().toString());
+            Log.e("FCM_ID", FirebaseInstanceId.getInstance().getToken().toString());
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+
         toolbar.setNavigationIcon(R.drawable.backicnwht);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +135,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
         TextInputLayout textInputLayout = (TextInputLayout) findViewById(R.id.edtCompNametxt);
 
         catName = intent.getStringExtra("category");
-        if (catName.equals("Hotelier")) {
+        if (catName.equals("Hoteliers")) {
             textInputLayout.setHint("Hotel Name*");
         } else {
             textInputLayout.setHint("Company Name*");
@@ -877,7 +886,7 @@ public class ViewRegister extends AppCompatActivity implements View.OnFocusChang
     public void webSubmit(String catName, String comName, String fname, String lname, String email, String pass, String confPass, String contact, String address, String locality, String city, String state, String pincode, String country, String selectedCity, String checkStatus) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewRegister.this, true, true);
-            WebService.getRegister(v, catName, comName, fname, lname, email, pass, confPass, contact, address, locality, city, state, pincode, country, selectedCity, checkStatus, new OnVolleyHandler() {
+            WebService.getRegister(v, catName, comName, fname, lname, email, pass, confPass, contact, address, locality, city, state, pincode, country, selectedCity, checkStatus, CM.getSp(ViewRegister.this, "regId", "").toString(), new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {

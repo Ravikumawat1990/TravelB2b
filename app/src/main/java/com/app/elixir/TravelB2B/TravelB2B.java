@@ -6,12 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
+import android.util.Base64;
 
 import com.app.elixir.TravelB2B.database.DbHelper;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CONSTANT;
 import com.app.elixir.TravelB2B.volly.VolleySingleton;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 public class TravelB2B extends Application {
@@ -61,6 +64,12 @@ public class TravelB2B extends Application {
             e.printStackTrace();
         }
         applicationHandler = new Handler(getInstance().getMainLooper());
+
+        try {
+             CONSTANT.token= "?token=" + getBase64("321456654564phffjhdfjh");
+        } catch (Exception e) {
+            e.getMessage();
+        }
 
     }
 
@@ -137,6 +146,25 @@ public class TravelB2B extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    private String decodeString(String encoded) {
+        byte[] dataDec = Base64.decode(encoded, Base64.DEFAULT);
+        String decodedString = "";
+        try {
+
+            decodedString = new String(dataDec, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+
+        } finally {
+
+            return decodedString;
+        }
+    }
+
+    public String getBase64(final String input) {
+        return Base64.encodeToString(input.getBytes(), Base64.DEFAULT);
     }
 
 

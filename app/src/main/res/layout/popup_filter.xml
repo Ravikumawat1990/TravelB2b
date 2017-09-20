@@ -29,7 +29,7 @@
                 android:layout_marginTop="@dimen/margin_15dp"
                 android:focusable="false"
                 android:iconifiedByDefault="false"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:queryHint="Search by Name"></SearchView>
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
@@ -107,7 +107,7 @@
                     android:background="@android:color/transparent"
                     android:drawableTint="@color/colorLightGray"
                     android:hint="@string/refId"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:paddingLeft="@dimen/margin_10dp"
                     android:spinnerMode="dropdown"
                     android:textSize="15sp" />
@@ -228,8 +228,10 @@
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:drawableRight="@drawable/ic_date_range_black_24dp"
-                    android:drawableTint="@color/colorLightGray"
+                    android:drawableTint="@color/appTextColor"
                     android:hint="Start date"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true"
                     android:paddingLeft="@dimen/margin_10dp"
                     android:paddingRight="@dimen/margin_5dp"
                     android:textSize="15sp" />
@@ -275,8 +277,10 @@
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:drawableRight="@drawable/ic_date_range_black_24dp"
-                    android:drawableTint="@color/colorLightGray"
+                    android:drawableTint="@color/appTextColor"
                     android:hint="End date"
+                    android:focusable="false"
+                    android:focusableInTouchMode="true"
                     android:paddingLeft="@dimen/margin_10dp"
                     android:paddingRight="@dimen/margin_5dp"
                     android:textSize="15sp" />
@@ -301,7 +305,7 @@
                 android:layout_marginTop="@dimen/margin_5dp"
                 android:background="@drawable/spinner_border"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <Spinner
                     android:id="@+id/spinnerPriceQuot"
@@ -327,29 +331,28 @@
 
             <!-- new -->
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/pcityroot"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
                 android:background="@drawable/spinner_border"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <EditText
-                    android:id="@+id/edtpcity"
+                <Spinner
+                    android:id="@+id/pcityspinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:drawableTint="@color/colorLightGray"
-                    android:hint="@string/pickup_city"
-                    android:inputType="number"
-                    android:paddingLeft="@dimen/margin_10dp"
+                    android:entries="@array/pcityarray"
+                    android:gravity="center"
                     android:spinnerMode="dropdown"
-                    android:textSize="15sp" />
+                    android:layout_alignParentTop="true" />
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -359,33 +362,47 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp"
                     android:tint="@color/colorLightGray"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
+            <AutoCompleteTextView
+                android:id="@+id/pcityspinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:completionThreshold="3"
+                android:hint="@string/Pickup_City"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:inputType="textPhonetic"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:background="@drawable/spinner_border"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/dcityroot"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
                 android:background="@drawable/spinner_border"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <EditText
-                    android:id="@+id/edtdcity"
+                <Spinner
+                    android:id="@+id/dcityspinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:drawableTint="@color/colorLightGray"
-                    android:hint="@string/destination_city"
-                    android:inputType="number"
-                    android:paddingLeft="@dimen/margin_10dp"
-                    android:spinnerMode="dropdown"
-                    android:textSize="15sp" />
+                    android:entries="@array/dcityarray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -395,9 +412,26 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp"
                     android:tint="@color/colorLightGray"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
+            <AutoCompleteTextView
+                android:id="@+id/dcityspinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:completionThreshold="3"
+                android:hint="@string/Destination_City"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:inputType="textPhonetic"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:background="@drawable/spinner_border"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
 
             <RelativeLayout
                 android:id="@+id/memberroot"
@@ -405,9 +439,10 @@
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
                 android:background="@drawable/spinner_border"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <EditText
                     android:id="@+id/edtmember"
@@ -435,29 +470,27 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:id="@+id/chatwithroot"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_5dp"
                 android:background="@drawable/spinner_border"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <EditText
-                    android:id="@+id/edtchat"
+                <Spinner
+                    android:id="@+id/chatwidspinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:drawableTint="@color/colorLightGray"
-                    android:hint="@string/chat_with"
-                    android:inputType="number"
-                    android:paddingLeft="@dimen/margin_10dp"
-                    android:spinnerMode="dropdown"
-                    android:textSize="15sp" />
+                    android:entries="@array/chatarray"
+                    android:gravity="center"
+                    android:spinnerMode="dropdown" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -467,10 +500,25 @@
                     android:layout_gravity="center"
                     android:src="@drawable/ic_arrow_drop_down_black_24dp"
                     android:tint="@color/colorLightGray"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
-            </RelativeLayout>
-
+            </RelativeLayout>-->
+            <AutoCompleteTextView
+                android:id="@+id/chatwidspinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40dp"
+                android:completionThreshold="3"
+                android:hint="@string/chat_with"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_5dp"
+                android:inputType="text"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="15sp"
+                android:background="@drawable/spinner_border"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 
             <CheckBox
                 android:id="@+id/followimgcheckbox"
@@ -478,9 +526,10 @@
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
+                android:layout_marginTop="@dimen/margin_10dp"
                 android:orientation="horizontal"
-                android:text="@string/followers" />
+                android:text="@string/followers"
+                android:visibility="visible"/>
 
             <CheckBox
                 android:id="@+id/sdetailcheckbox"
@@ -488,9 +537,9 @@
                 android:layout_height="@dimen/margin_40dp"
                 android:layout_marginLeft="@dimen/margin_10dp"
                 android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15dp"
                 android:orientation="horizontal"
-                android:text="@string/shared_details" />
+                android:text="@string/shared_details"
+                android:visibility="visible"/>
 
         </LinearLayout>
     </ScrollView>

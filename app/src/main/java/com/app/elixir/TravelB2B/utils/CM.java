@@ -48,6 +48,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
@@ -67,6 +69,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -79,6 +82,8 @@ import java.util.regex.Pattern;
  */
 public class CM {
 
+
+    private static final String TAG = "CITYCAT";
 
     /**
      * Getting Typeface Passing attributes(Font name)
@@ -959,5 +964,22 @@ public class CM {
         }
         return text;
     }*/
+
+    public static ArrayList<String> getHotelCate(String data) {
+        String json = data;
+        ArrayList<String> pojoHotelCate = new ArrayList<>();
+        try {
+            //JSONArray jsonArray = new JSONArray(json);
+            JSONObject jsonObject = new JSONObject(json);
+            for (int i = 1; i <= jsonObject.length(); i++) {
+                pojoHotelCate.add(jsonObject.optString("" + i).toString());
+            }
+            Log.i(TAG, "parseJsonCity: " + pojoHotelCate.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return pojoHotelCate;
+    }
 }
 

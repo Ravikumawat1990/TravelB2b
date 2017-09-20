@@ -3,12 +3,15 @@ package com.app.elixir.TravelB2B.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Rating;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
@@ -47,24 +50,29 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView txtsingle, txtDouble, txtCheckIn, txtCheckOut, destState, destCity, locality, txtHotelCat, txtMeal, txtTriple, txtChildWithbed;
-        MtplButton btnUnBlockUser;
+        public MtplTextView titleTxt,txtsingle, txtDouble, txtCheckIn, txtCheckOut, destState, destCity, locality, txtHotelCat, txtMeal, txtTriple, txtChildWithbed,txtChildWithoutbed;
+        RatingBar txtRating;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            rootView = (CardView) itemView.findViewById(R.id.rootView);
+           // rootView = (CardView) itemView.findViewById(R.id.rootView);
+            titleTxt =  (MtplTextView) itemView.findViewById(R.id.dest_txt);
             txtsingle = (MtplTextView) itemView.findViewById(R.id.txtsingle);
             txtDouble = (MtplTextView) itemView.findViewById(R.id.txtDouble);
             txtTriple = (MtplTextView) itemView.findViewById(R.id.txtTriple);
             txtChildWithbed = (MtplTextView) itemView.findViewById(R.id.txtChildWithbed);
             txtCheckIn = (MtplTextView) itemView.findViewById(R.id.txtCheckIn);
-            txtCheckOut = (MtplTextView) itemView.findViewById(R.id.txtCheckOut);
-            destState = (MtplTextView) itemView.findViewById(R.id.destState);
-            destCity = (MtplTextView) itemView.findViewById(R.id.destCity);
-            locality = (MtplTextView) itemView.findViewById(R.id.locality);
-            txtHotelCat = (MtplTextView) itemView.findViewById(R.id.txtHotelCat);
+            txtCheckOut = (MtplTextView) itemView.findViewById(R.id.txtCheckout);
+            destState = (MtplTextView) itemView.findViewById(R.id.txtHotelstate);
+            destCity = (MtplTextView) itemView.findViewById(R.id.txtDestCity);
+            locality = (MtplTextView) itemView.findViewById(R.id.txtLocality);
+            txtHotelCat = (MtplTextView) itemView.findViewById(R.id.txtHotelCate);
             txtHotelCat.setSelected(true);
-            txtMeal = (MtplTextView) itemView.findViewById(R.id.txtMeal);
+            txtMeal = (MtplTextView) itemView.findViewById(R.id.meal);
+            txtChildWithoutbed = (MtplTextView) itemView.findViewById(R.id.txtChildWithoutbed);
+            txtRating = (RatingBar) itemView.findViewById(R.id.txtHoterate);
+
 
             txtMeal.setSelected(true);
             //  btnUnBlockUser.setOnClickListener(this);
@@ -85,7 +93,7 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addanotherdest, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addanotherdes_list, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
@@ -97,6 +105,7 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
         TextView txtDouble = holder.txtDouble;
         TextView txtTriple = holder.txtTriple;
         TextView txtChildWithbed = holder.txtChildWithbed;
+        TextView txtChildWithoutbed = holder.txtChildWithoutbed;
         TextView txtCheckIn = holder.txtCheckIn;
         TextView txtCheckOut = holder.txtCheckOut;
         TextView destState = holder.destState;
@@ -104,38 +113,124 @@ public class adptAddAnotherDes extends RecyclerView.Adapter<adptAddAnotherDes.My
         TextView locality = holder.locality;
         TextView txtHotelCat = holder.txtHotelCat;
         TextView txtMeal = holder.txtMeal;
-
-        txtsingle.setText(dataSet.get(position).getSingleRoom());
-        txtDouble.setText(dataSet.get(position).getDoubleRoom());
-        txtTriple.setText(dataSet.get(position).getTripleRomm());
-        txtChildWithbed.setText(dataSet.get(position).getChild_with_bed());
+        RatingBar txtRating = holder.txtRating;
+        TextView txtTitle = holder.titleTxt;
 
 
-        String txtStartDt = "";
-        try {
-            txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getCheckIn());
-        } catch (Exception e) {
-            txtStartDt = dataSet.get(position).getCheckIn();
+
+        int i = position + 1;
+        txtTitle.setText("Destination " + i);
+
+        if( dataSet.get(position).getSingleRoom()==null ||dataSet.get(position).getSingleRoom().equalsIgnoreCase("")  )
+        {
+            txtsingle.setText("-- --");
+        }else {
+            txtsingle.setText(dataSet.get(position).getSingleRoom());
         }
-        String txtEndDt = "";
-        try {
-            txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getCheckOut());
-        } catch (Exception e) {
-            txtEndDt = dataSet.get(position).getCheckOut();
+        if(dataSet.get(position).getDoubleRoom()==null  ||dataSet.get(position).getDoubleRoom().equalsIgnoreCase("") )
+        {
+            txtDouble.setText("-- --");
+        }else {
+            txtDouble.setText(dataSet.get(position).getDoubleRoom());
+        }
+        if( dataSet.get(position).getTripleRomm()==null  || dataSet.get(position).getTripleRomm().equalsIgnoreCase("") )
+        {
+            txtTriple.setText("-- --");
+        }else {
+            txtTriple.setText(dataSet.get(position).getTripleRomm());
+        }
+        if(dataSet.get(position).getChild_with_bed()==null || dataSet.get(position).getChild_with_bed().equalsIgnoreCase(""))
+        {
+            txtChildWithbed.setText("-- --");
+        }else {
+            txtChildWithbed.setText(dataSet.get(position).getChild_with_bed());
+        }
+        if( dataSet.get(position).getChild_without_bed()==null  || dataSet.get(position).getChild_without_bed().equalsIgnoreCase("") )
+        {
+            txtChildWithoutbed.setText("-- --");
+        }else {
+            txtChildWithoutbed.setText(dataSet.get(position).getChild_without_bed());
         }
 
+        if(dataSet.get(position).getRating()==null || dataSet.get(position).getRating().equalsIgnoreCase("") || dataSet.get(position).getRating().toString().equalsIgnoreCase("null") )
+        {
+            //txtRating.setText("-- --");
+        }else {
 
-        txtCheckIn.setText(txtStartDt);
-        txtCheckOut.setText(txtEndDt);
-        locality.setText(dataSet.get(position).getLocality());
-        txtHotelCat.setText(dataSet.get(position).getHotel_category());
-        txtMeal.setText(CM.getMealPlane(dataSet.get(position).getMeal_plan()));
+            if(dataSet.get(position).getRating().equals("null"))
+            {
+
+            }else {
+                float f =Float.parseFloat(dataSet.get(position).getRating());
+                txtRating.setRating(f);
+            }
+
+        }
+
+        if(dataSet.get(position).getCheckIn()==null  || dataSet.get(position).getCheckIn().equalsIgnoreCase(""))
+        {
+            txtCheckIn.setText("-- --");
+        }else {
+            String txtStartDt = "";
+            try {
+                txtStartDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getCheckIn());
+            } catch (Exception e) {
+                txtStartDt = dataSet.get(position).getCheckIn();
+            }
+            txtCheckIn.setText(txtStartDt);
+        }
+
+        if(dataSet.get(position).getCheckOut()==null || dataSet.get(position).getCheckOut().equalsIgnoreCase("")  )
+        {
+            txtCheckOut.setText("-- --");
+        }else {
+            String txtEndDt = "";
+            try {
+                txtEndDt = CM.converDateFormate("yyyy-MM-dd'T'HH:mm:ss", "dd-MM-yyyy", dataSet.get(position).getCheckOut());
+            } catch (Exception e) {
+                txtEndDt = dataSet.get(position).getCheckOut();
+            }
+            txtCheckOut.setText(txtEndDt);
+        }
+
+        if(dataSet.get(position).getLocality()==null || dataSet.get(position).getLocality().equalsIgnoreCase("")  )
+        {
+            locality.setText("-- --");
+        }else {
+            locality.setText(dataSet.get(position).getLocality());
+        }
+
+        if(dataSet.get(position).getHotel_category()==null || dataSet.get(position).getHotel_category().equalsIgnoreCase("") )
+        {
+            txtHotelCat.setText("-- --");
+        }else {
+            txtHotelCat.setText(dataSet.get(position).getHotel_category());
+        }
+        if(dataSet.get(position).getMeal_plan()==null  || dataSet.get(position).getMeal_plan().equalsIgnoreCase("") )
+        {
+            txtMeal.setText("-- --");
+        }else {
+            txtMeal.setText(dataSet.get(position).getMeal_plan());
+        }
 
         if (CM.isInternetAvailable(context)) {
-            webCity(dataSet.get(position).getCity_id(), destCity);
+            if(dataSet.get(position).getCity_id()==null ||  dataSet.get(position).getCity_id().equalsIgnoreCase("") || dataSet.get(position).getCity_id().equalsIgnoreCase("0"))
+            {
+                destCity.setText("-- --");
+            }
+            else {
+                webCity(dataSet.get(position).getCity_id(), destCity);
+            }
         }
         if (CM.isInternetAvailable(context)) {
-            webState(dataSet.get(position).getState_id(), destState);
+            if(dataSet.get(position).getCity_id()==null || dataSet.get(position).getCity_id().equalsIgnoreCase("") || dataSet.get(position).getCity_id().equalsIgnoreCase("0"))
+            {
+                destState.setText("-- --");
+            }
+            else {
+                webState(dataSet.get(position).getState_id(), destState);
+            }
+
         }
 
     }

@@ -24,9 +24,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +46,7 @@ import com.app.elixir.TravelB2B.pojos.pojoFinalizeReq;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.URLS;
+import com.app.elixir.TravelB2B.view.ViewAgentProfile;
 import com.app.elixir.TravelB2B.view.ViewChat;
 import com.app.elixir.TravelB2B.view.ViewCommonDeatilView;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
@@ -77,14 +81,11 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     ArrayList<pojoFinalizeReq> pojoFinalizeReqArrayList;
     FloatingActionButton myFab;
     //Filter Variable
-    EditText edtStartDate;
-    EditText edtEndDate;
-    EditText edtRefId;
-    Spinner spinnerRefType, spinnerBudget;
+
     private int dayOfMonth1;
     private int month1;
     private int year1;
-    ;
+
     AlertDialog alertDialog;
 
     CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "Request Type"};
@@ -92,6 +93,18 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     Boolean wantToCloseDialog1 = false;
 
     Boolean wantToCloseDialog = false;
+
+    EditText edtStartDate;
+    EditText edtEndDate;
+    EditText edtRefId;
+    Spinner spinnerRefType, spinnerBudget;
+    //new filter fields
+    AutoCompleteTextView spinnerPCity, spinnerDCity, spinnerChatWid;
+    RelativeLayout spinnerQuotedprice;
+    EditText edtMembers;
+    CheckBox checkboxFollow, checkboxShareDetail;
+    private String sortItemPos = "";
+
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -168,11 +181,12 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
                     CM.startActivity(intent, thisActivity);
 
 
+                } else if (value.equals("userdetail")) {
+                    Intent intent = new Intent(thisActivity, ViewAgentProfile.class);
+                    intent.putExtra("userId", value1);
+                    CM.startActivity(intent, thisActivity);
                 } else {
 
-                    //mohit
-                    //rate user
-                    //showPopupForTestimonial(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2);
                     showRating(CM.getSp(thisActivity, CV.PrefID, "").toString(), value2, value3);
                 }
 
@@ -181,7 +195,7 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         });
 
         if (CM.isInternetAvailable(thisActivity)) {
-            webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "");
+            webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -261,10 +275,10 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
     }
 
     //String userid, String reqid, String reqType, String reqId, String budget
-    public void webFinalizeRequest(String userId, String userRole, String reqType, String reqId, String budget, String startDate, String endDate) {
+    public void webFinalizeRequest(String userid, String reqid, String reqType, String reqId, String budget, String startDate, String endDate, String member, String sort) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getFinalizeReq(v, userId, userRole, reqType, reqId, budget, startDate, endDate, new OnVolleyHandler() {
+            WebService.getFinalizeReq(v, userid, reqid, reqType, reqId, budget, startDate, endDate, member, sort, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -314,8 +328,14 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
                         pojoMyResponse.setEnd_date(jsonArray.getJSONObject(i).get("end_date").toString());
                         pojoMyResponse.setCheck_in(jsonArray.getJSONObject(i).get("check_in").toString());
                         pojoMyResponse.setCheck_out(jsonArray.getJSONObject(i).get("check_out").toString());
-                        JSONObject jsonObject1 = new JSONObject(jsonArray.getJSONObject(i).optString("user"));
-                        pojoMyResponse.setUserName(jsonObject1.optString("first_name") + " " + jsonObject1.optString("last_name"));
+                        JSONArray jsonArray1 = new JSONArray(jsonArray.getJSONObject(i).optString("responses"));
+
+                        if (jsonArray1.length() > 0) {
+                            JSONObject jsonObject2 = new JSONObject(jsonArray1.getJSONObject(0).getString("user"));
+                            pojoMyResponse.setUserName(jsonObject2.optString("first_name") + " " + jsonObject2.optString("last_name"));
+                            pojoMyResponse.setQuotation_price(jsonArray1.getJSONObject(0).getString("quotation_price"));
+
+                        }
                         pojoFinalizeReqArrayList.add(pojoMyResponse);
 
                     }
@@ -612,18 +632,41 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
         edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
         spinnerRefType = (Spinner) layout1.findViewById(R.id.spinnerreftype);
 
+        //new
+
+        spinnerPCity = (AutoCompleteTextView) layout1.findViewById(R.id.pcityspinner);
+        spinnerDCity = (AutoCompleteTextView) layout1.findViewById(R.id.dcityspinner);
+        edtMembers = (EditText) layout1.findViewById(R.id.edtmember);
+        checkboxFollow = (CheckBox) layout1.findViewById(R.id.followimgcheckbox);
+        checkboxShareDetail = (CheckBox) layout1.findViewById(R.id.sdetailcheckbox);
+        spinnerChatWid = (AutoCompleteTextView) layout1.findViewById(R.id.chatwidspinner);
+        spinnerQuotedprice = (RelativeLayout) layout1.findViewById(R.id.priceroot);
+
+        //hide show new fields
+        searchView.setVisibility(View.GONE);
+        spinnerPCity.setVisibility(View.GONE);
+        spinnerDCity.setVisibility(View.GONE);
+        edtMembers.setVisibility(View.VISIBLE);
+        spinnerChatWid.setVisibility(View.GONE);
+        checkboxFollow.setVisibility(View.GONE);
+        checkboxShareDetail.setVisibility(View.GONE);
+        spinnerQuotedprice.setVisibility(View.GONE);
+
 
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String reqType, reqId, budgetv, startDate, endDate;
+                //new
+                String member;
 
                 reqType = spinnerRefType.getSelectedItem().toString();
                 reqId = edtRefId.getText().toString();
                 budgetv = spinnerBudget.getSelectedItem().toString();
                 startDate = edtStartDate.getText().toString();
                 endDate = edtEndDate.getText().toString();
-
+                //new
+                member = edtMembers.getText().toString();
 
                 if (reqType.equals("Select Package")) {
                     reqType = "";
@@ -631,8 +674,8 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
                 if (budgetv.equals("Select Budget")) {
                     budgetv = "";
                 }
-                //String userid, String reqid, String reqType, String reqId, String budget
-                webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, budgetv, startDate, endDate);
+                //String userid, String reqid, String reqType, String reqId, String budget, String startDate, String endDate, String member
+                webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), CM.getReqTypeRev(reqType), reqId, budgetv, startDate, endDate, member, "");
 
             }
         });
@@ -710,7 +753,9 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
                     /*dayOfMonth1 = dayOfMonth;
                     month1 = month;
                     year1 = year;*/
-                        edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        //edtStartDate.setText(month + "/" + dayOfMonth + "/" + year);
+                        edtStartDate.setText(dayOfMonth + "/" + month + "/" + year);
+
                         edtStartDate.setSelection(edtStartDate.getText().length());
                     }
 
@@ -754,7 +799,9 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
                     int month = monthOfYear + 1;
                     if (edt != null) {
-                        edt.setText(month + "/" + dayOfMonth + "/" + year);
+                        //edt.setText(month + "/" + dayOfMonth + "/" + year);
+                        edt.setText(dayOfMonth + "/" + month + "/" + year);
+
                     }
 
                 }
@@ -781,19 +828,23 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
                 switch (item) {
                     case 0:
+                        sortItemPos = "0";
                         wantToCloseDialog1 = true;
                         break;
                     case 1:
+                        sortItemPos = "1";
                         wantToCloseDialog1 = true;
                         break;
                     case 2:
+                        sortItemPos = "2";
                         wantToCloseDialog1 = true;
-
                         break;
                     case 3:
+                        sortItemPos = "3";
                         wantToCloseDialog1 = true;
                         break;
                     case 4:
+                        sortItemPos = "4";
                         wantToCloseDialog1 = true;
                         break;
                     default:
@@ -834,13 +885,36 @@ public class FragFinalizedRequest extends Fragment implements View.OnTouchListen
 
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if (wantToCloseDialog1)
-                    levelDialog.dismiss();
+                    webFinalizeRequest(CM.getSp(thisActivity, CV.PrefID, "").toString(), CM.getSp(thisActivity, CV.PrefRole_Id, "").toString(), "", "", "", "", "", "", setSort(sortItemPos));
+
+                levelDialog.dismiss();
                 wantToCloseDialog1 = false;
+
                 //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
             }
         });
 
 
     }
+    //CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "Request Type"};
 
+    /* requesttype
+            totalbudgetlh
+    totalbudgethl*/
+    public String setSort(String pos) {
+        String sortItem = "";
+        switch (pos) {
+            case "0":
+                sortItem = "totalbudgethl";
+                break;
+            case "1":
+                sortItem = "totalbudgetlh";
+                break;
+            case "3":
+                sortItem = "requesttype";
+                break;
+        }
+
+        return sortItem;
+    }
 }

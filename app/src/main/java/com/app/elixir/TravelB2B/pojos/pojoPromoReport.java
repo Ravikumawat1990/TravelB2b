@@ -29,9 +29,35 @@ public class pojoPromoReport {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getDateOfPromo() {
+        return dateOfPromo;
+    }
+
+    public void setDateOfPromo(String dateOfPromo) {
+        this.dateOfPromo = dateOfPromo;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getCities() {
+        return cities;
+    }
+
+    public void setCities(String cities) {
+        this.cities = cities;
+    }
 
     String hotelname;
     String viewer_count;
     String status;
+    String dateOfPromo;
+    String duration;
+    String cities;
 
 }

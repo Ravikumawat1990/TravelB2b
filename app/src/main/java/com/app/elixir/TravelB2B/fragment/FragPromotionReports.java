@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class FragPromotionReports extends Fragment {
         super.onAttach(context);
         try {
             this.mListener = (OnFragmentInteractionListener) context;
-            ((ActionBarTitleSetter) context).setTitle(getString(R.string.promo_report));
+            ((ActionBarTitleSetter) context).setTitle("Promotion Report");
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -63,6 +64,7 @@ public class FragPromotionReports extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragpromoreport, container, false);
+        ((ActionBarTitleSetter) thisActivity).setTitle("Promotion Reports");
         thisActivity = getActivity();
         setHasOptionsMenu(true);
         initView(rootView);
@@ -90,6 +92,17 @@ public class FragPromotionReports extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.myresponsedetail, menu);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+
+
+    }
+
 
     @Override
     public void onResume() {
@@ -99,10 +112,15 @@ public class FragPromotionReports extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.cartMenu);
-        MenuItem item1 = menu.findItem(R.id.filter);
-        item.setVisible(false);
-        item1.setVisible(false);
+        // MenuItem item = menu.findItem(R.id.cartMenu);
+        // MenuItem item1 = menu.findItem(R.id.filter);
+        menu.findItem(R.id.noti).setVisible(false);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.cartMenu).setVisible(false);
+        //  MenuItem item2 = menu.findItem(R.id.noti).setVisible(false);
+        // item.setVisible(false);
+        //item1.setVisible(false);
     }
 
     @Override
@@ -155,12 +173,17 @@ public class FragPromotionReports extends Fragment {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("citystate").toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoPromoReport pojoreports = new pojoPromoReport();
                         pojoreports.setHotelname(jsonArray.getJSONObject(i).get("hotel_name").toString());
                         pojoreports.setStatus(jsonArray.getJSONObject(i).get("status").toString());
                         pojoreports.setViewer_count(jsonArray.getJSONObject(i).get("count").toString());
+                        pojoreports.setDateOfPromo(jsonArray.getJSONObject(i).get("created_at").toString());
+                        pojoreports.setDuration(jsonArray.getJSONObject(i).get("duration").toString());
+                        // pojoreports.setCities(jsonArray.getJSONObject(i).get("cities").toString());
+                        pojoreports.setCities(jsonObject1.optString(jsonArray.getJSONObject(i).get("id").toString()));
                         pojoReports.add(pojoreports);
 
                     }

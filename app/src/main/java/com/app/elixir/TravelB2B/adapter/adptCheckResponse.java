@@ -70,7 +70,7 @@ public class adptCheckResponse extends RecyclerView.Adapter<adptCheckResponse.My
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnChat:
-                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getUser_id(), "", "");
+                    listener.onItemClick("chat", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId(), "");
                     break;
                 case R.id.btnShare:
                     listener.onItemClick("share", dataSet.get(getAdapterPosition()).getUser_id(), dataSet.get(getAdapterPosition()).getId(), "");

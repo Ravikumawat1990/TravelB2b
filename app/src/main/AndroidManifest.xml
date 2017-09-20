@@ -6,10 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
-
     <application
         android:name=".TravelB2B"
-        android:icon="@drawable/logonewnew"
+        android:icon="@drawable/logoff"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -20,6 +19,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -79,11 +79,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.ViewMyProfile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.Popup_Hotel_Promote_preview"
-            android:theme="@style/DialogNoTitleBar"></activity>
+            android:theme="@style/DialogNoTitleBar" />
 
         <service android:name=".fcm.MyFirebaseMessagingService">
             <intent-filter>
@@ -95,6 +94,14 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".view.ViewNotification"
+            android:label="@string/title_activity_view_noti_fication"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".view.ViewCustomWebView"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

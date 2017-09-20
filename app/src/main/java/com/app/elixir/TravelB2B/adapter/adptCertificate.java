@@ -10,6 +10,10 @@ import android.widget.ImageView;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
+import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.view.ViewMyProfile;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -66,7 +70,11 @@ public class adptCertificate extends RecyclerView.Adapter<adptCertificate.MyView
 
         ImageView imageView = holder.imgCertificate;
 
-        // imageView.setImageDrawable();
+        Picasso.with(context)
+                .load(dataSet.get(position))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                .placeholder(R.drawable.ic_person_black_24dp) // optional
+                .error(R.drawable.ic_person_black_24dp)         // optional
+                .into(imageView);
 
     }
 

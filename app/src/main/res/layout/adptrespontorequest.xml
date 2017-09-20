@@ -94,25 +94,14 @@
                     android:layout_gravity="bottom|right"
                     android:padding="@dimen/margin_5dp">
 
-                    <android.support.design.widget.FloatingActionButton
+                    <ImageView
+                        android:id="@+id/img_follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@android:color/transparent"
-                        app:backgroundTint="@android:color/holo_orange_dark" />
-
-                    <TextView
-                        android:id="@+id/txtTot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:elevation="16dp"
-                        android:gravity="center"
-                        android:text="@string/tot"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
-                        android:textSize="7sp"
-                        android:textStyle="bold" />
+                        android:gravity="center" />
+
+
                 </FrameLayout>
             </LinearLayout>
 
@@ -162,7 +151,51 @@
                 android:orientation="horizontal">
 
                 <com.app.elixir.TravelB2B.mtplview.MtplTextView
-                    android:id="@+id/mtplTextView"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:maxLines="1"
+                    android:padding="@dimen/margin_5dp"
+                    android:text="@string/totBudge"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    mtplview:TypeFace="@string/fontface_DroidSerif_Bold" />
+            </LinearLayout>
+
+
+            <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                android:id="@+id/txtTot"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:paddingBottom="@dimen/margin_2dp"
+                android:paddingTop="@dimen/margin_2dp"
+
+                android:textSize="12sp"
+                mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:orientation="horizontal">
+
+                <com.app.elixir.TravelB2B.mtplview.MtplTextView
+                    android:id="@+id/citytxtView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="left"
@@ -208,7 +241,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:gravity="left|center"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
                     android:text="@string/stDate"
@@ -221,7 +254,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:gravity="left|center_vertical"
                     android:maxLines="1"
                     android:paddingBottom="@dimen/margin_2dp"
                     android:paddingTop="@dimen/margin_2dp"
@@ -256,7 +289,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:gravity="left|center_vertical"
                     android:maxLines="1"
                     android:padding="@dimen/margin_5dp"
 
@@ -302,11 +335,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:gravity="left|center_vertical"
                     android:maxLines="1"
-                    android:paddingBottom="@dimen/margin_2dp"
-                    android:paddingTop="@dimen/margin_2dp"
-
+                    android:padding="@dimen/margin_5dp"
                     android:textSize="12sp"
                     mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
 

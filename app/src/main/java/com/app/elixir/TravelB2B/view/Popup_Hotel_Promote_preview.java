@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
@@ -33,8 +34,8 @@ import java.io.ByteArrayOutputStream;
 public class Popup_Hotel_Promote_preview extends Activity implements View.OnClickListener {
 
     public String TAG = "Promote Hotel Preview";
-    ImageView imgHotel;
-    String userId, userName, hotelName, hotelType, tarrifCheap, tarrifExpensive, hotelWebsite, hotelCity, hotelcityids, hcityprice, hotelState, hotelDuration, hotelCharge;
+    ImageView imgHotel,imgClose;
+    String userId, userName, hotelName, hotelType, tarrifCheap, tarrifExpensive, hotelWebsite, hotelCity, hotelcityids, hcityprice, hotelLocation, hotelDuration, hotelCharge,hotelCateId;
     MtplTextView txtHotelName, txtHotelType, txtWebsite, txtTarrifValue, txtCity, txtState, txtDurationValue;
     MtplButton btnPromote;
     Bitmap hotelPic;
@@ -50,6 +51,7 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
     public void initView() {
 
         imgHotel = (ImageView) findViewById(R.id.img_hotel);
+        imgClose = (ImageView) findViewById(R.id.close_img);
         txtHotelName = (MtplTextView) findViewById(R.id.txtHotelName);
         txtHotelType = (MtplTextView) findViewById(R.id.txtHotelType);
         txtTarrifValue = (MtplTextView) findViewById(R.id.txtTarrifValue);
@@ -72,13 +74,13 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
             tarrifCheap = bu.getString("ctarrifroom");
             tarrifExpensive = bu.getString("etarrifroom");
             hotelWebsite = bu.getString("hwebsite");
-            hotelState = bu.getString("hsatate");
+            hotelLocation = bu.getString("hlocation");
             hotelCity = bu.getString("hcity");
             hotelcityids = bu.getString("hcityid");
             hcityprice = bu.getString("hcityprice");
             hotelDuration = bu.getString("hduration");
             hotelCharge = bu.getString("hcharge");
-
+            hotelCateId = bu.getString("hcateId");
             //hotelImage = Base64.encodeToString(byteArray, Base64.DEFAULT);;
             byte[] decodedString = Base64.decode(CM.getSp(Popup_Hotel_Promote_preview.this, "img", "").toString(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -91,12 +93,13 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
             txtWebsite.setText(hotelWebsite);
             txtTarrifValue.setText(tarrifCheap + " - " + tarrifExpensive);
             txtCity.setText(hotelCity);
-            txtState.setText(hotelState);
+            txtState.setText(hotelLocation);
             txtDurationValue.setText(hotelDuration + " - " + hotelCharge);
 
         }
 
         btnPromote.setOnClickListener(this);
+        imgClose.setOnClickListener(this);
 
     }
 
@@ -106,23 +109,25 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
 
             case R.id.buttonPromote:
                 if (CM.isInternetAvailable(Popup_Hotel_Promote_preview.this)) {
-                    webCallHotelPromotion(userId, hotelName, hotelType, tarrifCheap, tarrifExpensive, hotelWebsite, hotelcityids, hcityprice, hotelDuration, hotelCharge, hotelImage);
+                    webCallHotelPromotion(userId, hotelName, hotelCateId, tarrifCheap, tarrifExpensive, hotelWebsite, hotelcityids, hcityprice, hotelDuration, hotelCharge,hotelLocation,hotelImage);
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), Popup_Hotel_Promote_preview.this);
                 }
+            break;
+            case R.id.close_img:
+               finish();
+            break;
 
-
-                break;
 
 
         }
     }
 
     // String userId, String hname, String hcategories, String ctariff, String etariff, String website, String cityid, String citycharge,  String duration,  String charges,
-    public void webCallHotelPromotion(String userId, String hname, String hcategories, String ctariff, String etariff, String website, String cityid, String citycharge, String duration, String charges, String hotelimage) {
+    public void webCallHotelPromotion(String userId, String hname, String hcategories, String ctariff, String etariff, String website, String cityid, String citycharge, String duration, String charges, String location ,String hotelimage) {
         try {
             VolleyIntialization v = new VolleyIntialization(Popup_Hotel_Promote_preview.this, true, true);
-            WebService.getHotelPromotion(v, userId, hname, hcategories, ctariff, etariff, website, cityid, citycharge, duration, charges, hotelimage, new OnVolleyHandler() {
+            WebService.getHotelPromotion(v, userId, hname, hcategories, ctariff, etariff, website, cityid, citycharge, duration, charges,location ,hotelimage, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (Popup_Hotel_Promote_preview.this.isFinishing()) {
@@ -157,6 +162,11 @@ public class Popup_Hotel_Promote_preview extends Activity implements View.OnClic
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
+                    if(jsonObject.optString("response_object").equals("Success"))
+                    {
+                        CM.showToast(getString(R.string.promote_response),Popup_Hotel_Promote_preview.this);
+                        finish();
+                    }
 
                     break;
                 case "202":

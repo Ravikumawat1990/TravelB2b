@@ -9,13 +9,45 @@
     android:layout_marginLeft="@dimen/margin_10dp"
     android:layout_marginRight="@dimen/margin_10dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/title"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:layout_height="wrap_content"
+        android:background="@color/appTextColor">
+
+        <com.app.elixir.TravelB2B.mtplview.MtplTextView
+            android:id="@+id/titlettx"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preview"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            android:textSize="17sp"
+            android:padding="5dp"
+            mtplview:TypeFace="@string/fontface_DroidSerif_Regular" />
+
+        <ImageView
+            android:id="@+id/close_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/white_close"/>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dataDetail"
         android:padding="@dimen/margin_10dp"
+        android:layout_below="@+id/title"
         android:paddingBottom="@dimen/margin_10dp">
+
 
         <RelativeLayout
             android:layout_width="75dp"
@@ -36,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/headerImg">
+            android:layout_toRightOf="@+id/headerImg">
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
                 android:id="@+id/text1"
@@ -72,8 +104,7 @@
                 android:layout_below="@+id/txtHotelName"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular"
-                android:layout_above="@+id/text3"
-                android:layout_alignParentStart="true" />
+                android:layout_above="@+id/text3" />
 
             <com.app.elixir.TravelB2B.mtplview.MtplTextView
                 android:id="@+id/txtHotelType"
@@ -96,7 +127,6 @@
                 android:layout_height="wrap_content"
                 android:text="Website:"
                 android:singleLine="true"
-                android:layout_alignParentStart="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular"
                 android:layout_below="@+id/txtHotelType"/>
@@ -112,9 +142,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_12sp"
                 mtplview:TypeFace="@string/fontface_DroidSerif_Regular"
-                android:layout_below="@+id/txtHotelType"
-                android:layout_alignParentEnd="true"
-                />
+                android:layout_below="@+id/txtHotelType"/>
         </RelativeLayout>
 
         <android.support.v7.widget.CardView
@@ -241,7 +269,7 @@
                     android:textColor="@android:color/darker_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="State:"
+                    android:text="Loaction:"
                     android:singleLine="true"
                     android:layout_below="@+id/txtCity"
                     android:textSize="@dimen/font_12sp"
@@ -263,8 +291,8 @@
 
         <com.app.elixir.TravelB2B.mtplview.MtplButton
             android:id="@+id/buttonPromote"
-            android:layout_width="@dimen/margin_120dp"
-            android:layout_height="@dimen/margin_40dp"
+            android:layout_width="@dimen/margin_100dp"
+            android:layout_height="@dimen/margin_30dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/blue_rect"
             android:paddingLeft="@dimen/margin_10dp"

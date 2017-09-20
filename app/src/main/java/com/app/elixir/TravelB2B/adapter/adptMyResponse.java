@@ -54,20 +54,23 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType, citytxtView;
         MtplButton btnDetail, btnFollow, btnChat;
         ImageView catImage;
         ImageView imageView;
         TextView total;
         LinearLayout layoutUserDeatil;
-        MtplTextView txtUserName, useremail, txtUsermobileNp, txtUserwebsite;
+        MtplTextView txtUserName, useremail, txtUsermobileNp, txtUserwebsite, txtQuation, txtCompName;
         RatingBar ratingBar;
+        ImageView imageFollow;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             rootView = (CardView) itemView.findViewById(R.id.rootView);
             //reqAgentType = (CardView) itemView.findViewById(R.id.reqAgentType);
             reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
+            imageFollow = (ImageView) itemView.findViewById(R.id.img_follow);
+            citytxtView = (MtplTextView) itemView.findViewById(R.id.citytxtView);
             reqAgent = (MtplTextView) itemView.findViewById(R.id.reqAgent);
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
@@ -82,9 +85,13 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
             btnFollow = (MtplButton) itemView.findViewById(R.id.btnFollow);
             btnChat = (MtplButton) itemView.findViewById(R.id.btnChat);
 
+            txtQuation = (MtplTextView) itemView.findViewById(R.id.txtQuation);
+
 
             layoutUserDeatil = (LinearLayout) itemView.findViewById(R.id.layoutCountDeatil);
             txtUserName = (MtplTextView) itemView.findViewById(R.id.txtUserName);
+            txtCompName = (MtplTextView) itemView.findViewById(R.id.txtCompName);
+
             useremail = (MtplTextView) itemView.findViewById(R.id.txtUserEmail);
             txtUsermobileNp = (MtplTextView) itemView.findViewById(R.id.txtMobileNo);
             txtUserwebsite = (MtplTextView) itemView.findViewById(R.id.txtUserwebsite);
@@ -149,14 +156,30 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         MtplTextView mobileNo = holder.txtUsermobileNp;
         MtplTextView website = holder.txtUserwebsite;
         MtplTextView useremail = holder.useremail;
+        MtplTextView citytxtView = holder.citytxtView;
+        MtplTextView txtCompName = holder.txtCompName;
+
+        MtplTextView quation = holder.txtQuation;
         LinearLayout userDeatil = holder.layoutUserDeatil;
         MtplTextView reqAgentType = holder.reqAgentType;
         RatingBar ratingBar = holder.ratingBar;
+        MtplButton btnFollow = holder.btnFollow;
+        ImageView img_Follow = holder.imageFollow;
 
-        //ImageView imageView = holder.imageView;
-
+        txtCompName.setText(dataSet.get(position).getCompany_name());
         reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
         txtComment.setText(dataSet.get(position).getComment());
+
+        quation.setText(context.getString(R.string.rsSymbol) + "" + dataSet.get(position).getQuotation_price());
+
+
+        if (dataSet.get(position).getIsBusinessBuddy().equals("1")) {
+            btnFollow.setVisibility(View.GONE);
+            img_Follow.setVisibility(View.VISIBLE);
+        } else {
+            btnFollow.setVisibility(View.VISIBLE);
+            img_Follow.setVisibility(View.GONE);
+        }
 
         String txtStartDt = "";
         String txtEndDt = "";
@@ -197,7 +220,7 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
         //  total.setSingleLine(false);
-        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
         int totAdult = 0;
         int totChild = 0;
         int totMemb = 0;
@@ -223,13 +246,16 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
             reqAgentType.setText(" ( " + "Package" + " )");
+            citytxtView.setText(context.getString(R.string.destination_city));
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
             catImg.setImageResource(R.drawable.tt);
             reqAgentType.setText(" ( " + "Transport" + " )");
+            citytxtView.setText(context.getString(R.string.pickup_city));
         } else {
             catImg.setImageResource(R.drawable.hh);
             reqAgentType.setText(" ( " + "Hotel" + " )");
+            citytxtView.setText(context.getString(R.string.destination_city));
         }
 
         TextDrawable drawable = TextDrawable.builder()
@@ -241,12 +267,12 @@ public class adptMyResponse extends RecyclerView.Adapter<adptMyResponse.MyViewHo
                 .buildRect(context.getString(R.string.tot), Color.RED);
 
 
-        if (dataSet.get(position).getChatStatus().equals("1")) {
+        /*if (dataSet.get(position).getChatStatus().equals("1")) {
             chatStatus.setVisibility(View.VISIBLE);
 
         } else {
             chatStatus.setVisibility(View.GONE);
-        }
+        }*/
 
         //txtUserName, useremail, txtUsermobileNp, txtUserwebsite
         if (dataSet.get(position).getShareDetail().equals("1")) {

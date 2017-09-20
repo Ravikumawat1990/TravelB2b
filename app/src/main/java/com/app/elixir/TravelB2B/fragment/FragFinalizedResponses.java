@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -69,7 +71,7 @@ public class FragFinalizedResponses extends Fragment {
     RelativeLayout edtStartDate;
     RelativeLayout edtEndDate;
     RelativeLayout priceRoot;
-    EditText edtRefId;
+    //  EditText edtRefId;
     EditText edtPrice;
     RelativeLayout spinnerRefType;
     Spinner spinnerBudget, spinnerPriceQuot;
@@ -77,6 +79,23 @@ public class FragFinalizedResponses extends Fragment {
     CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High)", "Quotation Price (Low To High)", "Quotation Price (High To Low)", "Agent Name (A To Z)", "Agent Name (Z To A)"};
     AlertDialog levelDialog;
     Boolean wantToCloseDialog = false;
+
+
+    //Filter Variable
+    // RelativeLayout edtStartDate;
+    //  RelativeLayout edtEndDate;
+    // RelativeLayout priceRoot;
+    // EditText edtPrice;
+    // RelativeLayout spinnerRefType;
+    // Spinner spinnerBudget, spinnerPriceQuot;
+
+    //new filter fields
+    AutoCompleteTextView spinnerPCity, spinnerDCity, spinnerChatWid;
+    RelativeLayout edtRefId;
+    RelativeLayout edtMembers;
+    CheckBox checkboxFollow, checkboxShareDetail;
+    private String sortItemPos = "";
+
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -156,7 +175,7 @@ public class FragFinalizedResponses extends Fragment {
         });
 
         if (CM.isInternetAvailable(thisActivity)) {
-            webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "");
+            webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
         }
@@ -200,10 +219,10 @@ public class FragFinalizedResponses extends Fragment {
         item.setVisible(false);
     }*/
 
-    public void webFinalizeResponse(String userId, String reqId, String budget, String quotPrice, String name) {
+    public void webFinalizeResponse(String userId, String reqId, String budget, String quotPrice, String name, String sort) {
         try {
             VolleyIntialization v = new VolleyIntialization(thisActivity, true, true);
-            WebService.getFinalizeResponse(v, userId, reqId, budget, quotPrice, name, new OnVolleyHandler() {
+            WebService.getFinalizeResponse(v, userId, reqId, budget, quotPrice, name, sort, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (thisActivity.isFinishing()) {
@@ -256,10 +275,11 @@ public class FragFinalizedResponses extends Fragment {
                             pojoMyResponse.setTotal_budget(jsonObject1.optString("total_budget"));
                             pojoMyResponse.setCategory_id(jsonObject1.optString("category_id"));
 
-                            JSONObject jsonObject2 = new JSONObject(jsonArray.getJSONObject(i).optString("user").toString());
+                            JSONObject jsonObject2 = new JSONObject(jsonObject1.optString("user").toString());
                             pojoMyResponse.setId(jsonObject2.optString("id"));
                             pojoMyResponse.setFirst_name(jsonObject2.optString("first_name"));
                             pojoMyResponse.setLast_name(jsonObject2.optString("last_name"));
+
 
                             finalizeResposneArrayList.add(pojoMyResponse);
 
@@ -416,9 +436,8 @@ public class FragFinalizedResponses extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity).setView(layout1);
         builder.setTitle("Filter By:");
 
-        SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
+        final SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
         searchView.setQueryHint("Search by Agent Name");
-        searchView.setVisibility(View.VISIBLE);
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         final TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(thisActivity.getAssets(), getString(R.string.fontface_roboto_light));
@@ -431,21 +450,38 @@ public class FragFinalizedResponses extends Fragment {
         edtStartDate.setVisibility(View.GONE);
         edtEndDate = (RelativeLayout) layout1.findViewById(R.id.enddateroot);
         edtEndDate.setVisibility(View.GONE);
-        priceRoot = (RelativeLayout) layout1.findViewById(R.id.priceroot);
-        priceRoot.setVisibility(View.VISIBLE);
-        edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
         spinnerRefType = (RelativeLayout) layout1.findViewById(R.id.typeroot);
         spinnerRefType.setVisibility(View.GONE);
+
+        //new
+
+        spinnerPCity = (AutoCompleteTextView) layout1.findViewById(R.id.pcityspinner);
+        spinnerDCity = (AutoCompleteTextView) layout1.findViewById(R.id.dcityspinner);
+        edtMembers = (RelativeLayout) layout1.findViewById(R.id.memberroot);
+        checkboxFollow = (CheckBox) layout1.findViewById(R.id.followimgcheckbox);
+        checkboxShareDetail = (CheckBox) layout1.findViewById(R.id.sdetailcheckbox);
+        spinnerChatWid = (AutoCompleteTextView) layout1.findViewById(R.id.chatwidspinner);
+        edtRefId = (RelativeLayout) layout1.findViewById(R.id.refroot);
+
+        //hide show new fields
+        searchView.setVisibility(View.VISIBLE);
+        spinnerPCity.setVisibility(View.GONE);
+        spinnerDCity.setVisibility(View.GONE);
+        edtMembers.setVisibility(View.GONE);
+        spinnerChatWid.setVisibility(View.GONE);
+        checkboxFollow.setVisibility(View.GONE);
+        checkboxShareDetail.setVisibility(View.GONE);
+        edtRefId.setVisibility(View.GONE);
 
 
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String quotPrice, reqId, budgetv, name;
+                String quotPrice, budgetv, name;
 
-                name = searchText.getText().toString();
+
+                name = searchView.getQuery().toString();
                 quotPrice = spinnerPriceQuot.getSelectedItem().toString();
-                reqId = edtRefId.getText().toString();
                 budgetv = spinnerBudget.getSelectedItem().toString();
 
 
@@ -457,7 +493,7 @@ public class FragFinalizedResponses extends Fragment {
                 }
 
                 if (CM.isInternetAvailable(thisActivity)) {
-                    webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), reqId, budgetv, quotPrice, name);
+                    webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", budgetv, quotPrice, name, "");
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), thisActivity);
                 }
@@ -488,19 +524,28 @@ public class FragFinalizedResponses extends Fragment {
 
                 switch (item) {
                     case 0:
+                        sortItemPos = "0";
                         wantToCloseDialog = true;
                         break;
                     case 1:
+                        sortItemPos = "1";
                         wantToCloseDialog = true;
                         break;
                     case 2:
+                        sortItemPos = "2";
                         wantToCloseDialog = true;
 
                         break;
                     case 3:
+                        sortItemPos = "3";
                         wantToCloseDialog = true;
                         break;
                     case 4:
+                        sortItemPos = "4";
+                        wantToCloseDialog = true;
+                        break;
+                    case 5:
+                        sortItemPos = "5";
                         wantToCloseDialog = true;
                         break;
                     default:
@@ -543,11 +588,46 @@ public class FragFinalizedResponses extends Fragment {
                 if (wantToCloseDialog)
                     levelDialog.dismiss();
                 wantToCloseDialog = false;
+                webFinalizeResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "", setSort(sortItemPos));
+
                 //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
             }
         });
 
 
+    }
+
+   /* totalbudgetlh
+            totalbudgethl
+    quotationlh
+            quotationhl
+    agentaz
+            agentza*/
+    // CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High)", "Quotation Price (Low To High)", "Quotation Price (High To Low)", "Agent Name (A To Z)", "Agent Name (Z To A)"};
+
+    public String setSort(String pos) {
+        String sortItem = "";
+        switch (pos) {
+            case "0":
+                sortItem = "totalbudgetlh";
+                break;
+            case "1":
+                sortItem = "totalbudgethl";
+                break;
+            case "2":
+                sortItem = "quotationlh";
+                break;
+            case "3":
+                sortItem = "quotationhl";
+                break;
+            case "4":
+                sortItem = "agentaz";
+            case "5":
+                sortItem = "agentza";
+                break;
+        }
+
+        return sortItem;
     }
 
 }

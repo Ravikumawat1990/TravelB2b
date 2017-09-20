@@ -192,7 +192,7 @@ public class FragFollowers extends Fragment {
                         pojoFollowers.setCompany_name(jsonObject1.optString("company_name"));
                         pojoFollowers.setEmail(jsonObject1.optString("email"));
                         pojoFollowers.setWeb_url(jsonObject1.optString("web_url"));
-                        pojoFollowers.setBb_userid(jsonArray.getJSONObject(i).optString("id"));
+                        pojoFollowers.setBb_userid(jsonArray.getJSONObject(i).optString("bb_user_id"));
                         pojoFollowerses.add(pojoFollowers);
 
                     }

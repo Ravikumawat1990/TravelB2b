@@ -78,7 +78,6 @@ public class FragRemoveRequest extends Fragment implements View.OnTouchListener 
         super.onAttach(context);
         try {
             this.mListener = (OnFragmentInteractionListener) context;
-            //    this.listener = (OnApiDataChange) context;
             ((ActionBarTitleSetter) context).setTitle(getString(R.string.removed_requests));
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnFragmentInteractionListener");
@@ -374,8 +373,8 @@ public class FragRemoveRequest extends Fragment implements View.OnTouchListener 
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.noti).setVisible(false);
         menu.findItem(R.id.cartMenu).setVisible(false);
-        menu.findItem(R.id.sort).setVisible(true);
-        menu.findItem(R.id.filter).setVisible(true);
+        menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.filter).setVisible(false);
     }
 
     @Override

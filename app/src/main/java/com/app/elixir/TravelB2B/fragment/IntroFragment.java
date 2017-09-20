@@ -285,7 +285,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
                 intent.putExtra("category", txtHeader.getText().toString());
                 CM.startActivity(intent, thisActivity);
 
-
                 dialog.dismiss();
                 // TODO Auto-generated method stub
 
@@ -382,8 +381,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
-
-
                     try {
                         ta.setText(jsonObject1.optString("travelAgentCount"));
                     } catch (Exception e) {
@@ -392,7 +389,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
                     try {
                         ep.setText(jsonObject1.optString("eventPlannerCount"));
                     } catch (Exception e) {
-
                         ep.setText("0");
                     }
                     try {

@@ -1,5 +1,9 @@
 package com.app.elixir.TravelB2B.utils;
 
+import android.util.Base64;
+
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by NetSupport on 14-09-2016.
  */
@@ -8,7 +12,7 @@ public class CONSTANT {
     public static final String URL = "http://192.168.3.82/b2b/pages/";
     //  public static final String URL = "http://www.travelb2bhub.com/b2b/";
     public static final String SOAP_ACTION = "http://tempuri.org/IService1/GetOTP";
-
+    public static String token = "";
     public static final String CAPPSTORECODE = "cAppStoreCode";
     public static final String CAPIKEY = "cAPIKey";
     public static final String CAPIPASS = "cAPIPass";
@@ -16,7 +20,7 @@ public class CONSTANT {
     public static final String NSTATEID = "nStateID";
     public static final String COUPONCODE1 = "CouponCode1";
 
-
+    public static final String TOKEN = "token";
     public static final String DATE = "date";
     public static final String TIME = "time";
     public static final String NUSERID = "nUserId";
@@ -133,4 +137,6 @@ public class CONSTANT {
     public static final String CSPCOMMENT = "cSpComment";
     public static final String nCompanyProductID = "1";
 
+    public CONSTANT() throws UnsupportedEncodingException {
+    }
 }

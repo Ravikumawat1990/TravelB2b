@@ -20,6 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -28,8 +31,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.elixir.TravelB2B.R;
+import com.app.elixir.TravelB2B.adapter.adptChatWith;
 import com.app.elixir.TravelB2B.adapter.adptCheckResponse;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListeners;
+import com.app.elixir.TravelB2B.model.pojoUserChat;
 import com.app.elixir.TravelB2B.mtplview.MtplButton;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
@@ -59,19 +64,35 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     String referenceId = "";
     MtplTextView refId, budget, members, childres, startdate, enddate, pickupCity, pickupState, pickupLocation, vehicle, finalState, finalCity, comment;
     ArrayList<pojoCheckResposne> resposneArrayList;
-
+    String chatUserId;
     //Filter Variable
-    RelativeLayout edtStartDate;
-    RelativeLayout edtEndDate;
+    //  RelativeLayout edtStartDate;
+    // RelativeLayout edtEndDate;
     RelativeLayout priceRoot;
-    EditText edtRefId;
+    // EditText edtRefId;
     EditText edtPrice;
-    RelativeLayout spinnerRefType;
+    // RelativeLayout spinnerRefType;
     Spinner spinnerBudget, spinnerPriceQuot;
-    String ref_Id;
+    // String ref_Id;
     boolean aBoolean = false;
     MtplTextView room1, room2, room3;
     MtplTextView childWithbed, childWithoutbed, meal;
+    ArrayList<pojoUserChat> pojoUserChatList;
+    //filter
+    RelativeLayout edtStartDate, spinnerRefType;
+    RelativeLayout edtEndDate;
+    EditText edtRefId;
+    //Spinner  spinnerBudget;
+    //new filter fields
+    Spinner spinnerQuotedprice;
+    AutoCompleteTextView spinnerPCity, spinnerDCity, spinnerChatWid;
+    RelativeLayout edtMembers;
+    CheckBox checkboxFollow, checkboxShareDetail;
+    String ref_Id;
+    CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "Quoted Price (High To Low)", "Quoted Price (Low To High)", "Chats (High To Low)", "Chats (Low To High)", "Agent Name (A To Z)", "Agent Name (Z To A)"};
+    AlertDialog levelDialog;
+    Boolean wantToCloseDialog = false;
+    private String sortItemPos = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +134,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         referenceId = intent.getStringExtra("refId");
         if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "", "");
         } else {
             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
         }
@@ -130,7 +151,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
         resposneArrayList = new ArrayList<>();
         mAdapter = new adptCheckResponse(ViewCheckResponse.this, resposneArrayList);
-
+        pojoUserChatList = new ArrayList<>();
 
         mAdapter.SetOnItemClickListener(new OnItemClickListeners() {
             @Override
@@ -207,24 +228,26 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 showFilterPopup();
                 return true;
             case R.id.sort:
+                showDialogSort();
 
-
-                if (aBoolean) {
+              /*  if (aBoolean) {
                     if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                        //webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "", "");
+                        showDialogSort();
                     } else {
                         CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                     }
                     aBoolean = false;
                 } else {
                     if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                        webCheckResponse(referenceId, "", "", "", "", CV.DESC, "");
+                        webCheckResponse(referenceId, "", "", "", "", CV.DESC, "", "", "", "", "");
                     } else {
                         CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                     }
                     aBoolean = true;
 
-                }
+                }*/
+
 
                 return true;
             default:
@@ -296,6 +319,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 */
 
+    //ViewCheckResponse.this, "Are you sure you want to accept this offer?", value, value1, value2, value3
     public void showPopup(Context context, String msg, final String typeNew, final String blockId, final String value2, final String value3) {
         new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.app_name))
@@ -309,7 +333,16 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
 
                         } else if (typeNew.equals("btnAccept")) {
 
-                            webAcceptOffer(blockId, value2, value3);
+                            if (CM.isInternetAvailable(ViewCheckResponse.this)) {
+                                //webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "");
+                                //  webAcceptOffer("", "", CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString());
+                                // String resid, final String reqid, String userid
+
+                                webAcceptOffer(blockId, value2, CM.getSp(ViewCheckResponse.this, CV.PrefID, "").toString());
+
+                            } else {
+                                CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
+                            }
 
 
                         } else if (typeNew.equals("share")) {
@@ -335,7 +368,14 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnDetail:
-                showDetail();
+                //showDetail();
+                Intent intent = new Intent(ViewCheckResponse.this, ViewCommonDeatilView.class);
+                intent.putExtra("refId", referenceId);
+                String s = (String) CM.getSp(ViewCheckResponse.this, "deatilreqtype", "");
+                CM.setSp(ViewCheckResponse.this, "deatilreqtype", null);
+                intent.putExtra("reqtype", s);
+                intent.putExtra("title", getString(R.string.checkResp));
+                CM.startActivity(intent, ViewCheckResponse.this);
                 break;
         }
     }
@@ -398,11 +438,10 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
     }
 
 
-    // budgetv, pricetv, nameAgent, CV.ASC, quotPrice
-    public void webCheckResponse(String reqId, String refId, String budget, String price, String name, String order, String quotPrice) {
+    public void webCheckResponse(String reqid, String refid, String budget, String price, String agentName, String order, String quotPrice, String chatwith, String follow, String sharedetail, String sort) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewCheckResponse.this, true, true);
-            WebService.getCheckResposne(v, reqId, refId, budget, price, name, order, quotPrice, new OnVolleyHandler() {
+            WebService.getCheckResposne(v, reqid, refid, budget, price, agentName, order, quotPrice, chatwith, follow, sharedetail, sort, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -627,7 +666,17 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                     }
                     mRecyclerView.setAdapter(mAdapter);
                     mRecyclerView.invalidate();
+                    JSONArray jsonChatArray1 = new JSONArray(jsonObject.optString("chat_users").toString());
+                    pojoUserChatList.clear();
+                    if (jsonChatArray1.length() != 0) {
 
+                        for (int j = 0; j < jsonChatArray1.length(); j++) {
+                            pojoUserChat chatPojo = new pojoUserChat();
+                            chatPojo.setUserid(jsonChatArray1.getJSONObject(j).get("id").toString());
+                            chatPojo.setUsername(jsonChatArray1.getJSONObject(j).get("first_name").toString() + " " + jsonChatArray1.getJSONObject(j).get("last_name").toString());
+                            pojoUserChatList.add(chatPojo);
+                        }
+                    }
 
                     break;
                 case "202":
@@ -983,7 +1032,7 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 case "200":
                     CM.showToast(getString(R.string.offerACT), ViewCheckResponse.this);
                     if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                        webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "", "");
                     } else {
                         CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                     }
@@ -1074,10 +1123,11 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                         CM.showToast(getString(R.string.follow_success), ViewCheckResponse.this);
 
                         if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "");
+                            webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "", "");
                         } else {
                             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                         }
+
 
                     }
 
@@ -1105,42 +1155,81 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         builder.setTitle("Filter By:");
 
         final SearchView searchView = (SearchView) layout1.findViewById(R.id.searchView);
-        searchView.setQueryHint("Agent Name");
+        searchView.setQueryHint("Search by Name");
         searchView.setVisibility(View.VISIBLE);
         int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView searchText = (TextView) searchView.findViewById(id);
+        final TextView searchText = (TextView) searchView.findViewById(id);
         Typeface myCustomFont = Typeface.createFromAsset(ViewCheckResponse.this.getAssets(), getString(R.string.fontface_roboto_light));
         searchText.setTypeface(myCustomFont);
-        builder.setIcon(R.drawable.logo3);
+        builder.setIcon(R.drawable.logonewnew);
 
         spinnerBudget = (Spinner) layout1.findViewById(R.id.spinnerbudget);
-        spinnerPriceQuot = (Spinner) layout1.findViewById(R.id.spinnerPriceQuot);
         edtStartDate = (RelativeLayout) layout1.findViewById(R.id.startdateroot);
         edtStartDate.setVisibility(View.GONE);
-        //  edtStartDate.setOnTouchListener(this);
+        //edtStartDate.setOnTouchListener(this);
         edtEndDate = (RelativeLayout) layout1.findViewById(R.id.enddateroot);
         edtEndDate.setVisibility(View.GONE);
-        // edtEndDate.setOnTouchListener(this);
-        priceRoot = (RelativeLayout) layout1.findViewById(R.id.priceroot);
-        priceRoot.setVisibility(View.VISIBLE);
+        //edtEndDate.setOnTouchListener(this);
         edtRefId = (EditText) layout1.findViewById(R.id.edtrefid1);
-        edtRefId.setText(ref_Id);
-        edtRefId.setEnabled(false);
-        // edtPrice = (EditText) layout1.findViewById(R.id.edtprice);
         spinnerRefType = (RelativeLayout) layout1.findViewById(R.id.typeroot);
         spinnerRefType.setVisibility(View.GONE);
+
+        //new
+        spinnerPCity = (AutoCompleteTextView) layout1.findViewById(R.id.pcityspinner);
+        spinnerDCity = (AutoCompleteTextView) layout1.findViewById(R.id.dcityspinner);
+        edtMembers = (RelativeLayout) layout1.findViewById(R.id.memberroot);
+        checkboxFollow = (CheckBox) layout1.findViewById(R.id.followimgcheckbox);
+        checkboxShareDetail = (CheckBox) layout1.findViewById(R.id.sdetailcheckbox);
+        spinnerChatWid = (AutoCompleteTextView) layout1.findViewById(R.id.chatwidspinner);
+        spinnerQuotedprice = (Spinner) layout1.findViewById(R.id.spinnerPriceQuot);
+
+
+        //hide show new fields
+        spinnerPCity.setVisibility(View.GONE);
+        spinnerDCity.setVisibility(View.GONE);
+        edtMembers.setVisibility(View.GONE);
+        checkboxFollow.setVisibility(View.VISIBLE);
+        checkboxShareDetail.setVisibility(View.VISIBLE);
+
+        chatUserId = "";
+
+        adptChatWith adptchat1 = new adptChatWith(ViewCheckResponse.this, R.layout.conntylayout, R.id.textViewSpinner, pojoUserChatList);
+        spinnerChatWid.setThreshold(3);
+        spinnerChatWid.setAdapter(adptchat1);
+
+        spinnerChatWid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                chatUserId = pojoUserChatList.get(i).getUserid();
+            }
+        });
 
 
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String quotPrice, reqId, budgetv, name, pricetv, nameAgent;
+                //new
+                String chatwithStr, followStr, sharesdetailStr;
 
-                quotPrice = spinnerPriceQuot.getSelectedItem().toString();
-                //   pricetv = edtPrice.getText().toString();
-                // reqId = edtRefId.getText().toString();
+
+                quotPrice = spinnerQuotedprice.getSelectedItem().toString();
                 budgetv = spinnerBudget.getSelectedItem().toString();
                 nameAgent = searchView.getQuery().toString();
+
+                //new
+                chatwithStr = spinnerChatWid.getText().toString();
+                if (checkboxFollow.isChecked()) {
+                    followStr = "1";
+                } else {
+                    followStr = "0";
+                }
+
+                if (checkboxShareDetail.isChecked()) {
+                    sharesdetailStr = "1";
+                } else {
+                    sharesdetailStr = "0";
+                }
 
                 if (budgetv.equals("Select Budget")) {
                     budgetv = "";
@@ -1150,7 +1239,8 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
                 }
 
                 if (CM.isInternetAvailable(ViewCheckResponse.this)) {
-                    webCheckResponse(referenceId, ref_Id, budgetv, "", nameAgent, CV.ASC, quotPrice);
+                    //String reqid, String refid, String budget, String price, String agentName, String order, String quotPrice,String chatwith, String follow, String sharedetail
+                    webCheckResponse(referenceId, ref_Id, budgetv, "", nameAgent, CV.ASC, quotPrice, chatUserId, followStr, sharesdetailStr, "");
                 } else {
                     CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewCheckResponse.this);
                 }
@@ -1168,4 +1258,134 @@ public class ViewCheckResponse extends AppCompatActivity implements View.OnClick
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    public void showDialogSort() {
+
+
+        // Creating and Building the Dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewCheckResponse.this,
+                R.style.MyDialogTheme);
+        builder.setTitle("Sorting");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+
+
+                switch (item) {
+                    case 0:
+                        sortItemPos = "0";
+                        wantToCloseDialog = true;
+                        break;
+                    case 1:
+                        sortItemPos = "1";
+                        wantToCloseDialog = true;
+                        break;
+                    case 2:
+                        sortItemPos = "2";
+                        wantToCloseDialog = true;
+
+                        break;
+                    case 3:
+                        sortItemPos = "3";
+                        wantToCloseDialog = true;
+                        break;
+                    case 4:
+                        sortItemPos = "4";
+                        wantToCloseDialog = true;
+                        break;
+                    case 5:
+                        sortItemPos = "5";
+                        wantToCloseDialog = true;
+                        break;
+                    case 6:
+                        sortItemPos = "6";
+                        wantToCloseDialog = true;
+                        break;
+                    case 7:
+                        sortItemPos = "7";
+                        wantToCloseDialog = true;
+                        break;
+
+
+                }
+                //levelDialog.dismiss();
+
+            }
+        });
+
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        levelDialog = builder.create();
+        levelDialog.show();
+        levelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                if (wantToCloseDialog)
+                    levelDialog.dismiss();
+                wantToCloseDialog = false;
+                //webMyResponse(CM.getSp(thisActivity, CV.PrefID, "").toString(), "", "", "", "", "", "", "", "", "", "", "", "", setSort(sortItemPos));
+
+                webCheckResponse(referenceId, "", "", "", "", CV.ASC, "", "", "", "", setSort(sortItemPos));
+
+
+            }
+        });
+
+
+    }
+
+    // CharSequence[] values = {"Total Budget (High To Low)", "Total Budget (Low To High) ", "Quoted Price (High To Low)", "Quoted Price (Low To High)", "Chats (High To Low)", "Chats (Low To High)", "Agent Name (A To Z)", "Agent Name (Z To A)"};
+
+    public String setSort(String pos) {
+        String sortItem = "";
+        switch (pos) {
+            case "0":
+                sortItem = "totalbudgethl";
+                break;
+            case "1":
+                sortItem = "totalbudgetlh";
+                break;
+            case "2":
+                sortItem = "quotationhl";
+                break;
+            case "3":
+                sortItem = "quotationlh";
+                break;
+            case "4":
+                sortItem = "chatshl";
+                break;
+            case "5":
+                sortItem = "chatslh";
+                break;
+            case "6":
+                sortItem = "agentaz";
+                break;
+            case "7":
+                sortItem = "agentza";
+                break;
+
+        }
+
+        return sortItem;
+    }
+
 }

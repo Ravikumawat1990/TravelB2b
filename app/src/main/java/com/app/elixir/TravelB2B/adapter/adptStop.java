@@ -46,17 +46,18 @@ public class adptStop extends RecyclerView.Adapter<adptStop.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CardView rootView;
-        public MtplTextView txtstopCity, txtstopState, txtstopLocality, txtCmt;
-        MtplButton btnUnBlockUser;
+       // private CardView rootView;
+        public MtplTextView txtstopCity, txtstopState, txtstopLocality,stopTitle;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            rootView = (CardView) itemView.findViewById(R.id.rootView);
-            txtstopCity = (MtplTextView) itemView.findViewById(R.id.txtstopCity);
-            txtstopState = (MtplTextView) itemView.findViewById(R.id.txtstopState);
-            txtstopLocality = (MtplTextView) itemView.findViewById(R.id.txtstopLocality);
-            txtCmt = (MtplTextView) itemView.findViewById(R.id.txtCmt);
+          //  rootView = (CardView) itemView.findViewById(R.id.rootView);
+            txtstopCity = (MtplTextView) itemView.findViewById(R.id.txtscity);
+            txtstopState = (MtplTextView) itemView.findViewById(R.id.txtsstate);
+            txtstopLocality = (MtplTextView) itemView.findViewById(R.id.txtslocality);
+            stopTitle = (MtplTextView) itemView.findViewById(R.id.Stop_txt);
+            //txtCmt = (MtplTextView) itemView.findViewById(R.id.txtCmt);
 
         }
 
@@ -74,7 +75,7 @@ public class adptStop extends RecyclerView.Adapter<adptStop.MyViewHolder> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addstop, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addstop_list, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
@@ -85,26 +86,38 @@ public class adptStop extends RecyclerView.Adapter<adptStop.MyViewHolder> {
         TextView txtstopCity = holder.txtstopCity;
         TextView txtstopState = holder.txtstopState;
         TextView txtstopLocality = holder.txtstopLocality;
-        TextView txtCmt = holder.txtCmt;
+        TextView txtStopTitle = holder.stopTitle;
+        //TextView txtCmt = holder.txtCmt;
 
+        int i =position+1;
+        txtStopTitle.setText("Stop "+i);
 
-        // txtstopCity.setText(dataSet.get(position).getCity_id());
-        // txtstopState.setText(dataSet.get(position).getState_id());
-        txtstopLocality.setText(dataSet.get(position).getLocality());
-        txtCmt.setText("");
-
+        if (dataSet.get(position).getLocality()==null || dataSet.get(position).getLocality().equals("") || dataSet.get(position).getLocality().equals("")) {
+            txtstopLocality.setText("-- --");
+        }
+        else
+        {
+            txtstopLocality.setText(dataSet.get(position).getLocality());
+        }
 
         if (CM.isInternetAvailable(context)) {
-            if (!dataSet.get(position).getCity_id().equals("")) {
+            if (dataSet.get(position).getCity_id()==null || dataSet.get(position).getCity_id().equals("") || dataSet.get(position).getCity_id().equals("")) {
+               txtstopCity.setText("-- --");
+            }
+            else
+            {
                 webCity(dataSet.get(position).getCity_id(), txtstopCity);
             }
 
         }
         if (CM.isInternetAvailable(context)) {
-            if (!dataSet.get(position).getState_id().equals("")) {
+            if (dataSet.get(position).getState_id()==null || dataSet.get(position).getState_id().equals("") || dataSet.get(position).getState_id().equals("")) {
+                txtstopState.setText("-- --");
+            }
+            else
+            {
                 webState(dataSet.get(position).getState_id(), txtstopState);
             }
-
         }
     }
 

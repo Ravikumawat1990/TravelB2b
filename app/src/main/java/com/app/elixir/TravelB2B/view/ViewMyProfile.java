@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.adapter.adptAdvtMyProfile;
+import com.app.elixir.TravelB2B.adapter.adptCertificate;
 import com.app.elixir.TravelB2B.adapter.adptreview;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
 import com.app.elixir.TravelB2B.model.PojoMyResponse;
@@ -30,7 +31,9 @@ import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
 import com.app.elixir.TravelB2B.pojos.pojoTestimonial;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CONSTANT;
 import com.app.elixir.TravelB2B.utils.CV;
+import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
@@ -57,9 +60,10 @@ public class ViewMyProfile extends AppCompatActivity {
 
     CircleImageView circleImageViewProfile;
     Toolbar toolbar;
-    private adptAdvtMyProfile mAdapter1;
     MtplTextView userEmail, userName, userMob;
     MtplTextView txtDis;
+    ArrayList<String> stringArrayList;
+    adptCertificate mAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +124,12 @@ public class ViewMyProfile extends AppCompatActivity {
         recycleViewTestimonial.setLayoutManager(layoutManager1);
 
         pojoTestimonialArrayList = new ArrayList<>();
-        pojoAdvertArrayList = new ArrayList<>();
+        //  pojoAdvertArrayList = new ArrayList<>();
+        stringArrayList = new ArrayList<>();
 
-        mAdapter1 = new adptAdvtMyProfile(ViewMyProfile.this, pojoAdvertArrayList);
+        //mAdapter1 = new adptAdvtMyProfile(ViewMyProfile.this, pojoAdvertArrayList);
         mAdapter = new adptreview(ViewMyProfile.this, pojoTestimonialArrayList);
-
+        mAdapter1 = new adptCertificate(ViewMyProfile.this, stringArrayList);
         mAdapter1.SetOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(String item, String item1) {
@@ -148,9 +153,9 @@ public class ViewMyProfile extends AppCompatActivity {
         userMob = (MtplTextView) findViewById(R.id.userPNo);
         txtDis = (MtplTextView) findViewById(R.id.txtViewDis);
 
-        userEmail.setText(CM.getSp(ViewMyProfile.this, CV.PrefEmail, "").toString());
-        userName.setText(CM.getSp(ViewMyProfile.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewMyProfile.this, CV.Preflast_name, "").toString());
-        userMob.setText(CM.getSp(ViewMyProfile.this, CV.PrefMobile_number, "").toString());
+        //     userEmail.setText(CM.getSp(ViewMyProfile.this, CV.PrefEmail, "").toString());
+        //   userName.setText(CM.getSp(ViewMyProfile.this, CV.Preffirst_name, "").toString() + " " + CM.getSp(ViewMyProfile.this, CV.Preflast_name, "").toString());
+        //    userMob.setText(CM.getSp(ViewMyProfile.this, CV.PrefMobile_number, "").toString());
         circleImageViewProfile = (CircleImageView) findViewById(R.id.imageViewProfilePic);
 
         try {
@@ -204,7 +209,7 @@ public class ViewMyProfile extends AppCompatActivity {
     public void webTestimonial(String userId) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewMyProfile.this, true, true);
-            WebService.getTestimonial(v, userId, new OnVolleyHandler() {
+            WebService.getMyProfile(v, userId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -239,12 +244,8 @@ public class ViewMyProfile extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
             switch (jsonObject.optString("response_code")) {
                 case "200":
-                    // CM.showToast(jsonObject.optString("response_object"), ViewAgentProfile.this);
-                    JSONArray jsonArray = new JSONArray(jsonObject.optString("response_object").toString());
-
-                    txtDis.setText(jsonObject.optString("description1").toString());
-                    //webUserProfile(CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString());
-                    // pojoAdverts
+                    JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object").toString());
+                    JSONArray jsonArray = new JSONArray(jsonObject1.optString("testimonial").toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         pojoTestimonial pojoTestimonial = new pojoTestimonial();
@@ -255,36 +256,37 @@ public class ViewMyProfile extends AppCompatActivity {
                         pojoTestimonial.setProfile_pic(jsonArray.getJSONObject(i).optString("profile_pic"));
                         pojoTestimonial.setUser_id(jsonArray.getJSONObject(i).optString("user_id"));
                         pojoTestimonial.setAuthor_id(jsonArray.getJSONObject(i).optString("author_id"));
+                        pojoTestimonial.setRating(jsonArray.getJSONObject(i).optString("rating1"));
                         pojoTestimonialArrayList.add(pojoTestimonial);
 
 
                     }
-                    JSONArray jsonArray1 = new JSONArray(jsonObject.optString("advertisement").toString());
+                    JSONObject jsonObject2 = new JSONObject(jsonObject1.optString("users").toString());
 
-                    for (int i = 0; i < jsonArray1.length(); i++) {
 
-                        pojoAdvert pojoAdverts = new pojoAdvert();
-                        pojoAdverts.setId(jsonArray1.getJSONObject(i).getString("id"));
-                        pojoAdverts.setUser_id(jsonArray1.getJSONObject(i).getString("user_id"));
-                        pojoAdverts.setHotel_name(jsonArray1.getJSONObject(i).getString("hotel_name"));
-                        pojoAdverts.setHotel_type(jsonArray1.getJSONObject(i).getString("hotel_type"));
-                        pojoAdverts.setCheap_tariff(jsonArray1.getJSONObject(i).getString("cheap_tariff"));
-                        pojoAdverts.setExpensive_tariff(jsonArray1.getJSONObject(i).getString("expensive_tariff"));
-                        pojoAdverts.setWebsite(jsonArray1.getJSONObject(i).getString("website"));
-                        pojoAdverts.setCities(jsonArray1.getJSONObject(i).getString("cities"));
-                        pojoAdverts.setCharges(jsonArray1.getJSONObject(i).getString("charges"));
-                        pojoAdverts.setDuration(jsonArray1.getJSONObject(i).getString("duration"));
-                        pojoAdverts.setStatus(jsonArray1.getJSONObject(i).getString("status"));
-                        pojoAdverts.setHotel_pic(jsonArray1.getJSONObject(i).getString("hotel_pic"));
-                        pojoAdverts.setPayment_status(jsonArray1.getJSONObject(i).getString("payment_status"));
-                        pojoAdverts.setCitycharge(jsonArray1.getJSONObject(i).getString("citycharge"));
-                        pojoAdverts.setExpiry_date(jsonArray1.getJSONObject(i).optString("expiry_date"));
-                        pojoAdverts.setCount(jsonArray1.getJSONObject(i).getString("count"));
-                        pojoAdvertArrayList.add(pojoAdverts);
-                    }
+                    userEmail.setText(jsonObject2.optString("email"));
+                    userName.setText(jsonObject2.optString("first_name") + " " + jsonObject2.optString("last_name"));
+                    userMob.setText(jsonObject2.optString("mobile_number"));
 
-                    pojoAdvertArrayList.size();
-                    pojoTestimonialArrayList.size();
+                    Picasso.with(ViewMyProfile.this)
+                            .load(URLS.UPLOAD_IMG_URL1 + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("profile_pic"))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                            .placeholder(R.drawable.ic_person_black_24dp) // optional
+                            .error(R.drawable.ic_person_black_24dp)         // optional
+                            .into(circleImageViewProfile);
+
+
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("iata_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("tafi_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("taai_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("iato_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("adyoi_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("iso9001_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("uftaa_pic"));
+                    stringArrayList.add(URLS.UPLOAD_IMG_URL2 + "" + CM.getSp(ViewMyProfile.this, CV.PrefID, "").toString() + "/" + jsonObject2.optString("adtoi_pic"));
+
+
+                    stringArrayList.size();
+                    //  pojoTestimonialArrayList.size();
                     recycleViewTestimonial.setAdapter(mAdapter);
                     recyclerViewAdv.setAdapter(mAdapter1);
                     recyclerViewAdv.invalidate();

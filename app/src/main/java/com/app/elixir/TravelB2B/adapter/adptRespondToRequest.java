@@ -41,11 +41,12 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
 
         private CardView rootView;
-        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType;
+        public MtplTextView reqType, reqAgent, startDate, endDate, adult, txtComment, destination, reqAgentType, citytxtView;
         MtplButton btnDetail, btnShowInterest;
         TextView total;
         ImageView catImage;
         RatingBar ratingBar;
+        ImageView imageFollow;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -54,6 +55,8 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
             reqAgentType = (MtplTextView) itemView.findViewById(R.id.reqAgentType);
             reqAgent.setPaintFlags(reqAgent.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             txtComment = (MtplTextView) itemView.findViewById(R.id.txtcomment);
+            citytxtView = (MtplTextView) itemView.findViewById(R.id.citytxtView);
+            imageFollow = (ImageView) itemView.findViewById(R.id.img_follow);
             txtComment.setSelected(true);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
             startDate = (MtplTextView) itemView.findViewById(R.id.txStartDate);
@@ -78,7 +81,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
                     break;
                 case R.id.btnShowInterest:
                     //getUserId changed with getId
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getId(), "showInt", "");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getUserId(), "showInt", "");
                     break;
                 case R.id.reqAgent:
                     //getUserId changed with getId
@@ -117,10 +120,18 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         ImageView catImg = holder.catImage;
         MtplTextView reqAgentType = holder.reqAgentType;
         RatingBar ratingBar = holder.ratingBar;
-
-
+        MtplTextView citytxtView = holder.citytxtView;
+        ImageView img_Follow = holder.imageFollow;
         txtComment.setText(dataSet.get(position).getUserComment());
         reqAgent.setText(dataSet.get(position).getFirst_name() + " " + dataSet.get(position).getLast_name());
+
+        if (dataSet.get(position).getIsBusinessBuddy().equals("1")) {
+            //btnFollow.setVisibility(View.GONE);
+            // img_Follow.setVisibility(View.VISIBLE);
+        } else {
+            // btnFollow.setVisibility(View.VISIBLE);
+            //img_Follow.setVisibility(View.GONE);
+        }
 
 
         String txtStartDt = "";
@@ -157,7 +168,7 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
 
         startDate.setText(txtStartDt);
         endDate.setText(txtEndDt);
-        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        total.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getTotal_budget());
         if (!dataSet.get(position).getRating().equals("") && !dataSet.get(position).getRating().equals("null")) {
             int ratte = (int) Math.round(Double.parseDouble(dataSet.get(position).getRating()));
             ratingBar.setProgress(ratte);
@@ -186,15 +197,18 @@ public class adptRespondToRequest extends RecyclerView.Adapter<adptRespondToRequ
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
             reqAgentType.setText(" ( " + "Package" + " )");
+            citytxtView.setText(context.getString(R.string.destination_city));
 
         } else if (dataSet.get(position).getCategory_id().toString().equals("2")) {
+
+            citytxtView.setText(context.getString(R.string.pickup_city));
             catImg.setImageResource(R.drawable.tt);
             reqAgentType.setText(" ( " + "Transport" + " )");
 
 
         } else {
             catImg.setImageResource(R.drawable.hh);
-
+            citytxtView.setText(context.getString(R.string.destination_city));
             reqAgentType.setText(" ( " + "Hotel" + " )");
 
         }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.OnItemClickListener;
@@ -42,6 +43,7 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
         MtplTextView comment, name, description;
         ImageButton mtplButton;
         ImageView imageView;
+        RatingBar ratingBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +52,7 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
             description = (MtplTextView) itemView.findViewById(R.id.txtDescription);
             mtplButton = (ImageButton) itemView.findViewById(R.id.btnNext);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            // description.setMovementMethod(new ScrollingMovementMethod());
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
 
         }
 
@@ -84,6 +86,7 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
         MtplTextView description = holder.description;
         ImageButton imageButton = holder.mtplButton;
         ImageView imageView = holder.imageView;
+        RatingBar ratingBar = holder.ratingBar;
 
         if (dataSet.size() == 1) {
             imageButton.setVisibility(View.GONE);
@@ -91,7 +94,7 @@ public class adptreview extends RecyclerView.Adapter<adptreview.MyViewHolder> {
         if (position == dataSet.size() - 1) {
             imageButton.setVisibility(View.GONE);
         }
-
+        ratingBar.setRating(Float.parseFloat(dataSet.get(position).getRating()));
         comment.setText(dataSet.get(position).getComment());
         name.setText(dataSet.get(position).getName());
         description.setText(dataSet.get(position).getDescription());

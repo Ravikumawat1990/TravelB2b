@@ -62,8 +62,11 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.txtWebsite:
-                    listener.onItemClick(dataSet.get(getAdapterPosition()).getWebsite(), "");
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getWebsite(), dataSet.get(getAdapterPosition()).getId());
                     break;
+            /*     case R.id.txtWebsite:
+                    listener.onItemClick(dataSet.get(getAdapterPosition()).getWebsite(), dataSet.get(getAdapterPosition()).getId());
+          */
             }
 
         }

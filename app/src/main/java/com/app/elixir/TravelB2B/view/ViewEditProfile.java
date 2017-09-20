@@ -36,6 +36,7 @@ import com.app.elixir.TravelB2B.pojos.pojoCity;
 import com.app.elixir.TravelB2B.pojos.pojoCountry;
 import com.app.elixir.TravelB2B.pojos.pojoState;
 import com.app.elixir.TravelB2B.utils.CM;
+import com.app.elixir.TravelB2B.utils.CONSTANT;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -1168,6 +1169,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                                                                 params.put("country_id", countryId);
                                                                                 params.put("pincode", pinCode.getText().toString());
                                                                                 params.put("web_url", webUrl.getText().toString());
+                                                                                params.put(CV.DEVICEID, CM.getSp(ViewEditProfile.this, "regId", "").toString());
 
                                                                                 StringBuilder stringBuilder = new StringBuilder();
                                                                                 ArrayList<String> strings = new ArrayList<>();
@@ -1370,6 +1372,7 @@ public class ViewEditProfile extends AppCompatActivity implements View.OnFocusCh
                                                                             params.put("country_id", countryId);
                                                                             params.put("pincode", pinCode.getText().toString());
                                                                             params.put("web_url", webUrl.getText().toString());
+                                                                            params.put(CV.DEVICEID, CM.getSp(ViewEditProfile.this, "regId", "").toString());
 
                                                                             StringBuilder stringBuilder = new StringBuilder();
                                                                             ArrayList<String> strings = new ArrayList<>();

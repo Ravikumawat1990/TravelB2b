@@ -16,8 +16,12 @@ import android.util.Log;
 import com.app.elixir.TravelB2B.R;
 import com.app.elixir.TravelB2B.interfaceimpl.pushNotificationString;
 import com.app.elixir.TravelB2B.view.ViewDrawer;
+import com.app.elixir.TravelB2B.view.ViewNotification;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -53,16 +57,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             value = (String) data.get(key);
             System.out.println(key + " - " + value);
         }
-
-
+        String count = "";
+        try {
+            JSONObject jsonObject = new JSONObject(value);
+            count = jsonObject.getString("countchat");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         sendNotification(remoteMessage.getNotification().getBody());
         Intent intent = new Intent(INTENT_FILTER);
-
-        count++;
-        intent.putExtra("extra", "" + count);
+        intent.putExtra("extra", count);
         sendBroadcast(intent);
-        //  notificationString.setNoti("" + count);
 
 
     }
@@ -70,7 +76,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String messageBody) {
         int requestID = (int) System.currentTimeMillis();
-        Intent intent = new Intent(this, ViewDrawer.class);
+        Intent intent = new Intent(this, ViewNotification.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)

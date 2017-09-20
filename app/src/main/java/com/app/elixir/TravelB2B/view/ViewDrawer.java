@@ -62,10 +62,12 @@ import com.app.elixir.TravelB2B.interfaceimpl.pushNotificationString;
 import com.app.elixir.TravelB2B.model.Model_Profile;
 import com.app.elixir.TravelB2B.mtplview.MtplLog;
 import com.app.elixir.TravelB2B.mtplview.MtplTextView;
+import com.app.elixir.TravelB2B.pojos.pojoNoti;
 import com.app.elixir.TravelB2B.utils.BadgeDrawable;
 import com.app.elixir.TravelB2B.utils.CM;
 import com.app.elixir.TravelB2B.utils.CV;
 import com.app.elixir.TravelB2B.utils.CustomTypefaceSpan;
+import com.app.elixir.TravelB2B.utils.URLS;
 import com.app.elixir.TravelB2B.utils.messageListionerService;
 import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
@@ -76,6 +78,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,6 +102,8 @@ public class ViewDrawer extends AppCompatActivity
     ImageView icon1, icon2, icon3, icon4;
     private boolean mBounded;
     private int count = 0;
+    private String read_count = "0";
+
     ImageView imgUserProfile;
     LayerDrawable icon = null;
 
@@ -499,15 +504,15 @@ public class ViewDrawer extends AppCompatActivity
             } catch (Exception e) {
                 e.getMessage();
             }
-            setBadgeCount(ViewDrawer.this, icon, String.valueOf(0));
+            setBadgeCount(ViewDrawer.this, icon, read_count);
         } else {
-            LayerDrawable icon = null;
+
             try {
                 icon = (LayerDrawable) menuItem.getIcon();
             } catch (Exception e) {
                 e.getMessage();
             }
-            setBadgeCount(ViewDrawer.this, icon, String.valueOf(0));
+            setBadgeCount(ViewDrawer.this, icon, read_count);
         }
 
 
@@ -521,6 +526,10 @@ public class ViewDrawer extends AppCompatActivity
 
             drawer.openDrawer(navigationViewSec);
             return true;
+        } else if (id == R.id.noti) {
+
+            CM.startActivity(this, ViewNotification.class);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -845,11 +854,10 @@ public class ViewDrawer extends AppCompatActivity
 
                         CM.setSp(ViewDrawer.this, CV.PrefIsLogin, "0");
                         CM.setSp(ViewDrawer.this, CV.PrefRole_Id, "0");
-
                         CM.setSp(ViewDrawer.this, "statedata", "");
                         CM.setSp(ViewDrawer.this, "citydata", "");
                         CM.setSp(ViewDrawer.this, "countrydata", "");
-
+                        CM.setSp(ViewDrawer.this, "regId", "");
                         CM.startActivity(ViewDrawer.this, ViewIntroActivity.class);
                         finish();
 
@@ -999,7 +1007,7 @@ public class ViewDrawer extends AppCompatActivity
             switch (jsonObject.optString("response_code")) {
                 case "200":
                     JSONObject jsonObject1 = new JSONObject(jsonObject.optString("response_object"));
-                    Model_Profile model_main = CM.JsonParse(new Model_Profile(), jsonObject.getString("response_object"));
+                    Model_Profile model_main = CM.JsonParse(new Model_Profile(), jsonObject1.getString("users"));
 
                     int i = 0;
 
@@ -1061,7 +1069,7 @@ public class ViewDrawer extends AppCompatActivity
 
                         Log.i("TAG", "onBindViewHolder: " + "http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + model_main.profile_pic);
                         Picasso.with(ViewDrawer.this)
-                                .load("http://www.travelb2bhub.com/b2b/img/user_docs/" + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + jsonObject1.optString("profile_pic"))  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
+                                .load(URLS.UPLOAD_IMG_URL1 + CM.getSp(ViewDrawer.this, CV.PrefID, "").toString() + "/" + model_main.profile_pic)  //URLS.UPLOAD_IMG_URL + "" + dataSet.get(position).getHotel_pic()
                                 .placeholder(R.drawable.ic_person_black_24dp) // optional
                                 .error(R.drawable.ic_person_black_24dp)        // optional
                                 .into(imgUserProfile);
@@ -1107,7 +1115,7 @@ public class ViewDrawer extends AppCompatActivity
                             if (model_main.role_id.toString().equals("2") || model_main.role_id.toString().equals("3")) {
                                 i += 4;
                             } else {
-                                i += 5;
+                                i += 3;
                             }
                         }
                     }
@@ -1203,7 +1211,6 @@ public class ViewDrawer extends AppCompatActivity
 
                     txtCount.setText(String.valueOf(i) + " %");
                     progressBar.setProgress(i);
-
 
                     break;
                 case "202":
@@ -1386,6 +1393,8 @@ public class ViewDrawer extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        getNoti(CM.getSp(ViewDrawer.this, CV.PrefID, "").toString());
         IntentFilter filter = new IntentFilter();
         filter.addAction("INTENT_FILTER");
         registerReceiver(ReceivefromService, filter);
@@ -1395,7 +1404,9 @@ public class ViewDrawer extends AppCompatActivity
 
 
     @Override
-    public void setNoti(String title) {
+    public void setNoti(String readCount) {
+        // setBadgeCount(ViewDrawer.this, icon, readCount);
+
 
     }
 
@@ -1408,4 +1419,60 @@ public class ViewDrawer extends AppCompatActivity
     };
 
 
+    public void getNoti(String userId) {
+        try {
+            VolleyIntialization v = new VolleyIntialization(ViewDrawer.this, true, true);
+            WebService.getNoti(v, userId, new OnVolleyHandler() {
+                @Override
+                public void onVollySuccess(String response) {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    MtplLog.i("WebCalls", response);
+                    Log.e(TAG, response);
+                    getNotiResponse(response);
+
+                }
+
+                @Override
+                public void onVollyError(String error) {
+                    MtplLog.i("WebCalls", error);
+                    if (CM.isInternetAvailable(ViewDrawer.this)) {
+                        CM.showPopupCommonValidation(ViewDrawer.this, error, false);
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getNotiResponse(String response) {
+        String strResponseStatus = CM.getValueFromJson(WebServiceTag.WEB_STATUS, response);
+        if (strResponseStatus.equalsIgnoreCase(WebServiceTag.WEB_STATUSFAIL)) {
+            CM.showPopupCommonValidation(ViewDrawer.this, CM.getValueFromJson(WebServiceTag.WEB_STATUS_ERRORTEXT, response), false);
+            return;
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            switch (jsonObject.optString("response_code")) {
+                case "200":
+
+                    String readCount = jsonObject.optString("unread_count").toString();
+                    read_count = readCount;
+                    setBadgeCount(ViewDrawer.this, icon, read_count);
+                    break;
+                case "202":
+                    break;
+                case "402":
+                    break;
+                default:
+                    break;
+
+
+            }
+        } catch (Exception e) {
+            CM.showPopupCommonValidation(ViewDrawer.this, e.getMessage(), false);
+        }
+    }
 }

@@ -12,6 +12,15 @@ public class pojoTestimonial {
     String comment;
     String user_id;
     String author_id;
+    String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public String getName() {
         return name;

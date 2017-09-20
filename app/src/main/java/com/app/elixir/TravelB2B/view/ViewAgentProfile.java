@@ -61,7 +61,7 @@ public class ViewAgentProfile extends AppCompatActivity {
     String userId = "";
     ImageView icon1, icon2, icon3, icon4;
     TextView txtCount;
-   //endregion
+    //endregion
 
     ProgressBar progressBar;
     CardView cardViewReview;

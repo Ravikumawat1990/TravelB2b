@@ -157,7 +157,7 @@ public class adptRemoveRequest extends RecyclerView.Adapter<adptRemoveRequest.My
         mebers.setText(String.valueOf(mebersInt));
 
 
-        total.setText("Budget\n" + dataSet.get(position).getTotal_budget() + "/-");
+        total.setText(dataSet.get(position).getTotal_budget());
         if (dataSet.get(position).getCategory_id().toString().equals("1")) {
             catImg.setImageResource(R.drawable.pp);
             reqAgentType.setText(" ( " + "Package" + " )");

@@ -30,6 +30,7 @@ import com.app.elixir.TravelB2B.volly.OnVolleyHandler;
 import com.app.elixir.TravelB2B.volly.VolleyIntialization;
 import com.app.elixir.TravelB2B.volly.WebService;
 import com.app.elixir.TravelB2B.volly.WebServiceTag;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +65,11 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-
+        try {
+            CM.setSp(ViewLoginActivity.this, "regId", FirebaseInstanceId.getInstance().getToken().toString());
+        } catch (Exception e) {
+            e.getMessage();
+        }
         mEmailView = (TextInputLayout) findViewById(R.id.login_edtEmail);
 
 
@@ -134,7 +139,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                 if (!edtEmail.getText().toString().equals("")) {
                     if (!editPassword.getText().toString().equals("")) {
                         if (CM.isInternetAvailable(ViewLoginActivity.this)) {
-                            webLogin(edtEmail.getText().toString(), editPassword.getText().toString());
+                            webLogin(edtEmail.getText().toString(), editPassword.getText().toString(), CM.getSp(ViewLoginActivity.this, "regId", "").toString());
                         } else {
                             CM.showToast(getString(R.string.msg_internet_unavailable_msg), ViewLoginActivity.this);
                         }
@@ -193,10 +198,10 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
     }
 
 
-    public void webLogin(String email, String password) {
+    public void webLogin(String email, String password, String regId) {
         try {
             VolleyIntialization v = new VolleyIntialization(ViewLoginActivity.this, true, true);
-            WebService.getLogin(v, email, password, new OnVolleyHandler() {
+            WebService.getLogin(v, email, password, regId, new OnVolleyHandler() {
                 @Override
                 public void onVollySuccess(String response) {
                     if (isFinishing()) {
@@ -243,6 +248,7 @@ public class ViewLoginActivity extends AppCompatActivity implements OnClickListe
                     CM.setSp(ViewLoginActivity.this, CV.PrefState_id, jsonObject1.optString("state_id"));
                     CM.setSp(ViewLoginActivity.this, CV.PrefCity_id, jsonObject1.optString("city_id"));
                     CM.setSp(ViewLoginActivity.this, CV.PROFILE_PIC, jsonObject1.optString("profile_pic"));
+                    CM.setSp(ViewLoginActivity.this, CV.ACCESS_TOKEN, jsonObject1.optString("access_token"));
 
 
                     CM.setSp(ViewLoginActivity.this, CV.PrefIsLogin, "1");
