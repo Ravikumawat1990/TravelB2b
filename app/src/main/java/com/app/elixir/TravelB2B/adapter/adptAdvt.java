@@ -42,7 +42,7 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CardView rootView;
-        public MtplTextView reqType, refType, startDate, endDate, total, adult;
+        public MtplTextView reqType, refType, startDate, endDate, total, adult, txt_location;
         MtplButton btnUnBlockUser;
         MtplTextView webSite, hotel_Name, charges, hotelType;
         ImageView imageView;
@@ -54,6 +54,8 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
             webSite.setPaintFlags(webSite.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             hotel_Name = (MtplTextView) itemView.findViewById(R.id.txthotel_name);
             charges = (MtplTextView) itemView.findViewById(R.id.txtCharges);
+            txt_location = (MtplTextView) itemView.findViewById(R.id.txthotel_location);
+
             hotelType = (MtplTextView) itemView.findViewById(R.id.txthotel_type);
             webSite.setOnClickListener(this);
         }
@@ -93,10 +95,14 @@ public class adptAdvt extends RecyclerView.Adapter<adptAdvt.MyViewHolder> {
         TextView charges = holder.charges;
         TextView hotelType = holder.hotelType;
         ImageView imageView1 = holder.imageView;
+
+        TextView txt_location = holder.txt_location;
+
         //webSite.setText(dataSet.get(position).getWebsite());
         hotel_Name.setText(dataSet.get(position).getHotel_name());
         charges.setText(context.getString(R.string.rsSymbol) + " " + dataSet.get(position).getCheap_tariff() + " - " + dataSet.get(position).getExpensive_tariff());
         hotelType.setText(CM.setHotelCat(dataSet.get(position).getHotel_type()));
+        txt_location.setText(dataSet.get(position).getHotel_location());
 
         try {
 

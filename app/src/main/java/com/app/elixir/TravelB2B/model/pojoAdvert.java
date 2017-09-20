@@ -22,6 +22,15 @@ public class pojoAdvert {
     String citycharge;
     String expiry_date;
     String count;
+    String hotel_location;
+
+    public String getHotel_location() {
+        return hotel_location;
+    }
+
+    public void setHotel_location(String hotel_location) {
+        this.hotel_location = hotel_location;
+    }
 
     public String getId() {
         return id;

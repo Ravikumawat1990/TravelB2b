@@ -244,6 +244,7 @@ public class FragHome extends Fragment {
                         pojoAdverts.setCitycharge(jsonArray1.getJSONObject(i).getString("citycharge"));
                         pojoAdverts.setExpiry_date(jsonArray1.getJSONObject(i).optString("expiry_date"));
                         pojoAdverts.setCount(jsonArray1.getJSONObject(i).getString("count"));
+                        pojoAdverts.setHotel_location(jsonArray1.getJSONObject(i).getString("hotel_location"));
                         pojoAdvertArrayList.add(pojoAdverts);
                     }
                     pojoAdvertArrayList.size();
