@@ -13,7 +13,8 @@ public class URLS {
 
     //http://www.travelb2bhub.com/b2b/img/
     // public static final String URL = "http://192.168.3.82/b2b/pages/";   //local poorvi
-    public static final String URL = "http://192.168.3.52/b2b/pages/";   //local hanish
+
+    public static final String URL = "http://192.168.3.52/b2b/pages/";   //local hanish // kk
 
 
     public static final String GETHOTELCITIES = URL + "getHotelCities" + CONSTANT.token;
